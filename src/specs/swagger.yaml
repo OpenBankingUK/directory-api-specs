@@ -1,12 +1,524 @@
 swagger: '2.0'
 info:
-  title: Boilerplate
+  title: Open Banking Directory
   version: 0.0.1
-  description: Boilerplate
+  description: |
+    Points for discussion with the team:
+    
+    * What purpose does `org_type` serve? Is it included purely for the current implementation?
+    
+    * Is `org_id` meaningful to more than one consumer i.e. would a given consumer of the API ever have knowledge of or need to consume multiple organisations? Needs to be considered in view of the security model - ideally `org_id` could be delegated to the security model not included in the API specification itself.
+    
+    * The practice of optionally returning a response body based on the `Accept` header being present/not present is not in OB standards and isn't "conventional". It's also difficult to model in Swagger (possible in OpenAPI?) and could make life harder rather than easier for consumers. What problem are you attempting to solve in delivering this?
+    
+    * Need to try and encapsulate backend errors into a return code specified in API - passing back what Ping returns natively defeats the object of creating an API specification.
+    
+    * Open Banking APIs capitalise the first letter of properties, break words with hyphens and pluralise nouns. This has been done for consistency throughout
+    
+    * Suggest this specifies [`JSON Merge Patch`](https://tools.ietf.org/html/rfc7396) for updates - although some elements of Open Banking do use sub-resource URIs, so `/software-statements/{softwareStatementId}/Active` could work - but it risks making the API specification more brittle
+    
+    * Discuss whether [`JSON API`](http://jsonapi.org/) is appropriate (it's in the Open Banking standards, but might not fit here)
+    
+    * Suggest that this specification is split between internal & external i.e. oauth-clients/everything else
 schemes:
-   - https
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
 paths:
-  /bolierplate:
+  /organisations/{organisationId}:
     get:
-      200:
-        description: OK
+      summary: Get all organisation details
+      x-draft-endpoint-1: /organisation/{org_type:string}/{org_id:string}
+      tags:
+        - Organisations
+      parameters:
+        - $ref: '#/parameters/OrganisationId'
+      responses:
+        200:
+          description: Full details of the organisation
+  /organisations/{organisationId}/contacts:
+    get:
+      summary: Get all contacts for an organisation
+      tags:
+        - Contacts
+      parameters:
+        - $ref: '#/parameters/OrganisationId'
+        - $ref: '#/parameters/ContactType'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/responses/Contacts'
+  /organisations/{organisationId}/contacts/{contactId}:
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/ContactId'
+    get:
+      summary: Get a given contact by way of contact ID
+      tags:
+        - Contacts
+      parameters:
+        - $ref: '#/parameters/ContactType'
+      responses:
+        200:
+          description: OK
+    patch:
+      summary: Update a given contact by way of contact ID
+      x-draft-endpoint-1: /organisation/contacts/business/{org_type:string}/{org_id:string}
+      x-draft-endpoint-2: /organisation/contacts/technical/{org_type:string}/{org_id:string}
+      tags:
+        - Contacts
+      parameters:
+        - $ref: '#/parameters/UpdateContact'
+      responses:
+        204:
+          description: Success (no content)
+  /organisations/{organisationId}/software-statements:
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+    get:
+      summary: Get all software statements for an organisation
+      tags:
+        - Software Statements
+      responses:
+        200:
+          description: OK
+    post:
+      x-draft-endpoint-1: /softwarestatement/{org_type:string}/{org_id:string}
+      summary: Create a software statement
+      tags:
+        - Software Statements
+      parameters:
+        - $ref: '#/parameters/CreateSoftwareStatement'
+      responses:
+        201:
+          description: Created
+  /organisations/{organisationId}/software-statements/{softwareStatementId}:
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    get:
+      summary: Get a software statement
+      tags:
+        - Software Statements
+      parameters:
+        - name: assertion
+          description: Get the assertion rather than the software statement
+          in: query
+          type: boolean
+          required: false
+      responses:
+        200:
+          description: OK
+    patch:
+      x-draft-endpoint-1: /softwarestatement/active/{softwarestatement_id:string}
+      summary: Update a software statement
+      tags:
+        - Software Statements
+      parameters:
+        - $ref: '#/parameters/UpdateSoftwareStatement'
+      responses:
+        200:
+          description: OK
+  /oauth-clients:
+    get:
+      summary: Get all OAuth clients
+      tags:
+        - OAuth Clients
+      responses:
+        200:
+          description: OK
+    post:
+      summary: Create a new OAuth client
+      tags:
+        - OAuth Clients
+      parameters: 
+        - $ref: '#/parameters/CreateOAuthClient'
+      responses:
+        201:
+          description: Created
+  /oauth-client/{clientId}:
+    patch:
+      x-draft-endpoint-1: /oauthclient/active/{client_id:string}
+      summary: Update an OAuth client
+      description: Activate/deactive an OAuth client
+      tags:
+        - OAuth Clients
+      parameters:
+        - $ref: '#/parameters/ClientId'
+        - $ref: '#/parameters/UpdateOAuthClient'
+      responses:
+        204:
+          description: Updated
+  /organisations/{organisationId}/software-statements/{softwareStatementId}/certificates:
+    parameters: 
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    get:
+      summary: Get the certificates supporting a software statement
+      tags:
+        - Certificates
+      responses:
+        200:
+          description: OK
+    post:
+      x-draft-endpoint-1: /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}
+      x-draft-endpoint-2: /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}
+      summary: Create a new certificates supporting a software statement
+      tags:
+        - Certificates
+      parameters: 
+        - $ref: '#/parameters/CreateCertificate'
+      responses:
+        200:
+          description: OK
+  /organisations/{organisationId}/software-statements/{softwareStatementId}/certificates/{certificateId}:
+    delete:
+      x-draft-endpoint-1: /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
+      x-draft-endpoint-2: /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
+      summary: Revoke a certificate
+      tags:
+        - Certificates
+      parameters: 
+        - $ref: '#/parameters/OrganisationId'
+        - $ref: '#/parameters/SoftwareStatementId'
+        - $ref: '#/parameters/CertificateId'
+      responses:
+        202:
+          description: Accepted
+        204:
+          description: Deleted
+  /organisations/{organisationId}/authorisation-servers:
+    parameters: 
+        - $ref: '#/parameters/OrganisationId'
+    get:
+      tags:
+        - Authorisation Servers
+      responses:
+        200:
+          description: OK
+    post:
+      x-draft-endpoint-1: /authorizationserver/{org_id:string}
+      summary: Create a .well-known entity
+      tags:
+        - Authorisation Servers
+      parameters:
+        - $ref: '#/parameters/CreateAuthorisationServer'
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: '#/responses/AuthorisationServerCreated'
+  /organisations/{organisationId}/authorisation-servers/{authorisationServerId}:
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/AuthorisationServerId'
+    get:
+      summary: Get .well-known entity
+      tags:
+        - Authorisation Servers
+      responses:
+        200:
+          description: OK
+    patch:
+      summary: Update .well-known entity
+      tags:
+        - Authorisation Servers
+      parameters:
+        - $ref: '#/parameters/UpdateAuthorisationServer'
+      responses:
+        204:
+          description: Updated
+    delete:
+      summary: Delete a .well-known entity
+      tags:
+        - Authorisation Servers
+      responses:
+        204:
+          description: Deleted
+parameters:
+  AuthorisationServerId:
+    name: authorisationServerId
+    description: The authorisation server ID
+    in: path
+    type: string
+    required: true
+  CertificateId:
+    name: certificateId
+    description: The certificate ID
+    in: path
+    type: string
+    required: true
+  ClientId:
+    name: clientId
+    description: The client ID
+    in: path
+    type: string
+    required: true
+  ContactId:
+    name: contactId
+    description: The contact ID
+    in: path
+    type: string
+    required: true
+  CreateAuthorisationServer:
+    name: requestBody
+    description: Create a new authorisation server entity
+    in: body
+    schema:
+      allOf:
+        - $ref: '#/definitions/AuthorisationServer'
+        - required:
+          - AutoRegistrationSupported
+          - BaseApiDNSUri
+          - CustomerFriendlyDescription
+          - CustomerFriendlyLogoUri
+          - CustomerFriendlyName
+          - DeveloperPortalUri
+          - TermsOfService
+          - OpenIDConfigEndPointUri
+          - PayloadSigningCertLocation
+    required: true
+  CreateCertificate:
+    name: requestBody
+    description: Create a new certificate allied to a software statement
+    in: body
+    schema:
+      type: object
+      properties:
+        Type:
+          $ref: '#/definitions/CertificateTypes'
+        Certificate:
+          type: string
+          format: x509-certificate
+  CreateOAuthClient:
+    name: requestBody
+    description: Create a new OAuth Client
+    in: body
+    schema:
+      $ref: '#/definitions/OAuthClient'
+  CreateSoftwareStatement:
+    name: requestBody
+    description: Properties to create a software statement
+    in: body
+    schema:
+      $ref: '#/definitions/SoftwareStatement'
+  ContactType:
+    name: contactType
+    description: The type of contact - Business, Technical
+    in: query
+    type: string
+    enum:
+      - Business
+      - Technical
+    required: false
+  OrganisationId:
+    name: organisationId
+    description: The organsation ID
+    in: path
+    type: string
+    required: true
+  SoftwareStatementId:
+    name: softwareStatementId
+    description: The software statement ID
+    in: path
+    type: string
+    required: true
+  UpdateAuthorisationServer:
+    name: requestBody
+    description: Properties to update given authorisation server
+    in: body
+    schema:
+      $ref: '#/definitions/AuthorisationServer'
+    required: true
+  UpdateContact:
+    name: requestBody
+    description: Properties to update given contact details
+    in: body
+    schema:
+      $ref: '#/definitions/Contact'
+    required: true
+  UpdateOAuthClient:
+    name: requestBody
+    description: Create a new OAuth Client
+    in: body
+    schema:
+      type: object
+      required:
+        - Status
+      properties:
+        Status:
+          $ref: '#/definitions/Status'
+    required: true
+  UpdateSoftwareStatement:
+    name: requestBody
+    description: |
+      Properties to update the status of a software statement. Following the rules of JSON Merge Path:
+      
+      * If an item is omitted in the source do nothing to the target
+      
+      * If the value of an item is `null` add it to the target
+      
+      * Do this with the bounds of the schema
+    in: body
+    schema:
+      type: object
+      properties:
+        Active:
+          type: boolean
+        RedirectUri:
+          type: array
+          items:
+            type: string
+            format: rui
+    required: true
+responses:
+  Contacts:
+    description: List of contacts
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/Contact'
+  AuthorisationServerCreated:
+    description: Authorisation server entity successfully created
+    schema:
+      type: object
+      properties:
+        AuthorisationServerId:
+          $ref: '#/definitions/AuthorisationServerId'
+definitions:
+  AuthorisationServerId:
+    type: string
+  AuthorisationServer:
+    type: object
+    properties:
+      AutoRegistrationSupported:
+        type: boolean
+      BaseApiDNSUri:
+        type: string
+        format: uri
+      CustomerFriendlyDescription:
+        type: string
+      CustomerFriendlyLogoUri:
+        type: string
+      CustomerFriendlyName:
+        type: string
+      DeveloperPortalUri:
+        type: string
+        format: uri
+      TermsOfService:
+        type: string
+        format: uri
+      OpenIDConfigEndPointUri:
+        type: string
+        format: uri
+      PayloadSigningCertLocation:
+        type: string
+        format: uri
+  CertificateTypes:
+    type: string
+    enum:
+      - Transport
+      - Signing
+  Status:
+    type: string
+    enum:
+      - Active
+      - Inactive
+  Contact:
+    type: object
+    properties:
+      Type:
+        type: string
+        enum:
+          - Business
+          - Technical
+      EmailAddress:
+        type: string
+      PhoneNumber:
+        type: string
+  OAuthClient:
+    type: object
+    properties:
+      ClientId:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      RedirectUris:
+        type: array
+        items:
+          type: string
+          format: uri
+      BypassApprovalPage:
+        type: boolean
+      RestrictScopes:
+        type: boolean
+      RefaultAccessTokenManagerRef:
+        type: string
+      RestrictedScopes:
+        type: array
+        items:
+          type: string
+      ClientAuth:
+        type: object
+        properties:
+          Type:
+            type: string
+            enum:
+              - CLIENT_SECRET_BASIC
+              - CLIENT_SECRET_POST
+              - PRIVATE_KEY_JWT
+          EnforceReplayPrevention:
+            type: boolean
+      OidcPolicy:
+        type: string
+      JwksSettings:
+        type: object
+        properties:
+          JwksUrl:
+            type: string
+            format: uri
+      GrantTypes:
+        type: array
+        items:
+          type: string
+          enum: 
+            - CLIENT_CREDENTIALS
+  SoftwareStatement:
+    type: object
+    properties:
+      ClientName:
+        type: string
+      Description:
+        type: string
+      OnBehalfOfObOrganisation:
+        type: string
+      PolicyUri:
+        type: string
+        format: uri
+      ClientUri:
+        type: string
+        format: uri
+      LogoUri:
+        type: string
+        format: uri
+      RedirectUri:
+        type: array
+        items:
+          type: string
+          format: uri
+      Roles:
+        type: array
+        items:
+          type: string
+          format: uri
+      TermsOfServiceUri:
+        type: string
+        format: uri
+      Version:
+        type: string
+      
