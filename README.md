@@ -1,29 +1,20 @@
 Overview
 ===
 
-This is boilerplate project for running Swagger UI with Webpack. It exists because:
+This is a draft API specification for the Open Banking Directory.
 
-* I wanted an easy way of slamming an API specification into a Swagger UI project
-* Using NPM/Webpack means my dependencies can be kept up-to-date easily
-* I like it
+The goal in producing it is to bring it into line with existing Open Banking standards, with a view to publishing it to external consumers.
 
-There's also a Redoc page - although this is CDN-based as I am lazy.
-
-Usage
+Viewing
 ===
 
-To use this project clone and cd into it then:
+To view this spec in a browser clone the project, cd into it then:
 
 ```bash
 npm i
-cp [your Swagger/OpenAPI spec as YAML] src/specs/swagger.yaml
 npm run dev
 ```
 
+Your browser should open at [http://localhost:3000](). For the Redoc version go [http://localhost:3000/redoc.html]()
+
 :thumbsup:
-
-Improvements
-===
-
-- [ ] Parameterise API specification document name
-
