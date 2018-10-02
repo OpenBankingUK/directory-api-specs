@@ -1,0 +1,12 @@
+swagger: '2.0'
+info:
+  title: Boilerplate
+  version: 0.0.1
+  description: Boilerplate
+schemes:
+   - https
+paths:
+  /bolierplate:
+    get:
+      200:
+        description: OK

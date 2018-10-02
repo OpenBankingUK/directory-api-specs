@@ -1,0 +1,34 @@
+{
+  "name": "swagger-webpack-boilerplate",
+  "version": "1.0.0",
+  "description": "A boilerplate project for running a Swagger UI under Webpack",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode development",
+    "dev": "webpack && npm run start",
+    "start": "webpack-dev-server --open --compress",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SensibleWood/swagger-webpack-boilerplate"
+  },
+  "author": "Chris Wood",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SensibleWood/swagger-webpack-boilerplate/issues"
+  },
+  "homepage": "https://github.com/SensibleWood/swagger-webpack-boilerplate#readme",
+  "dependencies": {
+    "copy-webpack-plugin": "^4.5.1",
+    "js-yaml": "^3.12.0",
+    "json2yaml": "^1.1.0",
+    "swagger-ui-dist": "^3.17.4",
+    "webpack": "^4.12.1",
+    "webpack-dev-server": "^3.1.4",
+    "yargs": "^12.0.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^2.1.5"
+  }
+}
