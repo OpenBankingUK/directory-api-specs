@@ -15,6 +15,6 @@ npm i
 npm run dev
 ```
 
-Your browser should open at [http://localhost:3000]. For the Redoc version go [http://localhost:3000/redoc.html]
+Your browser should open at http://localhost:3000. For the Redoc version go http://localhost:3000/redoc.html
 
 :thumbsup:
