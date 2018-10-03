@@ -2,24 +2,49 @@ swagger: '2.0'
 info:
   title: Open Banking Directory
   version: 0.0.1
-  description: |
-    Points for discussion with the team:
+  description: >
+
+    ## Status
+
+    There's a number of points that need to be progressed into next version:
     
-    * What purpose does `org_type` serve? Is it included purely for the current implementation?
+    * Need to ensure that all required operations are covered.
     
-    * Is `org_id` meaningful to more than one consumer i.e. would a given consumer of the API ever have knowledge of or need to consume multiple organisations? Needs to be considered in view of the security model - ideally `org_id` could be delegated to the security model not included in the API specification itself.
+    * Add `operationId` (suggest this is automated)
+
+    * `org_type` is used as a means for differentiating between TPPs and ASPSP. However, from an entity modeling point of view it's difficult to make it "fit" so is included where is required, but ideally should be implied by the consumer identity
+
+    * `organisationId` is included in the API model as it *may* be meaningful to a consumer i.e. a consumer of the API may have knowledge of and wish consume multiple organisations. 
+
+    * The `PUT` methods in the [original design](https://openbanking.atlassian.net/wiki/spaces/DEV/pages/465044232/DRAFT+PROPOSAL+API+First+Updates+to+the+Technical+Directory+APIs+and+Microservices.+TechDirectory+API+v2) have been changed to `PATCH`, allowing partial updates.
     
-    * The practice of optionally returning a response body based on the `Accept` header being present/not present is not in OB standards and isn't "conventional". It's also difficult to model in Swagger (possible in OpenAPI?) and could make life harder rather than easier for consumers. What problem are you attempting to solve in delivering this?
+    * [JSON Merge Patch](https://tools.ietf.org/html/rfc7396) appears to be a good option for implementing the `PATCH` method in this API.
+
+    * The `PATCH` operations echo back the updated entity in the response payload. Whilst unconventional (typically a `204` would be returned) there has been feedback from the front-end team that this is feature is useful. It is only implemented where specified in the original design.
+
+    * Suggest that this specification is split between internal & external i.e. oauth-clients/everything else - but left it all together for the moment.
     
-    * Need to try and encapsulate backend errors into a return code specified in API - passing back what Ping returns natively defeats the object of creating an API specification.
+    * Added appropriate error response payload.
     
-    * Open Banking APIs capitalise the first letter of properties, break words with hyphens and pluralise nouns. This has been done for consistency throughout
+    * Added JSON API properties. Need to confirm that these are useful/warranted.
     
-    * Suggest this specifies [`JSON Merge Patch`](https://tools.ietf.org/html/rfc7396) for updates - although some elements of Open Banking do use sub-resource URIs, so `/software-statements/{softwareStatementId}/Active` could work - but it risks making the API specification more brittle
+    * Pulled a subset of HTTP response codes that are implemented in Open Banking standards. To to verify and add/remove accordingly.
     
-    * Discuss whether [`JSON API`](http://jsonapi.org/) is appropriate (it's in the Open Banking standards, but might not fit here)
+    * Need to map responses/errors from Ping into this specification.
     
-    * Suggest that this specification is split between internal & external i.e. oauth-clients/everything else
+    ## JSON Merge Patch
+    
+    "Rules" of JSON Merge Path are as follows:
+
+
+      * If an item is omitted in the source do nothing to the target.
+
+      * If the value of an item is `null` remove it from the target.
+
+      * If a new property is in the source add it to the target.
+
+      * Do this with the bounds of the schema.
+    
 schemes:
   - https
 consumes:
@@ -27,18 +52,20 @@ consumes:
 produces:
   - application/json
 paths:
-  /organisations/{organisationId}:
+  '/organisations/{organisationId}':
     get:
       summary: Get all organisation details
-      x-draft-endpoint-1: /organisation/{org_type:string}/{org_id:string}
+      x-draft-endpoint-1: '/organisation/{org_type:string}/{org_id:string}'
       tags:
         - Organisations
       parameters:
         - $ref: '#/parameters/OrganisationId'
+        - $ref: '#/parameters/OrganisationType'
       responses:
-        200:
-          description: Full details of the organisation
-  /organisations/{organisationId}/contacts:
+        '200':
+          description: |
+            Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING
+  '/organisations/{organisationId}/contacts':
     get:
       summary: Get all contacts for an organisation
       tags:
@@ -47,11 +74,9 @@ paths:
         - $ref: '#/parameters/OrganisationId'
         - $ref: '#/parameters/ContactType'
       responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/responses/Contacts'
-  /organisations/{organisationId}/contacts/{contactId}:
+        '200':
+          $ref: '#/responses/Contacts'
+  '/organisations/{organisationId}/contacts/{contactId}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/ContactId'
@@ -59,23 +84,41 @@ paths:
       summary: Get a given contact by way of contact ID
       tags:
         - Contacts
-      parameters:
-        - $ref: '#/parameters/ContactType'
       responses:
-        200:
-          description: OK
+        '200':
+          $ref: '#/responses/Contact'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
     patch:
       summary: Update a given contact by way of contact ID
-      x-draft-endpoint-1: /organisation/contacts/business/{org_type:string}/{org_id:string}
-      x-draft-endpoint-2: /organisation/contacts/technical/{org_type:string}/{org_id:string}
+      x-draft-endpoint-1: '/organisation/contacts/business/{org_type:string}/{org_id:string}'
+      x-draft-endpoint-2: '/organisation/contacts/technical/{org_type:string}/{org_id:string}'
       tags:
         - Contacts
       parameters:
         - $ref: '#/parameters/UpdateContact'
       responses:
-        204:
-          description: Success (no content)
-  /organisations/{organisationId}/software-statements:
+        '200':
+          $ref: '#/responses/Contact'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+  '/organisations/{organisationId}/software-statements':
     parameters:
       - $ref: '#/parameters/OrganisationId'
     get:
@@ -83,19 +126,39 @@ paths:
       tags:
         - Software Statements
       responses:
-        200:
-          description: OK
+        '200':
+          $ref: '#/responses/SoftwareStatements'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
     post:
-      x-draft-endpoint-1: /softwarestatement/{org_type:string}/{org_id:string}
+      x-draft-endpoint-1: '/softwarestatement/{org_type:string}/{org_id:string}'
       summary: Create a software statement
       tags:
         - Software Statements
       parameters:
         - $ref: '#/parameters/CreateSoftwareStatement'
       responses:
-        201:
-          description: Created
-  /organisations/{organisationId}/software-statements/{softwareStatementId}:
+        '201':
+          $ref: '#/responses/SoftwareStatementId'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+  '/organisations/{organisationId}/software-statements/{softwareStatementId}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/SoftwareStatementId'
@@ -110,18 +173,40 @@ paths:
           type: boolean
           required: false
       responses:
-        200:
-          description: OK
+        '200':
+          $ref: '#/responses/SoftwareStatement'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
     patch:
-      x-draft-endpoint-1: /softwarestatement/active/{softwarestatement_id:string}
+      x-draft-endpoint-1: '/softwarestatement/active/{softwarestatement_id:string}'
       summary: Update a software statement
       tags:
         - Software Statements
       parameters:
         - $ref: '#/parameters/UpdateSoftwareStatement'
       responses:
-        200:
-          description: OK
+        '200':
+          description: Updated
+          schema:
+            $ref: '#/responses/SoftwareStatement'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
   /oauth-clients:
     get:
       summary: Get all OAuth clients
@@ -129,19 +214,27 @@ paths:
         - OAuth Clients
       responses:
         200:
-          description: OK
+          $ref: '#/responses/OAuthClients'
     post:
       summary: Create a new OAuth client
       tags:
         - OAuth Clients
-      parameters: 
+      parameters:
         - $ref: '#/parameters/CreateOAuthClient'
       responses:
-        201:
+        '201':
           description: Created
-  /oauth-client/{clientId}:
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+  '/oauth-client/{clientId}':
     patch:
-      x-draft-endpoint-1: /oauthclient/active/{client_id:string}
+      x-draft-endpoint-1: '/oauthclient/active/{client_id:string}'
       summary: Update an OAuth client
       description: Activate/deactive an OAuth client
       tags:
@@ -150,10 +243,20 @@ paths:
         - $ref: '#/parameters/ClientId'
         - $ref: '#/parameters/UpdateOAuthClient'
       responses:
-        204:
+        '204':
           description: Updated
-  /organisations/{organisationId}/software-statements/{softwareStatementId}/certificates:
-    parameters: 
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+  '/organisations/{organisationId}/software-statements/{softwareStatementId}/certificates':
+    parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/SoftwareStatementId'
     get:
@@ -161,57 +264,107 @@ paths:
       tags:
         - Certificates
       responses:
-        200:
-          description: OK
+        '200':
+          $ref: '#/responses/Certificates'
     post:
-      x-draft-endpoint-1: /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}
-      x-draft-endpoint-2: /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}
+      x-draft-endpoint-1: >-
+        /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}
+      x-draft-endpoint-2: >-
+        /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}
       summary: Create a new certificates supporting a software statement
       tags:
         - Certificates
-      parameters: 
+      parameters:
         - $ref: '#/parameters/CreateCertificate'
       responses:
+        '201':
+          $ref: '#/responses/CertificateId'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+  '/organisations/{organisationId}/software-statements/{softwareStatementId}/certificates/{certificateId}':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+      - $ref: '#/parameters/CertificateId'
+    get:
+      summary: Get a certificate
+      tags:
+        - Certificates
+      responses:
         200:
-          description: OK
-  /organisations/{organisationId}/software-statements/{softwareStatementId}/certificates/{certificateId}:
+          $ref: '#/responses/Certificate'
     delete:
-      x-draft-endpoint-1: /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
-      x-draft-endpoint-2: /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
+      x-draft-endpoint-1: >-
+        /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
+      x-draft-endpoint-2: >-
+        /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
       summary: Revoke a certificate
       tags:
         - Certificates
-      parameters: 
-        - $ref: '#/parameters/OrganisationId'
-        - $ref: '#/parameters/SoftwareStatementId'
-        - $ref: '#/parameters/CertificateId'
       responses:
-        202:
+        '202':
           description: Accepted
-        204:
+        '204':
           description: Deleted
-  /organisations/{organisationId}/authorisation-servers:
-    parameters: 
-        - $ref: '#/parameters/OrganisationId'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+  '/organisations/{organisationId}/authorisation-servers':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
     get:
+      summary: Get all .well-known entities for an organisation
       tags:
         - Authorisation Servers
       responses:
-        200:
-          description: OK
+        '200':
+          $ref: '#/responses/AuthorisationServers'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
     post:
-      x-draft-endpoint-1: /authorizationserver/{org_id:string}
+      x-draft-endpoint-1: '/authorizationserver/{org_id:string}'
       summary: Create a .well-known entity
       tags:
         - Authorisation Servers
       parameters:
         - $ref: '#/parameters/CreateAuthorisationServer'
       responses:
-        201:
-          description: Created
-          schema:
-            $ref: '#/responses/AuthorisationServerCreated'
-  /organisations/{organisationId}/authorisation-servers/{authorisationServerId}:
+        '201':
+          $ref: '#/responses/AuthorisationServerId'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+  '/organisations/{organisationId}/authorisation-servers/{authorisationServerId}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/AuthorisationServerId'
@@ -220,8 +373,18 @@ paths:
       tags:
         - Authorisation Servers
       responses:
-        200:
-          description: OK
+        '200':
+          $ref: '#/responses/AuthorisationServer'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
     patch:
       summary: Update .well-known entity
       tags:
@@ -229,15 +392,35 @@ paths:
       parameters:
         - $ref: '#/parameters/UpdateAuthorisationServer'
       responses:
-        204:
+        '204':
           description: Updated
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
     delete:
       summary: Delete a .well-known entity
       tags:
         - Authorisation Servers
       responses:
-        204:
+        '204':
           description: Deleted
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
 parameters:
   AuthorisationServerId:
     name: authorisationServerId
@@ -265,49 +448,117 @@ parameters:
     required: true
   CreateAuthorisationServer:
     name: requestBody
-    description: Create a new authorisation server entity
+    description: Properties to create a new authorisation server  (required fields to be validated)
     in: body
     schema:
       allOf:
-        - $ref: '#/definitions/AuthorisationServer'
-        - required:
-          - AutoRegistrationSupported
-          - BaseApiDNSUri
-          - CustomerFriendlyDescription
-          - CustomerFriendlyLogoUri
-          - CustomerFriendlyName
-          - DeveloperPortalUri
-          - TermsOfService
-          - OpenIDConfigEndPointUri
-          - PayloadSigningCertLocation
+        - type: object
+          required:
+            - Data
+          properties:
+            Data:
+              type: object
+              required:
+                - AuthorisationServer
+              properties:
+                AuthorisationServer:
+                  allOf:
+                    - $ref: '#/definitions/AuthorisationServer'
+                    - required:
+                        - AutoRegistrationSupported
+                        - BaseApiDNSUri
+                        - CustomerFriendlyDescription
+                        - CustomerFriendlyLogoUri
+                        - CustomerFriendlyName
+                        - DeveloperPortalUri
+                        - TermsOfService
+                        - OpenIDConfigEndPointUri
+                        - PayloadSigningCertLocation
     required: true
   CreateCertificate:
     name: requestBody
-    description: Create a new certificate allied to a software statement
+    description: |
+      Create a new certificate allied to a software statement.
+      
+      **Approch of encoding certificate in JSON payload requires validation.**
     in: body
     schema:
       type: object
+      required:
+        - Data
       properties:
-        Type:
-          $ref: '#/definitions/CertificateTypes'
-        Certificate:
-          type: string
-          format: x509-certificate
+        Data:
+          type: object
+          required:
+            - Certificate
+          properties:
+            Certificate:
+              allOf:
+                - $ref: '#/definitions/CertificateProperties'
+                - required:
+                  - Type
+                  - Certificate
   CreateOAuthClient:
     name: requestBody
-    description: Create a new OAuth Client
+    description: Properties to create a new OAuth Client (required fields to be validated)
     in: body
     schema:
-      $ref: '#/definitions/OAuthClient'
+      type: object
+      required:
+        - Data
+      properties:
+        Data:
+          type: object
+          required:
+            - OAuthClient
+          properties:
+            OAuthClient:
+              allOf:
+                - $ref: '#/definitions/OAuthClientProperties'
+                - required:
+                  - ClientId
+                  - Name
+                  - Description
+                  - RedirectUris
+                  - BypassApprovalPage
+                  - RestrictScopes
+                  - RefaultAccessTokenManagerRef
+                  - RestrictedScopes
+                  - ClientAuth
+                  - OidcPolicy
+                  - JwksSettings
+                  - GrantTypes
   CreateSoftwareStatement:
     name: requestBody
-    description: Properties to create a software statement
+    description: Properties to create a software statement (required fields to be validated)
     in: body
     schema:
-      $ref: '#/definitions/SoftwareStatement'
+      type: object
+      required:
+        - Data
+      properties:
+        Data:
+          type: object
+          required:
+            - SoftwareStatement
+          properties:
+            SoftwareStatement:
+              allOf: 
+                - $ref: '#/definitions/SoftwareStatementProperties'
+                - required:
+                  - ClientName
+                  - Description
+                  - OnBehalfOfObOrganisation
+                  - PolicyUri
+                  - ClientUri
+                  - LogoUri
+                  - RedirectUri
+                  - Roles
+                  - TermsOfServiceUri
+                  - Version
   ContactType:
     name: contactType
-    description: The type of contact - Business, Technical
+    description: 'The type of contact - Business, Technical'
     in: query
     type: string
     enum:
@@ -320,6 +571,15 @@ parameters:
     in: path
     type: string
     required: true
+  OrganisationType:
+    name: organisationType
+    description: The organisation type
+    in: query
+    type: string
+    enum:
+      - TPP
+      - ASPSP
+    required: true
   SoftwareStatementId:
     name: softwareStatementId
     description: The software statement ID
@@ -331,67 +591,295 @@ parameters:
     description: Properties to update given authorisation server
     in: body
     schema:
-      $ref: '#/definitions/AuthorisationServer'
+      type: object
+      required:
+        - Data
+      properties:
+        Data:
+          type: object
+          required:
+            - AuthorisationServer
+          properties:
+            AuthorisationServer:
+              $ref: '#/definitions/AuthorisationServerProperties'
     required: true
   UpdateContact:
     name: requestBody
-    description: Properties to update given contact details
-    in: body
-    schema:
-      $ref: '#/definitions/Contact'
-    required: true
-  UpdateOAuthClient:
-    name: requestBody
-    description: Create a new OAuth Client
+    description: Properties to update contact details
     in: body
     schema:
       type: object
       required:
-        - Status
+        - Data
       properties:
-        Status:
-          $ref: '#/definitions/Status'
+        Data:
+          type: object
+          required:
+            - Contact
+          properties:
+            Contact:
+              allOf:
+                - $ref: '#/definitions/ContactProperties'
+                - required:
+                    - EmailAddress
+                    - PhoneNumber
     required: true
-  UpdateSoftwareStatement:
+  UpdateOAuthClient:
     name: requestBody
-    description: |
-      Properties to update the status of a software statement. Following the rules of JSON Merge Path:
-      
-      * If an item is omitted in the source do nothing to the target
-      
-      * If the value of an item is `null` add it to the target
-      
-      * Do this with the bounds of the schema
+    description: Update an OAuth client  (only updatable properties included)
     in: body
     schema:
       type: object
+      required:
+       - Data
       properties:
-        Active:
-          type: boolean
-        RedirectUri:
-          type: array
-          items:
-            type: string
-            format: rui
+        Data:
+          type: object
+          required:
+            - OAuthClient
+          properties:
+            OAuthClient:
+              type: object
+              required:
+                - Active
+              properties:
+                Active:
+                  type: boolean
+    required: true
+  UpdateSoftwareStatement:
+    name: requestBody
+    description: Update a software statement (only updatable properties included)
+    in: body
+    schema:
+      type: object
+      required:
+       - Data
+      properties:
+        Data:
+          type: object
+          required:
+            - SoftwareStatement
+          properties:
+            SoftwareStement:
+              type: object
+              properties:
+                Active:
+                  type: boolean
+                RedirectUri:
+                  type: array
+                  items:
+                    type: string
+                    format: rui
     required: true
 responses:
+  AuthorisationServer:
+    description: An authorisation server
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              required:
+                - AuthorisationServer
+              properties:
+                AuthorisationServer:
+                  $ref: '#/definitions/AuthorisationServer'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  AuthorisationServerId:
+    description: An authorisation server ID
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              required:
+                - AuthorisationServerId
+              properties:
+                AuthorisationServerId:
+                  $ref: '#/definitions/AuthorisationServerId'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  AuthorisationServers:
+    description: List of authorisation servers
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              properties:
+                AuthorisationServers:
+                  type: array
+                  items:
+                    $ref: '#/definitions/AuthorisationServer'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  Certificate:
+    description: A certificate
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              required:
+                - Certificate
+              properties:
+                Certificate:
+                  $ref: '#/definitions/Certificate'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  CertificateId:
+    description: ID of new certificate
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              required: 
+                - CertificateId
+              properties:
+                CertificateId:
+                  $ref: '#/definitions/ID'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  Certificates:
+    description: List of certificates
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              properties:
+                Certificates:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Certificate'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  Contact:
+    description: A contact
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              required:
+                - Contact
+              properties:
+                Contact:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Contact'
+        - $ref: '#/definitions/JsonApiLinksMeta'
   Contacts:
     description: List of contacts
     schema:
-      type: array
-      items:
-        $ref: '#/definitions/Contact'
-  AuthorisationServerCreated:
-    description: Authorisation server entity successfully created
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              properties:
+                Contacts:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Contact'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  OAuthClients:
+    description: List of OAuth clients
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              properties:
+                OAuthClients:
+                  type: array
+                  items:
+                    $ref: '#/definitions/OAuthClient'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  SoftwareStatementId:
+    description: New software statement ID
     schema:
       type: object
+      required: 
+        - SoftwareStatementId
       properties:
-        AuthorisationServerId:
-          $ref: '#/definitions/AuthorisationServerId'
+        SoftwareStatementId:
+          $ref: '#/definitions/ID'
+  SoftwareStatement:
+    description: A software statements
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              required:
+                - SoftwareStatement
+              properties:
+                SoftwareStatement:
+                  $ref: '#/definitions/SoftwareStatement'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  SoftwareStatements:
+    description: List of software statements
+    schema:
+      allOf:
+        - type: object
+          required:
+          - Data
+          properties:
+            Data:
+              type: object
+              properties:
+                SoftwareStatements:
+                  type: array
+                  items:
+                    $ref: '#/definitions/SoftwareStatement'
+        - $ref: '#/definitions/JsonApiLinksMeta'
+  400ErrorResponse:
+    description: Bad request
+    schema:
+      $ref: '#/definitions/OBErrorResponse1'
+  401ErrorResponse:
+    description: Unauthorized
+  403ErrorResponse:
+    description: Forbidden
+  404ErrorResponse:
+    description: Not found
+  500ErrorResponse:
+    description: Internal Server Error
+    schema:
+      $ref: '#/definitions/OBErrorResponse1'
 definitions:
+  ID:
+    description: Generic identifier type
+    type: string
   AuthorisationServerId:
     type: string
-  AuthorisationServer:
+  AuthorisationServerProperties:
     type: object
     properties:
       AutoRegistrationSupported:
@@ -417,29 +905,64 @@ definitions:
       PayloadSigningCertLocation:
         type: string
         format: uri
-  CertificateTypes:
-    type: string
-    enum:
-      - Transport
-      - Signing
-  Status:
-    type: string
-    enum:
-      - Active
-      - Inactive
-  Contact:
+  AuthorisationServer:
+    allOf:
+      - $ref: '#/definitions/AuthorisationServerProperties'
+      - required:
+        - AutoRegistrationSupported
+        - BaseApiDNSUri
+        - CustomerFriendlyDescription
+        - CustomerFriendlyLogoUri
+        - CustomerFriendlyName
+        - DeveloperPortalUri
+        - TermsOfService
+        - OpenIDConfigEndPointUri
+        - PayloadSigningCertLocation
+  CertificateProperties:
     type: object
     properties:
       Type:
         type: string
         enum:
-          - Business
-          - Technical
+          - Transport
+          - Signing
+      Certificate:
+        type: string
+  Certificate:
+    allOf:
+      - type: object
+        properties:
+          CertificateId:
+            $ref: '#/definitions/ID'
+      - $ref: '#/definitions/CertificateProperties'
+      - required:
+        - CertificateId
+        - Type
+        - Certificate
+  ContactProperties:
+    type: object
+    properties:
       EmailAddress:
         type: string
       PhoneNumber:
         type: string
-  OAuthClient:
+  ContactType:
+    type: string
+    enum:
+      - Business
+      - Technical
+  Contact:
+    allOf:
+      - type: object
+        properties:
+          Type:
+            $ref: '#/definitions/ContactType'
+      - $ref: '#/definitions/ContactProperties'
+      - required:
+        - Type
+        - EmailAddress
+        - PhoneNumber
+  OAuthClientProperties:
     type: object
     properties:
       ClientId:
@@ -486,9 +1009,30 @@ definitions:
         type: array
         items:
           type: string
-          enum: 
+          enum:
             - CLIENT_CREDENTIALS
-  SoftwareStatement:
+  OAuthClient:
+    allOf: 
+      - type: object
+        properties:
+          Active:
+            type: boolean
+      - $ref: '#/definitions/OAuthClientProperties'
+      - required:
+        - Active
+        - ClientId
+        - Name
+        - Description
+        - RedirectUris
+        - BypassApprovalPage
+        - RestrictScopes
+        - RefaultAccessTokenManagerRef
+        - RestrictedScopes
+        - ClientAuth
+        - OidcPolicy
+        - JwksSettings
+        - GrantTypes
+  SoftwareStatementProperties:
     type: object
     properties:
       ClientName:
@@ -521,4 +1065,112 @@ definitions:
         format: uri
       Version:
         type: string
-      
+  SoftwareStatement:
+    allOf:
+      - type: object
+        properties:
+          Active:
+            type: boolean
+      - $ref: '#/definitions/SoftwareStatementProperties'
+      - required:
+        - Active
+        - ClientName
+        - Description
+        - OnBehalfOfObOrganisation
+        - PolicyUri
+        - ClientUri
+        - LogoUri
+        - RedirectUri
+        - Roles
+        - TermsOfServiceUri
+        - Version
+  OBError1:
+    type: object
+    properties:
+      ErrorCode:
+        description: 'Low level textual error code, e.g., UK.OBIE.Field.Missing'
+        type: string
+        minLength: 1
+        maxLength: 128
+      Message:
+        description: >-
+          A description of the error that occurred. e.g., 'A mandatory field
+          isn't supplied' or 'RequestedExecutionDateTime must be in future'
+
+          OBIE doesn't standardise this field
+        type: string
+        minLength: 1
+        maxLength: 500
+      Path:
+        description: >-
+          Recommended but optional reference to the JSON Path of the field with
+          error, e.g., Data.Initiation.InstructedAmount.Currency
+        type: string
+        minLength: 1
+        maxLength: 500
+      Url:
+        description: >-
+          URL to help remediate the problem, or provide more information, or to
+          API Reference, or help etc
+        type: string
+    required:
+      - ErrorCode
+      - Message
+    additionalProperties: false
+    minProperties: 1
+  OBErrorResponse1:
+    description: >-
+      An array of detail error codes, and messages, and URLs to documentation to
+      help remediation.
+    type: object
+    properties:
+      Code:
+        description: 'High level textual error code, to help categorize the errors.'
+        type: string
+        minLength: 1
+        maxLength: 40
+      Id:
+        description: >-
+          A unique reference for the error instance, for audit purposes, in case
+          of unknown/unclassified errors.
+        type: string
+        minLength: 1
+        maxLength: 40
+      Message:
+        description: >-
+          Brief Error message, e.g., 'There is something wrong with the request
+          parameters provided'
+        type: string
+        minLength: 1
+        maxLength: 500
+      Errors:
+        items:
+          $ref: '#/definitions/OBError1'
+        type: array
+        minItems: 1
+    required:
+      - Code
+      - Message
+      - Errors
+    additionalProperties: false
+  JsonApiLinksMeta:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    additionalProperties: false
+  Links:
+    type: object
+    description: Links relevant to the payload
+    properties:
+      Self:
+        description: >-
+          A link to the resource that represents this payee (will only be
+          returned from lookup if matched or close match)
+        type: string
+        format: uri
+  Meta:
+    type: object
+    description: Meta Data relevant to the payload
