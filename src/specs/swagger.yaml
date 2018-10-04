@@ -10,11 +10,12 @@ info:
     
     * Need to ensure that all required operations are covered.
     
-    * Add `operationId` (suggest this is automated)
+    * Add `operationId` (suggest this is automated).
+
 
     * `org_type` is used as a means for differentiating between TPPs and ASPSP. However, from an entity modeling point of view it's difficult to make it "fit" so is included where is required, but ideally should be implied by the consumer identity
 
-    * `organisationId` is included in the API model as it *may* be meaningful to a consumer i.e. a consumer of the API may have knowledge of and wish consume multiple organisations. 
+    * `organisationId` is included in the API model as it *may* be meaningful to a consumer i.e. a consumer of the API may have knowledge of and wish consume multiple organisations.  Should `/organisation/{organisationId}` be part of every `path`? If this could be removed it would make the design more elegant.
 
     * The `PUT` methods in the [original design](https://openbanking.atlassian.net/wiki/spaces/DEV/pages/465044232/DRAFT+PROPOSAL+API+First+Updates+to+the+Technical+Directory+APIs+and+Microservices.+TechDirectory+API+v2) have been changed to `PATCH`, allowing partial updates.
     
@@ -52,6 +53,15 @@ consumes:
 produces:
   - application/json
 paths:
+  '/organisations':
+    get:
+      summary: Get all organisations that the consumer is authorised to retrieve
+      description: Note that this was not in the original design but is included to inform the client
+      tags:
+        - Organisations
+      responses:
+        200:
+          description: OK
   '/organisations/{organisationId}':
     get:
       summary: Get all organisation details
