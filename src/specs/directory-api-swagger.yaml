@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: Open Banking Directory
+  title: Open Banking Directory API
   version: 0.0.1
   description: >
 

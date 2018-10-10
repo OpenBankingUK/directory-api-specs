@@ -1,16 +1,7 @@
 window.onload = function() {
   // Build a system
   const ui = SwaggerUIBundle({
-    urls: [
-  {
-    "name": "Open Banking Directory API",
-    "url": "directory-api-swagger.yaml"
-  },
-  {
-    "name": "Directory Notifications API",
-    "url": "directory-notifications-openapi.yaml"
-  }
-],
+    urls: [],
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [

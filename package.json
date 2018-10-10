@@ -4,8 +4,9 @@
   "description": "A boilerplate project for running a Swagger UI under Webpack",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode development",
-    "dev": "webpack && npm run start",
+    "build-swagger-system": "node scripts/rewrite-urls.js --directory src/specs --wrapper src/swagger-ui-wrapper.js --output src/index.js",
+    "build": "nom run build-swagger-system && webpack --mode development",
+    "dev": "npm run build-swagger-system && webpack && npm run start",
     "start": "webpack-dev-server --open --compress",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
