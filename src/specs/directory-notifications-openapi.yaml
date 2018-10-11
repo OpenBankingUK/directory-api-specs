@@ -2,52 +2,92 @@ openapi: 3.0.2
 info:
   version: 0.0.1
   title: Directory Notifications API
-  description: |
-  
+  description: >
+
     A WebSocket API design for the Open Banking Directory.
-    
+
+
     ## Approach
-    
+
+
     The design:
-    
-    * Uses a GET on the root URI to indicate the only available resource (as this is meaningful across a WebSocket connection).
-    
-    * Offers a `default` response rather than one allied to a HTTP response code (as a HTTP response is meaningless for a WebSocket). The only exceptions are `401`/`403` for connection failures during handshake due to invalid credentials (unknown/insufficient permissions) when a downgrade to HTTPS can be expected.
-    
+
+
+    * Uses a GET on the root URI to indicate the only available resource (as
+    this is meaningful across a WebSocket connection).
+
+
+    * Offers a `default` response rather than one allied to a HTTP response code
+    (as a HTTP response is meaningless for a WebSocket). The only exceptions are
+    `401`/`403` for connection failures during handshake due to invalid
+    credentials (unknown/insufficient permissions) when a downgrade to HTTPS can
+    be expected.
+
+
     * Does not model errors, etc. usually found in REST APIs.
-    
-    * Uses OpenAPI specification rather than Swagger in order to take advantage of the `oneOf` keyword.
-    
-    Note: Originally considered using [AsyncAPI](https://github.com/asyncapi/asyncapi) but this currently lacks OAuth 2.0 support.
-    
+
+
+    * Uses OpenAPI specification rather than Swagger in order to take advantage
+    of the `oneOf` keyword.
+
+
+    Note: Originally considered using
+    [AsyncAPI](https://github.com/asyncapi/asyncapi) but this currently lacks
+    OAuth 2.0 support.
+
+
     ## Transport
-    
-    The current API is available over HTTPS and WSS and thus is included in the specification. Clients connecting over HTTPS will be upgraded to WSS once connected.
-    
+
+
+    The current API is available over HTTPS and WSS and thus is included in the
+    specification. Clients connecting over HTTPS will be upgraded to WSS once
+    connected.
+
+
     ## Events
-    
-    The API emits events relating to changes in the state of entities the Directory manages:
-    
-    * The event types are encoded in the property i.e. `OBDirectoryEventCreated1`, `OBDirectoryEventAdded1`, `OBDirectoryEventUpdated1` and `OBDirectoryEventRevoked1`
-    
+
+
+    The API emits events relating to changes in the state of entities the
+    Directory manages:
+
+
+    * The event types are encoded in the property i.e.
+    `OBDirectoryEventCreated1`, `OBDirectoryEventAdded1`,
+    `OBDirectoryEventUpdated1` and `OBDirectoryEventRevoked1`
+
+
     * The entities are described by the `SubjectType` enumeration.
-    
-    * The `sub` of the `subject` property points to the entity described by the Directory that can referenced by an external consumer. This is expected to be in the form of a URI.
-    
+
+
+    * The `sub` of the `subject` property points to the entity described by the
+    Directory that can referenced by an external consumer. This is expected to
+    be in the form of a URI.
+
+
     ## Formatting
-    
-    The events emitted by this API are [Security Event Tokens](https://tools.ietf.org/html/rfc8417):
-    
-    * Security Event Tokens build on the format of [JSON Web Tokens](https://tools.ietf.org/html/rfc7519) (JWT).
-    
+
+
+    The events emitted by this API are [Security Event
+    Tokens](https://tools.ietf.org/html/rfc8417):
+
+
+    * Security Event Tokens build on the format of [JSON Web
+    Tokens](https://tools.ietf.org/html/rfc7519) (JWT).
+
+
     * This specification only describes the structure of the event itself.
-    
-    * The semantics of a JWT are not described as JWTs are not supported natively by OpenAPI specification. The event is specified  with the MIME type `application/jwt` and is described as a `string` with `format` referencing the JSON Schema object that describes the payload (`OBEventNotification1`).
+
+
+    * The semantics of a JWT are not described as JWTs are not supported
+    natively by OpenAPI specification. The event is specified  with the MIME
+    type `application/jwt` and is described as a `string` with `format`
+    referencing the JSON Schema object that describes the payload
+    (`OBEventNotification1`).
         
-servers: 
-  - url: https://obdfinotifications.openbanking.org.uk
+servers:
+  - url: 'https://obdfinotifications.openbanking.org.uk'
     description: Production notifications instance - HTTP
-  - url: wss://obdfinotifications.openbanking.org.uk
+  - url: 'wss://obdfinotifications.openbanking.org.uk'
     description: Production notifications instance - Secure WebSocket
 paths:
   /:
@@ -63,13 +103,13 @@ paths:
             type: string
           required: true
       responses:
-        401:
+        '401':
           description: Invalid access token
           content:
             application/json:
               schema:
                 $ref: '#/components/responses/401ErrorResponse'
-        403:
+        '403':
           description: Access token presented with incorrect permissions
           content:
             application/json:
@@ -81,10 +121,10 @@ paths:
             application/jwt:
               schema:
                 type: string
-                format: OBEventNotification1
+                format: OBDirectoryEventNotification1
       security:
         - TPPOAuth2Security:
-            - notifications:read
+            - 'notifications:read'
 components:
   responses:
     401ErrorResponse:
@@ -92,7 +132,7 @@ components:
     403ErrorResponse:
       description: Forbidden
   schemas:
-    OBEventNotification1:
+    OBDirectoryEventNotification1:
       description: Security Event Token payload
       type: object
       properties:
@@ -115,6 +155,10 @@ components:
           type: string
           minLength: 1
           maxLength: 128
+        sub:
+          description: Subject
+          type: string
+          format: uri
         txn:
           description: Transaction Identifier.
           type: string
@@ -133,36 +177,53 @@ components:
         - iat
         - jti
         - aud
+        - sub
         - txn
         - toe
         - events
       additionalProperties: false
     OBEventDirectoryEvent1:
       oneOf:
-        - $ref: '#/components/schemas/OBDirectoryEventCreated1'
-        - $ref: '#/components/schemas/OBDirectoryEventAdded1'
-        - $ref: '#/components/schemas/OBDirectoryEventUpdated1'
-        - $ref: '#/components/schemas/OBDirectoryEventRevoked1'
-    OBDirectoryEventCreated1:
-      type: object
-      properties:
-        'http://openbanking.org.uk/entity-created':
-          $ref: '#/components/schemas/OBDirectoryEventSubject1'
-    OBDirectoryEventAdded1:
+        - $ref: '#/components/schemas/OBDirectoryEventEntityAdded1'
+        - $ref: '#/components/schemas/OBDirectoryEventEntityCreated1'
+        - $ref: '#/components/schemas/OBDirectoryEventEntityRemoved1'
+        - $ref: '#/components/schemas/OBDirectoryEventEntityRevoked1'
+        - $ref: '#/components/schemas/OBDirectoryEventEntityUpdated1'
+    OBDirectoryEventEntityAdded1:
       type: object
       properties:
         'http://openbanking.org.uk/entity-added':
-          $ref: '#/components/schemas/OBDirectoryEventSubject1'
-    OBDirectoryEventUpdated1:
+          allOf:
+           - $ref: '#/components/schemas/OBDirectoryEventSubject1'
+           - $ref: '#/components/schemas/OBDirectoryEntityAdded1'
+    OBDirectoryEventEntityCreated1:
+      type: object
+      properties:
+        'http://openbanking.org.uk/entity-created':
+          allOf:
+           - $ref: '#/components/schemas/OBDirectoryEventSubject1'
+           - $ref: '#/components/schemas/OBDirectoryEntityCreated1'
+    OBDirectoryEventEntityRemoved1:
       type: object
       properties:
         'http://openbanking.org.uk/entity-updated':
-          $ref: '#/components/schemas/OBDirectoryEventSubject1'
-    OBDirectoryEventRevoked1:
+          allOf:
+           - $ref: '#/components/schemas/OBDirectoryEventSubject1'
+           - $ref: '#/components/schemas/OBDirectoryEntityRemoved1'
+    OBDirectoryEventEntityRevoked1:
       type: object
       properties:
         'http://openbanking.org.uk/entity-revoked':
-          $ref: '#/components/schemas/OBDirectoryEventSubject1'
+          allOf:
+           - $ref: '#/components/schemas/OBDirectoryEventSubject1'
+           - $ref: '#/components/schemas/OBDirectoryEntityRevoked1'
+    OBDirectoryEventEntityUpdated1:
+      type: object
+      properties:
+        'http://openbanking.org.uk/entity-updated':
+          allOf:
+           - $ref: '#/components/schemas/OBDirectoryEventSubject1'
+           - $ref: '#/components/schemas/OBDirectoryEntityUpdated1'
     OBDirectoryEventSubject1:
       type: object
       required:
@@ -174,27 +235,109 @@ components:
             - subject_type
           properties:
             subject_type:
-              $ref: '#/components/schemas/SubjectType'
+              type: string
             sub:
               type: string
               description: The subject of the event
               format: uri
-    SubjectType:
-      type: string
-      enum:
-        - Organisation
-        - Role
-        - Passport
-        - Transport Certificate
-        - Signing Certificate
-        - Encryption Key
-        - Authorization Server
+    OBDirectoryEntityAdded1:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: object
+          required:
+            - subject_type
+          properties:
+            subject_type:
+              type: string
+              enum:
+                - Authorization Server
+                - Organisation Encryption Key
+                - Organisation Passport
+                - Organisation Role
+                - Organisation Signing Certificate
+                - Organisation Signing Key
+                - Organisation Transport Certificate
+                - Software Statement Encryption Key
+                - Software Statement Signing Certificate
+                - Software Statement Signing Key
+                - Software Statement Transport Certificate
+    OBDirectoryEntityCreated1:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: object
+          required:
+            - subject_type
+          properties:
+            subject_type:
+              type: string
+              enum:
+                - Software Statement
+    OBDirectoryEntityRemoved1:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: object
+          required:
+            - subject_type
+          properties:
+            subject_type:
+              type: string
+              enum:
+                - Authorization Server
+    OBDirectoryEntityRevoked1:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: object
+          required:
+            - subject_type
+          properties:
+            subject_type:
+              type: string
+              enum:
+                - Organisation
+                - Organisation Encryption Key
+                - Organisation Passport
+                - Organisation Role
+                - Organisation Signing Certificate
+                - Organisation Signing Key
+                - Organisation Transport Certificate
+                - Software Statement
+                - Software Statement Encryption Key
+                - Software Statement Signing Certificate
+                - Software Statement Signing Key
+                - Software Statement Transport Certificate
+    OBDirectoryEntityUpdated1:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: object
+          required:
+            - subject_type
+          properties:
+            subject_type:
+              type: string
+              enum:
+                - Authorization Server
+                - Software Statement
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2
       description: Flows to support OAuth 2.0
-      flows: 
+      flows:
         clientCredentials:
           tokenUrl: 'https://authserver.example/token'
           scopes:
-            notifications:read: Ability to read notifications
+            'notifications:read': Ability to read notifications
