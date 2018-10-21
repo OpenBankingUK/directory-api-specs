@@ -11,25 +11,40 @@ info:
     * Need to ensure that all required operations are covered.
     
     * Add `operationId` (suggest this is automated).
-
+    
+    * Question (JA): what is the purpose of `operationId`? What will it be used for?
 
     * `org_type` is used as a means for differentiating between TPPs and ASPSP. However, from an entity modeling point of view it's difficult to make it "fit" so is included where is required, but ideally should be implied by the consumer identity
-
+    
+    * Comment (JA): The need for `org_type` is the unfortunate side-effect of the CRM assigning the same `organisationId` to both an ASPSP and a TPP if they happen to be the same entity.
+    
     * `organisationId` is included in the API model as it *may* be meaningful to a consumer i.e. a consumer of the API may have knowledge of and wish consume multiple organisations.  Should `/organisation/{organisationId}` be part of every `path`? If this could be removed it would make the design more elegant.
+    
+    * Comment (JA): `organisationId` is *essential* for operations that concern a specific organisation.
 
     * The `PUT` methods in the [original design](https://openbanking.atlassian.net/wiki/spaces/DEV/pages/465044232/DRAFT+PROPOSAL+API+First+Updates+to+the+Technical+Directory+APIs+and+Microservices.+TechDirectory+API+v2) have been changed to `PATCH`, allowing partial updates.
     
+    * Comment (JA): None of the endpoints in the [original design](https://openbanking.atlassian.net/wiki/spaces/DEV/pages/465044232/DRAFT+PROPOSAL+API+First+Updates+to+the+Technical+Directory+APIs+and+Microservices.+TechDirectory+API+v2) allow for partial updates, therefore it makes no sense to use PATCH unless we switch the whole API to SCIM operations, which we cannot, because our backend needs to generate unique IDs or else certain operations are impossible or dangerous in the hands of the consumers of the API.
+
     * [JSON Merge Patch](https://tools.ietf.org/html/rfc7396) appears to be a good option for implementing the `PATCH` method in this API.
+    
+    * Comment (JA): NO. We are trying to make the API easer to use, not more complex. 
 
     * The `PATCH` operations echo back the updated entity in the response payload. Whilst unconventional (typically a `204` would be returned) there has been feedback from the front-end team that this is feature is useful. It is only implemented where specified in the original design.
 
+    * Comment (JA): We solve the issue of the frontend wanting payload in the response by allowing the use of the `Accept` header. Its value guides the behaviour of the API. Similarly, the value of the `Content-Type` provided in the request informs the API what kind of content it will be dealing with.
+
     * Suggest that this specification is split between internal & external i.e. oauth-clients/everything else - but left it all together for the moment.
+    
+    * Comment (JA): Agreed.
     
     * Added appropriate error response payload.
     
     * Added JSON API properties. Need to confirm that these are useful/warranted.
     
     * Pulled a subset of HTTP response codes that are implemented in Open Banking standards. To to verify and add/remove accordingly.
+    
+    * Comment (JA): Software statements should be regarded as a separate resource. They will not be in the initial release of the API, but the plan is to make them separate resource in the future.
     
     * Need to map responses/errors from Ping into this specification.
     
@@ -51,7 +66,7 @@ schemes:
 consumes:
   - application/json
 produces:
-  - application/json
+  - application/scim+json
 paths:
   '/organisations':
     get:
@@ -62,6 +77,18 @@ paths:
       responses:
         200:
           description: OK
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
   '/organisations/{organisationId}':
     get:
       summary: Get all organisation details
@@ -75,28 +102,17 @@ paths:
         '200':
           description: |
             Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING
-  '/organisations/{organisationId}/contacts':
+  '/organisation/{org_type:string}/{org_id:string}/contacts/business':
     get:
       summary: Get all contacts for an organisation
       tags:
-        - Contacts
+        - Business Contacts
       parameters:
         - $ref: '#/parameters/OrganisationId'
         - $ref: '#/parameters/ContactType'
       responses:
         '200':
           $ref: '#/responses/Contacts'
-  '/organisations/{organisationId}/contacts/{contactId}':
-    parameters:
-      - $ref: '#/parameters/OrganisationId'
-      - $ref: '#/parameters/ContactId'
-    get:
-      summary: Get a given contact by way of contact ID
-      tags:
-        - Contacts
-      responses:
-        '200':
-          $ref: '#/responses/Contact'
         '400':
           $ref: '#/responses/400ErrorResponse'
         '401':
@@ -107,12 +123,12 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-    patch:
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+    put:
       summary: Update a given contact by way of contact ID
-      x-draft-endpoint-1: '/organisation/contacts/business/{org_type:string}/{org_id:string}'
-      x-draft-endpoint-2: '/organisation/contacts/technical/{org_type:string}/{org_id:string}'
       tags:
-        - Contacts
+        - Business Contacts
       parameters:
         - $ref: '#/parameters/UpdateContact'
       responses:
@@ -128,7 +144,53 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  '/organisations/{organisationId}/software-statements':
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+    '/organisation/{org_type:string}/{org_id:string}/contacts/technical':
+    get:
+      summary: Get all contacts for an organisation
+      tags:
+        - Technical Contacts
+      parameters:
+        - $ref: '#/parameters/OrganisationId'
+        - $ref: '#/parameters/ContactType'
+      responses:
+        '200':
+          $ref: '#/responses/Contacts'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'   
+    put:
+      summary: Update a given contact by way of contact ID
+      tags:
+        - Technical Contacts
+      parameters:
+        - $ref: '#/parameters/UpdateContact'
+      responses:
+        '200':
+          $ref: '#/responses/Contact'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+    '/organisation/{org_type:string}/{org_id:string}/software-statements':
     parameters:
       - $ref: '#/parameters/OrganisationId'
     get:
@@ -148,8 +210,10 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+    '/organisation/{org_type:string}/{org_id:string}/software-statements':
     post:
-      x-draft-endpoint-1: '/softwarestatement/{org_type:string}/{org_id:string}'
       summary: Create a software statement
       tags:
         - Software Statements
@@ -168,7 +232,9 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  '/organisations/{organisationId}/software-statements/{softwareStatementId}':
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+    '/organisation/{org_type:string}/{org_id:string}/software-statements/{softwarestatement_id:string}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/SoftwareStatementId'
@@ -195,7 +261,10 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-    patch:
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+    '/organisation/{org_type:string}/{org_id:string}/software-statements/{softwarestatement_id:string}/active':
+    put:
       x-draft-endpoint-1: '/softwarestatement/active/{softwarestatement_id:string}'
       summary: Update a software statement
       tags:
@@ -217,6 +286,8 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
   /oauth-clients:
     get:
       summary: Get all OAuth clients
@@ -242,9 +313,10 @@ paths:
           $ref: '#/responses/403ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  '/oauth-client/{clientId}':
-    patch:
-      x-draft-endpoint-1: '/oauthclient/active/{client_id:string}'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+  '/oauthclient/{org_type:string}':
+    post:
       summary: Update an OAuth client
       description: Activate/deactive an OAuth client
       tags:
@@ -265,30 +337,43 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  '/organisations/{organisationId}/software-statements/{softwareStatementId}/certificates':
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+  '/oauthclient/{client_id:string}':
+    delete:
+      summary: Delete an OAuth client
+      description: Activate/deactive an OAuth client
+      tags:
+        - OAuth Clients
+      parameters:
+        - $ref: '#/parameters/ClientId'
+        - $ref: '#/parameters/UpdateOAuthClient'
+      responses:
+        '204':
+          description: Updated
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+  '/organisation/{org_type:string}/{org_id:string}/certificates':
     parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/SoftwareStatementId'
     get:
-      summary: Get the certificates supporting a software statement
+      summary: Get the certificates for the organisation
       tags:
         - Certificates
       responses:
         '200':
           $ref: '#/responses/Certificates'
-    post:
-      x-draft-endpoint-1: >-
-        /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}
-      x-draft-endpoint-2: >-
-        /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}
-      summary: Create a new certificates supporting a software statement
-      tags:
-        - Certificates
-      parameters:
-        - $ref: '#/parameters/CreateCertificate'
-      responses:
-        '201':
-          $ref: '#/responses/CertificateId'
         '400':
           $ref: '#/responses/400ErrorResponse'
         '401':
@@ -299,31 +384,19 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  '/organisations/{organisationId}/software-statements/{softwareStatementId}/certificates/{certificateId}':
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+  '/organisation/{org_type:string}/{org_id:string}/certificate/transport':
     parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/SoftwareStatementId'
-      - $ref: '#/parameters/CertificateId'
-    get:
-      summary: Get a certificate
+    post:
+      summary: Create a transport certificate for the organisation
       tags:
         - Certificates
       responses:
-        200:
-          $ref: '#/responses/Certificate'
-    delete:
-      x-draft-endpoint-1: >-
-        /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
-      x-draft-endpoint-2: >-
-        /certificates/openbanking/signing/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
-      summary: Revoke a certificate
-      tags:
-        - Certificates
-      responses:
-        '202':
-          description: Accepted
-        '204':
-          description: Deleted
+        '200':
+          $ref: '#/responses/Certificates'
         '400':
           $ref: '#/responses/400ErrorResponse'
         '401':
@@ -334,6 +407,262 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+  '/organisation/{org_type:string}/{org_id:string}/certificate/eidas/qwacs':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    post:
+      summary: Store an eIDAS QWACS certificate for the organisation
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+  '/organisation/{org_type:string}/{org_id:string}/certificate/eidas/qseal':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    post:
+      summary: Store an eIDAS QSEAL certificate for the organisation
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'  
+              
+  '/organisation/{org_type:string}/{org_id:string}/certificate/{kid:string}':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    get:
+      summary: Get a certificate for the organisation
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+  '/organisation/{org_type:string}/{org_id:string}/certificate/{kid:string}':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    delete:
+      summary: Remove/revoke a certificate for the organisation
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'                               
+  '/organisation/{org_type:string}/{org_id:string}/softwarestatement/{softwarestatement_id:string}/certificates':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    get:
+      summary: Get the certificates for the software statement
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse' 
+  '/organisation/{org_type:string}/{org_id:string}/softwarestatement/{softwarestatement_id:string}/certificate/{kid:string}':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    get:
+      summary: Get a certificate for the software statement
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse' 
+  '/organisation/{org_type:string}/{org_id:string}/softwarestatement/{softwarestatement_id:string}/certificate/{kid:string}':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    delete:
+      summary: Revoke a certificate for the software statement
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse' 
+  '/organisation/{org_type:string}/{org_id:string}/softwarestatement/{softwarestatement_id:string}/key/{kid:string}':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    delete:
+      summary: Remove a key for the software statement
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse' 
+  '/organisation/{org_type:string}/{org_id:string}/softwarestatement/{softwarestatement_id:string}/certificate/signing':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    post:
+      summary: Create a signing certificate for the software statement
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse' 
+  '/organisation/{org_type:string}/{org_id:string}/softwarestatement/{softwarestatement_id:string}/key/signing':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    post:
+      summary: Store a signing key for the software statement
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'   
+  '/organisation/{org_type:string}/{org_id:string}/softwarestatement/{softwarestatement_id:string}/key/encryption':
+    parameters:
+      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/parameters/SoftwareStatementId'
+    post:
+      summary: Store a encryption key for the software statement
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/responses/Certificates'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'  
   '/organisations/{organisationId}/authorisation-servers':
     parameters:
       - $ref: '#/parameters/OrganisationId'
@@ -354,6 +683,8 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
     post:
       x-draft-endpoint-1: '/authorizationserver/{org_id:string}'
       summary: Create a .well-known entity
@@ -374,6 +705,8 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
   '/organisations/{organisationId}/authorisation-servers/{authorisationServerId}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
@@ -395,7 +728,9 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-    patch:
+        '502':
+          $ref: '#/responses/502ErrorResponse'
+    put:
       summary: Update .well-known entity
       tags:
         - Authorisation Servers
@@ -414,6 +749,8 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
     delete:
       summary: Delete a .well-known entity
       tags:
@@ -431,6 +768,8 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
 parameters:
   AuthorisationServerId:
     name: authorisationServerId
