@@ -62,10 +62,8 @@ paths:
       parameters:
         - $ref: '#/parameters/Enrol'
       responses:
-        '200':
-          description: OK
         '201':
-          description: Created
+          $ref: '#/responses/Enrol201CreatedResponse'
         '400':
           $ref: '#/responses/400ErrorResponse'
         '401':
@@ -925,12 +923,12 @@ responses:
     description: OK
   201CreatedResponse:
     description: Created
-  Enrol200OKResponse:
-    description: OK
   Enrol201CreatedResponse:
     description: Created
+    schema:
+      $ref: '#/definitions/Enrol201CreatedResponsePayload'
   400ErrorResponse:
-    description: Bad request
+    description: Bad Request
     schema:
       $ref: '#/definitions/OBErrorResponse1'
   401ErrorResponse:
@@ -1081,6 +1079,79 @@ definitions:
       software_id:
         type: string
       software_version:
+        type: string
+  Enrol201CreatedResponsePayload:
+    description: >-
+      A JSON object DCR response returned when client gets created.
+    type: object
+    properties:
+      client_id:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      client_secret:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      client_id_issued_at:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      client_secret_expires_at:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      ob_org_id:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      redirect_uris:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      token_endpoint_auth_method:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      client_secret_post:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      grant_types:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      response_types:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      scope:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      client_name:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      client_uri:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+        format: uri
+      logo_uri:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+        format: uri
+      contacts:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      tos_uri:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+        format: uri
+      policy_uri:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+        format: uri
+      jwks_uri:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+        format: uri
+      jwks:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      software_id:
+        description: Client ID assigned by Open Banking Directory
+        type: string
+      software_version:
+        description: Client ID assigned by Open Banking Directory
         type: string
   OAuthClientProperties:
     type: object
