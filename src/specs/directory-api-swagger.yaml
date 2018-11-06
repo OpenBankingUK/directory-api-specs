@@ -55,12 +55,15 @@ produces:
 paths:
   '/enrol':
     post:
-      summary: eIDAS QWAC-bearing TPP Enrolment
+      summary: Enrol a eIDAS QWAC-bearing TPP
       description: Enrol an eIDAS QWCA-bearing TPP onto the Open Banking Directory
       tags:
         - Enrol
       parameters:
         - $ref: '#/parameters/Enrol'
+      produces:
+        - application/json
+        - text/plain
       responses:
         '201':
           $ref: '#/responses/Enrol201CreatedResponse'
@@ -78,22 +81,27 @@ paths:
       description: Note that this was not in the original design but is included to inform the client
       tags:
         - Organisations
+      produces:
+        - application/scim+json
       responses:
         200:
-          description: OK
-  '/organisations/{organisationId}':
+          description: |
+            Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
+  '/organisations/{OrganisationType}/{organisationId}':
     get:
       summary: Get all organisation details
       x-draft-endpoint-1: '/organisation/{org_type:string}/{org_id:string}'
       tags:
         - Organisations
+      produces:
+        - application/scim+json
       parameters:
         - $ref: '#/parameters/OrganisationId'
         - $ref: '#/parameters/OrganisationType'
       responses:
         '200':
           description: |
-            Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING
+            Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
   '/organisations/{organisationId}/contacts':
     get:
       summary: Get all contacts for an organisation
