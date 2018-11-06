@@ -65,7 +65,7 @@ paths:
         '201':
           $ref: '#/responses/Enrol201CreatedResponse'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/responses/Enrol400BadRequestResponse'
         '401':
           $ref: '#/responses/401ErrorResponse'
         '500':
@@ -927,6 +927,10 @@ responses:
     description: Created
     schema:
       $ref: '#/definitions/Enrol201CreatedResponsePayload'
+  Enrol400BadRequestResponse:
+    description: Bad Request
+    schema:
+      $ref: '#/definitions/Enrol400BadRequestResponsePayload'
   400ErrorResponse:
     description: Bad Request
     schema:
@@ -939,8 +943,6 @@ responses:
     description: Not found
   500ErrorResponse:
     description: Internal Server Error
-    schema:
-      $ref: '#/definitions/OBErrorResponse1'
   502ErrorResponse:
     description: Bad Gateway
 definitions:
@@ -1112,16 +1114,16 @@ definitions:
           format: uri
         minItems: 1
       token_endpoint_auth_method:
-        description: Token endpoint authentication method, alwas set to "client_secret_post"
+        description: client_secret_post
         type: string
       grant_types:
-        description: Grant types, always set to "client_credentials"
+        description: client_credentials
         type: string
       response_types:
-        description: Response types, always set to "client_credentials"
+        description: client_credentials
         type: string
       scope:
-        description: Client scope, always set to "ASPSPFullAccess"
+        description: ASPSPFullAccess
         type: string
       client_name:
         description: ORG name ar per eIDAS certificate
@@ -1161,6 +1163,17 @@ definitions:
         type: string
       software_version:
         description: Client-supplied software version string
+        type: string
+  Enrol400BadRequestResponsePayload:
+    type: object
+    properties:
+      error:
+        description: invalid_redirect_uri | invalid_client_metadata | invalid_software_statement | unapproved_software_statement | <custom errors?>
+        type: array
+        items:
+          type: string
+      error_description:
+        description: A more detailed error description
         type: string
   OAuthClientProperties:
     type: object
