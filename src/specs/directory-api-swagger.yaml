@@ -87,7 +87,7 @@ paths:
         200:
           description: |
             Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
-  '/organisations/{OrganisationType}/{organisationId}':
+  '/organisations/{organisationType}/{organisationId}':
     get:
       summary: Get all organisation details
       x-draft-endpoint-1: '/organisation/{org_type:string}/{org_id:string}'
@@ -626,7 +626,7 @@ parameters:
   OrganisationType:
     name: organisationType
     description: The organisation type
-    in: query
+    in: path
     type: string
     enum:
       - TPP
