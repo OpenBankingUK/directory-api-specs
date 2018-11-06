@@ -63,7 +63,17 @@ paths:
         - $ref: '#/parameters/Enrol'
       responses:
         '200':
-          $ref: '#/responses/Enrol'
+          description: OK
+        '201':
+          description: Created
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+        '502':
+          $ref: '#/responses/502ErrorResponse'
   '/organisations':
     get:
       summary: Get all organisations that the consumer is authorised to retrieve
@@ -911,6 +921,14 @@ responses:
                   items:
                     $ref: '#/definitions/SoftwareStatement'
         - $ref: '#/definitions/JsonApiLinksMeta'
+  200OKResponse:
+    description: OK
+  201CreatedResponse:
+    description: Created
+  Enrol200OKResponse:
+    description: OK
+  Enrol201CreatedResponse:
+    description: Created
   400ErrorResponse:
     description: Bad request
     schema:
@@ -925,6 +943,8 @@ responses:
     description: Internal Server Error
     schema:
       $ref: '#/definitions/OBErrorResponse1'
+  502ErrorResponse:
+    description: Bad Gateway
 definitions:
   ID:
     description: Generic identifier type
