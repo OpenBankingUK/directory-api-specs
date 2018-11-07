@@ -86,7 +86,7 @@ paths:
       responses:
         200:
           description: |
-            Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
+            Full details of the organisation - SCHEMA NEEDS TO BE DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
   '/organisations/{organisationType}/{organisationId}':
     get:
       summary: Get all organisation details
@@ -96,65 +96,50 @@ paths:
       produces:
         - application/scim+json
       parameters:
-        - $ref: '#/parameters/OrganisationId'
         - $ref: '#/parameters/OrganisationType'
+        - $ref: '#/parameters/OrganisationId'
       responses:
         '200':
           description: |
-            Full details of the organisation - SCHEMA NEEDS TO DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
-  '/organisations/{organisationId}/contacts':
+            Full details of the organisation - SCHEMA NEEDS TO BE DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
+  '/organisations/{organisationType}/{organisationId}/contacts/{contactType}':
     get:
       summary: Get all contacts for an organisation
       tags:
         - Contacts
       parameters:
+        - $ref: '#/parameters/OrganisationType'
         - $ref: '#/parameters/OrganisationId'
         - $ref: '#/parameters/ContactType'
       responses:
         '200':
-          $ref: '#/responses/Contacts'
-  '/organisations/{organisationId}/contacts/{contactId}':
-    parameters:
-      - $ref: '#/parameters/OrganisationId'
-      - $ref: '#/parameters/ContactId'
-    get:
-      summary: Get a given contact by way of contact ID
-      tags:
-        - Contacts
-      responses:
-        '200':
           $ref: '#/responses/Contact'
-        '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          description: Not Found
         '500':
-          $ref: '#/responses/500ErrorResponse'
-    patch:
+          description: Internal Server Error
+        '502':
+          description: Bad Gateway
+    put:
       summary: Update a given contact by way of contact ID
       x-draft-endpoint-1: '/organisation/contacts/business/{org_type:string}/{org_id:string}'
       x-draft-endpoint-2: '/organisation/contacts/technical/{org_type:string}/{org_id:string}'
       tags:
         - Contacts
       parameters:
-        - $ref: '#/parameters/UpdateContact'
+        - $ref: '#/parameters/Contact'
+        - $ref: '#/parameters/OrganisationType'
+        - $ref: '#/parameters/OrganisationId'
+        - $ref: '#/parameters/ContactType'
       responses:
         '200':
           $ref: '#/responses/Contact'
-        '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          description: Not Found
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          description: Internal Server Error
+        '502':
+          description: Bad Gateway
   '/organisations/{organisationId}/software-statements':
     parameters:
       - $ref: '#/parameters/OrganisationId'
@@ -244,7 +229,7 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  /oauth-clients:
+  '/oauth-clients':
     get:
       summary: Get all OAuth clients
       tags:
@@ -483,6 +468,26 @@ parameters:
     in: path
     type: string
     required: true
+  ContactType:
+    name: contactType
+    description: The contact type
+    in: path
+    type: string
+    enum:
+      - business
+      - technical
+    required: true
+  Contact:
+    name: requestBody
+    description: Properties to update business/technical contacts
+    in: body
+    schema:
+      type: object
+      allOf:
+        - $ref: '#/definitions/Contact'
+        - required:
+          - EmailAddress
+          - PhoneNumber
   CreateAuthorisationServer:
     name: requestBody
     description: Properties to create a new authorisation server  (required fields to be validated)
@@ -516,7 +521,7 @@ parameters:
     name: requestBody
     description: |
       Create a new certificate allied to a software statement.
-      
+
       **Approch of encoding certificate in JSON payload requires validation.**
     in: body
     schema:
@@ -580,7 +585,7 @@ parameters:
             - SoftwareStatement
           properties:
             SoftwareStatement:
-              allOf: 
+              allOf:
                 - $ref: '#/definitions/SoftwareStatementProperties'
                 - required:
                   - ClientName
@@ -599,7 +604,7 @@ parameters:
     in: body
     schema:
       type: object
-      allOf: 
+      allOf:
         - $ref: '#/definitions/EnrolPayload'
         - required:
           - redirect_uris
@@ -671,7 +676,7 @@ parameters:
           properties:
             Contact:
               allOf:
-                - $ref: '#/definitions/ContactProperties'
+                - $ref: '#/definitions/Contact'
                 - required:
                     - EmailAddress
                     - PhoneNumber
@@ -798,7 +803,7 @@ responses:
           properties:
             Data:
               type: object
-              required: 
+              required:
                 - CertificateId
               properties:
                 CertificateId:
@@ -823,37 +828,7 @@ responses:
   Contact:
     description: A contact
     schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              required:
-                - Contact
-              properties:
-                Contact:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Contact'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  Contacts:
-    description: List of contacts
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              properties:
-                Contacts:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Contact'
-        - $ref: '#/definitions/JsonApiLinksMeta'
+      $ref: '#/definitions/Contact'
   Enrol:
     description: List of OAuth clients
     schema:
@@ -890,7 +865,7 @@ responses:
     description: New software statement ID
     schema:
       type: object
-      required: 
+      required:
         - SoftwareStatementId
       properties:
         SoftwareStatementId:
@@ -1019,29 +994,13 @@ definitions:
         - CertificateId
         - Type
         - Certificate
-  ContactProperties:
+  Contact:
     type: object
     properties:
       EmailAddress:
         type: string
       PhoneNumber:
         type: string
-  ContactType:
-    type: string
-    enum:
-      - Business
-      - Technical
-  Contact:
-    allOf:
-      - type: object
-        properties:
-          Type:
-            $ref: '#/definitions/ContactType'
-      - $ref: '#/definitions/ContactProperties'
-      - required:
-        - Type
-        - EmailAddress
-        - PhoneNumber
   EnrolPayload:
     type: object
     properties:
