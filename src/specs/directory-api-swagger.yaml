@@ -53,13 +53,14 @@ consumes:
 produces:
   - application/json
 paths:
-  '/enrol':
+  '/organisation/{organisationType}':
     post:
-      summary: Enrol a eIDAS QWAC-bearing TPP
-      description: Enrol an eIDAS QWCA-bearing TPP onto the Open Banking Directory
+      summary: Enrol a eIDAS QWAC-bearing participant
+      description: Enrol an eIDAS QWAC certificate-bearing participant onto the Open Banking Directory.
       tags:
-        - Enrol
+        - Organisations
       parameters:
+        - $ref: '#/parameters/OrganisationType'
         - $ref: '#/parameters/Enrol'
       produces:
         - application/json
@@ -75,7 +76,28 @@ paths:
           $ref: '#/responses/500ErrorResponse'
         '502':
           $ref: '#/responses/502ErrorResponse'
-  '/organisations':
+    put:
+      summary: Get all users
+      description: Enrol an eIDA
+      parameters:
+        - $ref: '#/parameters/OrganisationType'
+      produces:
+        - text/plain
+      responses:
+        '200':
+          description: OK
+          headers:
+            OB-Foo:
+              type: string
+          content:
+            'text/plain':
+              schema:
+                type: string
+            'text/fancy':
+              schema:
+                type: string
+
+
     get:
       summary: Get all organisations that the consumer is authorised to retrieve
       description: Note that this was not in the original design but is included to inform the client
@@ -83,11 +105,17 @@ paths:
         - Organisations
       produces:
         - application/scim+json
+      parameters:
+        - $ref: '#/parameters/OrganisationType'
       responses:
-        200:
+        '200':
           description: |
             Full details of the organisation - SCHEMA NEEDS TO BE DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
-  '/organisations/{organisationType}/{organisationId}':
+          headers:
+            OB-Request-Id:
+              type: string
+              description: Unique Request Id.
+  '/organisation/{organisationType}/{organisationId}':
     get:
       summary: Get all organisation details
       x-draft-endpoint-1: '/organisation/{org_type:string}/{org_id:string}'
@@ -102,7 +130,11 @@ paths:
         '200':
           description: |
             Full details of the organisation - SCHEMA NEEDS TO BE DEFINED, SOURCED FROM PING + OTHER RESPONSE CODES
-  '/organisations/{organisationType}/{organisationId}/contacts/{contactType}':
+          headers:
+            OB-Request-Id:
+              type: string
+              description: Unique Request Id.
+  '/organisation/{organisationType}/{organisationId}/contact/{contactType}':
     get:
       summary: Get all contacts for an organisation
       tags:
@@ -140,8 +172,9 @@ paths:
           description: Internal Server Error
         '502':
           description: Bad Gateway
-  '/organisations/{organisationId}/software-statements':
+  '/organisation/{organisationType}/{organisationId}/software-statement':
     parameters:
+      - $ref: '#/parameters/OrganisationType'
       - $ref: '#/parameters/OrganisationId'
     get:
       summary: Get all software statements for an organisation
@@ -180,7 +213,7 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  '/organisations/{organisationId}/software-statements/{softwareStatementId}':
+  '/organisation/{organisationId}/software-statement/{softwareStatementId}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
       - $ref: '#/parameters/SoftwareStatementId'
@@ -576,28 +609,19 @@ parameters:
     in: body
     schema:
       type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - SoftwareStatement
-          properties:
-            SoftwareStatement:
-              allOf:
-                - $ref: '#/definitions/SoftwareStatementProperties'
-                - required:
-                  - ClientName
-                  - Description
-                  - OnBehalfOfObOrganisation
-                  - PolicyUri
-                  - ClientUri
-                  - LogoUri
-                  - RedirectUri
-                  - Roles
-                  - TermsOfServiceUri
-                  - Version
+      allOf:
+        - $ref: '#/definitions/SoftwareStatementProperties'
+        - required:
+          - ClientName
+          - Description
+          - OnBehalfOfObOrganisation
+          - PolicyUri
+          - ClientUri
+          - LogoUri
+          - RedirectUri
+          - Roles
+          - TermsOfServiceUri
+          - Version
   Enrol:
     name: requestBody
     description: Properties to enrol an eIDAS QWAC-bearing TPP onto the Open Banking Directory (required fields to be validated)
@@ -628,15 +652,17 @@ parameters:
     in: path
     type: string
     required: true
+
   OrganisationType:
     name: organisationType
     description: The organisation type
     in: path
     type: string
     enum:
-      - TPP
-      - ASPSP
+      - tpp
+      - aspsp
     required: true
+
   SoftwareStatementId:
     name: softwareStatementId
     description: The software statement ID
@@ -825,10 +851,16 @@ responses:
                   items:
                     $ref: '#/definitions/Certificate'
         - $ref: '#/definitions/JsonApiLinksMeta'
+
   Contact:
-    description: A contact
+    description: OK
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
     schema:
       $ref: '#/definitions/Contact'
+
   Enrol:
     description: List of OAuth clients
     schema:
@@ -902,32 +934,90 @@ responses:
                   items:
                     $ref: '#/definitions/SoftwareStatement'
         - $ref: '#/definitions/JsonApiLinksMeta'
+
   200OKResponse:
     description: OK
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
   201CreatedResponse:
     description: Created
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
   Enrol201CreatedResponse:
     description: Created
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
     schema:
       $ref: '#/definitions/Enrol201CreatedResponsePayload'
+
   Enrol400BadRequestResponse:
     description: Bad Request
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
     schema:
       $ref: '#/definitions/Enrol400BadRequestResponsePayload'
+
   400ErrorResponse:
     description: Bad Request
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
     schema:
       $ref: '#/definitions/OBErrorResponse1'
+
+  Enrol401ErrorResponse:
+    description: Unauthorized
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
   401ErrorResponse:
     description: Unauthorized
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
   403ErrorResponse:
     description: Forbidden
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
   404ErrorResponse:
     description: Not found
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
   500ErrorResponse:
     description: Internal Server Error
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
   502ErrorResponse:
     description: Bad Gateway
+    headers:
+      OB-Request-Id:
+        type: string
+        description: Unique Request Id.
+
 definitions:
   ID:
     description: Generic identifier type
