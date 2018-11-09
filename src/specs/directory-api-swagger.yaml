@@ -69,28 +69,21 @@ paths:
         '400':
           $ref: '#/components/responses/Enrol400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
-          $ref: '#/responses/502ErrorResponse'
+          $ref: '#/components/responses/502BadGatewayResponse'
     get:
       summary: Get all organisations that the consumer is authorised to retrieve
       description: Note that this was not in the original design but is included to inform the client
       tags:
         - Organisations
-      produces:
-        - application/scim+json
       parameters:
         - $ref: '#/components/parameters/OrganisationType'
       responses:
         '200':
-          description: |
-            Full details of the organisation - SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
-          headers:
-            OB-Request-Id:
-              type: string
-              description: Unique Request Id.
+          $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
   '/organisation/{organisationType}/{organisationId}':
     get:
       summary: Get all organisation details
@@ -903,48 +896,6 @@ responses:
     schema:
       $ref: '#/definitions/OBErrorResponse1'
 
-  Enrol401ErrorResponse:
-    description: Unauthorized
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
-  401ErrorResponse:
-    description: Unauthorized
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
-  403ErrorResponse:
-    description: Forbidden
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
-  404ErrorResponse:
-    description: Not found
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
-  500ErrorResponse:
-    description: Internal Server Error
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
-  502ErrorResponse:
-    description: Bad Gateway
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
 definitions:
   ID:
     description: Generic identifier type
@@ -1262,6 +1213,53 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Enrol400BadRequestResponse'
+    OrganisationGetFromSCIM200OKResponse:
+      description: |
+        Full details of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
+      content:
+        application/scim+json
+          schema:
+            $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponse'
+      headers:
+        OB-Request-Id:
+          schema:
+            type: string
+          description: Unique Request Id.
+    401UnauthorizedResponse:
+      description: Unauthorized
+      headers:
+        OB-Request-Id:
+          schema:
+            type: string
+          description: Unique Request Id.
+    403ForbiddenResponse:
+      description: Forbidden
+      headers:
+        OB-Request-Id:
+          schema:
+            type: string
+          description: Unique Request Id.
+    404NotFoundResponse:
+      description: Not found
+      headers:
+        OB-Request-Id:
+          schema:
+            type: string
+          description: Unique Request Id.
+    502BadGatewayResponse:
+      description: Bad Gateway
+      headers:
+        OB-Request-Id:
+          schema:
+            type: string
+          description: Unique Request Id.
+    500InternalServerErrorResponse:
+      description: Internal Server Error
+      headers:
+        OB-Request-Id:
+          schema:
+            type: string
+          description: Unique Request Id.
   schemas:
     Enrol:
       type: object
@@ -1430,4 +1428,6 @@ components:
       enum:
         - aspsp
         - tpp
+    OrganisationGetFromSCIM200OKResponse:
+      type: object
         
