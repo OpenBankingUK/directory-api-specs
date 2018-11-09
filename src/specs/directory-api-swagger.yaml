@@ -161,7 +161,6 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
     post:
-      x-draft-endpoint-1: '/softwarestatement/{org_type:string}/{org_id:string}'
       summary: Create a software statement
       tags:
         - Software Statements
@@ -169,12 +168,12 @@ paths:
         - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
       requestBody:
-        $ref: '#/components/requestBodies/Enrol'
+        $ref: '#/components/requestBodies/SoftwareStatement'
       responses:
         '201':
           $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
         '400':
-          $ref: '#/components/responses/Enrol400BadRequestResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
@@ -209,12 +208,14 @@ paths:
       tags:
         - Software Statements
       parameters:
-        - $ref: '#/parameters/UpdateSoftwareStatement'
+        - $ref: '#/components/parameters/OrganisationType'
+        - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/SoftwareStatementId'
       requestBody:
-        $ref: '#/components/requestBodies/Enrol'
+        $ref: '#/components/requestBodies/SoftwareStatementState'
       responses:
         '200':
-          $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
+          $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -451,671 +452,6 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-parameters:
-  AuthorisationServerId:
-    name: authorisationServerId
-    description: The authorisation server ID
-    in: path
-    type: string
-    required: true
-  CertificateId:
-    name: certificateId
-    description: The certificate ID
-    in: path
-    type: string
-    required: true
-  ClientId:
-    name: clientId
-    description: The client ID
-    in: path
-    type: string
-    required: true
-  ContactId:
-    name: contactId
-    description: The contact ID
-    in: path
-    type: string
-    required: true
-  CreateAuthorisationServer:
-    name: requestBody
-    description: Properties to create a new authorisation server  (required fields to be validated)
-    in: body
-    schema:
-      allOf:
-        - type: object
-          required:
-            - Data
-          properties:
-            Data:
-              type: object
-              required:
-                - AuthorisationServer
-              properties:
-                AuthorisationServer:
-                  allOf:
-                    - $ref: '#/definitions/AuthorisationServer'
-                    - required:
-                        - AutoRegistrationSupported
-                        - BaseApiDNSUri
-                        - CustomerFriendlyDescription
-                        - CustomerFriendlyLogoUri
-                        - CustomerFriendlyName
-                        - DeveloperPortalUri
-                        - TermsOfService
-                        - OpenIDConfigEndPointUri
-                        - PayloadSigningCertLocation
-    required: true
-  CreateCertificate:
-    name: requestBody
-    description: |
-      Create a new certificate allied to a software statement.
-
-      **Approch of encoding certificate in JSON payload requires validation.**
-    in: body
-    schema:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - Certificate
-          properties:
-            Certificate:
-              allOf:
-                - $ref: '#/definitions/CertificateProperties'
-                - required:
-                  - Type
-                  - Certificate
-  CreateOAuthClient:
-    name: requestBody
-    description: Properties to create a new OAuth Client (required fields to be validated)
-    in: body
-    schema:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - OAuthClient
-          properties:
-            OAuthClient:
-              allOf:
-                - $ref: '#/definitions/OAuthClientProperties'
-                - required:
-                  - ClientId
-                  - Name
-                  - Description
-                  - RedirectUris
-                  - BypassApprovalPage
-                  - RestrictScopes
-                  - RefaultAccessTokenManagerRef
-                  - RestrictedScopes
-                  - ClientAuth
-                  - OidcPolicy
-                  - JwksSettings
-                  - GrantTypes
-  CreateSoftwareStatement:
-    name: requestBody
-    description: Properties to create a software statement (required fields to be validated)
-    in: body
-    schema:
-      type: object
-      allOf:
-        - $ref: '#/definitions/SoftwareStatementProperties'
-        - required:
-          - ClientName
-          - Description
-          - OnBehalfOfObOrganisation
-          - PolicyUri
-          - ClientUri
-          - LogoUri
-          - RedirectUri
-          - Roles
-          - TermsOfServiceUri
-          - Version
-    
-  UpdateAuthorisationServer:
-    name: requestBody
-    description: Properties to update given authorisation server
-    in: body
-    schema:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - AuthorisationServer
-          properties:
-            AuthorisationServer:
-              $ref: '#/definitions/AuthorisationServerProperties'
-    required: true
-  UpdateContact:
-    name: requestBody
-    description: Properties to update contact details
-    in: body
-    schema:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - Contact
-          properties:
-            Contact:
-              allOf:
-                - $ref: '#/definitions/Contact'
-                - required:
-                    - EmailAddress
-                    - PhoneNumber
-    required: true
-  UpdateOAuthClient:
-    name: requestBody
-    description: Update an OAuth client  (only updatable properties included)
-    in: body
-    schema:
-      type: object
-      required:
-       - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - OAuthClient
-          properties:
-            OAuthClient:
-              type: object
-              required:
-                - Active
-              properties:
-                Active:
-                  type: boolean
-    required: true
-  UpdateSoftwareStatement:
-    name: requestBody
-    description: Update a software statement (only updatable properties included)
-    in: body
-    schema:
-      type: object
-      required:
-       - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - SoftwareStatement
-          properties:
-            SoftwareStement:
-              type: object
-              properties:
-                Active:
-                  type: boolean
-                RedirectUri:
-                  type: array
-                  items:
-                    type: string
-                    format: rui
-    required: true
-responses:
-  AuthorisationServer:
-    description: An authorisation server
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              required:
-                - AuthorisationServer
-              properties:
-                AuthorisationServer:
-                  $ref: '#/definitions/AuthorisationServer'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  AuthorisationServerId:
-    description: An authorisation server ID
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              required:
-                - AuthorisationServerId
-              properties:
-                AuthorisationServerId:
-                  $ref: '#/definitions/AuthorisationServerId'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  AuthorisationServers:
-    description: List of authorisation servers
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              properties:
-                AuthorisationServers:
-                  type: array
-                  items:
-                    $ref: '#/definitions/AuthorisationServer'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  Certificate:
-    description: A certificate
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              required:
-                - Certificate
-              properties:
-                Certificate:
-                  $ref: '#/definitions/Certificate'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  CertificateId:
-    description: ID of new certificate
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              required:
-                - CertificateId
-              properties:
-                CertificateId:
-                  $ref: '#/definitions/ID'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  Certificates:
-    description: List of certificates
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              properties:
-                Certificates:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Certificate'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-
-  Enrol:
-    description: List of OAuth clients
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              properties:
-                OAuthClients:
-                  type: array
-                  items:
-                    $ref: '#/definitions/OAuthClient'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  OAuthClients:
-    description: List of OAuth clients
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              properties:
-                OAuthClients:
-                  type: array
-                  items:
-                    $ref: '#/definitions/OAuthClient'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  SoftwareStatementId:
-    description: Software statement ID
-    schema:
-      type: object
-      required:
-        - SoftwareStatementId
-      properties:
-        SoftwareStatementId:
-          $ref: '#/definitions/ID'
-  SoftwareStatement:
-    description: A software statements
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              required:
-                - SoftwareStatement
-              properties:
-                SoftwareStatement:
-                  $ref: '#/definitions/SoftwareStatement'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-  SoftwareStatements:
-    description: List of software statements
-    schema:
-      allOf:
-        - type: object
-          required:
-          - Data
-          properties:
-            Data:
-              type: object
-              properties:
-                SoftwareStatements:
-                  type: array
-                  items:
-                    $ref: '#/definitions/SoftwareStatement'
-        - $ref: '#/definitions/JsonApiLinksMeta'
-
-  200OKResponse:
-    description: OK
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
-  201CreatedResponse:
-    description: Created
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-
-  400ErrorResponse:
-    description: Bad Request
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-    schema:
-      $ref: '#/definitions/OBErrorResponse1'
-
-definitions:
-  ID:
-    description: Generic identifier type
-    type: string
-  AuthorisationServerId:
-    type: string
-  AuthorisationServerProperties:
-    type: object
-    properties:
-      AutoRegistrationSupported:
-        type: boolean
-      BaseApiDNSUri:
-        type: string
-        format: uri
-      CustomerFriendlyDescription:
-        type: string
-      CustomerFriendlyLogoUri:
-        type: string
-      CustomerFriendlyName:
-        type: string
-      DeveloperPortalUri:
-        type: string
-        format: uri
-      TermsOfService:
-        type: string
-        format: uri
-      OpenIDConfigEndPointUri:
-        type: string
-        format: uri
-      PayloadSigningCertLocation:
-        type: string
-        format: uri
-  AuthorisationServer:
-    allOf:
-      - $ref: '#/definitions/AuthorisationServerProperties'
-      - required:
-        - AutoRegistrationSupported
-        - BaseApiDNSUri
-        - CustomerFriendlyDescription
-        - CustomerFriendlyLogoUri
-        - CustomerFriendlyName
-        - DeveloperPortalUri
-        - TermsOfService
-        - OpenIDConfigEndPointUri
-        - PayloadSigningCertLocation
-  CertificateProperties:
-    type: object
-    properties:
-      Type:
-        type: string
-        enum:
-          - Transport
-          - Signing
-      Certificate:
-        type: string
-  Certificate:
-    allOf:
-      - type: object
-        properties:
-          CertificateId:
-            $ref: '#/definitions/ID'
-      - $ref: '#/definitions/CertificateProperties'
-      - required:
-        - CertificateId
-        - Type
-        - Certificate
-  Contact:
-    type: object
-    properties:
-      EmailAddress:
-        type: string
-      PhoneNumber:
-        type: string
-  
-  OAuthClientProperties:
-    type: object
-    properties:
-      ClientId:
-        type: string
-      Name:
-        type: string
-      Description:
-        type: string
-      RedirectUris:
-        type: array
-        items:
-          type: string
-          format: uri
-      BypassApprovalPage:
-        type: boolean
-      RestrictScopes:
-        type: boolean
-      RefaultAccessTokenManagerRef:
-        type: string
-      RestrictedScopes:
-        type: array
-        items:
-          type: string
-      ClientAuth:
-        type: object
-        properties:
-          Type:
-            type: string
-            enum:
-              - CLIENT_SECRET_BASIC
-              - CLIENT_SECRET_POST
-              - PRIVATE_KEY_JWT
-          EnforceReplayPrevention:
-            type: boolean
-      OidcPolicy:
-        type: string
-      JwksSettings:
-        type: object
-        properties:
-          JwksUrl:
-            type: string
-            format: uri
-      GrantTypes:
-        type: array
-        items:
-          type: string
-          enum:
-            - CLIENT_CREDENTIALS
-  OAuthClient:
-    allOf: 
-      - type: object
-        properties:
-          Active:
-            type: boolean
-      - $ref: '#/definitions/OAuthClientProperties'
-      - required:
-        - Active
-        - ClientId
-        - Name
-        - Description
-        - RedirectUris
-        - BypassApprovalPage
-        - RestrictScopes
-        - RefaultAccessTokenManagerRef
-        - RestrictedScopes
-        - ClientAuth
-        - OidcPolicy
-        - JwksSettings
-        - GrantTypes
-  SoftwareStatementProperties:
-    
-  SoftwareStatement:
-    allOf:
-      - type: object
-        properties:
-          Active:
-            type: boolean
-      - $ref: '#/definitions/SoftwareStatementProperties'
-      - required:
-        - Active
-        - ClientName
-        - Description
-        - OnBehalfOfObOrganisation
-        - PolicyUri
-        - ClientUri
-        - LogoUri
-        - RedirectUri
-        - Roles
-        - TermsOfServiceUri
-        - Version
-  OBError1:
-    type: object
-    properties:
-      ErrorCode:
-        description: 'Low level textual error code, e.g., UK.OBIE.Field.Missing'
-        type: string
-        minLength: 1
-        maxLength: 128
-      Message:
-        description: >-
-          A description of the error that occurred. e.g., 'A mandatory field
-          isn't supplied' or 'RequestedExecutionDateTime must be in future'
-
-          OBIE doesn't standardise this field
-        type: string
-        minLength: 1
-        maxLength: 500
-      Path:
-        description: >-
-          Recommended but optional reference to the JSON Path of the field with
-          error, e.g., Data.Initiation.InstructedAmount.Currency
-        type: string
-        minLength: 1
-        maxLength: 500
-      Url:
-        description: >-
-          URL to help remediate the problem, or provide more information, or to
-          API Reference, or help etc
-        type: string
-    required:
-      - ErrorCode
-      - Message
-    additionalProperties: false
-    minProperties: 1
-  OBErrorResponse1:
-    description: >-
-      An array of detail error codes, and messages, and URLs to documentation to
-      help remediation.
-    type: object
-    properties:
-      Code:
-        description: 'High level textual error code, to help categorize the errors.'
-        type: string
-        minLength: 1
-        maxLength: 40
-      Id:
-        description: >-
-          A unique reference for the error instance, for audit purposes, in case
-          of unknown/unclassified errors.
-        type: string
-        minLength: 1
-        maxLength: 40
-      Message:
-        description: >-
-          Brief Error message, e.g., 'There is something wrong with the request
-          parameters provided'
-        type: string
-        minLength: 1
-        maxLength: 500
-      Errors:
-        items:
-          $ref: '#/definitions/OBError1'
-        type: array
-        minItems: 1
-    required:
-      - Code
-      - Message
-      - Errors
-    additionalProperties: false
-  JsonApiLinksMeta:
-    type: object
-    properties:
-      Links:
-        $ref: '#/definitions/Links'
-      Meta:
-        $ref: '#/definitions/Meta'
-    additionalProperties: false
-  Links:
-    type: object
-    description: Links relevant to the payload
-    properties:
-      Self:
-        description: >-
-          A link to the resource that represents this payee (will only be
-          returned from lookup if matched or close match)
-        type: string
-        format: uri
-  Meta:
-    type: object
-    description: Meta Data relevant to the payload
-
-
-
 components:
   parameters:
     ContactType:
@@ -1151,7 +487,7 @@ components:
       description: Properties to update business/technical contacts
       required: true
       content:
-        application/json:
+        application/vnd.openbanking.directory.orgcontact-v2+json:
           schema:
             $ref: '#/components/schemas/ContactSchema'
     CertificateOrKey:
@@ -1168,6 +504,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
+    SoftwareStatement:
+      description: Software Statement payload
+      required: true
+      content:
+        application/vnd.openbanking.directory.softwarestatement-v2+json:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementCreateSchema'
+    SoftwareStatementState:
+      description:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementStateSchema'
   responses:
     400BadRequestResponse:
       description: Bad Request
@@ -1232,7 +582,7 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/vnd.openbanking.directory.orgcontacts-v2+json:
+        application/vnd.openbanking.directory.orgcontact-v2+json:
           schema:
             $ref: '#/components/schemas/ContactSchema'
     Enrol201CreatedResponse:
@@ -1278,25 +628,35 @@ components:
           schema:
             $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponseSchema'
     SoftwareStatementsGet200OKResponse:
-      description: The list of all software statements for the given organisation
+      description: OK
       headers:
         OB-Request-Id:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/vnd.openbanking.directory.softwarestatements-v2+json:
+        application/json:
           schema:
-            $ref: '#/components/schemas/SoftwareStatementsGetSchema'
+            $ref: '#/components/schemas/SoftwareStatementsSchema'
     SoftwareStatement201CreatedResponse:
-      description: Create a software statement for the given organisation id
+      description: Created
       headers:
         OB-Request-Id:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/vnd.openbanking.directory.softwarestatements-v2+json:
+        application/vnd.openbanking.directory.softwarestatement-v2+json:
           schema:
-            $ref: '#/components/schemas/SoftwareStatement201CreatedSchema'
+            $ref: '#/components/schemas/SoftwareStatementSchema'
+    SoftwareStatementUpdated200OKResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/vnd.openbanking.directory.softwarestatement-v2+json:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementSchema'
     SoftwareStatementGet200OKResponse:
       description: Get the software statements with the given id
       headers:
@@ -1304,9 +664,9 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/vnd.openbanking.directory.softwarestatements-v2+json:
+        application/vnd.openbanking.directory.softwarestatement-v2+json:
           schema:
-            $ref: '#/components/schemas/SoftwareStatementGetSchema'
+            $ref: '#/components/schemas/SoftwareStatementSchema'
   schemas:
     CertificatesOrKeysGetSchema:
       type: array
@@ -1359,70 +719,68 @@ components:
         - technical
     EnrolSchema:
       type: object
-      additionalProperties:
-        type: object
-        properties:
-          redirect_uris:
-            type: array
-            items:
-              type: string
-              format: uri
-          token_endpoint_auth_method:
-            type: string
-          grant_types:
-            type: array
-            items:
-              type: string
-          response_types:
-            type: array
-            items:
-              type: string
-          client_name:
-            type: string
-          client_uri:
+      properties:
+        redirect_uris:
+          type: array
+          items:
             type: string
             format: uri
-          logo_uri:
+        token_endpoint_auth_method:
+          type: string
+        grant_types:
+          type: array
+          items:
             type: string
-            format: uri
-          scope:
+        response_types:
+          type: array
+          items:
             type: string
-          contacts:
-            type: array
-            items:
-              type: string
-              format: email
-          tos_uri:
+        client_name:
+          type: string
+        client_uri:
+          type: string
+          format: uri
+        logo_uri:
+          type: string
+          format: uri
+        scope:
+          type: string
+        contacts:
+          type: array
+          items:
             type: string
-            format: uri
-          policy_uri:
-            type: string
-            format: uri
-          jwks_uri:
-            type: string
-            format: uri
-          jwks:
-            type: object
-          software_id:
-            type: string
-          software_version:
-            type: string
-        required:
-          - redirect_uris
-          - token_endpoint_auth_method
-          - grant_types
-          - response_types
-          - client_name
-          - client_uri
-          - logo_uri
-          - scope
-          - contacts
-          - tos_uri
-          - policy_uri
-          - jwks_uri
-          - jwks
-          - software_id
-          - software_version
+            format: email
+        tos_uri:
+          type: string
+          format: uri
+        policy_uri:
+          type: string
+          format: uri
+        jwks_uri:
+          type: string
+          format: uri
+        jwks:
+          type: object
+        software_id:
+          type: string
+        software_version:
+          type: string
+      required:
+        - redirect_uris
+        - token_endpoint_auth_method
+        - grant_types
+        - response_types
+        - client_name
+        - client_uri
+        - logo_uri
+        - scope
+        - contacts
+        - tos_uri
+        - policy_uri
+        - jwks_uri
+        - jwks
+        - software_id
+        - software_version
     Enrol201CreatedResponseSchema:
       description: >-
         A JSON object DCR response returned when client gets created.
@@ -1532,7 +890,7 @@ components:
         type: object
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
-    SoftwareStatement201CreatedSchema:
+    SoftwareStatementCreateSchema:
       type: object
       properties:
         ClientName:
@@ -1575,7 +933,7 @@ components:
         Version:
           type: string
           description: Software Statement version as provided by the organisation's PTC
-    SoftwareStatementGetSchema:
+    SoftwareStatementSchema:
       type: object
       properties:
         Active:
@@ -1641,14 +999,23 @@ components:
         Version:
           type: string
           description: Software Statement version as provided by the organisation's PTC
-    SoftwareStatementsGetSchema:
+    SoftwareStatementsSchema:
       type: array
       items:
-        $ref: '#/components/schemas/SoftwareStatementGetSchema'
+        $ref: '#/components/schemas/SoftwareStatementSchema'
       description: The list of Software Statements
     SoftwareStatementIdSchema:
       type: string
       description: Software Statement Id
+    SoftwareStatementStateSchema:
+      type: object
+      properties:
+        Active:
+          type: boolean
+          enum:
+            - true
+            - false
+      description: Software Statement State
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id
