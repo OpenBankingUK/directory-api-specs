@@ -110,7 +110,7 @@ paths:
         '200':
           $ref: '#/components/responses/Contact200OKResponse'
         '400':
-          $ref: '#/components/responses/Enrol400BadRequestResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
@@ -132,12 +132,14 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Contact200OKResponse'
-        '404':
-          description: Not Found
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
-          description: Bad Gateway
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -150,7 +152,7 @@ paths:
         '200':
           $ref: '#/components/responses/SoftwareStatementsGet200OKResponse'
         '400':
-          $ref: '#/components/responses/Enrol400BadRequestResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
@@ -163,48 +165,40 @@ paths:
       tags:
         - Software Statements
       parameters:
-        - $ref: '#/parameters/CreateSoftwareStatement'
+        - $ref: '#/components/parameters/OrganisationType'
+        - $ref: '#/components/parameters/OrganisationId'
       responses:
         '201':
-          $ref: '#/responses/SoftwareStatementId'
+          $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/components/responses/Enrol400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
-        '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
-  '/organisation/{organisationId}/software-statement/{softwareStatementId}':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}':
     parameters:
-      - $ref: '#/parameters/OrganisationId'
-      - $ref: '#/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
     get:
       summary: Get a software statement
       tags:
         - Software Statements
-      parameters:
-        - name: assertion
-          description: Get the assertion rather than the software statement
-          in: query
-          type: boolean
-          required: false
       responses:
         '200':
-          $ref: '#/responses/SoftwareStatement'
+          $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
-        '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
-    patch:
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+    put:
       x-draft-endpoint-1: '/softwarestatement/active/{softwarestatement_id:string}'
       summary: Update a software statement
       tags:
@@ -213,19 +207,15 @@ paths:
         - $ref: '#/parameters/UpdateSoftwareStatement'
       responses:
         '200':
-          description: Updated
-          schema:
-            $ref: '#/responses/SoftwareStatement'
+          $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
-        '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/oauth-clients':
     get:
       summary: Get all OAuth clients
@@ -566,13 +556,6 @@ parameters:
           - Roles
           - TermsOfServiceUri
           - Version
-
-  SoftwareStatementId:
-    name: softwareStatementId
-    description: The software statement ID
-    in: path
-    type: string
-    required: true
     
   UpdateAuthorisationServer:
     name: requestBody
@@ -790,7 +773,7 @@ responses:
                     $ref: '#/definitions/OAuthClient'
         - $ref: '#/definitions/JsonApiLinksMeta'
   SoftwareStatementId:
-    description: New software statement ID
+    description: Software statement ID
     schema:
       type: object
       required:
@@ -1110,6 +1093,8 @@ definitions:
     type: object
     description: Meta Data relevant to the payload
 
+
+
 components:
   parameters:
     ContactType:
@@ -1133,6 +1118,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/OrganisationIdSchema'
+    SoftwareStatementId:
+      name: SoftwareStatementId
+      description: The software statement ID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/SoftwareStatementIdSchema'
   requestBodies:
     Contact:
       description: Properties to update business/technical contacts
@@ -1149,6 +1141,12 @@ components:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
   responses:
+    400BadRequestResponse:
+      description: Bad Request
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
     401UnauthorizedResponse:
       description: Unauthorized
       headers:
@@ -1231,16 +1229,6 @@ components:
         application/scim+json:
           schema:
             $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponseSchema'
-    SoftwareStatementGet200OKResponse:
-      description: Get the software statements with the given id
-      headers:
-        OB-Request-Id:
-          schema:
-            $ref: '#/components/schemas/UniqueRequestIdSchema'
-      content:
-        application/vnd.openbanking.directory.softwarestatements-v2+json:
-          schema:
-            $ref: '#/components/schemas/SoftwareStatementGetSchema'
     SoftwareStatementsGet200OKResponse:
       description: The list of all software statements for the given organisation
       headers:
@@ -1251,6 +1239,26 @@ components:
         application/vnd.openbanking.directory.softwarestatements-v2+json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementsGetSchema'
+    SoftwareStatement201CreatedResponse:
+      description: Create a software statement for the given organisation id
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/vnd.openbanking.directory.softwarestatements-v2+json:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatement201CreatedSchema'
+    SoftwareStatementGet200OKResponse:
+      description: Get the software statements with the given id
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/vnd.openbanking.directory.softwarestatements-v2+json:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementGetSchema'
   schemas:
     ContactSchema:
       type: object
@@ -1439,94 +1447,123 @@ components:
         type: object
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
-    SoftwareStatementCreateSchema:
+    SoftwareStatement201CreatedSchema:
       type: object
       properties:
         ClientName:
           type: string
+          description: Software Statement client name
         Description:
           type: string
+          description: Software Statement description
         OnBehalfOfObOrganisation:
           type: string
+          description: Organisation Id
         PolicyUri:
           type: string
           format: uri
+          description: The Software Statement policy URI
         ClientUri:
           type: string
           format: uri
+          description: The Software Statement client URI
         LogoUri:
           type: string
           format: uri
+          description: The Software Statement logo URI
         RedirectUri:
           type: array
           items:
             type: string
             format: uri
+          description: The Software Statement redirect URI
         Roles:
           type: array
           items:
             type: string
             format: uri
+          description: The list of Software Statement roles
         TermsOfServiceUri:
           type: string
           format: uri
+          description: The Software Statement terms of service URI
         Version:
           type: string
+          description: Software Statement version as provided by the organisation's PTC
     SoftwareStatementGetSchema:
       type: object
       properties:
         Active:
           type: boolean
+          description: Software Statement active/inactive flag
         ClientId:
           type: string
+          description: Software Statement client Id
         ClientName:
           type: string
+          description: Software Statement client name
         Description:
           type: string
+          description: Software Statement description
         Id:
-          type: string
+          $ref: '#/components/schemas/SoftwareStatementIdSchema'
         Mode:
           type: string
+          description: Software Statement mode
         ObClientCreated:
           type: boolean
+          description: Client created flag
         OnBehalfOfObOrganisation:
           type: string
+          description: Organisation Id
         PolicyUri:
           type: string
           format: uri
+          description: The Software Statement policy URI
         ClientUri:
           type: string
           format: uri
+          description: The Software Statement client URI
         LogoUri:
           type: string
           format: uri
+          description: The Software Statement logo URI
         RedirectUri:
           type: array
           items:
             type: string
             format: uri
+          description: The Software Statement redirect URI
         Roles:
           type: array
           items:
             type: string
-            format: uri
+          description: The list of Software Statement roles
         SigningKeyIds:
           type: array
           items:
             type: string
+          description: The list of signing certificate Ids
         TermsOfServiceUri:
           type: string
           format: uri
+          description: The Software Statement terms of service URI
         TransportKeyIds:
           type: array
           items:
             type: string
+          description: The list of transport certificate Ids
         Version:
           type: string
+          description: Software Statement version as provided by the organisation's PTC
     SoftwareStatementsGetSchema:
       type: array
       items:
         $ref: '#/components/schemas/SoftwareStatementGetSchema'
+      description: The list of Software Statements
+    SoftwareStatementIdSchema:
+      type: string
+      description: Software Statement Id
     UniqueRequestIdSchema:
       type: string
-      description: Unique Request Id.
+      description: Unique Request Id
