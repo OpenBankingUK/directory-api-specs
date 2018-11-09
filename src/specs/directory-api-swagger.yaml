@@ -138,17 +138,17 @@ paths:
           description: Internal Server Error
         '502':
           description: Bad Gateway
-  '/organisation/{organisationType}/{organisationId}/software-statement':
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statement':
     parameters:
-      - $ref: '#/parameters/OrganisationType'
-      - $ref: '#/parameters/OrganisationId'
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
     get:
       summary: Get all software statements for an organisation
       tags:
         - Software Statements
       responses:
         '200':
-          $ref: '#/responses/SoftwareStatements'
+          $ref: '#/components/responses/SoftwareStatementsGet200OKResponse'
         '400':
           $ref: '#/components/responses/Enrol400BadRequestResponse'
         '401':
@@ -999,38 +999,7 @@ definitions:
         - JwksSettings
         - GrantTypes
   SoftwareStatementProperties:
-    type: object
-    properties:
-      ClientName:
-        type: string
-      Description:
-        type: string
-      OnBehalfOfObOrganisation:
-        type: string
-      PolicyUri:
-        type: string
-        format: uri
-      ClientUri:
-        type: string
-        format: uri
-      LogoUri:
-        type: string
-        format: uri
-      RedirectUri:
-        type: array
-        items:
-          type: string
-          format: uri
-      Roles:
-        type: array
-        items:
-          type: string
-          format: uri
-      TermsOfServiceUri:
-        type: string
-        format: uri
-      Version:
-        type: string
+    
   SoftwareStatement:
     allOf:
       - type: object
@@ -1180,6 +1149,36 @@ components:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
   responses:
+    401UnauthorizedResponse:
+      description: Unauthorized
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    403ForbiddenResponse:
+      description: Forbidden
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    404NotFoundResponse:
+      description: Not found
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    502BadGatewayResponse:
+      description: Bad Gateway
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    500InternalServerErrorResponse:
+      description: Internal Server Error
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
     Contact200OKResponse:
       description: OK
       headers:
@@ -1232,36 +1231,26 @@ components:
         application/scim+json:
           schema:
             $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponseSchema'
-    401UnauthorizedResponse:
-      description: Unauthorized
+    SoftwareStatementGet200OKResponse:
+      description: Get the software statements with the given id
       headers:
         OB-Request-Id:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
-    403ForbiddenResponse:
-      description: Forbidden
+      content:
+        application/vnd.openbanking.directory.softwarestatements-v2+json:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementGetSchema'
+    SoftwareStatementsGet200OKResponse:
+      description: The list of all software statements for the given organisation
       headers:
         OB-Request-Id:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
-    404NotFoundResponse:
-      description: Not found
-      headers:
-        OB-Request-Id:
+      content:
+        application/vnd.openbanking.directory.softwarestatements-v2+json:
           schema:
-            $ref: '#/components/schemas/UniqueRequestIdSchema'
-    502BadGatewayResponse:
-      description: Bad Gateway
-      headers:
-        OB-Request-Id:
-          schema:
-            $ref: '#/components/schemas/UniqueRequestIdSchema'
-    500InternalServerErrorResponse:
-      description: Internal Server Error
-      headers:
-        OB-Request-Id:
-          schema:
-            $ref: '#/components/schemas/UniqueRequestIdSchema'
+            $ref: '#/components/schemas/SoftwareStatementsGetSchema'
   schemas:
     ContactSchema:
       type: object
@@ -1450,6 +1439,94 @@ components:
         type: object
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
+    SoftwareStatementCreateSchema:
+      type: object
+      properties:
+        ClientName:
+          type: string
+        Description:
+          type: string
+        OnBehalfOfObOrganisation:
+          type: string
+        PolicyUri:
+          type: string
+          format: uri
+        ClientUri:
+          type: string
+          format: uri
+        LogoUri:
+          type: string
+          format: uri
+        RedirectUri:
+          type: array
+          items:
+            type: string
+            format: uri
+        Roles:
+          type: array
+          items:
+            type: string
+            format: uri
+        TermsOfServiceUri:
+          type: string
+          format: uri
+        Version:
+          type: string
+    SoftwareStatementGetSchema:
+      type: object
+      properties:
+        Active:
+          type: boolean
+        ClientId:
+          type: string
+        ClientName:
+          type: string
+        Description:
+          type: string
+        Id:
+          type: string
+        Mode:
+          type: string
+        ObClientCreated:
+          type: boolean
+        OnBehalfOfObOrganisation:
+          type: string
+        PolicyUri:
+          type: string
+          format: uri
+        ClientUri:
+          type: string
+          format: uri
+        LogoUri:
+          type: string
+          format: uri
+        RedirectUri:
+          type: array
+          items:
+            type: string
+            format: uri
+        Roles:
+          type: array
+          items:
+            type: string
+            format: uri
+        SigningKeyIds:
+          type: array
+          items:
+            type: string
+        TermsOfServiceUri:
+          type: string
+          format: uri
+        TransportKeyIds:
+          type: array
+          items:
+            type: string
+        Version:
+          type: string
+    SoftwareStatementsGetSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/SoftwareStatementGetSchema'
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id.
