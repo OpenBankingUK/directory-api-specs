@@ -96,7 +96,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
-              
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
   '/organisation/{OrganisationType}/{OrganisationId}/contact/{ContactType}':
     get:
       summary: Get all business/technical contacts for an organisation
@@ -167,6 +168,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
+      requestBody:
+        $ref: '#/components/requestBodies/Enrol'
       responses:
         '201':
           $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
@@ -194,6 +197,8 @@ paths:
           $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -205,11 +210,15 @@ paths:
         - Software Statements
       parameters:
         - $ref: '#/parameters/UpdateSoftwareStatement'
+      requestBody:
+        $ref: '#/components/requestBodies/Enrol'
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
@@ -264,17 +273,25 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
-  '/organisations/{organisationId}/software-statements/{softwareStatementId}/certificates':
+  '/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate':
     parameters:
-      - $ref: '#/parameters/OrganisationId'
-      - $ref: '#/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
     get:
-      summary: Get the certificates supporting a software statement
+      summary: Get the certificates for the given software statement
       tags:
         - Certificates
       responses:
         '200':
-          $ref: '#/responses/Certificates'
+          $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
     post:
       x-draft-endpoint-1: >-
         /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}
@@ -284,20 +301,21 @@ paths:
       tags:
         - Certificates
       parameters:
-        - $ref: '#/parameters/CreateCertificate'
+        - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/SoftwareStatementId'
+      requestBody:
+        $ref: '#/components/requestBodies/CertificateOrKey'
       responses:
         '201':
-          $ref: '#/responses/CertificateId'
+          $ref: '#/components/responses/CertificateId'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
-        '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisations/{organisationId}/software-statements/{softwareStatementId}/certificates/{certificateId}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
@@ -308,8 +326,10 @@ paths:
       tags:
         - Certificates
       responses:
-        200:
-          $ref: '#/responses/Certificate'
+        '200':
+          $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
     delete:
       x-draft-endpoint-1: >-
         /certificates/openbanking/transport/softwarestatement/{softwarestatement_id:string}/{certificate_kid:string}
@@ -333,6 +353,7 @@ paths:
           $ref: '#/responses/404ErrorResponse'
         '500':
           $ref: '#/responses/500ErrorResponse'
+          
   '/organisations/{organisationId}/authorisation-servers':
     parameters:
       - $ref: '#/parameters/OrganisationId'
@@ -1133,6 +1154,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ContactSchema'
+    CertificateOrKey:
+      description: PEM file
+      required: true
+      content:
+        application/x-pem-file:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeySchema'
     Enrol:
       description: Properties to enrol an eIDAS QWAC-bearing TPP onto the Open Banking Directory (required fields to be validated)
       required: true
@@ -1173,6 +1201,26 @@ components:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
     500InternalServerErrorResponse:
       description: Internal Server Error
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    CertificatesOrKeysGet200OKResponse:
+      description: OK
+      content:
+        application/jwk-set+json:
+          schema:
+            $ref: '#/components/schemas/CertificatesOrKeysGetSchema'
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    CertificateOrKeyGet200OKResponse:
+      description: OK
+      content:
+        application/jwk+json:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeyGetSchema'
       headers:
         OB-Request-Id:
           schema:
@@ -1260,6 +1308,43 @@ components:
           schema:
             $ref: '#/components/schemas/SoftwareStatementGetSchema'
   schemas:
+    CertificatesOrKeysGetSchema:
+      type: array
+      items: 
+        $ref: '#/components/schemas/CertificateOrKeyGetSchema'
+    CertificateOrKeyGetSchema:
+      type: object
+      properties:
+        obOrganisationId:
+          description: OB organisation Id
+          type: string
+        softwareStatementId:
+          description: Software Statement Id
+          type: string
+        status:
+          type: string
+        e:
+          type: string
+        keyType:
+          type: string
+        kid:
+          type: string
+        kty:
+          type: string
+        n:
+          type: string
+        use:
+          type: string
+        x5c:
+          type: string
+        x5t:
+          type: string
+        x5t#256s:
+          type: string
+        x5u:
+          type: string
+    CertificateOrKeySchema:
+      type: string
     ContactSchema:
       type: object
       properties:
