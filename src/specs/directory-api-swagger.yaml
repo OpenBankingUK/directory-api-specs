@@ -97,38 +97,41 @@ paths:
         '200':
           $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
               
-  '/organisation/{organisationType}/{organisationId}/contact/{contactType}':
+  '/organisation/{OrganisationType}/{OrganisationId}/contact/{ContactType}':
     get:
-      summary: Get all contacts for an organisation
+      summary: Get all business/technical contacts for an organisation
       tags:
         - Contacts
       parameters:
-        - $ref: '#/parameters/OrganisationType'
-        - $ref: '#/parameters/OrganisationId'
-        - $ref: '#/parameters/ContactType'
+        - $ref: '#/components/parameters/OrganisationType'
+        - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/ContactType'
       responses:
         '200':
-          $ref: '#/responses/Contact'
-        '404':
-          description: Not Found
+          $ref: '#/components/responses/Contact200OKResponse'
+        '400':
+          $ref: '#/components/responses/Enrol400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
-          description: Bad Gateway
+          $ref: '#/components/responses/502BadGatewayResponse'
     put:
-      summary: Update a given contact by way of contact ID
+      summary: Update a given contact
       x-draft-endpoint-1: '/organisation/contacts/business/{org_type:string}/{org_id:string}'
       x-draft-endpoint-2: '/organisation/contacts/technical/{org_type:string}/{org_id:string}'
       tags:
         - Contacts
       parameters:
-        - $ref: '#/parameters/Contact'
-        - $ref: '#/parameters/OrganisationType'
-        - $ref: '#/parameters/OrganisationId'
-        - $ref: '#/parameters/ContactType'
+        - $ref: '#/components/parameters/OrganisationType'
+        - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/ContactType'
+      requestBody:
+        $ref: '#/components/requestBodies/Contact'
       responses:
         '200':
-          $ref: '#/responses/Contact'
+          $ref: '#/components/responses/Contact200OKResponse'
         '404':
           description: Not Found
         '500':
@@ -147,15 +150,13 @@ paths:
         '200':
           $ref: '#/responses/SoftwareStatements'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/components/responses/Enrol400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
-        '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
     post:
       x-draft-endpoint-1: '/softwarestatement/{org_type:string}/{org_id:string}'
       summary: Create a software statement
@@ -464,26 +465,6 @@ parameters:
     in: path
     type: string
     required: true
-  ContactType:
-    name: contactType
-    description: The contact type
-    in: path
-    type: string
-    enum:
-      - business
-      - technical
-    required: true
-  Contact:
-    name: requestBody
-    description: Properties to update business/technical contacts
-    in: body
-    schema:
-      type: object
-      allOf:
-        - $ref: '#/definitions/Contact'
-        - required:
-          - EmailAddress
-          - PhoneNumber
   CreateAuthorisationServer:
     name: requestBody
     description: Properties to create a new authorisation server  (required fields to be validated)
@@ -775,15 +756,6 @@ responses:
                   items:
                     $ref: '#/definitions/Certificate'
         - $ref: '#/definitions/JsonApiLinksMeta'
-
-  Contact:
-    description: OK
-    headers:
-      OB-Request-Id:
-        type: string
-        description: Unique Request Id.
-    schema:
-      $ref: '#/definitions/Contact'
 
   Enrol:
     description: List of OAuth clients
@@ -1171,6 +1143,13 @@ definitions:
 
 components:
   parameters:
+    ContactType:
+      name: ContactType
+      description: The contact type
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/ContactTypeSchema'
     OrganisationType:
       name: OrganisationType
       description: OB Organisation Type
@@ -1182,9 +1161,17 @@ components:
       name: OrganisationId
       description: The organsation ID
       in: path
+      required: true
       schema:
         $ref: '#/components/schemas/OrganisationIdSchema'
   requestBodies:
+    Contact:
+      description: Properties to update business/technical contacts
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ContactSchema'
     Enrol:
       description: Properties to enrol an eIDAS QWAC-bearing TPP onto the Open Banking Directory (required fields to be validated)
       required: true
@@ -1193,6 +1180,16 @@ components:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
   responses:
+    Contact200OKResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/vnd.openbanking.directory.orgcontacts-v2+json:
+          schema:
+            $ref: '#/components/schemas/ContactSchema'
     Enrol201CreatedResponse:
       description: Created
       headers:
@@ -1266,6 +1263,18 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
   schemas:
+    ContactSchema:
+      type: object
+      properties:
+        EmailAddress:
+          type: string
+        PhoneNumber:
+          type: string
+    ContactTypeSchema:
+      type: string
+      enum:
+        - business
+        - technical
     EnrolSchema:
       type: object
       additionalProperties:
