@@ -83,26 +83,19 @@ paths:
         - $ref: '#/components/parameters/OrganisationType'
       responses:
         '200':
-          $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
-  '/organisation/{organisationType}/{organisationId}':
+          $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
+  '/organisation/{OrganisationType}/{OrganisationId}':
     get:
       summary: Get all organisation details
       x-draft-endpoint-1: '/organisation/{org_type:string}/{org_id:string}'
       tags:
         - Organisations
-      produces:
-        - application/scim+json
       parameters:
-        - $ref: '#/parameters/OrganisationType'
-        - $ref: '#/parameters/OrganisationId'
+        - $ref: '#/components/parameters/OrganisationType'
+        - $ref: '#/components/parameters/OrganisationId'
       responses:
         '200':
-          description: |
-            Full details of the organisation - SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
-          headers:
-            OB-Request-Id:
-              type: string
-              description: Unique Request Id.
+          $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
               
   '/organisation/{organisationType}/{organisationId}/contact/{contactType}':
     get:
@@ -592,13 +585,6 @@ parameters:
           - Roles
           - TermsOfServiceUri
           - Version
-
-  OrganisationId:
-    name: organisationId
-    description: The organsation ID
-    in: path
-    type: string
-    required: true
 
   SoftwareStatementId:
     name: softwareStatementId
@@ -1187,11 +1173,17 @@ components:
   parameters:
     OrganisationType:
       name: OrganisationType
-      in: path
       description: OB Organisation Type
+      in: path
       required: true
       schema:
-        $ref: '#/components/schemas/OrganisationType'
+        $ref: '#/components/schemas/OrganisationTypeSchema'
+    OrganisationId:
+      name: OrganisationId
+      description: The organsation ID
+      in: path
+      schema:
+        $ref: '#/components/schemas/OrganisationIdSchema'
   requestBodies:
     Enrol:
       description: Properties to enrol an eIDAS QWAC-bearing TPP onto the Open Banking Directory (required fields to be validated)
@@ -1199,69 +1191,82 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Enrol'
+            $ref: '#/components/schemas/EnrolSchema'
   responses:
     Enrol201CreatedResponse:
       description: Created
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Enrol201CreatedResponse'
-    Enrol400BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Enrol400BadRequestResponse'
-    OrganisationGetFromSCIM200OKResponse:
-      description: |
-        Full details of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
-      content:
-        application/scim+json
-          schema:
-            $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponse'
       headers:
         OB-Request-Id:
           schema:
-            type: string
-          description: Unique Request Id.
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Enrol201CreatedResponseSchema'
+    Enrol400BadRequestResponse:
+      description: Bad Request
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Enrol400BadRequestResponseSchema'
+    OrganisationsGetFromSCIM200OKResponse:
+      description: |
+        List of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/OrganisationsGetFromSCIM200OKResponseSchema'
+    OrganisationGetFromSCIM200OKResponse:
+      description: |
+        Full details of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponseSchema'
     401UnauthorizedResponse:
       description: Unauthorized
       headers:
         OB-Request-Id:
           schema:
-            type: string
-          description: Unique Request Id.
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
     403ForbiddenResponse:
       description: Forbidden
       headers:
         OB-Request-Id:
           schema:
-            type: string
-          description: Unique Request Id.
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
     404NotFoundResponse:
       description: Not found
       headers:
         OB-Request-Id:
           schema:
-            type: string
-          description: Unique Request Id.
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
     502BadGatewayResponse:
       description: Bad Gateway
       headers:
         OB-Request-Id:
           schema:
-            type: string
-          description: Unique Request Id.
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
     500InternalServerErrorResponse:
       description: Internal Server Error
       headers:
         OB-Request-Id:
           schema:
-            type: string
-          description: Unique Request Id.
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
   schemas:
-    Enrol:
+    EnrolSchema:
       type: object
       additionalProperties:
         type: object
@@ -1327,7 +1332,7 @@ components:
           - jwks
           - software_id
           - software_version
-    Enrol201CreatedResponse:
+    Enrol201CreatedResponseSchema:
       description: >-
         A JSON object DCR response returned when client gets created.
       type: object
@@ -1409,7 +1414,7 @@ components:
         software_version:
           description: Client-supplied software version string
           type: string
-    Enrol400BadRequestResponse:
+    Enrol400BadRequestResponseSchema:
       type: object
       properties:
         error:
@@ -1423,11 +1428,19 @@ components:
         error_description:
           description: A more detailed error description
           type: string
-    OrganisationType:
+    OrganisationTypeSchema:
       type: string
       enum:
         - aspsp
         - tpp
-    OrganisationGetFromSCIM200OKResponse:
+    OrganisationIdSchema:
+      type: string
+    OrganisationsGetFromSCIM200OKResponseSchema:
+      type: array
+      items:
+        type: object
+    OrganisationGetFromSCIM200OKResponseSchema:
       type: object
-        
+    UniqueRequestIdSchema:
+      type: string
+      description: Unique Request Id.
