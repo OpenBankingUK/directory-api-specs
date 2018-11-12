@@ -2,56 +2,7 @@ openapi: 3.0.0
 info:
   title: Open Banking Directory API
   version: 0.0.1
-  description: >
-
-    ## Status
-
-    There's a number of points that need to be progressed into next version:
-    
-    * Need to ensure that all required operations are covered.
-    
-    * Add `operationId` (suggest this is automated).
-
-
-    * `org_type` is used as a means for differentiating between TPPs and ASPSP. However, from an entity modeling point of view it's difficult to make it "fit" so is included where is required, but ideally should be implied by the consumer identity
-
-    * `organisationId` is included in the API model as it *may* be meaningful to a consumer i.e. a consumer of the API may have knowledge of and wish consume multiple organisations.  Should `/organisation/{organisationId}` be part of every `path`? If this could be removed it would make the design more elegant.
-
-    * The `PUT` methods in the [original design](https://openbanking.atlassian.net/wiki/spaces/DEV/pages/465044232/DRAFT+PROPOSAL+API+First+Updates+to+the+Technical+Directory+APIs+and+Microservices.+TechDirectory+API+v2) have been changed to `PATCH`, allowing partial updates.
-    
-    * [JSON Merge Patch](https://tools.ietf.org/html/rfc7396) appears to be a good option for implementing the `PATCH` method in this API.
-
-    * The `PATCH` operations echo back the updated entity in the response payload. Whilst unconventional (typically a `204` would be returned) there has been feedback from the front-end team that this is feature is useful. It is only implemented where specified in the original design.
-
-    * Suggest that this specification is split between internal & external i.e. oauth-clients/everything else - but left it all together for the moment.
-    
-    * Added appropriate error response payload.
-    
-    * Added JSON API properties. Need to confirm that these are useful/warranted.
-    
-    * Pulled a subset of HTTP response codes that are implemented in Open Banking standards. To to verify and add/remove accordingly.
-    
-    * Need to map responses/errors from Ping into this specification.
-    
-    ## JSON Merge Patch
-    
-    "Rules" of JSON Merge Path are as follows:
-
-
-      * If an item is omitted in the source do nothing to the target.
-
-      * If the value of an item is `null` remove it from the target.
-
-      * If a new property is in the source add it to the target.
-
-      * Do this with the bounds of the schema.
-    
-schemes:
-  - https
-consumes:
-  - application/json
-produces:
-  - application/json
+  description: OB Tech Directory API (Draft)
 paths:
   '/organisation/{OrganisationType}':
     post:
@@ -223,53 +174,69 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/oauth-clients':
+  '/oauth-client/{OAuthClientId}':
+    parameters:
+      - $ref: '#/components/parameters/OAuthClientId'
     get:
-      summary: Get all OAuth clients
+      summary: Get an OAuth client
       tags:
         - OAuth Clients
       responses:
-        200:
-          $ref: '#/responses/OAuthClients'
+        '200':
+          $ref: '#/components/responses/OAuthClientGet200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
     post:
-      summary: Create a new OAuth client
+      summary: Create an OAuth client
       tags:
         - OAuth Clients
-      parameters:
-        - $ref: '#/parameters/CreateOAuthClient'
+      requestBody:
+        $ref: '#/components/requestBodies/OAuthClient'
       responses:
         '201':
-          description: Created
+          $ref: '#/components/responses/201CreatedResponse'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
-  '/oauth-client/{clientId}':
-    patch:
-      summary: Update an OAuth client
-      description: Activate/deactive an OAuth client
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+    delete:
+      summary: Delete an OAuth client
+      description: Delete an OAuth client
       tags:
         - OAuth Clients
-      parameters:
-        - $ref: '#/parameters/ClientId'
-        - $ref: '#/parameters/UpdateOAuthClient'
       responses:
         '204':
-          description: Updated
+          $ref: '#/components/responses/204NoContentResponse'
         '400':
-          $ref: '#/responses/400ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/404NotFoundResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisation/{OrganisationType}/{OrganisationId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -369,7 +336,7 @@ paths:
         - Certificates
       responses:
         '204':
-          $ref: '#/components/responses/Certificate204NoContentResponse'
+          $ref: '#/components/responses/204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -412,7 +379,7 @@ paths:
         '202':
           $ref: '#/components/responses/CertificateOrKey202AcceptedResponse'
         '204':
-          $ref: '#/components/responses/Certificate204NoContentResponse'
+          $ref: '#/components/responses/204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -520,7 +487,7 @@ paths:
         - Certificates
       responses:
         '204':
-          $ref: '#/components/responses/Certificate204NoContentResponse'
+          $ref: '#/components/responses/204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -613,12 +580,12 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
     delete:
-      summary: Delete a .well-known entity
+      summary: Delete an Authorisation Server
       tags:
         - Authorisation Servers
       responses:
         '204':
-          $ref: '#/components/responses/Certificate204NoContentResponse'
+          $ref: '#/components/responses/204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -652,6 +619,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/ContactTypeSchema'
+    OAuthClientId:
+      name: OAuthClientId
+      description: The OAuth Client Id
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/OAuthClientIdSchema'
     OrganisationType:
       name: OrganisationType
       description: OB Organisation Type
@@ -723,6 +697,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
+    OAuthClient:
+      description: Properties to create/update an OAuth Clien
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuthClientSchema'
     SoftwareStatement:
       description: Software Statement payload
       required: true
@@ -738,6 +719,18 @@ components:
           schema:
             $ref: '#/components/schemas/SoftwareStatementStateSchema'
   responses:
+    201CreatedResponse:
+      description: Created
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    204NoContentResponse:
+      description: No Content
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
     400BadRequestResponse:
       description: Bad Request
       headers:
@@ -758,6 +751,12 @@ components:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
     404NotFoundResponse:
       description: Not found
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    409ConflictResponse:
+      description: Conflict
       headers:
         OB-Request-Id:
           schema:
@@ -834,12 +833,6 @@ components:
         application/jwk+json:
           schema:
             $ref: '#/components/schemas/CertificateOrKeyGetSchema'
-    Certificate204NoContentResponse:
-      description: No Content
-      headers:
-        OB-Request-Id:
-          schema:
-            $ref: '#/components/schemas/UniqueRequestIdSchema'
     Contact200OKResponse:
       description: OK
       headers:
@@ -870,6 +863,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Enrol400BadRequestResponseSchema'
+    OAuthClientGet200OKResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuthClientSchema'
     OrganisationsGetFromSCIM200OKResponse:
       description: |
         List of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
@@ -1221,6 +1224,34 @@ components:
         error_description:
           description: A more detailed error description
           type: string
+    OAuthClientSchema:
+      type: object
+      properties:
+        ClientId:
+          type: string
+        Name:
+          type: string
+        Description:
+          type: string
+        RedirectUris:
+          type: array
+          items:
+            type: string
+            format: uri
+        ClientAuthType:
+          type: string
+          enum:
+            - PRIVATE_KEY_JWT
+            - CLIENT_CERT
+        ClientCertIssuerDn:
+          type: string
+        ClientCertSubjectDn:
+          type: string
+        JwksUrl:
+          type: string
+          format: uri
+    OAuthClientIdSchema:
+      type: string
     OrganisationCertificateTypeSchema:
       type: string
       enum:
