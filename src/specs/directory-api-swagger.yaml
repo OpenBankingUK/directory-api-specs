@@ -531,17 +531,17 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{organisationId}/authorisation-servers':
+  '/organisation/{OrganisationType}/{OrganisationId}/authorisation-servers':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
     get:
-      summary: Get all .well-known entities for an organisation
+      summary: Get all Authorisation Servers for the given organisation
       tags:
         - Authorisation Servers
       responses:
         '200':
-          $ref: '#/responses/AuthorisationServers'
+          $ref: '#/components/responses/AuthorisationServersResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -553,14 +553,14 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
     post:
-      summary: Create a .well-known entity
+      summary: Create an Authorisation Server for the given organisation
       tags:
         - Authorisation Servers
-      parameters:
-        - $ref: '#/parameters/CreateAuthorisationServer'
+      requestBody:
+        $ref: '#/components/requestBodies/AuthorisationServer'
       responses:
         '201':
-          $ref: '#/responses/AuthorisationServerId'
+          $ref: '#/components/responses/AuthorisationServerResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -571,17 +571,18 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{OrganisationType}/{organisationId}/authorisation-servers/{authorisationServerId}':
+  '/organisations/{OrganisationType}/{OrganisationId}/authorisation-servers/{AuthorisationServerId}':
     parameters:
-      - $ref: '#/parameters/OrganisationId'
-      - $ref: '#/parameters/AuthorisationServerId'
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/AuthorisationServerId'
     get:
       summary: Get .well-known entity
       tags:
         - Authorisation Servers
       responses:
         '200':
-          $ref: '#/responses/AuthorisationServer'
+          $ref: '#/components/responses/AuthorisationServerResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -592,15 +593,15 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-    patch:
+    put:
       summary: Update .well-known entity
       tags:
         - Authorisation Servers
-      parameters:
-        - $ref: '#/parameters/UpdateAuthorisationServer'
+      requestBody:
+        $ref: '#/components/requestBodies/AuthorisationServer'
       responses:
-        '204':
-          description: Updated
+        '202':
+          $ref: '#/components/responses/AuthorisationServer202AcceptedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -617,7 +618,7 @@ paths:
         - Authorisation Servers
       responses:
         '204':
-          description: Deleted
+          $ref: '#/components/responses/Certificate204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -630,6 +631,13 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
 components:
   parameters:
+    AuthorisationServerId:
+      name: AuthorisationServerId
+      description: The authorisation server Id
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/AuthorisationServerIdSchema'
     CertificateOrKeyId:
       name: CertificateOrKeyId
       description: The certificate or key Id
@@ -687,6 +695,13 @@ components:
       schema:
         $ref: '#/components/schemas/SoftwareStatementIdSchema'
   requestBodies:
+    AuthorisationServer:
+      description: Properties to create/update authorisation server
+      required: true
+      content:
+        application/vnd.openbanking.directory.authorisationserver-v2+json:
+          schema:
+            $ref: '#/components/schemas/AuthorisationServerRequestSchema'
     Contact:
       description: Properties to update business/technical contacts
       required: true
@@ -755,6 +770,36 @@ components:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
     500InternalServerErrorResponse:
       description: Internal Server Error
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    AuthorisationServerResponse:
+      description: OK
+      content:
+        application/vnd.openbanking.directory.authorisationserver-v2+json:
+          schema:
+            $ref: '#/components/schemas/AuthorisationServerSchema'
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    AuthorisationServer202AcceptedResponse:
+      description: Accepted
+      content:
+        application/vnd.openbanking.directory.authorisationserver-v2+json:
+          schema:
+            $ref: '#/components/schemas/AuthorisationServerSchema'
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    AuthorisationServersResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AuthorisationServersSchema'
       headers:
         OB-Request-Id:
           schema:
@@ -888,6 +933,80 @@ components:
           schema:
             $ref: '#/components/schemas/SoftwareStatementSchema'
   schemas:
+    AuthorisationServerRequestSchema:
+      type: object
+      properties:
+        AutoRegistrationSupported:
+          type: boolean
+        BaseApiDNSUri:
+          type: string
+          format: uri
+        CustomerFriendlyDescription:
+          type: string
+        CustomerFriendlyLogoUri:
+          type: string
+          format: uri
+        CustomerFriendlyName:
+          type: string
+        DeveloperPortalUri:
+          type: string
+          format: uri
+        TermsOfService:
+          type: string
+          format: uri
+        OpenIDConfigEndPointUri:
+          type: string
+          format: uri
+        PayloadSigningCertLocation:
+          type: string
+          format: uri
+        CoPId:
+          type: array
+          items:
+            type: string
+        Virtual:
+          type: boolean
+    AuthorisationServerSchema:
+      type: object
+      properties:
+        Id:
+          type: string
+        AutoRegistrationSupported:
+          type: boolean
+        BaseApiDNSUri:
+          type: string
+          format: uri
+        CustomerFriendlyDescription:
+          type: string
+        CustomerFriendlyLogoUri:
+          type: string
+          format: uri
+        CustomerFriendlyName:
+          type: string
+        DeveloperPortalUri:
+          type: string
+          format: uri
+        TermsOfService:
+          type: string
+          format: uri
+        OpenIDConfigEndPointUri:
+          type: string
+          format: uri
+        PayloadSigningCertLocation:
+          type: string
+          format: uri
+        CoPId:
+          type: array
+          items:
+            type: string
+        Virtual:
+          type: boolean
+    AuthorisationServersSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/AuthorisationServerSchema'
+    AuthorisationServerIdSchema:
+      type: string
     CertificateOrKeySchema:
       type: string
     CertificateOrKeyIdSchema:
