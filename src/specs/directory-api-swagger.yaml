@@ -86,7 +86,7 @@ paths:
           $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
   '/organisation/{OrganisationType}/{OrganisationId}':
     get:
-      summary: Get the given organisationls details
+      summary: Get the given organisation's details
       tags:
         - Organisations
       parameters:
@@ -316,7 +316,7 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
     post:
-      summary: Create a new certificate of the given type for the given organisation
+      summary: Store or create a new certificate of the given type for the given organisation
       tags:
         - Certificates
       parameters:
@@ -327,8 +327,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrKey'
       responses:
-        '201':
-          $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
+        '202':
+          $ref: '#/components/responses/CertificateOrKey202AcceptedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -339,30 +339,20 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{OrganisationType}/{OrganisationId}/certificates/{CertificateType}/{CertificateOrKeyId}':
+  '/organisations/{OrganisationType}/{OrganisationId}/certificates/{OrganisationCertificateType}/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
-      - $ref: '#/components//parameters/OrganisationId'
-      - $ref: '#/components//parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/OrganisationCertificateType'
       - $ref: '#/components/parameters/CertificateOrKeyId'
     get:
-      summary: Get a certificate
+      summary: Get a certificate of the gicen type for the given organisation
       tags:
         - Certificates
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-    delete:
-      summary: Revoke a certificate
-      tags:
-        - Certificates
-      responses:
-        '202':
-          description: Accepted
-        '204':
-          description: Deleted
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -373,13 +363,32 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{OrganisationType}/{organisationId}/certificates/{CertificateType}/{certificateId}/software-statement/{SoftwareStatementId}':
+    delete:
+      summary: Revoke or remove a certificate for the given organisation
+      tags:
+        - Certificates
+      responses:
+        '204':
+          $ref: '#/components/responses/Certificate204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+  '/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}/software-statement/{SoftwareStatementId}':
     parameters:
-      - $ref: '#/parameters/OrganisationId'
-      - $ref: '#/parameters/SoftwareStatementId'
-      - $ref: '#/parameters/CertificateId'
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/OrganisationAssociativeCertificateType'
+      - $ref: '#/components/parameters/CertificateOrKeyId'
     get:
-      summary: Get the certificate
+      summary: Get a QSEAL/OBSEAL certificate for the given organisation and software statement
       tags:
         - Certificates
       responses:
@@ -401,9 +410,9 @@ paths:
         - Certificates
       responses:
         '202':
-          description: Accepted
+          $ref: '#/components/responses/CertificateOrKey202AcceptedResponse'
         '204':
-          description: Deleted
+          $ref: '#/components/responses/Certificate204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -420,7 +429,7 @@ paths:
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
-      summary: Get the certificates for the given software statement
+      summary: Get certificates for the given software statement
       tags:
         - Certificates
       responses:
@@ -436,12 +445,12 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{CertificateType}':
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{SoftwareStatementCertificateOrKeyType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
-      - $ref: '#/components/parameters/CertificateType'
+      - $ref: '#/components/parameters/SoftwareStatementCertificateOrKeyType'
     get:
       summary: Get the certificates of the given type for the given software statement
       tags:
@@ -451,6 +460,8 @@ paths:
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
@@ -458,7 +469,7 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
     post:
-      summary: Create a new certificates supporting a software statement
+      summary: Add a key or create a new certificate for the given software statement
       tags:
         - Certificates
       parameters:
@@ -467,50 +478,59 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrKey'
       responses:
-        '201':
-          $ref: '#/components/responses/CertificateId'
+        '202':
+          $ref: '#/components/responses/CertificateOrKey202AcceptedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{OrganisationType}/{OrganisationId}/software-statements/{SoftwareStatementId}/certificates/{CertificateType}/{CertificateOrKeyId}':
+  '/organisations/{OrganisationType}/{OrganisationId}/software-statements/{SoftwareStatementId}/certificates/{SoftwareStatementCertificateOrKeyType}/{CertificateOrKeyId}':
     parameters:
+      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/SoftwareStatementCertificateOrKeyType'
       - $ref: '#/components/parameters/CertificateOrKeyId'
     get:
-      summary: Get a certificate
+      summary: Get the certificate associated with the given software statement
       tags:
         - Certificates
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
         '404':
           $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
     delete:
-      summary: Revoke a certificate
+      summary: Revoke a certificate or remove a key
       tags:
         - Certificates
       responses:
-        '202':
-          description: Accepted
         '204':
-          description: Deleted
+          $ref: '#/components/responses/Certificate204NoContentResponse'
         '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
-
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisations/{organisationId}/authorisation-servers':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -523,15 +543,15 @@ paths:
         '200':
           $ref: '#/responses/AuthorisationServers'
         '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
     post:
       summary: Create a .well-known entity
       tags:
@@ -542,15 +562,15 @@ paths:
         '201':
           $ref: '#/responses/AuthorisationServerId'
         '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisations/{OrganisationType}/{organisationId}/authorisation-servers/{authorisationServerId}':
     parameters:
       - $ref: '#/parameters/OrganisationId'
@@ -563,15 +583,15 @@ paths:
         '200':
           $ref: '#/responses/AuthorisationServer'
         '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
     patch:
       summary: Update .well-known entity
       tags:
@@ -582,15 +602,15 @@ paths:
         '204':
           description: Updated
         '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
     delete:
       summary: Delete a .well-known entity
       tags:
@@ -599,15 +619,15 @@ paths:
         '204':
           description: Deleted
         '400':
-          $ref: '#/responses/400ErrorResponse'
-        '401':
-          $ref: '#/responses/401ErrorResponse'
-        '403':
-          $ref: '#/responses/403ErrorResponse'
+          $ref: '#/components/responses/400BadRequestResponse'
         '404':
-          $ref: '#/responses/404ErrorResponse'
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
         '500':
-          $ref: '#/responses/500ErrorResponse'
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
 components:
   parameters:
     CertificateOrKeyId:
@@ -617,13 +637,6 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CertificateOrKeyIdSchema'
-    CertificateType:
-      name: CertificateType
-      description: The certificate type
-      in: path
-      required: true
-      schema:
-        $ref: '#/components/schemas/CertificateTypeSchema'
     ContactType:
       name: ContactType
       description: The contact type
@@ -645,6 +658,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/OrganisationCertificateTypeSchema'
+    OrganisationAssociativeCertificateType:
+      name: OrganisationAssociativeCertificateType
+      description: The certificate type that can be associated with a software statement
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/OrganisationAssociativeCertificateTypeSchema'
     OrganisationId:
       name: OrganisationId
       description: The organsation ID
@@ -652,6 +672,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/OrganisationIdSchema'
+    SoftwareStatementCertificateOrKeyType:
+      name: SoftwareStatementCertificateOrKeyType
+      description: The certificate or key type that can be associated with a software statement
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/SoftwareStatementCertificateOrKeyTypeSchema'
     SoftwareStatementId:
       name: SoftwareStatementId
       description: The software statement ID
@@ -748,6 +775,22 @@ components:
         application/jwk+json:
           schema:
             $ref: '#/components/schemas/CertificateOrKeyGetSchema'
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    CertificateOrKey202AcceptedResponse:
+      description: Accepted
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/jwk+json:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeyGetSchema'
+    Certificate204NoContentResponse:
+      description: No Content
       headers:
         OB-Request-Id:
           schema:
@@ -1066,6 +1109,11 @@ components:
         - qseal
         - obwac
         - obseal
+    OrganisationAssociativeCertificateTypeSchema:
+      type: string
+      enum:
+        - qseal
+        - obseal
     OrganisationTypeSchema:
       type: string
       enum:
@@ -1079,14 +1127,11 @@ components:
         type: object
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
-    SoftwareStatementCertificateTypeSchema:
+    SoftwareStatementCertificateOrKeyTypeSchema:
       type: string
       enum:
         - obtransport
         - obsigning
-    SoftwareStatementKeyTypeSchema:
-      type: string
-      enum:
         - sigkey
         - enckey
     SoftwareStatementCreateSchema:
