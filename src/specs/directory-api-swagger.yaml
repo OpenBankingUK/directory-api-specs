@@ -306,7 +306,7 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{OrganisationType}/{OrganisationId}/certificates/{OrganisationCertificateType}/{CertificateOrKeyId}':
+  '/organisation/{OrganisationType}/{OrganisationId}/certificates/{OrganisationCertificateType}/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
@@ -457,7 +457,7 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{OrganisationType}/{OrganisationId}/software-statements/{SoftwareStatementId}/certificates/{SoftwareStatementCertificateOrKeyType}/{CertificateOrKeyId}':
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statements/{SoftwareStatementId}/certificates/{SoftwareStatementCertificateOrKeyType}/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
@@ -538,7 +538,7 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisations/{OrganisationType}/{OrganisationId}/authorisation-servers/{AuthorisationServerId}':
+  '/organisation/{OrganisationType}/{OrganisationId}/authorisation-servers/{AuthorisationServerId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
