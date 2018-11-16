@@ -174,69 +174,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/oauth-client/{OAuthClientId}':
-    parameters:
-      - $ref: '#/components/parameters/OAuthClientId'
-    get:
-      summary: Get an OAuth client
-      tags:
-        - OAuth Clients
-      responses:
-        '200':
-          $ref: '#/components/responses/OAuthClientGet200OKResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '409':
-          $ref: '#/components/responses/409ConflictResponse'
-        '500':
-          $ref: '#/components/responses/500InternalServerErrorResponse'
-        '502':
-          $ref: '#/components/responses/502BadGatewayResponse'
-    post:
-      summary: Create an OAuth client
-      tags:
-        - OAuth Clients
-      requestBody:
-        $ref: '#/components/requestBodies/OAuthClient'
-      responses:
-        '201':
-          $ref: '#/components/responses/201CreatedResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '409':
-          $ref: '#/components/responses/409ConflictResponse'
-        '500':
-          $ref: '#/components/responses/500InternalServerErrorResponse'
-        '502':
-          $ref: '#/components/responses/502BadGatewayResponse'
-    delete:
-      summary: Delete an OAuth client
-      description: Delete an OAuth client
-      tags:
-        - OAuth Clients
-      responses:
-        '204':
-          $ref: '#/components/responses/204NoContentResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '409':
-          $ref: '#/components/responses/409ConflictResponse'
-        '500':
-          $ref: '#/components/responses/500InternalServerErrorResponse'
-        '502':
-          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisation/{OrganisationType}/{OrganisationId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -619,13 +556,6 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/ContactTypeSchema'
-    OAuthClientId:
-      name: OAuthClientId
-      description: The OAuth Client Id
-      in: path
-      required: true
-      schema:
-        $ref: '#/components/schemas/OAuthClientIdSchema'
     OrganisationType:
       name: OrganisationType
       description: OB Organisation Type
@@ -697,13 +627,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
-    OAuthClient:
-      description: Properties to create/update an OAuth Clien
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OAuthClientSchema'
     SoftwareStatement:
       description: Software Statement payload
       required: true
@@ -863,16 +786,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Enrol400BadRequestResponseSchema'
-    OAuthClientGet200OKResponse:
-      description: OK
-      headers:
-        OB-Request-Id:
-          schema:
-            $ref: '#/components/schemas/UniqueRequestIdSchema'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OAuthClientSchema'
     OrganisationsGetFromSCIM200OKResponse:
       description: |
         List of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
@@ -1224,34 +1137,6 @@ components:
         error_description:
           description: A more detailed error description
           type: string
-    OAuthClientSchema:
-      type: object
-      properties:
-        ClientId:
-          type: string
-        Name:
-          type: string
-        Description:
-          type: string
-        RedirectUris:
-          type: array
-          items:
-            type: string
-            format: uri
-        ClientAuthType:
-          type: string
-          enum:
-            - PRIVATE_KEY_JWT
-            - CLIENT_CERT
-        ClientCertIssuerDn:
-          type: string
-        ClientCertSubjectDn:
-          type: string
-        JwksUrl:
-          type: string
-          format: uri
-    OAuthClientIdSchema:
-      type: string
     OrganisationCertificateTypeSchema:
       type: string
       enum:

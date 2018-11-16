@@ -1,0 +1,184 @@
+openapi: 3.0.0
+info:
+  title: Internal Use ONLY!!! Open Banking Directory OAuth client management API
+  version: 0.0.1
+  description: OB Tech Directory OAuth client management API (Draft)
+paths:
+  '/oauth-client':
+    post:
+      summary: Create an OAuth client
+      tags:
+        - OAuth Clients
+      requestBody:
+        $ref: '#/components/requestBodies/OAuthClient'
+      responses:
+        '201':
+          $ref: '#/components/responses/201CreatedResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+  '/oauth-client/{OAuthClientId}':
+    parameters:
+      - $ref: '#/components/parameters/OAuthClientId'
+    get:
+      summary: Get an OAuth client
+      tags:
+        - OAuth Clients
+      responses:
+        '200':
+          $ref: '#/components/responses/OAuthClientGet200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+    delete:
+      summary: Delete an OAuth client
+      description: Delete an OAuth client
+      tags:
+        - OAuth Clients
+      responses:
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+components:
+  parameters:
+    OAuthClientId:
+      name: OAuthClientId
+      description: The OAuth Client Id
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/OAuthClientIdSchema'
+  requestBodies:
+    OAuthClient:
+      description: Properties to create/update an OAuth Clien
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuthClientSchema'
+  responses:
+    201CreatedResponse:
+      description: Created
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    204NoContentResponse:
+      description: No Content
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    400BadRequestResponse:
+      description: Bad Request
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    401UnauthorizedResponse:
+      description: Unauthorized
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    403ForbiddenResponse:
+      description: Forbidden
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    404NotFoundResponse:
+      description: Not found
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    409ConflictResponse:
+      description: Conflict
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    502BadGatewayResponse:
+      description: Bad Gateway
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    500InternalServerErrorResponse:
+      description: Internal Server Error
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    OAuthClientGet200OKResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuthClientSchema'
+  schemas:
+    OAuthClientSchema:
+      type: object
+      properties:
+        ClientId:
+          type: string
+        Name:
+          type: string
+        Description:
+          type: string
+        RedirectUris:
+          type: array
+          items:
+            type: string
+            format: uri
+        ClientAuthType:
+          type: string
+          enum:
+            - PRIVATE_KEY_JWT
+            - CLIENT_CERT
+        ClientCertIssuerDn:
+          type: string
+        ClientCertSubjectDn:
+          type: string
+        JwksUrl:
+          type: string
+          format: uri
+    OAuthClientIdSchema:
+      type: string
+    UniqueRequestIdSchema:
+      type: string
+      description: Unique Request Id
