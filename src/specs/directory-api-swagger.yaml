@@ -247,11 +247,10 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
       - $ref: '#/components/parameters/OrganisationCertificateType'
       - $ref: '#/components/parameters/CertificateOrKeyId'
     get:
-      summary: Get a certificate of the gicen type for the given organisation
+      summary: Get a certificate of the given type for the given organisation
       tags:
         - Certificates
       responses:
@@ -267,6 +266,11 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+  '/organisation/{OrganisationType}/{OrganisationId}/certificate/{CertificateOrKeyId}':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/CertificateOrKeyId'
     delete:
       summary: Revoke or remove a certificate for the given organisation
       tags:
