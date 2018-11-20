@@ -51,6 +51,9 @@ paths:
   '/organisation/{OrganisationType}/{OrganisationId}/contact/{ContactType}':
     get:
       summary: Get the business or the technical contacts for the given organisation
+      x-PingAccessResourceName: OrganisationContactGET
+      x-PingAccessRuleType: uk.org.openbanking.policy.RequestHostOverride
+      x-PingAccessRuleTarget: obdorgcontacts.{environment}
       tags:
         - Contacts
       parameters:
