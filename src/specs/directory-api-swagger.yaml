@@ -270,7 +270,7 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/certificate/{CertificateOrKeyId}':
+  '/organisation/{OrganisationType}/{OrganisationId}/certificate/kid/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
