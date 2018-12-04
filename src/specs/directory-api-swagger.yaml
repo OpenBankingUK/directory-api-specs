@@ -177,6 +177,34 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/redirect-uri':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+    post:
+      summary: Add a redirect URI to the given Software Statement
+      tags:
+        - Software Statement Redirect URIs
+      parameters:
+        - $ref: '#/components/parameters/OrganisationType'
+        - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/SoftwareStatementId'
+      requestBody:
+        $ref: '#/components/requestBodies/SoftwareStatementRedirectURI'
+      responses:
+        '200':
+          $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/software-statement-assertion':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -633,6 +661,13 @@ components:
         application/vnd.openbanking.directory.softwarestatement-v2+json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementCreateSchema'
+    SoftwareStatementRedirectURI:
+      description: Software Statement Redirect URI
+      required: true
+      content:
+        application/text:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementRedirectURISchema'
     SoftwareStatementState:
       description: Payload used to deactivate/reactivate a Software Statement
       required: true
@@ -1322,6 +1357,9 @@ components:
             - true
             - false
       description: Software Statement State
+    SoftwareStatementRedirectURISchema:
+      type: string
+      format: uri
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id$
