@@ -358,7 +358,7 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}/software-statement/{SoftwareStatementId}':
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
