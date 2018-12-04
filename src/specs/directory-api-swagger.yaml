@@ -177,7 +177,28 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-          
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/software-statement-assertion':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+    get:
+      summary: Get a Software Statement Assertion for the given SoftwareStatementId
+      tags:
+        - Software Statement Assertions
+      responses:
+        '200':
+          $ref: '#/components/responses/SoftwareStatementAssertion200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationCertificateType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -288,7 +309,7 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-          
+
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -311,7 +332,7 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-          
+
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{SoftwareStatementCertificateOrKeyType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -388,7 +409,24 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-          
+    get:
+      summary: Get the certificate of the given type and ID for the given software statement
+      tags:
+        - Software Statement Certificates
+      responses:
+        '200':
+          $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+
   '/organisation/{OrganisationType}/{OrganisationId}/authorisation-server':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -789,6 +827,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementsSchema'
+    SoftwareStatementAssertion200OKResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/jws+json:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementAssertionSchema'
     SoftwareStatement201CreatedResponse:
       description: Created
       headers:
@@ -901,7 +949,7 @@ components:
     CertificateOrKeyAssociationSchema:
       type: object
       properties:
-        associate: 
+        associate:
           type: boolean
     CertificatesOrKeysGetSchema:
       type: object
@@ -1254,6 +1302,9 @@ components:
         Version:
           type: string
           description: Software Statement version as provided by the organisation's PTC
+    SoftwareStatementAssertionSchema:
+      type: string
+      description: A signed JWT (JWS)
     SoftwareStatementsSchema:
       type: array
       items:
