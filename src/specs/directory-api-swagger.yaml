@@ -665,7 +665,7 @@ components:
       description: Software Statement Redirect URI
       required: true
       content:
-        application/text:
+        text/plain:
           schema:
             $ref: '#/components/schemas/SoftwareStatementRedirectURISchema'
     SoftwareStatementState:
