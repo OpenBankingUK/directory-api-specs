@@ -245,8 +245,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrKey'
       responses:
-        '202':
-          $ref: '#/components/responses/CertificateOrKey202AcceptedResponse'
+        '201':
+          $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -377,8 +377,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrKey'
       responses:
-        '202':
-          $ref: '#/components/responses/CertificateOrKey202AcceptedResponse'
+        '201':
+          $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '404':
@@ -780,6 +780,16 @@ components:
         OB-Request-Id:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
+    CertificateOrKey201CreatedResponse:
+      description: Created
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/jwk+json:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeyGetSchema'
     CertificateOrKey202AcceptedResponse:
       description: Accepted
       headers:
