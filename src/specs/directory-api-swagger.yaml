@@ -859,7 +859,7 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/json:
+        application/vnd.openbanking.directory.softwarestatement-list-v2+json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementsSchema'
     SoftwareStatementAssertion200OKResponse:
