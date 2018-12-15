@@ -1279,7 +1279,7 @@ components:
           format: uri
           description: The Software Statement terms of service URI
         Version:
-          type: string
+          type: number
           description: Software Statement version as provided by the organisation's PTC
     SoftwareStatementSchema:
       type: object
@@ -1345,7 +1345,7 @@ components:
             type: string
           description: The list of transport certificate Ids
         Version:
-          type: string
+          type: number
           description: Software Statement version as provided by the organisation's PTC
     SoftwareStatementAssertionSchema:
       type: string
@@ -1358,6 +1358,7 @@ components:
     SoftwareStatementIdSchema:
       type: string
       description: Software Statement Id
+      maxLength: 22
     SoftwareStatementStateSchema:
       type: object
       properties:
@@ -1372,4 +1373,4 @@ components:
       format: uri
     UniqueRequestIdSchema:
       type: string
-      description: Unique Request Id
+      description: Unique Request Id. Give it to the Support Desk if you eve need help with a request that does not work the way you expected.
