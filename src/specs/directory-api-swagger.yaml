@@ -921,76 +921,99 @@ components:
         BaseApiDNSUri:
           type: string
           format: uri
+          maxLength: 256
         CustomerFriendlyDescription:
           type: string
+          maxLength: 256
         CustomerFriendlyLogoUri:
           type: string
           format: uri
+          maxLength: 256
         CustomerFriendlyName:
           type: string
+          maxLength: 256
         DeveloperPortalUri:
           type: string
           format: uri
+          maxLength: 256
         TermsOfService:
           type: string
           format: uri
+          maxLength: 256
         OpenIDConfigEndPointUri:
           type: string
           format: uri
+          maxLength: 256
         PayloadSigningCertLocation:
           type: string
           format: uri
+          maxLength: 256
         EISCDId:
           type: array
           items:
             type: string
+            maxLength: 256
         ParentAuthorisationServerId:
           type: string
+          maxLength: 22
     AuthorisationServerSchema:
       type: object
       properties:
         Id:
           type: string
+          maxLength: 22
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
           type: string
           format: uri
+          maxLength: 256
         CustomerFriendlyDescription:
           type: string
+          maxLength: 256
         CustomerFriendlyLogoUri:
           type: string
           format: uri
+          maxLength: 256
         CustomerFriendlyName:
           type: string
+          maxLength: 256
         DeveloperPortalUri:
           type: string
           format: uri
+          maxLength: 256
         TermsOfService:
           type: string
           format: uri
+          maxLength: 256
         OpenIDConfigEndPointUri:
           type: string
           format: uri
+          maxLength: 256
         PayloadSigningCertLocation:
           type: string
           format: uri
+          maxLength: 256
         EISCDId:
           type: array
           items:
             type: string
+            maxLength: 256
         ParentAuthorisationServerId:
           type: string
+          maxLength: 22
     AuthorisationServersSchema:
       type: array
       items:
         $ref: '#/components/schemas/AuthorisationServerSchema'
     AuthorisationServerIdSchema:
       type: string
+      maxLength: 22
     CertificateOrKeySchema:
       type: string
     CertificateOrKeyIdSchema:
       type: string
+      maxLength: 256
     CertificateOrKeyAssociationSchema:
       type: object
       properties:
@@ -1039,8 +1062,10 @@ components:
       properties:
         EmailAddress:
           type: string
+          maxLength: 18
         PhoneNumber:
           type: string
+          maxLength: 18
     ContactTypeSchema:
       type: string
       enum:
@@ -1244,40 +1269,48 @@ components:
         ClientName:
           type: string
           description: Software Statement client name
+          maxLength: 40
         Description:
           type: string
           description: Software Statement description
+          maxLength: 256
         OnBehalfOfObOrganisation:
           type: string
           description: Organisation Id
+          maxLength: 22
         PolicyUri:
           type: string
           format: uri
           description: The Software Statement policy URI
+          maxLength: 256
         ClientUri:
           type: string
           format: uri
           description: The Software Statement client URI
+          maxLength: 256
         LogoUri:
           type: string
           format: uri
           description: The Software Statement logo URI
+          maxLength: 256
         RedirectUri:
           type: array
           items:
             type: string
             format: uri
-          description: The Software Statement redirect URI
+            maxLength: 256
+          description: The Software Statement redirect URIs
         Roles:
           type: array
           items:
             type: string
-            format: uri
+            maxLength: 256
           description: The list of Software Statement roles
         TermsOfServiceUri:
           type: string
           format: uri
           description: The Software Statement terms of service URI
+          maxLength: 256
         Version:
           type: number
           description: Software Statement version as provided by the organisation's PTC
@@ -1290,45 +1323,58 @@ components:
         ClientId:
           type: string
           description: Software Statement client Id
+          maxLength: 22
         ClientName:
           type: string
           description: Software Statement client name
+          maxLength: 40
         Description:
           type: string
           description: Software Statement description
+          maxLength: 256
         Id:
           $ref: '#/components/schemas/SoftwareStatementIdSchema'
         Mode:
           type: string
+          enum:
+            - Live
+            - Not Live
           description: Software Statement mode
+          maxLength: 8
         ObClientCreated:
           type: boolean
           description: Client created flag
         OnBehalfOfObOrganisation:
           type: string
           description: Organisation Id
+          maxLength: 22
         PolicyUri:
           type: string
           format: uri
           description: The Software Statement policy URI
+          maxLength: 256
         ClientUri:
           type: string
           format: uri
           description: The Software Statement client URI
+          maxLength: 256
         LogoUri:
           type: string
           format: uri
           description: The Software Statement logo URI
+          maxLength: 256
         RedirectUri:
           type: array
           items:
             type: string
             format: uri
           description: The Software Statement redirect URI
+          maxLength: 256
         Roles:
           type: array
           items:
             type: string
+            maxLength: 256
           description: The list of Software Statement roles
         SigningKeyIds:
           type: array
@@ -1339,6 +1385,7 @@ components:
           type: string
           format: uri
           description: The Software Statement terms of service URI
+          maxLength: 256
         TransportKeyIds:
           type: array
           items:
