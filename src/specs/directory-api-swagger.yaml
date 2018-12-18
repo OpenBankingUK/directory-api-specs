@@ -1312,7 +1312,7 @@ components:
           description: The Software Statement terms of service URI
           maxLength: 256
         Version:
-          type: float
+          type: number
           description: Software Statement version as provided by the organisation's PTC
     SoftwareStatementSchema:
       type: object
@@ -1392,7 +1392,7 @@ components:
             type: string
           description: The list of transport certificate Ids
         Version:
-          type: float
+          type: number
           description: Software Statement version as provided by the organisation's PTC
     SoftwareStatementAssertionSchema:
       type: string
