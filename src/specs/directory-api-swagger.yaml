@@ -227,6 +227,30 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+          
+  '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+    get:
+      summary: Get the certificates for the given organisation
+      tags:
+        - Organisation Certificates
+      responses:
+        '200':
+          $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+          
   '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationCertificateType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -275,33 +299,11 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate':
+  '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationCertificateType}/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
-    get:
-      summary: Get the certificates for the given organisation
-      tags:
-        - Organisation Certificates
-      responses:
-        '200':
-          $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '500':
-          $ref: '#/components/responses/500InternalServerErrorResponse'
-        '502':
-          $ref: '#/components/responses/502BadGatewayResponse'
-
-  '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate/kid/{CertificateOrKeyId}':
-    parameters:
-      - $ref: '#/components/parameters/OrganisationType'
-      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/OrganisationCertificateType'
       - $ref: '#/components/parameters/CertificateOrKeyId'
     get:
       summary: Get a certificate with the given CertificateOrKeyId for the given organisation
@@ -320,6 +322,11 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+  '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate/kid/{CertificateOrKeyId}':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/CertificateOrKeyId'
     delete:
       summary: Revoke or remove a certificate with the given CertificateOrKeyId
       tags:
