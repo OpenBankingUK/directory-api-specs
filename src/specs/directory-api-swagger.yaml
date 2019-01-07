@@ -21,6 +21,8 @@ paths:
           $ref: '#/components/responses/Enrol400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -35,6 +37,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
   '/v2/organisation/{OrganisationType}/{OrganisationId}':
     get:
       summary: Get the given organisation's details
@@ -48,6 +52,8 @@ paths:
           $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
         '404':
           $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
   '/v2/organisation/{OrganisationType}/{OrganisationId}/contact/{ContactType}':
     put:
       summary: Update the business or the technical contacts for the given organisation
@@ -66,6 +72,8 @@ paths:
           $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -88,6 +96,8 @@ paths:
           $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -113,6 +123,8 @@ paths:
           $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -128,6 +140,8 @@ paths:
           $ref: '#/components/responses/400BadRequestResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -150,6 +164,8 @@ paths:
           $ref: '#/components/responses/401UnauthorizedResponse'
         '404':
           $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -173,6 +189,8 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -201,6 +219,8 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -223,11 +243,13 @@ paths:
           $ref: '#/components/responses/401UnauthorizedResponse'
         '404':
           $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-          
+
   '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -246,11 +268,12 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-          
   '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationCertificateType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -277,6 +300,8 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -294,6 +319,8 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -318,6 +345,8 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -336,10 +365,12 @@ paths:
           $ref: '#/components/responses/204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -359,10 +390,12 @@ paths:
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -388,10 +421,12 @@ paths:
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -405,10 +440,12 @@ paths:
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -434,10 +471,12 @@ paths:
           $ref: '#/components/responses/204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '409':
           $ref: '#/components/responses/409ConflictResponse'
         '500':
@@ -453,10 +492,12 @@ paths:
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -475,10 +516,12 @@ paths:
           $ref: '#/components/responses/AuthorisationServersResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -494,10 +537,12 @@ paths:
           $ref: '#/components/responses/AuthorisationServerResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -516,10 +561,12 @@ paths:
           $ref: '#/components/responses/AuthorisationServerResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -535,10 +582,12 @@ paths:
           $ref: '#/components/responses/AuthorisationServer202AcceptedResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -552,10 +601,12 @@ paths:
           $ref: '#/components/responses/204NoContentResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -715,6 +766,12 @@ components:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
     404NotFoundResponse:
       description: Not found
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+    406NotAcceptableResponse:
+      description: Not Acceptable
       headers:
         OB-Request-Id:
           schema:
