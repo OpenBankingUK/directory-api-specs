@@ -215,12 +215,14 @@ paths:
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
