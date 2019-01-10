@@ -709,7 +709,7 @@ components:
       description: Properties to update business/technical contacts
       required: true
       content:
-        application/vnd.openbanking.directory.orgcontact-v2+json:
+        application/vnd.openbanking.directory.orgcontacts-v2+json:
           schema:
             $ref: '#/components/schemas/ContactSchema'
     CertificateOrKey:
@@ -902,7 +902,7 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/vnd.openbanking.directory.orgcontact-v2+json:
+        application/vnd.openbanking.directory.orgcontacts-v2+json:
           schema:
             $ref: '#/components/schemas/ContactSchema'
     Enrol201CreatedResponse:
