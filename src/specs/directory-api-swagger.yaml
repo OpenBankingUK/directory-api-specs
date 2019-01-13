@@ -838,7 +838,7 @@ components:
     AuthorisationServersResponse:
       description: OK
       content:
-        application/json:
+        application/vnd.openbanking.directory.authorisationserver-list-v2+json:
           schema:
             $ref: '#/components/schemas/AuthorisationServersSchema'
       headers:
@@ -1138,7 +1138,7 @@ components:
           type: string
         x5t:
           type: string
-        x5t#256s:
+        x5t#S256:
           type: string
         x5u:
           type: string
@@ -1506,3 +1506,4 @@ components:
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id. Give it to the Support Desk if you eve need help with a request that does not work the way you expected.
+      
