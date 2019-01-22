@@ -292,7 +292,7 @@ paths:
         - $ref: '#/components/parameters/SoftwareStatementId'
         - $ref: '#/components/parameters/OrganisationCertificateType'
       requestBody:
-        $ref: '#/components/requestBodies/CertificateOrKey'
+        $ref: '#/components/requestBodies/CertificateOrCSR'
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -436,7 +436,7 @@ paths:
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/SoftwareStatementId'
       requestBody:
-        $ref: '#/components/requestBodies/CertificateOrKey'
+        $ref: '#/components/requestBodies/CSROrKey'
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -712,8 +712,15 @@ components:
         application/vnd.openbanking.directory.orgcontacts-v2+json:
           schema:
             $ref: '#/components/schemas/ContactSchema'
-    CertificateOrKey:
-      description: PEM file
+    CertificateOrCSR:
+      description: PEM file -- the contents of the PEM file will differ depending upon *OrganisationCertificateType*. If *OrganisationCertificateType* is set to *qwac*, *qseal* then the PEM file should contain a *QWAC* or a *QSEAL* certificate respectively; if *OrganisationCertificateType* is set to *obwac* or *obseal* then the PEM file should contain a Certificate Signing Request (CSR) for an OB-issued *OBWAC* or *OBSEAL* certificate respectively.
+      required: true
+      content:
+        application/x-pem-file:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeySchema'
+    CSROrKey:
+      description: PEM file -- the contents of the PEM file will differ depending upon *SoftwareStatementCertificateOrKeyType*. If *SoftwareStatementCertificateOrKeyType* is set to *obsigning* or *obtransport* then the PEM file should contain a Certificate Signing Request (CSR) for an OB signing or OB transport certificate respectively; if *SoftwareStatementCertificateOrKeyType* is set to *sigkey*, *enckey* then the PEM file should contain a public signing or encryption key respectively.
       required: true
       content:
         application/x-pem-file:
