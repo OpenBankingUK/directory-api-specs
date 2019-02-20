@@ -1011,13 +1011,16 @@ components:
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
         CustomerFriendlyDescription:
+          description: An RFC-3986-compliant URI
           type: string
           maxLength: 256
         CustomerFriendlyLogoUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
@@ -1025,18 +1028,22 @@ components:
           type: string
           maxLength: 256
         DeveloperPortalUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
         TermsOfService:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
         OpenIDConfigEndPointUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
         PayloadSigningCertLocation:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
@@ -1057,6 +1064,7 @@ components:
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
@@ -1064,6 +1072,7 @@ components:
           type: string
           maxLength: 256
         CustomerFriendlyLogoUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
@@ -1071,18 +1080,22 @@ components:
           type: string
           maxLength: 256
         DeveloperPortalUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
         TermsOfService:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
         OpenIDConfigEndPointUri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
         PayloadSigningCertLocation:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
@@ -1169,6 +1182,7 @@ components:
         redirect_uris:
           type: array
           items:
+            description: An RFC-3986-compliant URI
             type: string
             format: uri
         token_endpoint_auth_method:
@@ -1184,9 +1198,11 @@ components:
         client_name:
           type: string
         client_uri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
         logo_uri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
         scope:
@@ -1197,12 +1213,15 @@ components:
             type: string
             format: email
         tos_uri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
         policy_uri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
         jwks_uri:
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
         jwks:
@@ -1255,6 +1274,7 @@ components:
           description: Array of Redirection URI values used by the Client, as supplied by the client
           type: array
           items:
+            description: An RFC-3986-compliant URI
             type: string
             format: uri
           minItems: 1
@@ -1274,30 +1294,31 @@ components:
           description: ORG name ar per eIDAS certificate
           type: string
         client_uri:
-          description: URI string of a web page providing information about the client
+          description: An RFC-3986-compliant URI string of a web page providing information about the client
           type: string
           format: uri
         logo_uri:
-          description: Client ID assigned by Open Banking Directory
+          description: An RFC-3986-compliant URI
           type: string
           format: uri
         contacts:
           description: Contacts to departments responsible for the client
           type: array
           items:
+            description: An RFC-3986-compliant URI
             type: string
             format: uri
           minItems: 1
         tos_uri:
-          description: URI string that points to a human-readable terms of service document for the client
+          description: An RFC-3986-compliant URI string that points to a human-readable terms of service document for the client
           type: string
           format: uri
         policy_uri:
-          description: URI string that points to a human-readable privacy policy document
+          description: An RFC-3986-compliant URI string that points to a human-readable privacy policy document
           type: string
           format: uri
         jwks_uri:
-          description: URI string referencing the client's JSON Web Key (JWK) Set
+          description: An RFC-3986-compliant URI string referencing the client's JSON Web Key (JWK) Set
           type: string
           format: uri
         jwks:
@@ -1373,21 +1394,22 @@ components:
         PolicyUri:
           type: string
           format: uri
-          description: The Software Statement policy URI
+          description: The Software Statement RFC-3986-compliant policy URI
           maxLength: 256
         ClientUri:
           type: string
           format: uri
-          description: The Software Statement client URI
+          description: The Software Statement RFC-3986-compliant client URI
           maxLength: 256
         LogoUri:
           type: string
           format: uri
-          description: The Software Statement logo URI
+          description: The Software Statement RFC-3986-compliant logo URI
           maxLength: 256
         RedirectUri:
           type: array
           items:
+            description: An RFC-3986-compliant URI
             type: string
             format: uri
             maxLength: 256
@@ -1401,7 +1423,7 @@ components:
         TermsOfServiceUri:
           type: string
           format: uri
-          description: The Software Statement terms of service URI
+          description: The Software Statement terms of service RFC-3986-compliant URI
           maxLength: 256
         Version:
           type: number
@@ -1443,24 +1465,25 @@ components:
         PolicyUri:
           type: string
           format: uri
-          description: The Software Statement policy URI
+          description: The Software Statement policy RFC-3986-compliant URI
           maxLength: 256
         ClientUri:
+
           type: string
           format: uri
-          description: The Software Statement client URI
+          description: The Software Statement client RFC-3986-compliant URI
           maxLength: 256
         LogoUri:
           type: string
           format: uri
-          description: The Software Statement logo URI
+          description: The Software Statement logo RFC-3986-compliant URI
           maxLength: 256
         RedirectUri:
           type: array
           items:
             type: string
             format: uri
-          description: The Software Statement redirect URI
+          description: The Software Statement redirect RFC-3986-compliant URI
           maxLength: 256
         Roles:
           type: array
@@ -1476,7 +1499,7 @@ components:
         TermsOfServiceUri:
           type: string
           format: uri
-          description: The Software Statement terms of service URI
+          description: The Software Statement terms of service RFC-3986-compliant URI
           maxLength: 256
         TransportKeyIds:
           type: array
@@ -1508,9 +1531,9 @@ components:
             - false
       description: Software Statement State
     SoftwareStatementRedirectURISchema:
+      description: An RFC-3986-compliant URI
       type: string
       format: uri
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id. Give it to the Support Desk if you eve need help with a request that does not work the way you expected.
-      
