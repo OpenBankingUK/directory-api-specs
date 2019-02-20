@@ -328,31 +328,6 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationCertificateType}/{CertificateOrKeyId}':
-    parameters:
-      - $ref: '#/components/parameters/OrganisationType'
-      - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/OrganisationCertificateType'
-      - $ref: '#/components/parameters/CertificateOrKeyId'
-    get:
-      summary: Get a certificate with the given CertificateOrKeyId for the given organisation
-      tags:
-        - Organisation Certificates
-      responses:
-        '200':
-          $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequestResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '406':
-          $ref: '#/components/responses/406NotAcceptableResponse'
-        '500':
-          $ref: '#/components/responses/500InternalServerErrorResponse'
-        '502':
-          $ref: '#/components/responses/502BadGatewayResponse'
   '/v2/organisation/{OrganisationType}/{OrganisationId}/certificate/kid/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
