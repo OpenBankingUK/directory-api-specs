@@ -1364,8 +1364,8 @@ components:
           maxLength: 256
         OnBehalfOfObOrganisation:
           type: string
-          description: Organisation Id
-          maxLength: 22
+          description: A reference to fourth party organisation resource on the OB Directory if the registering TPP is acting on behalf of another
+          maxLength: 40
         PolicyUri:
           type: string
           format: uri
@@ -1435,15 +1435,14 @@ components:
           description: Client created flag
         OnBehalfOfObOrganisation:
           type: string
-          description: Organisation Id
-          maxLength: 22
+          description: A reference to fourth party organisation resource on the OB Directory if the registering TPP is acting on behalf of another
+          maxLength: 40
         PolicyUri:
           type: string
           format: uri
           description: The Software Statement policy RFC-3986-compliant URI
           maxLength: 256
         ClientUri:
-
           type: string
           format: uri
           description: The Software Statement client RFC-3986-compliant URI
@@ -1506,9 +1505,12 @@ components:
             - false
       description: Software Statement State
     SoftwareStatementRedirectURISchema:
-      description: An RFC-3986-compliant URI
-      type: string
-      format: uri
+      description: Array of Redirection RFC-3986-compliant URI values used by the Client, as supplied by the client
+      type: array
+      items:
+        type: string
+        format: uri
+        minItems: 1
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id. Give it to the Support Desk if you eve need help with a request that does not work the way you expected.
