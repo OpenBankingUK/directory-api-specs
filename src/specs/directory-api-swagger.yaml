@@ -233,7 +233,7 @@ paths:
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
-      summary: Get a Software Statement Assertion for the given SoftwareStatementId
+      summary: Get a Software Statement Assertion for the given SoftwareStatementId. The response body is a signed JWT and the values found in the header and the payload of the SSA are specified in https://openbanking.atlassian.net/wiki/spaces/WOR/pages/176390948/The+Open+Banking+Dynamic+Client+Registration+Specification+-+v1.2.0
       tags:
         - Software Statement Assertions
       responses:
