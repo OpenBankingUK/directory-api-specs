@@ -34,6 +34,10 @@ paths:
         - Organisations
       parameters:
         - $ref: '#/components/parameters/OrganisationType'
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
@@ -47,6 +51,10 @@ paths:
       parameters:
         - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
@@ -63,6 +71,11 @@ paths:
         - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/ContactType'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       requestBody:
         $ref: '#/components/requestBodies/Contact'
       responses:
@@ -89,6 +102,10 @@ paths:
         - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/ContactType'
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/Contact200OKResponse'
@@ -114,6 +131,11 @@ paths:
       parameters:
         - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatement'
       responses:
@@ -133,6 +155,10 @@ paths:
       summary: Get all software statements for the given organisation
       tags:
         - Software Statements
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementsGet200OKResponse'
@@ -155,6 +181,10 @@ paths:
       summary: Get a software statement
       tags:
         - Software Statements
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
@@ -180,6 +210,11 @@ paths:
         - $ref: '#/components/parameters/SoftwareStatementId'
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatementState'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -210,6 +245,11 @@ paths:
         - $ref: '#/components/parameters/SoftwareStatementId'
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatementRedirectURI'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -236,6 +276,10 @@ paths:
       summary: Get a Software Statement Assertion for the given SoftwareStatementId. The response body is a signed JWT and the values found in the header and the payload of the SSA are specified in https://openbanking.atlassian.net/wiki/spaces/WOR/pages/176390948/The+Open+Banking+Dynamic+Client+Registration+Specification+-+v1.2.0
       tags:
         - Software Statement Assertions
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementAssertion200OKResponse'
@@ -261,6 +305,10 @@ paths:
       summary: Get the certificates for the given organisation
       tags:
         - Organisation Certificates
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -293,6 +341,11 @@ paths:
         - $ref: '#/components/parameters/OrganisationCertificateType'
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrCSR'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -312,6 +365,10 @@ paths:
       summary: Get the certificates of the given OrganisationCertificateType for the given oranisation
       tags:
         - Organisation Certificates
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -337,6 +394,10 @@ paths:
       summary: Retrieve a certificate with the given CertificateOrKeyId
       tags:
         - Organisation Certificates
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
@@ -356,6 +417,11 @@ paths:
       summary: Revoke or remove a certificate with the given CertificateOrKeyId
       tags:
         - Organisation Certificates
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '204':
           $ref: '#/components/responses/204NoContentResponse'
@@ -381,6 +447,10 @@ paths:
       summary: Get certificates for the given software statement
       tags:
         - Software Statement Certificates
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -412,6 +482,11 @@ paths:
         - $ref: '#/components/parameters/SoftwareStatementId'
       requestBody:
         $ref: '#/components/requestBodies/CSROrKey'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -431,6 +506,10 @@ paths:
       summary: Get the certificates of the given type for the given software statement
       tags:
         - Software Statement Certificates
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -460,6 +539,11 @@ paths:
         - Certificate Associations
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrKeyAssociation'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '200':
           $ref: '#/components/responses/CertificateAssociatedWithASoftwareStatement200AcceptedResponse'
@@ -483,6 +567,10 @@ paths:
       summary: Get the certificate of the given type and ID for the given software statement
       tags:
         - Software Statement Certificates
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
@@ -507,6 +595,10 @@ paths:
       summary: Get all Authorisation Servers for the given organisation
       tags:
         - Authorisation Servers
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/AuthorisationServersResponse'
@@ -528,6 +620,11 @@ paths:
         - Authorisation Servers
       requestBody:
         $ref: '#/components/requestBodies/AuthorisationServer'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '201':
           $ref: '#/components/responses/AuthorisationServerResponse'
@@ -552,6 +649,10 @@ paths:
       summary: Get .well-known entity
       tags:
         - Authorisation Servers
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/AuthorisationServerResponse'
@@ -573,6 +674,11 @@ paths:
         - Authorisation Servers
       requestBody:
         $ref: '#/components/requestBodies/AuthorisationServer'
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '202':
           $ref: '#/components/responses/AuthorisationServer202AcceptedResponse'
@@ -592,6 +698,11 @@ paths:
       summary: Delete an Authorisation Server
       tags:
         - Authorisation Servers
+      security:
+        - OAuth2SecurityReadWriteOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+          - TPPModify
       responses:
         '204':
           $ref: '#/components/responses/204NoContentResponse'
@@ -1520,3 +1631,23 @@ components:
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id. Give it to the Support Desk if you eve need help with a request that does not work the way you expected.
+  securitySchemes:
+    OAuth2SecurityReadOps:
+      description: This API uses OAuth 2 with the client credentials grant flow
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://sso.openbanking.me.uk/as/token.oauth2
+          scopes:
+            TPPReadAccess: Retrieve or Search for Third Party Providers
+            ASPSPReadAccess: Read ASPSP Records
+    OAuth2SecurityReadWriteOps:
+      description: This API uses OAuth 2 with the client credentials grant flow
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://sso.openbanking.me.uk/as/token.oauth2
+          scopes:
+            TPPReadAccess: Retrieve or Search for Third Party Providers
+            TPPModify: Modify Your Third Third Party Provider Record
+            ASPSPReadAccess: Read ASPSP Records
