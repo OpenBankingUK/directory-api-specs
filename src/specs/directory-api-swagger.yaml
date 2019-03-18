@@ -1117,6 +1117,9 @@ components:
           type: string
         status:
           type: string
+        expiryDateTime:
+          type: string
+          format: date-time
         e:
           type: string
         keyType:
@@ -1130,7 +1133,10 @@ components:
         use:
           type: string
         x5c:
-          type: string
+          type: array
+          items:
+            description: A PKIX certificate [RFC5280]
+            type: string
         x5t:
           type: string
         x5t#S256:
