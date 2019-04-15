@@ -820,12 +820,15 @@ components:
           schema:
             $ref: '#/components/schemas/CertificateOrKeyAssociationSchema'
     Enrol:
-      description: Properties to enrol an eIDAS QWAC-bearing TPP onto the Open Banking Directory (required fields to be validated)
+      description: Properties to enrol an eIDAS QWAC-bearing TPP onto the Open Banking Directory (required fields to be validated). For eIDAS QSealC-bearing TPPs use a signed JWT (JWS).
       required: true
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
+        application/json+jwt:
+          schema:
+            $ref: '#/components/schemas/QSealCOnboardingSchema'
     SoftwareStatement:
       description: Software Statement payload
       required: true
@@ -1461,6 +1464,9 @@ components:
         type: object
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
+    QSealCOnboardingSchema:
+      type: string
+      description: A signed JWT (JWS)
     SoftwareStatementCertificateOrKeyTypeSchema:
       type: string
       enum:
