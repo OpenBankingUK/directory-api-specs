@@ -826,7 +826,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
-        application/json+jwt:
+        application/jws+json:
           schema:
             $ref: '#/components/schemas/QSealCOnboardingSchema'
     SoftwareStatement:
