@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Open Banking Directory API
   version: 0.0.1
-  description: OB Tech Directory API (Draft)
+  description: OB Tech Directory API
 paths:
   '/organisation/{OrganisationType}':
     post:
