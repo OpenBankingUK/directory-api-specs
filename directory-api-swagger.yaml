@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Open Banking Directory API
   version: 0.0.1
-  description: OB Tech Directory API
+  description: OB Tech Directory API (Draft)
 paths:
   '/organisation/{OrganisationType}':
     post:
@@ -340,7 +340,7 @@ paths:
         - $ref: '#/components/parameters/SoftwareStatementId'
         - $ref: '#/components/parameters/OrganisationCertificateType'
       requestBody:
-        $ref: '#/components/requestBodies/CertificateOrCSR'
+        $ref: '#/components/requestBodies/CertificateOrCSROrJWS'
       security:
         - OAuth2SecurityReadWriteOps:
           - ASPSPReadAccess
@@ -798,20 +798,25 @@ components:
         application/vnd.openbanking.directory.orgcontacts-v2+json:
           schema:
             $ref: '#/components/schemas/ContactSchema'
-    CertificateOrCSR:
-      description: PEM file -- the contents of the PEM file will differ depending upon *OrganisationCertificateType*. If *OrganisationCertificateType* is set to *qwac*, *qseal* then the PEM file should contain a *QWAC* or a *QSEAL* certificate respectively; if *OrganisationCertificateType* is set to *obwac* or *obseal* then the PEM file should contain a Certificate Signing Request (CSR) for an OB-issued *OBWAC* or *OBSEAL* certificate respectively.
+    CertificateOrCSROrJWS:
+      description: __PEM file__ -- when the request `Content-Type` header is set to  `application/x-pem-file` the contents of the PEM file will differ depending upon `OrganisationCertificateType`. If `OrganisationCertificateType` is set to `qwac`, `qseal` then the PEM file should contain a *QWAC* or a *QSEAL* certificate respectively; if `OrganisationCertificateType` is set to `obwac` or `obseal` then the PEM file should contain a Certificate Signing Request (CSR) for an OB-issued *OBWAC* or *OBSEAL* certificate respectively.
+        <br />
+        __Signed JWT__ -- -- when the request `Content-Type` header is set to  `application/jws-json` the body of the signed JWT will contain a CSR or a certificate. See README for details.
       required: true
       content:
         application/x-pem-file:
           schema:
-            $ref: '#/components/schemas/CertificateOrKeySchema'
+            $ref: '#/components/schemas/CertificateOrKeyOrJWTSchema'
+        application/jws+json:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeyOrJWTSchema'
     CSROrKey:
       description: PEM file -- the contents of the PEM file will differ depending upon *SoftwareStatementCertificateOrKeyType*. If *SoftwareStatementCertificateOrKeyType* is set to *obsigning* or *obtransport* then the PEM file should contain a Certificate Signing Request (CSR) for an OB signing or OB transport certificate respectively; if *SoftwareStatementCertificateOrKeyType* is set to *sigkey*, *enckey* then the PEM file should contain a public signing or encryption key respectively.
       required: true
       content:
         application/x-pem-file:
           schema:
-            $ref: '#/components/schemas/CertificateOrKeySchema'
+            $ref: '#/components/schemas/CertificateOrKeyOrJWTSchema'
     CertificateOrKeyAssociation:
       description: Certificate or Key Association Payload
       required: true
@@ -1203,7 +1208,7 @@ components:
     AuthorisationServerIdSchema:
       type: string
       maxLength: 22
-    CertificateOrKeySchema:
+    CertificateOrKeyOrJWTSchema:
       type: string
     CertificateOrKeyIdSchema:
       type: string
