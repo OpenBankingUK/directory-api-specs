@@ -800,8 +800,8 @@ components:
             $ref: '#/components/schemas/ContactSchema'
     CertificateOrCSROrJWS:
       description: __PEM file__ -- when the request `Content-Type` header is set to  `application/x-pem-file` the contents of the PEM file will differ depending upon `OrganisationCertificateType`. If `OrganisationCertificateType` is set to `qwac`, `qseal` then the PEM file should contain a *QWAC* or a *QSEAL* certificate respectively; if `OrganisationCertificateType` is set to `obwac` or `obseal` then the PEM file should contain a Certificate Signing Request (CSR) for an OB-issued *OBWAC* or *OBSEAL* certificate respectively.
-        <br />
-        __Signed JWT__ -- -- when the request `Content-Type` header is set to  `application/jws-json` the body of the signed JWT will contain a CSR or a certificate. See README for details.
+        <p>
+        __Signed JWT__ -- when the request `Content-Type` header is set to `application/jws-json` the body of the signed JWT will contain a CSR or a certificate. See README for details.
       required: true
       content:
         application/x-pem-file:
