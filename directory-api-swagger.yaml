@@ -295,8 +295,6 @@ paths:
 
           The SSA is a JSON Web Token (JWT) containing client metadata about an instance of TPP client software. The JWT is issued and signed by the OpenBanking Directory.
 
-          A large number of claims that OpenID Connect OPs could support are detailed [https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata](https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata) and should be followed if not explicitly referenced below.
-
         ## SSA Payload
 
           The payload of an OpenBanking SSA MUST be a compliant software statement according to [RFC7591]. The SSA MUST also be a compliant JWT according to [RFC7519]. The following metadata profiles the metadata in [RFC7591] and [RFC7519]:
@@ -321,9 +319,8 @@ paths:
           |`software_jwks_endpoint`|Contains all active signing and network certs for the software| |
           |`software_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the software| |
           |`software_logo_uri`|Link to the TPP logo. Note, ASPSPs are not obliged to display images hosted by third parties| |
-          |`software_mode`|ASPSP Requested additional field to indicate that this software is "Test" or "Live" the default is "Live". Impact and support for "Test" software is up to the ASPSP.| |
+          |`software_mode`|ASPSP Requested additional field to indicate that this software is `Test` or `Live` the default is `Live`. Impact and support for `Test` software is up to the ASPSP.| |
           |`software_on_behalf_of_org`|A reference to fourth party organsiation resource on the OB Directory if the registering TPP is acting on behalf of another.| |
-          |`software_on_behalf_of_org_type`|The type of organisaion that this software has a relationship with. Regulated on OB Directory, Not regulated, Regulated not On OB Directory| |
           |`software_policy_uri`|A link to the software's policy page| |
           |`software_redirect_uris`|Registered client callback endpoints as registered with Open Banking| |
           |`software_roles`|A multi value list of PSD2 roles that this software is authorized to perform.| |
@@ -334,13 +331,12 @@ paths:
           |Metadata |Description |Default values |
           |---------|------------|---------------|
           |`organisation_competent_authority_claims`|Authorisations granted to the organsiation by an NCA| |
-          |`org_status`|Included to cater for voluntary withdrawal from OB scenarios|`Active`, `Revoked` or `Withdrawn`|
+          |`org_status`|Included to cater for voluntary withdrawal from OB scenarios|`Active`, `Revoked`, or `Withdrawn`|
           |`org_id`|The Unique TPP or ASPSP ID held by OpenBanking.| |
           |`org_name`|Legal Entity Identifier or other known organisation name| |
           |`org_contacts`|JSON array of objects containing a triplet of name, email, and phone number| |
           |`org_jwks_endpoint`|Contains all active signing and network certs for the organisation| |
           |`org_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the organisation| |
-          |`ob_registry_tos`|A link to the OB registries terms of service page| |
 
         ## SSA header
 
@@ -388,28 +384,26 @@ paths:
             "PISP",
             "AISP"
           ],
-          "organisation_competent_authority_claims": [
-            {
-              "authority_id": "FMA", // Austrian Financial Market Authority
-              "registration_id": "111111",
-              "status": "Active",
-              "authorisations":  [
-                {
-                    "member_state": "GBR",
-                        "roles": [
-                            "PISP",
-                            "AISP"
-                        ]
-                },
-                {
-                    "member_state": "ROI",
-                        "roles": [
-                            "PISP"
-                        ]
-                }
-              ]
-            }
-          ],
+          "organisation_competent_authority_claims": {
+            "authority_id": "FMA", // Austrian Financial Market Authority
+            "registration_id": "111111",
+            "status": "Active",
+            "authorisations":  [
+              {
+                "member_state": "GB",
+                "roles": [
+                  "PISP",
+                  "AISP"
+                ]
+              },
+              {
+                "member_state": "IR",
+                "roles": [
+                  "PISP"
+                ]
+              }
+            ]
+          },
           "software_logo_uri": "https://prime.amazon.com/logo.png",
           "org_status": "Active",
           "org_id": "Amazon TPPID",
@@ -434,7 +428,7 @@ paths:
           "software_jwks_revoked_endpoint": "https://jwks.openbanking.org.uk/org_id/revoked/software_id.jkws",
           "software_policy_uri": "https://tpp.com/policy.html",
           "software_tos_uri": "https://tpp.com/tos.html",
-          "software_on_behalf_of_org": "https://api.openbanking.org.uk/scim2/OBTrustedPaymentParty/1234567789",
+          "software_on_behalf_of_org": "https://api.openbanking.org.uk/scim2/OBTrustedPaymentParty/1234567789"
         }
         {
           Signature
@@ -443,30 +437,11 @@ paths:
 
         # Automated Client Registration
 
-        A TPP MAY use automated client registration to submit an SSA to an ASPSP in exchange for client credentials for use as a client against an OAuth 2.0 Authorization Server. It is RECOMMENDED for ASPSPs to support the automated client registration mechanism.
-
-        ASPSPs MUST NOT accept client registration requests that do not contain a valid SSA. Requests that pass validation criteria SHOULD result in the ASPSP populating client security characteristics from the metadata within the SSA and client registration requests issuing a registration response.
-
-        To support onboarding through APIs, the ASPSP must provide:
-
-        * A service to validate and process the Request JWT and the SSA JWT contained within supporting both PS256 and ES256 alg types
-        * A service to create and return client credentials based on the security characteristics obtained from the metadata
-        * Storing the the Software Statement ID from the SSA against the client and validating the TPP, App, and SSID.org_jwks_endpoint
-        * Provide a discovery specification endpoint that conforms to the OIDC discovery specification advertising supported mechanisms and algorithims available to TPPs. [https://openid.net/specs/openid-connect-discovery-1_0.html](https://openid.net/specs/openid-connect-discovery-1_0.html)
-
-        The TPP must only present the SSA to an ASPSP over a mutually authenticated TLS channel using a certificate issued by the OB. In this case, the combination of possession of the SSA, the possession of private keys referenced in the SSA and ability to present it over a channel that can be validated as belonging to the same TPP organization, is a strong barrier for attackers. Unlike RFC7591 the client registration request will be of type JWT where the registration request itself is a signed jwt.
-
-        ### Client Registration Endpoint
-
-        If an ASPSP supports automated client registration, the ASPSP MUST operate an [RFC7591] compliant registration endpoint.
-
-        * The client registration endpoint MUST be protected by transport-layer security (TLS 1.2 or better)
-        * The transport layer MUST be mutually authenticated using certificates chaining to the OpenBanking certificate authority. *The ASPSP registration endpoint MUST accept HTTP POST messages with request parameters encoded in the entity body using the `application/jwt` content-type.
-        * The ASPSP registration endpoint SHOULD accept registration attempts from any mutually authenticated channel whose certificate chains to the OpenBanking certificate authority and is not revoked.
+        A TPP MAY use automated client registration to submit an SSA to an ASPSP in exchange for client credentials for use as a client against an OAuth 2.0 Authorization Server. It is RECOMMENDED for ASPSPs to support the automated client registration mechanism. A large number of claims that OpenID Connect OPs could support as part of the RFC7591 request are detailed [https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata](https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata) and should be followed if not explicitly referenced in the Software Statement Assertion claim set.
 
         ## Request Validation
 
-        Prior to issuing a client registration response, the ASPSP MUST perform the following checks:
+        Prior to issuing a client registration response, the ASPSP MUST perform the following checks
 
         * The ASPSP SHOULD check whether the TPP that initiated the TLS connection is the same TPP as listed in the SSA.
         * In the case where a gateway or other piece of infrastructure pre-terminates the MATLS channel in front of the registration endpoint, the certificate used to initiate the connection or some part of that certificate (such as DN & Issuer) SHOULD be made available to the ASPSP for validation against the claims in the SSA.
@@ -475,243 +450,9 @@ paths:
 
         JWT signature must be validated, this involves retrieving the jwks keyset for both the OB and the TPP. The OB keystore location will be published as part of the directory specification, The TPP's will be included in the software statement.
 
-        * SSA Lifetime
-        * The SSA's Lifetime will be short, typically less than 10 minutes. TPPs will be able to retrieve SSAs from OB using client_credentials grant so there should be no need for a SSA to be long lived.
+        ### SSA Lifetime
 
-        ### Supported extensions to RFC7591
-
-        Section for the support sections / profile enhancements on RFC7591 e.g OIDC client reg profile, reg profile enhancments for mtls token end point auth
-
-        ## Client Registration Request
-
-        To register as a client at an ASPSP, the TPP sends an HTTP POST to the ASPSP registration endpoint.
-
-        * The request MUST be presented in the format of a [RFC7519] compliant JWT.
-        * The request MUST use the HTTP POST method, using the application/jwt method.
-        * The JWT MUST be signed using algorithms specified in [FAPI-RW] Section 8.6.
-
-        ### Request Claims
-
-        The client registration request MUST contain the following claims in the JWT payload unless designated as Optional. The TPP MAY add additional claims to the JWT payload. The ASPSP MAY ignore claims not in the chart below. If a claim name matches a specified claim in any of [RFC7519], [RFC7591], or [FAPI], the usage must also match the specification.
-
-        |Claim|Description|Source Specification|Optional|Comments|
-        |-----|-----------|--------------------|--------|--------|
-        |`iss`|Request Issuer (The TPP)|[RFC7519]|NO| |
-        |`iat`|Time of issuance of request|[RFC7519]|NO| |
-        |`exp`|Request Expiration time|[RFC7519]|NO| |
-        |`jti`|JWT ID|[RFC7519]|NO| |
-        |`redirect_uris`|Registered URIs the TPP will use to interact with the ASPSP AS|[OIDC-R]|NO|MUST match or be a subset of the software_redirect_uris claim in the SSA|
-        |`token_endpoint_auth_method`|Specifies which token endpoint authentication method the TPP wants to use|[RFC7591]|NO|  private_key_jwt - if requested the OP should extract the TPPs JWKS location from the software statement assertion included.|
-        |`grant_types`|A JSON array specifying what the TPP can request to be supplied to the token endpoint as exchange for an access token|[RFC7591]|NO| |
-        |`response_types`|A JSON array specifying what the TPP can request to be returned from the ASPSP authorisation endpoint.|[RFC7591]|YES|ASPSPs MAY reject anything other than `code`|
-        |`software_id`|OB Organisation ID|[RFC7591]|YES|If specified, the software_id in the request MUST match the software_id specified in the SSA. ASPSPs can choose to allow multiple registrations for a given software client name and may take the software_id from either the SSA or the TPP as a hint only.|
-        |`scope`|scopes the client is asking for (if not specified, default scopes are assigned by the AS)|[RFC7591]|YES|Minimum scope should be openid + whatever scopes are appropriate for the softwares PSD2 Role.|
-        |`software_statement`|SSA issued by OpenBanking identifier|[RFC7519]  |NO| |
-        |`application_type`|`web` or `mobile`|[OIDC-R]|NO|MUST be `web` if specified.|
-        |`id_token_signed_response_alg`|Algorithm which the TPP expects to sign the id_token, if an id_token is returned.|[OIDC-R]|NO|Supported values MUST comply with [FAPI-RW] Section 8.6.|
-        |`request_object_signing_alg`|Algorithm which the TPP expects to sign the request object if a request object will be part of the authorization request sent to the ASPSP.|[OIDC-R]|NO|Supported values MUST comply with [FAPI-RW] Section 8.6.|
-
-        ## SUPPORTED TOKEN ENDPOINT AUTHENTICATION METHODS
-
-        The TPP MUST choose one of the following token endpoint authentication methods:
-
-        * __Private Key JWT Authentication__ A TPP choosing to use the `private_key_jwt` method to authenticate to the token endpoint MUST set the value of the `token_endpoint_auth_method` to `private_key_jwt` as specified by [OIDC] Section 9, and [RFC7523].
-        * __Mutual TLS Client Authentication__ A TPP choosing to register Mutual TLS as the client authentication method MUST set the following client metadata in the registration request`token_endpoint_auth_method` MUST be set to `tls_client_auth` The client metadata parameter `tls_client_auth_dn` MUST be included in the registration request * The content of the `tls_client_auth_dn` claim MUST contain the DN of the certificate that the TPP will present to the ASPSP token endpoint.
-        * __HTTP Basic Client Authentication__ A TPP choosing to use HTTP Basic Authentication method MUST set the `token_endpoint_auth_method` claim in the registration request to client_secret_basic as per [rfc6749] section 2.3.1.
-        * __HTTP POST Client Authentication__ A TPP choosing to use HTTP Basic Authentication method MUST set the `token_endpoint_auth_method` claim in the registration request to `client_secret_post` as per [rfc6749] section 2.3.1.
-
-        ## SUPPORTED GRANT TYPES
-
-        The TPP MUST specify one or more of the following values in the `grant_types` claim. Values MUST be encoded as a JSON array. ASPSPs MAY reject anything other than `client_credentials` or `authorization_code`.
-
-        * `authorization_code`
-        * `refresh_token`
-        * `client_credentials`
-
-        ## SUPPORTED RESPONSE TYPES
-
-        A TPP MAY specify response_types in the request. Values MUST be encoded as a JSON array. In the case this value is omitted, and any grant type that utilizes the authorisation endpoint is also specified, the default `response_types` array contains the single value of code. ASPSPs SHOULD support code `id_token` and MAY support code. Supported response_types include: `code` code `id_token`
-
-        ## Supported Request URIs
-
-        The TPP MAY specify a JSON array of [RFC3986] compliant redirect URIs in the request using the `redirect_uris` metadata element. Every value in the `redirect_uris` JSON array MUST adhere to the following rules:
-
-        * The URI MUST use the `https` scheme
-        * The URI MUST NOT contain a host with a value of `localhost`
-        * The URI MUST exactly match a URI within the `software_redirect_uris` element of the SSA as described in Section 6.2.1 of [RFC3986] (Simple String Comparison). If the `request_uris` metadata element is omitted from the request, the entire contents of the `software_redirect_uris` element in the SSA are considered to be requested by the TPP.
-
-        Example Request
-
-        ```
-        POST /register HTTP/1.1
-        Content-Type: application/jwt
-        Accept: application/json
-        Host: auth.bankone.com
-
-        eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJREFtYXpvbiIsImlhdCI6MTQ5OTgwNTg0OCwiZXhwIjoxNTMxMzQxODQ4LCJhdWQiOiJodHRwczovL2F1dGhuLmxsb3lkc2JhbmsuY29tIiwic3ViIjoiaHR0cHM6Ly9hdXRobi5sbG95ZHNiYW5rLmNvbSIsImNsaWVudF9pZCI6IklEQW1hem9uMSIsInNvZnR3YXJlX3N0YXRlbWVudCI6ImV5SjBlWEFpT2lKS1YxUWlMQ0poYkdjaU9pSklVekkxTmlKOS5leUpwYzNNaU9pSlBjR1Z1UW1GdWEybHVaeUlzSW1saGRDSTZNVFE1T1Rnd05UZzBPQ3dpWlhod0lqb3hOVE14TXpReE9EUTRMQ0poZFdRaU9pSkZlR0Z0Y0d4bElGUlFVQ0lzSW5OMVlpSTZJa1Y0WVcxd2JHVWdWRkJRSWl3aVQySlVVRkJKWkNJNklrbEVRVzFoZW05dUlpd2lUMkpVVUZCU2IyeGxJam9pVUVsVFVDSjkuUnJydEpYbmZmSzVjOHJJeEczUm93QXNRZWNlSDNvWlFXTWJwZ0hENzhPOCJ9.VRckIjwgB9ahNTPK6GcDzCfqbU9mkvoOu-B_2jHdKzs
-
-        ```
-
-        Example Decoded Registration Request (Non Normative JWT decoded For Illustration)
-
-        ```
-        POST /register HTTP/1.1
-        Content-Type: application/jwt
-        Accept: application/json
-        Host: authn.lloyds.co.uk
-        {
-          "typ": "JWT",
-          "alg": "ES256",
-          "kid": "ABCD1234"
-        }
-        {
-          "iss": "Amazon TPPID",
-          "iat": 1492760444,
-          "exp": 1524296444,
-          "aud": "https://authn.lloyds.co.uk",
-          "scope": "openid makepayment",
-          "token_endpoint_auth_method": "private_key_jwt",
-          "grant_types": ["authorization_code", "refresh_token", "client_credentials"],
-          "response_types": ["code"],
-          "id_token_signed_response_alg": "ES256",
-          "request_object_signing_alg": "ES256",
-          "software_id": "65d1f27c-4aea-4549-9c21-60e495a7a86f",
-          "software_statement": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJPcGVuQmFua2luZyBMdGQiLCJpYXQiOjE0OTI3NTYzMzEsImV4cCI6MTQ5Mjc1NzU1MCwiYXVkIjoiT3BlbkJhbmtpbmcgVFBQIFVuaXF1ZSBJRCIsInN1YiI6Ik9wZW5CYW5raW5nIFRQUCBTb2Z0d2FyZSBVbmlxdWUgSUQiLCJjbGllbnRfbmFtZSI6IkFtYXpvbiBQcmltZSBMdGQiLCJjbGllbnRfdXJpIjoiaHR0cHM6Ly9wcmltZS5hbWF6b24uY29tIiwidHBwX3NvZnR3YXJlX2lkIjoiT3BlbkJhbmtpbmcgVFBQIFNvZnR3YXJlIFVuaXF1ZSBJRCIsInRwcF9zb2Z0d2FyZV9yb2xlcyI6WyJQSVNQIiwiQUlTUCJdLCJ0cHBfcm9sZXMiOlsiUElTUCIsIkFJU1AiLCJQSUlTUCJdLCJ0cHBfaWQiOiJPcGVuQmFua2luZyBUUFAgVW5pcXVlIElEIiwidHBwX25hbWUiOiJPcGVuQmFua2luZyBUUFAgUmVnaXN0ZXJlZCBOYW1lIiwidHBwX2NvbXBldGVudF9hdXRob3JpdHkiOiJPcGVuQmFua2luZyBUUFAgUmVnaXN0ZXJlZCBDb21wZXRlbnQgQXV0aG9yaXR5IiwidHBwX2NvbXBldGVudF9hdXRob3JpdHlfaWQiOiJPcGVuQmFua2luZyBUUFAgUmVnaXN0ZXJlZCBBdXRob3JpdHkgSUQiLCJ0cHBfcHRjX25hbWUiOiJPcGVuQmFua2luZyBUUFAgUmVnaXN0ZXJlZCBQcmltYXJ5IFRlY2huaWNhbCBDb250YWN0IE5hbWUiLCJ0cHBfcHRjX2VtYWlsIjoiT3BlbkJhbmtpbmcgVFBQIFJlZ2lzdGVyZWQgUHJpbWFyeSBUZWNobmljYWwgQ29udGFjdCBFbWFpbCIsInRwcF9qd2tzX2VuZHBvaW50IjoiaHR0cHM6Ly9qd2tzLm9wZW5iYW5raW5nLm9yZy51ay90cHBfaWQuamt3cyJ9.dtWXOW7uAc-jM_-wZNyNvN3dkgd4yV6KkdS_6rbNRUBD15_rWO1FARF7WcjFmSvlZZrT-njf9CmJKbhl7DuXIw"
-        }
-        {
-          Signature
-        }
-        ```
-
-        Some client metadata may be communicated via the software statement (which is embedded in the onboarding request), other metadata could be directly asserted by the TPP as part of the onboarding request. Note that additional metadata values are defined in both RC7591 and in the [http://openid.net/specs/openid-connect-registration-1_0-29.html#IANA specification](http://openid.net/specs/openid-connect-registration-1_0-29.html#IANA) specification.
-
-        * OPs MAY NOT support optional values listed below that are asserted by the TPP.
-        * OPs MAY NOT adopt values asserted by the TPP that are also contained in the software statement
-        * OPs SHALL reject requests if the requested configuration is not supported by the OP. e.g token_endpoint_auth_method requested should match one listed on the well-known configuration endpoint.
-
-        ### Registration Request Validation
-
-        An ASPSP MUST return an error response if any of the following requirements are not met:
-
-        * The registration request assertion MUST contain a software statement attribute as client metadata.
-        * The signature of the software statement assertion MUST validate against the OpenBanking JWKS or JWKS URI distributed and validated out of band of the current registration request
-        * The signature of the registration request assertion MUST successfully validate against the JWKS URI specified in the `software_jwks_endpoint` attribute of the software statement assertion (SSA).
-        * If the request assertion specifies a `redirect_uris` metadata element, the array contents MUST match or be a subset of the `software_redirect_uris` claim in the SSA.
-        * If the request assertion specifies a `software_id` metadata element, that value MUST match the `software_id` element in the SSA.
-
-        ### Certificate Based TLS Validation
-
-        As described in [RFC7515] section 4.1.4 all OpenBanking Ltd ecosystem certificates will be issued as X.509 certificates that can be uniquely identified in a JWKS key store by the keyid. The format of the keyid will be aligned to the `x5t` parameter of the certificate from which the key is extracted as documented in [RFC7515] section 4.1.8.
-
-        An ASPSP MUST return an error response if any of the following requirements are not met:
-
-        * The transport layer negotiated by the TPP MUST be mutually authenticated.
-        * The client TLS certificate SHOULD chain to a certificate located in the SSA `org_jwks_endpoint` attribute.
-        * The client TLS certificate must contain the following attributes:
-
-            * The Subject DN MUST contain the commonName (CN) attribute and organisationUnit (OU) of the certificate.
-            * The CN attribute of the certificate MUST match the software_id specified within the SSA.
-            * The OU attribute of the certificate MUST match the org_id specified within the SSA.
-
-        * The Issuer DN MUST be validated ensuring that the issuer was the appropriate Open Banking CA for the environment.
-
-        ### Client Registration Response
-
-        At the time that the ASPSP finishes evaluation of the request, the ASPSP MUST return a client registration response to the TPP that reflects the final ASPSP client onboarding decision.
-
-        ### Successful Client Registration Response
-
-        In the case where the ASPSP makes a positive determination and creates a client, a Client Information Response MUST be returned to the the TPP conforming to Section 3.2.1 of [RFC7591]. The parameters returned in the response will vary depending on which token endpoint authentication method was specified in the request.
-
-        EXAMPLE CLIENT REGISTRATION RESPONSE
-
-        ```
-        HTTP/1.1 201 Created
-        Content-Type: application/json
-        Cache-Control: no-store
-        Pragma: no-cache
-
-        {
-          "client_id": "dc-xliXMnoy6LN7Rh2Zu0fZan",
-          "client_name": "Amazon Inc: Amazon Prime Movies Oct 23 2017"
-          "logo_uri": "https://prime.amazon.com/logo.png"
-          "redirect_uris":
-          [
-            "https://prime.amazon.com/cb",
-            "https://prime.amazon.co.uk/cb"
-          ],
-          "id_token_signed_response_alg": "ES256",
-          "request_object_signing_alg": "ES256",
-          "grant_types": ["authorization_code", "refresh_token"],
-          "software_id": "65d1f27c-4aea-4549-9c21-60e495a7a86f",
-          "software_logo_uri": "https://prime.amazon.com/logo.png"
-          "software_client_name": "Amazon Prime Movies",
-          "software_client_name#ja-Jpan-JP": "\u30AF\u30E9\u30A4\u30A2\u30F3\u30C8\u540D",
-          "software_roles": [
-             "PISP",
-             "AISP"
-          ],
-          "scope": "openid makepayment",
-          "token_endpoint_auth_method": "private_key_jwt",
-          "software_jwks_endpoint": "https://jwks.openbanking.org.uk/org_id/software_id.jkws"
-        }
-        ```
-
-        ### Unsuccessful Client Registration Response
-
-        In the case where the ASPSP makes a negative determination and refuses to create a client, the ASPSP MUST return a client registration error response to the TPP conforming to Section 3.2.2 of [RFC7591].
-
-        EXAMPLE CLIENT REGISTRATION ERROR RESPONSE
-
-        ```
-        HTTP/1.1 400 Bad Request
-        Content-Type: application/json
-        Cache-Control: no-store
-        Pragma: no-cache
-
-        {
-          "error": "unapproved_software_statement",
-          "error_description": "Some actionable reason why an ASPSP might reject a valid SSA"
-        }
-        ```
-
-        ## References
-
-        ### Normative References
-
-        [FAPI] "Financial API - Part 1: Read Only API Security Profile" [http://openid.net/specs/openid-financial-api-part-1.html](http://openid.net/specs/openid-financial-api-part-1.html)
-
-        [FAPI-RW] "Financial API - Part 2: Read and Write API Security Profile" [http://openid.net/specs/openid-financial-api-part-2.html](http://openid.net/specs/openid-financial-api-part-2.html)
-
-        [OBUK-SEC] "UK Open Banking OIDC Security Profile" [https://bitbucket.org/openid/obuk/src/20890560b96ae5df11349a5551ec6ae040a632d9/uk-openbanking-security-profile.md](https://bitbucket.org/openid/obuk/src/20890560b96ae5df11349a5551ec6ae040a632d9/uk-openbanking-security-profile.md)
-
-        [OIDC] "OpenID Connect Core 1.0 incorporating errata set 1" [http://openid.net/specs/openid-connect-core-1_0.html](http://openid.net/specs/openid-connect-core-1_0.html)
-
-        [OIDC-D] "OpenID Connect Discovery 1.0 incorporating errata set 1" [http://openid.net/specs/openid-connect-discovery-1_0.html](http://openid.net/specs/openid-connect-discovery-1_0.html)
-
-        [OIDC-R] "OpenID Connect Dynamic Client Registration 1.0 incorporating errata set 1" [https://openid.net/specs/openid-connect-registration-1_0.html](https://openid.net/specs/openid-connect-registration-1_0.html)
-
-        [MTLS-ID3] "Mutual TLS Profile for OAuth 2.0 (Draft)" [https://tools.ietf.org/html/draft-ietf-oauth-mtls-03](https://tools.ietf.org/html/draft-ietf-oauth-mtls-03)
-
-        [RFC3986] "Uniform Resource Identifier (URI): Generic Syntax" [https://tools.ietf.org/html/rfc3986](https://tools.ietf.org/html/rfc3986)
-
-        [RFC7515] "JSON Web Signature (JWS)" [https://tools.ietf.org/html/rfc7515](https://tools.ietf.org/html/rfc7515)
-
-        [RFC7519] "JSON Web Token (JWT)" [http://www.rfc-editor.org/info/rfc7519](http://www.rfc-editor.org/info/rfc7519)
-
-        [RFC7523] "JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants" [https://tools.ietf.org/html/rfc7523](https://tools.ietf.org/html/rfc7523)
-
-        [RFC7591] "OAuth 2.0 Dynamic Client Registration Protocol", [https://tools.ietf.org/html/rfc7591](https://tools.ietf.org/html/rfc7591)
-
-        [RFC6749] "The OAuth 2.0 Authorization Framework", [http://www.rfc-editor.org/info/rfc6749](http://www.rfc-editor.org/info/rfc6749)
-
-        [RFC6750] "The OAuth 2.0 Authorization Framework: Bearer Token Usage" [http://www.rfc-editor.org/info/rfc6750]()http://www.rfc-editor.org/info/rfc6750)
-
-        [SAML2] "Assertions and Protocols for the OASIS Security Assertion Markup Language (SAML) 2.0" [https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf](https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf)
-
-        ### Informative References
-
-        [PSD2] "Payment Services Directive 2" [https://publications.europa.eu/en/publication-detail/-/publication/dd85ef2e-a953-11e5-b528-01aa75ed71a1](https://publications.europa.eu/en/publication-detail/-/publication/dd85ef2e-a953-11e5-b528-01aa75ed71a1)
+        The SSA's Lifetime / Validity period is not defined by Open Banking. ASPSPs in the Open Banking ecosystem are required to implement pragmatic time ranges in which to accept an SSA. For example, an ASPSP that has implemented Dynamic Client Registration may choose to accept SSA's that were issued no earlier than 1 minute prior to their presentation however ASPSPs that only support manual registration may need to accept SSAs that were issued 30 minutes prior as the elapsed time period between generation and use between these two flows is expected to differ significantly.
 
       tags:
         - Software Statement Assertions
