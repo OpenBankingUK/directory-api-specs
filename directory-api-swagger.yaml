@@ -1459,7 +1459,7 @@ components:
             $ref: '#/components/schemas/Enrol400BadRequestResponseSchema'
     OrganisationsGetFromSCIM200OKResponse:
       description: |
-        List of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
+        List of the organisation - Schema in scim-swagger.json
       headers:
         OB-Request-Id:
           schema:
@@ -1470,7 +1470,7 @@ components:
             $ref: '#/components/schemas/OrganisationsGetFromSCIM200OKResponseSchema'
     OrganisationGetFromSCIM200OKResponse:
       description: |
-        Full details of the organisation - TODO SCHEMA NEEDS TO BE DEFINED, SOURCED FROM SCIM + OTHER RESPONSE CODES
+        Full details of the organisation - Schema in scim-swagger.json
       headers:
         OB-Request-Id:
           schema:
