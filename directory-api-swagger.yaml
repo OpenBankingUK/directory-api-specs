@@ -308,35 +308,35 @@ paths:
 
           The following software metadata is additionally defined for this profile:
 
-          |Metadata |Description |Default values |
-          |---------|------------|---------------|
-          |`software_client_id`|The Client ID Registered at OB used to access OB resources| |
-          |`software_client_description`|Human-readable detailed description of the client| |
-          |`software_client_name`|Human-readable Software Name| |
-          |`software_client_uri`|The website or resource root uri| |
-          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it  | |
-          |`software_environment`|Requested additional field to avoid certificate check| |
-          |`software_jwks_endpoint`|Contains all active signing and network certs for the software| |
-          |`software_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the software| |
-          |`software_logo_uri`|Link to the TPP logo. Note, ASPSPs are not obliged to display images hosted by third parties| |
-          |`software_mode`|ASPSP Requested additional field to indicate that this software is `Test` or `Live` the default is `Live`. Impact and support for `Test` software is up to the ASPSP.| |
-          |`software_on_behalf_of_org`|A reference to fourth party organsiation resource on the OB Directory if the registering TPP is acting on behalf of another.| |
-          |`software_policy_uri`|A link to the software's policy page| |
-          |`software_redirect_uris`|Registered client callback endpoints as registered with Open Banking| |
-          |`software_roles`|A multi value list of PSD2 roles that this software is authorized to perform.| |
-          |`software_tos_uri`|A link to the software's terms of service page| |
+          |Metadata |Description |Field Size |Default values |
+          |---------|------------|-----------|---------------|
+          |`software_client_id`|The Client ID Registered at OB used to access OB resources|Base62 GUID (22 chars)| |
+          |`software_client_description`|Human-readable detailed description of the client|Max256Text| |
+          |`software_client_name`|Human-readable Software Name|Max40Text| |
+          |`software_client_uri`|The website or resource root uri|Max256Text| |
+          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|decimal| |
+          |`software_environment`|Requested additional field to avoid certificate check|Max256Text| |
+          |`software_jwks_endpoint`|Contains all active signing and network certs for the software|Max256Text| |
+          |`software_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the software|Max256Text| |
+          |`software_logo_uri`|Link to the TPP logo. Note, ASPSPs are not obliged to display images hosted by third parties|Max256Text| |
+          |`software_mode`|ASPSP Requested additional field to indicate that this software is `Test` or `Live` the default is `Live`. Impact and support for `Test` software is up to the ASPSP.|Max40Text| |
+          |`software_on_behalf_of_org`|A reference to fourth party organsiation resource on the OB Directory if the registering TPP is acting on behalf of another.|Max40Text| |
+          |`software_policy_uri`|A link to the software's policy page|Max256Text| |
+          |`software_redirect_uris`|Registered client callback endpoints as registered with Open Banking|A string array of Max256Text items|
+          |`software_roles`|A multi value list of PSD2 roles that this software is authorized to perform.|A string array of Max256Text items| |
+          |`software_tos_uri`|A link to the software's terms of service page|Max256Text| |
 
           The following Organisational metadata is defined for this profile:
 
-          |Metadata |Description |Default values |
-          |---------|------------|---------------|
-          |`organisation_competent_authority_claims`|Authorisations granted to the organsiation by an NCA| |
-          |`org_status`|Included to cater for voluntary withdrawal from OB scenarios|`Active`, `Revoked`, or `Withdrawn`|
-          |`org_id`|The Unique TPP or ASPSP ID held by OpenBanking.| |
-          |`org_name`|Legal Entity Identifier or other known organisation name| |
-          |`org_contacts`|JSON array of objects containing a triplet of name, email, and phone number| |
-          |`org_jwks_endpoint`|Contains all active signing and network certs for the organisation| |
-          |`org_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the organisation| |
+          |Metadata |Description |Field Size | Default values |
+          |---------|------------|-----------|----------------|
+          |`organisation_competent_authority_claims`|Authorisations granted to the organsiation by an NCA|CodeList {`AISP`, `PISP`, `CBPII`, `ASPSP`}| |
+          |`org_status`|Included to cater for voluntary withdrawal from OB scenarios|`Active`, `Revoked`, or `Withdrawn`| |
+          |`org_id`|The Unique TPP or ASPSP ID held by OpenBanking.|Max35Text| |
+          |`org_name`|Legal Entity Identifier or other known organisation name|Max140Text| |
+          |`org_contacts`|JSON array of objects containing a triplet of name, email, and phone number|Each item Max256Text| |
+          |`org_jwks_endpoint`|Contains all active signing and network certs for the organisation|Max256Text| |
+          |`org_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the organisation|Max256Text| |
 
         ## SSA header
 
