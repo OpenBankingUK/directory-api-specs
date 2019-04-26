@@ -428,7 +428,7 @@ paths:
           "software_jwks_revoked_endpoint": "https://jwks.openbanking.org.uk/org_id/revoked/software_id.jkws",
           "software_policy_uri": "https://tpp.com/policy.html",
           "software_tos_uri": "https://tpp.com/tos.html",
-          "software_on_behalf_of_org": "https://api.openbanking.org.uk/scim2/OBTrustedPaymentParty/1234567789"
+          "software_on_behalf_of_org": "Acme Ltd"
         }
         {
           Signature
