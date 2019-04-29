@@ -718,6 +718,32 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+  '/certificate/validate/':
+    post:
+      summary: Validate certificate
+      tags:
+        - Certificate Validation
+      requestBody:
+        $ref: '#/components/requestBodies/CertificateValidationRequestBody'
+      security:
+        - OAuth2SecurityReadOps:
+          - ASPSPReadAccess
+          - TPPReadAccess
+      responses:
+        '200':
+          $ref: '#/components/responses/CertificateValidationServerResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
 components:
   parameters:
     AuthorisationServerId:
@@ -868,6 +894,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CertificateOrKeyAssociationSchema'
+    CertificateValidationRequestBody:
+      description: Certificate Validation Payload
+      required: true
+      content:
+        application/x-pem-file:
+          schema:
+            $ref: '#/components/schemas/CertificateValidationSchema'
     Enrol:
       description: |
         The payload submitted when a TPP attempts to enrol with an eIDAS QWAC or QSealC certificate. It's format and contents will depend on the value of the `Content-Type` header:  TPP onto the Open Banking Directory (required fields to be validated). For eIDAS QSealC-bearing TPPs use a signed JWT (JWS).
@@ -1135,6 +1168,16 @@ components:
         application/jwk+json:
           schema:
             $ref: '#/components/schemas/CertificateOrKeyGetSchema'
+    CertificateValidationServerResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CertificateValidationResponseSchema'
     Contact200OKResponse:
       description: OK
       headers:
@@ -1288,6 +1331,49 @@ components:
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
+    CertificateValidationResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            eIDAS:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    validity:
+                      type: object
+                      properties:
+                        validQTSP:
+                          type: boolean
+                        validOBIETrustFramework:
+                          type: boolean
+                        validSignature:
+                          type: boolean
+                        notRevoked:
+                          type: boolean
+                        notExpired:
+                          type: boolean
+                    values:
+                      type: object
+                      properties:
+                        legalName:
+                          type: string
+                        authNumber:
+                          type: string
+                        QTSPName:
+                          type: string
+                        OBIETrustFrameworkQTSPUri:
+                          type: string
+            registerEntries:
+              type: object
+              properties:
+                authorizations:
+                  type: array
+                  items:
+                    type: object
     AuthorisationServerSchema:
       type: object
       properties:
@@ -1401,6 +1487,8 @@ components:
           type: string
         x5u:
           type: string
+    CertificateValidationSchema:
+      type: string
     ContactSchema:
       type: object
       properties:
