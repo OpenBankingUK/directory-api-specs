@@ -827,7 +827,7 @@ components:
     CertificateOrCSROrJWS:
       description: |
         * __PEM file__ -- when the request `Content-Type` header is set to  `application/x-pem-file` the contents of the PEM file will differ depending upon `OrganisationCertificateType`. If `OrganisationCertificateType` is set to `qwac`, `qseal` then the PEM file should contain a *QWAC* or a *QSEAL* certificate respectively; if `OrganisationCertificateType` is set to `obwac` or `obseal` then the PEM file should contain a Certificate Signing Request (CSR) for an OB-issued *OBWAC* or *OBSEAL* certificate respectively.
-        * __Signed JWT__ -- when the request `Content-Type` header is set to `application/jws+json` the body of the signed JWT will contain a CSR or a certificate.
+        * __Signed JWT__ -- when the request `Content-Type` header is set to `application/jwt` the body of the signed JWT will contain a CSR or a certificate.
 
         ### Requesting a Certificate using a signed JWT
 
@@ -867,7 +867,7 @@ components:
 
         ```
         POST /organisation/tpp/123456789012345678/certificate/obwac HTTP/1.1
-        Content-Type: application/jws+json
+        Content-Type: application/jwt
         Accept: application/json
         Host: matls-dirapi.openbanking.org.uk
         eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IkFCQ0QxMjM0IiwieDVjIjpbInFzZWFsYyIsImlzc3VlciBjZXJ0aWZpY2F0ZSIsInJvb3QgY2VydGlmaWNhdGUiXX0.eyJyZWRpcmVjdF91cmlzIjpbInN0cmluZyJdLCJ0b2tlbl9lbmRwb2ludF9hdXRoX21ldGhvZCI6InN0cmluZyIsImdyYW50X3R5cGVzIjpbInN0cmluZyJdLCJyZXNwb25zZV90eXBlcyI6WyJzdHJpbmcibSwiY2xpZW50X25hbWUiOiJzdHJpbmciLCJjbGllbnRfdXJpIjoic3RyaW5nIiwibG9nb191cmkiOiJzdHJpbmciLCJzY29wZSI6InN0cmluZyIsImNvbnRhY3RzIjpbInVzZXJAZXhhbXBsZS5jb20iXSwidG9zX3VyaSI6InN0cmluZyIsInBvbGljeV91cmkiOiJzdHJpbmciLCJqd2tzX3VyaSI6InN0cmluZyIsImp3a3MiOnt9LCJzb2Z0d2FyZV9pZCI6InN0cmluZyIsInNvZnR3YXJlX3ZlcnNpb24iOiJzdHJpbmcifQ.lMsADSHkFGUw5PtgdEqXslYArzqf6tbg0lo0kCitOUA
@@ -877,7 +877,7 @@ components:
         application/x-pem-file:
           schema:
             $ref: '#/components/schemas/CertificateOrKeyOrJWTSchema'
-        application/jws+json:
+        application/jwt:
           schema:
             $ref: '#/components/schemas/CertificateOrKeyOrJWTSchema'
     CSROrKey:
@@ -906,7 +906,8 @@ components:
         The payload submitted when a TPP attempts to enrol with an eIDAS QWAC or QSealC certificate. It's format and contents will depend on the value of the `Content-Type` header:  TPP onto the Open Banking Directory (required fields to be validated). For eIDAS QSealC-bearing TPPs use a signed JWT (JWS).
 
         * __application/json__ -- a JSON payload for QWAC onboarding.
-        * __application/jws+json__ -- a signed JWT (JWS) for QSealC onboarding.
+        * __application/jwt__ -- a signed JWT (JWS) for QSealC onboarding.
+        * __application/jose__ -- same as __application/jwt__.
 
         ## QWAC-based Onboarding
 
@@ -948,7 +949,7 @@ components:
 
         ## QSealC-based Onboarding
 
-        Set `Content-Type` to `application/jws+json` and send the payload conforming to the schema as a signed JWT.
+        Set `Content-Type` to `application/jwt` and send the payload conforming to the schema as a signed JWT.
 
         The QSealC, the issuing certificate, and the root certificate (all in DER format) must be used as the items of the array, which forms the value of the `x5c` claim in the JWT header.
 
@@ -992,7 +993,7 @@ components:
 
         ```
         POST /organisation/tpp HTTP/1.1
-        Content-Type: application/jws+json
+        Content-Type: application/jwt
         Accept: application/json
         Host: matls-dirapi.openbanking.org.uk
         eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IkFCQ0QxMjM0IiwieDVjIjpbInFzZWFsYyIsImlzc3VlciBjZXJ0aWZpY2F0ZSIsInJvb3QgY2VydGlmaWNhdGUiXX0.eyJyZWRpcmVjdF91cmlzIjpbInN0cmluZyJdLCJ0b2tlbl9lbmRwb2ludF9hdXRoX21ldGhvZCI6InN0cmluZyIsImdyYW50X3R5cGVzIjpbInN0cmluZyJdLCJyZXNwb25zZV90eXBlcyI6WyJzdHJpbmciXSwiY2xpZW50X25hbWUiOiJzdHJpbmciLCJjbGllbnRfdXJpIjoic3RyaW5nIiwibG9nb191cmkiOiJzdHJpbmciLCJzY29wZSI6InN0cmluZyIsImNvbnRhY3RzIjpbInVzZXJAZXhhbXBsZS5jb20iXSwidG9zX3VyaSI6InN0cmluZyIsInBvbGljeV91cmkiOiJzdHJpbmciLCJqd2tzX3VyaSI6InN0cmluZyIsImp3a3MiOnt9LCJzb2Z0d2FyZV9pZCI6InN0cmluZyIsInNvZnR3YXJlX3ZlcnNpb24iOiJzdHJpbmcifQ.lMsADSHkFGUw5PtgdEqXslYArzqf6tbg0lo0kCitOUA
@@ -1003,7 +1004,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
-        application/jws+json:
+        application/jwt:
           schema:
             $ref: '#/components/schemas/QSealCOnboardingSchema'
     SoftwareStatement:
@@ -1247,7 +1248,10 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/jws+json:
+        application/jwt:
+          schema:
+            $ref: '#/components/schemas/SoftwareStatementAssertionSchema'
+        application/jose:
           schema:
             $ref: '#/components/schemas/SoftwareStatementAssertionSchema'
     SoftwareStatement201CreatedResponse:
