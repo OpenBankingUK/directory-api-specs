@@ -1,0 +1,2 @@
+scim-swagger.json -- please note that Swagger editors/validators will complain about spaces used in keys. This is
+expected and the workaround is turning those warnings off.
