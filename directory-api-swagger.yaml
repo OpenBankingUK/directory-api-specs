@@ -898,7 +898,7 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/certificate/validate/':
+  '/certificate/validate':
     post:
       summary: Validate certificate
       tags:
