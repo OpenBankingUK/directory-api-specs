@@ -1157,6 +1157,9 @@ components:
         application/jwt:
           schema:
             $ref: '#/components/schemas/QSealCOnboardingSchema'
+        application/jose:
+          schema:
+            $ref: '#/components/schemas/QSealCOnboardingSchema'
     SoftwareStatement:
       description: Software Statement payload
       required: true
