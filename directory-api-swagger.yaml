@@ -1114,7 +1114,7 @@ components:
 
         ## QSealC-based Onboarding
 
-        Set `Content-Type` to `application/jwt` and send the payload conforming to the schema as a signed JWT.
+        Set `Content-Type` to `application/jwt` or `application/jose` and send the payload conforming to the schema as a signed JWT.
 
         The QSealC, the issuing certificate, and the root certificate (all in DER format) must be used as the items of the array, which forms the value of the `x5c` claim in the JWT header.
 
