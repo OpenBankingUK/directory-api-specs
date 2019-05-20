@@ -1101,20 +1101,35 @@ components:
         Accept: application/json
         Host: matls-dirapi.openbanking.org.uk
         {
-          "client_name": "string",
-          "scope": "string",
+          "redirect_uris": [
+            "string"
+          ],
           "token_endpoint_auth_method": "string",
-          "tls_client_auth_subject_dn": "string",
           "grant_types": [
             "string"
           ],
-          "token_endpoint_auth_signing_alg": "string"
+          "response_types": [
+            "string"
+          ],
+          "client_name": "string",
+          "client_uri": "string",
+          "logo_uri": "string",
+          "scope": "string",
+          "contacts": [
+            "user@example.com"
+          ],
+          "tos_uri": "string",
+          "policy_uri": "string",
+          "jwks_uri": "string",
+          "jwks": {},
+          "software_id": "string",
+          "software_version": "string"
         }
         ```
 
         ## QSealC-based Onboarding
 
-        Set `Content-Type` to `application/jwt` or `application/jose` and send the payload conforming to the schema as a signed JWT.
+        Set `Content-Type` to `application/jwt` and send the payload conforming to the schema as a signed JWT.
 
         The QSealC, the issuing certificate, and the root certificate (all in DER format) must be used as the items of the array, which forms the value of the `x5c` claim in the JWT header.
 
@@ -1128,14 +1143,29 @@ components:
           "x5c": ["qsealc", "issuer certificate", "root certificate"]
         }
         {
-          "client_name": "string",
-          "scope": "string",
+          "redirect_uris": [
+            "string"
+          ],
           "token_endpoint_auth_method": "string",
-          "tls_client_auth_subject_dn": "string",
           "grant_types": [
             "string"
           ],
-          "token_endpoint_auth_signing_alg": "string"
+          "response_types": [
+            "string"
+          ],
+          "client_name": "string",
+          "client_uri": "string",
+          "logo_uri": "string",
+          "scope": "string",
+          "contacts": [
+            "user@example.com"
+          ],
+          "tos_uri": "string",
+          "policy_uri": "string",
+          "jwks_uri": "string",
+          "jwks": {},
+          "software_id": "string",
+          "software_version": "string"
         }
         ```
 
@@ -1143,7 +1173,7 @@ components:
 
         ```
         POST /organisation/tpp HTTP/1.1
-        Content-Type: application/jwt | application/jose 
+        Content-Type: application/jwt
         Accept: application/json
         Host: matls-dirapi.openbanking.org.uk
         eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IkFCQ0QxMjM0IiwieDVjIjpbInFzZWFsYyIsImlzc3VlciBjZXJ0aWZpY2F0ZSIsInJvb3QgY2VydGlmaWNhdGUiXX0.eyJyZWRpcmVjdF91cmlzIjpbInN0cmluZyJdLCJ0b2tlbl9lbmRwb2ludF9hdXRoX21ldGhvZCI6InN0cmluZyIsImdyYW50X3R5cGVzIjpbInN0cmluZyJdLCJyZXNwb25zZV90eXBlcyI6WyJzdHJpbmciXSwiY2xpZW50X25hbWUiOiJzdHJpbmciLCJjbGllbnRfdXJpIjoic3RyaW5nIiwibG9nb191cmkiOiJzdHJpbmciLCJzY29wZSI6InN0cmluZyIsImNvbnRhY3RzIjpbInVzZXJAZXhhbXBsZS5jb20iXSwidG9zX3VyaSI6InN0cmluZyIsInBvbGljeV91cmkiOiJzdHJpbmciLCJqd2tzX3VyaSI6InN0cmluZyIsImp3a3MiOnt9LCJzb2Z0d2FyZV9pZCI6InN0cmluZyIsInNvZnR3YXJlX3ZlcnNpb24iOiJzdHJpbmcifQ.lMsADSHkFGUw5PtgdEqXslYArzqf6tbg0lo0kCitOUA
@@ -1155,9 +1185,6 @@ components:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
         application/jwt:
-          schema:
-            $ref: '#/components/schemas/QSealCOnboardingSchema'
-        application/jose:
           schema:
             $ref: '#/components/schemas/QSealCOnboardingSchema'
     SoftwareStatement:
@@ -1494,43 +1521,90 @@ components:
         data:
           type: object
           properties:
-            eIDAS:
+            certificate:
               type: object
               properties:
-                data:
+                type:
+                  type: string
+                eidas_profile:
+                  type: string
+                qtsp_name:
+                  type: string
+                qtsp_uri:
+                  type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
+                valid_eidas_certificate:
+                  type: boolean
+                valid_obietf_certificate:
+                  type: boolean
+                expired:
+                  type: boolean
+                revoked:
+                  type: boolean
+            organisation:
+              type: object
+              properties:
+                onboarded_to_open_banking:
+                  type: boolean
+                org_name:
+                  type: string
+                passports:
                   type: object
                   properties:
-                    validity:
+                    nca_name:
                       type: object
                       properties:
-                        validQTSP:
-                          type: boolean
-                        validOBIETrustFramework:
-                          type: boolean
-                        validSignature:
-                          type: boolean
-                        notRevoked:
-                          type: boolean
-                        notExpired:
-                          type: boolean
-                    values:
-                      type: object
-                      properties:
-                        legalName:
-                          type: string
-                        authNumber:
-                          type: string
-                        QTSPName:
-                          type: string
-                        OBIETrustFrameworkQTSPUri:
-                          type: string
-            registerEntries:
-              type: object
-              properties:
-                authorizations:
+                        permissions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              code:
+                                type: string
+                              effective_from:
+                                type: string
+                              id:
+                                type: string
+                              permission:
+                                type: string
+                        roles:
+                          type: array
+                          items:
+                            type: string
+                competent_authority_claims:
                   type: array
                   items:
                     type: object
+                    properties:
+                      authorization_domain:
+                        type: string
+                      authority_id:
+                        type: string
+                      registration_id:
+                        type: string
+                      status:
+                        type: string
+                      authorizations:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            member_state:
+                              type: string
+                            roles:
+                              type: array
+                              items:
+                                type: string
+                software_statements:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      software_id:
+                        type: string
     AuthorisationServerSchema:
       type: object
       properties:
