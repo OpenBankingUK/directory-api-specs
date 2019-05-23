@@ -924,6 +924,24 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+  '/certificate/validate/{CertificateType}':
+    post:
+      parameters:
+        - $ref: '#/components/parameters/CertificateType'
+      summary: Validate certificate of a specific type
+      tags:
+        - Certificate Validation
+      requestBody:
+        $ref: '#/components/requestBodies/CertificateValidationRequestBody'
+      security:
+        - OAuth2SecurityReadOps:
+            - ASPSPReadAccess
+            - TPPReadAccess
+      responses:
+        '200':
+          $ref: '#/components/responses/CertificateTypeValidationOKResponse'
+        '400':
+          $ref: '#/components/responses/CertificateTypeValidation400Response'
 components:
   parameters:
     AuthorisationServerId:
@@ -940,6 +958,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CertificateOrKeyIdSchema'
+    CertificateType:
+      name: CertificateType
+      description: Type of certificate
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/CertificateTypeSchema'
     ContactType:
       name: ContactType
       description: The contact type
@@ -1332,6 +1357,10 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CertificateValidationResponseSchema'
+    CertificateTypeValidationOKResponse:
+      description: OK
+    CertificateTypeValidation400Response:
+      description: 400 Bad Request
     Contact200OKResponse:
       description: OK
       headers:
@@ -1702,6 +1731,15 @@ components:
         PhoneNumber:
           type: string
           maxLength: 18
+    CertificateTypeSchema:
+      type: string
+      enum:
+        - obwac
+        - obseal
+        - qwac
+        - qsealc
+        - obsigning
+        - obtransport
     ContactTypeSchema:
       type: string
       enum:
