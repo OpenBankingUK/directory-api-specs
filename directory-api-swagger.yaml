@@ -927,7 +927,7 @@ paths:
   '/certificate/validate/{CertificateType}':
     post:
       parameters:
-        - $ref: '#/components/parameters/CertificateType'
+        - $ref: '#/components/parameters/CertificateTypeForValidation'
       summary: Validate certificate of a specific type
       tags:
         - Certificate Validation
@@ -958,6 +958,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CertificateOrKeyIdSchema'
+    CertificateTypeForValidation:
+      name: CertificateType
+      description: Type of certificate
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/CertificateTypeForValidationSchema'
     CertificateType:
       name: CertificateType
       description: Type of certificate
@@ -1738,6 +1745,11 @@ components:
         PhoneNumber:
           type: string
           maxLength: 18
+    CertificateTypeForValidationSchema:
+      type: string
+      enum:
+        - qwac
+        - qsealc
     CertificateTypeSchema:
       type: string
       enum:
