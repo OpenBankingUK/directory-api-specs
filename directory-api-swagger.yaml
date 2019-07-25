@@ -1748,6 +1748,8 @@ components:
     CertificateTypeForValidationSchema:
       type: string
       enum:
+        - obwac
+        - obseal
         - qwac
         - qsealc
     CertificateTypeSchema:
