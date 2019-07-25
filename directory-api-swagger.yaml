@@ -11,7 +11,7 @@ paths:
       tags:
         - Organisations
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
+        - $ref: '#/components/parameters/OrganisationTypeForQSealCOnboarding'
       requestBody:
         $ref: '#/components/requestBodies/Enrol'
       responses:
@@ -36,8 +36,8 @@ paths:
         - $ref: '#/components/parameters/OrganisationType'
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
@@ -53,8 +53,8 @@ paths:
         - $ref: '#/components/parameters/OrganisationId'
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
@@ -73,9 +73,9 @@ paths:
         - $ref: '#/components/parameters/ContactType'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       requestBody:
         $ref: '#/components/requestBodies/Contact'
       responses:
@@ -104,8 +104,8 @@ paths:
         - $ref: '#/components/parameters/ContactType'
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/Contact200OKResponse'
@@ -133,9 +133,9 @@ paths:
         - $ref: '#/components/parameters/OrganisationId'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatement'
       responses:
@@ -157,8 +157,8 @@ paths:
         - Software Statements
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementsGet200OKResponse'
@@ -183,8 +183,8 @@ paths:
         - Software Statements
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
@@ -212,9 +212,9 @@ paths:
         $ref: '#/components/requestBodies/SoftwareStatementState'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -247,9 +247,9 @@ paths:
         $ref: '#/components/requestBodies/SoftwareStatementRedirectURI'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -458,8 +458,8 @@ paths:
         - Software Statement Assertions
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementAssertion200OKResponse'
@@ -487,8 +487,8 @@ paths:
         - Organisation Certificates
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -523,9 +523,9 @@ paths:
         $ref: '#/components/requestBodies/CertificateOrCSROrJWS'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -547,8 +547,8 @@ paths:
         - Organisation Certificates
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -576,8 +576,8 @@ paths:
         - Organisation Certificates
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
@@ -599,9 +599,9 @@ paths:
         - Organisation Certificates
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '204':
           $ref: '#/components/responses/204NoContentResponse'
@@ -629,8 +629,8 @@ paths:
         - Software Statement Certificates
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -664,9 +664,9 @@ paths:
         $ref: '#/components/requestBodies/CSROrKey'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -688,8 +688,8 @@ paths:
         - Software Statement Certificates
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -721,9 +721,9 @@ paths:
         $ref: '#/components/requestBodies/CertificateOrKeyAssociation'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '200':
           $ref: '#/components/responses/CertificateAssociatedWithASoftwareStatement200AcceptedResponse'
@@ -749,8 +749,8 @@ paths:
         - Software Statement Certificates
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
@@ -777,8 +777,8 @@ paths:
         - Authorisation Servers
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/AuthorisationServersResponse'
@@ -802,9 +802,9 @@ paths:
         $ref: '#/components/requestBodies/AuthorisationServer'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '201':
           $ref: '#/components/responses/AuthorisationServerResponse'
@@ -831,8 +831,8 @@ paths:
         - Authorisation Servers
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/AuthorisationServerResponse'
@@ -856,9 +856,9 @@ paths:
         $ref: '#/components/requestBodies/AuthorisationServer'
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '202':
           $ref: '#/components/responses/AuthorisationServer202AcceptedResponse'
@@ -880,9 +880,9 @@ paths:
         - Authorisation Servers
       security:
         - OAuth2SecurityReadWriteOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
-          - TPPModify
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
       responses:
         '204':
           $ref: '#/components/responses/204NoContentResponse'
@@ -907,8 +907,8 @@ paths:
         $ref: '#/components/requestBodies/CertificateValidationRequestBody'
       security:
         - OAuth2SecurityReadOps:
-          - ASPSPReadAccess
-          - TPPReadAccess
+            - ASPSPReadAccess
+            - TPPReadAccess
       responses:
         '200':
           $ref: '#/components/responses/CertificateValidationServerResponse'
@@ -924,6 +924,24 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+  '/certificate/validate/{CertificateType}':
+    post:
+      parameters:
+        - $ref: '#/components/parameters/CertificateType'
+      summary: Validate certificate of a specific type
+      tags:
+        - Certificate Validation
+      requestBody:
+        $ref: '#/components/requestBodies/CertificateValidationRequestBody'
+      security:
+        - OAuth2SecurityReadOps:
+            - ASPSPReadAccess
+            - TPPReadAccess
+      responses:
+        '200':
+          $ref: '#/components/responses/CertificateTypeValidationOKResponse'
+        '400':
+          $ref: '#/components/responses/CertificateTypeValidation400Response'
 components:
   parameters:
     AuthorisationServerId:
@@ -940,6 +958,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CertificateOrKeyIdSchema'
+    CertificateType:
+      name: CertificateType
+      description: Type of certificate
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/CertificateTypeSchema'
     ContactType:
       name: ContactType
       description: The contact type
@@ -947,6 +972,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/ContactTypeSchema'
+    OrganisationTypeForQSealCOnboarding:
+      name: OrganisationType
+      description: OB Organisation Type
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/OrganisationTypeForQSealCOnboardingSchema'
     OrganisationType:
       name: OrganisationType
       description: OB Organisation Type
@@ -1101,35 +1133,20 @@ components:
         Accept: application/json
         Host: matls-dirapi.openbanking.org.uk
         {
-          "redirect_uris": [
-            "string"
-          ],
+          "client_name": "string",
+          "scope": "string",
           "token_endpoint_auth_method": "string",
+          "tls_client_auth_subject_dn": "string",
           "grant_types": [
             "string"
           ],
-          "response_types": [
-            "string"
-          ],
-          "client_name": "string",
-          "client_uri": "string",
-          "logo_uri": "string",
-          "scope": "string",
-          "contacts": [
-            "user@example.com"
-          ],
-          "tos_uri": "string",
-          "policy_uri": "string",
-          "jwks_uri": "string",
-          "jwks": {},
-          "software_id": "string",
-          "software_version": "string"
+          "token_endpoint_auth_signing_alg": "string"
         }
         ```
 
         ## QSealC-based Onboarding
 
-        Set `Content-Type` to `application/jwt` and send the payload conforming to the schema as a signed JWT.
+        Set `Content-Type` to `application/jwt` or `application/jose` and send the payload conforming to the schema as a signed JWT.
 
         The QSealC, the issuing certificate, and the root certificate (all in DER format) must be used as the items of the array, which forms the value of the `x5c` claim in the JWT header.
 
@@ -1143,29 +1160,14 @@ components:
           "x5c": ["qsealc", "issuer certificate", "root certificate"]
         }
         {
-          "redirect_uris": [
-            "string"
-          ],
+          "client_name": "string",
+          "scope": "string",
           "token_endpoint_auth_method": "string",
+          "tls_client_auth_subject_dn": "string",
           "grant_types": [
             "string"
           ],
-          "response_types": [
-            "string"
-          ],
-          "client_name": "string",
-          "client_uri": "string",
-          "logo_uri": "string",
-          "scope": "string",
-          "contacts": [
-            "user@example.com"
-          ],
-          "tos_uri": "string",
-          "policy_uri": "string",
-          "jwks_uri": "string",
-          "jwks": {},
-          "software_id": "string",
-          "software_version": "string"
+          "token_endpoint_auth_signing_alg": "string"
         }
         ```
 
@@ -1173,7 +1175,7 @@ components:
 
         ```
         POST /organisation/tpp HTTP/1.1
-        Content-Type: application/jwt
+        Content-Type: application/jwt | application/jose
         Accept: application/json
         Host: matls-dirapi.openbanking.org.uk
         eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IkFCQ0QxMjM0IiwieDVjIjpbInFzZWFsYyIsImlzc3VlciBjZXJ0aWZpY2F0ZSIsInJvb3QgY2VydGlmaWNhdGUiXX0.eyJyZWRpcmVjdF91cmlzIjpbInN0cmluZyJdLCJ0b2tlbl9lbmRwb2ludF9hdXRoX21ldGhvZCI6InN0cmluZyIsImdyYW50X3R5cGVzIjpbInN0cmluZyJdLCJyZXNwb25zZV90eXBlcyI6WyJzdHJpbmciXSwiY2xpZW50X25hbWUiOiJzdHJpbmciLCJjbGllbnRfdXJpIjoic3RyaW5nIiwibG9nb191cmkiOiJzdHJpbmciLCJzY29wZSI6InN0cmluZyIsImNvbnRhY3RzIjpbInVzZXJAZXhhbXBsZS5jb20iXSwidG9zX3VyaSI6InN0cmluZyIsInBvbGljeV91cmkiOiJzdHJpbmciLCJqd2tzX3VyaSI6InN0cmluZyIsImp3a3MiOnt9LCJzb2Z0d2FyZV9pZCI6InN0cmluZyIsInNvZnR3YXJlX3ZlcnNpb24iOiJzdHJpbmcifQ.lMsADSHkFGUw5PtgdEqXslYArzqf6tbg0lo0kCitOUA
@@ -1185,6 +1187,9 @@ components:
           schema:
             $ref: '#/components/schemas/EnrolSchema'
         application/jwt:
+          schema:
+            $ref: '#/components/schemas/QSealCOnboardingSchema'
+        application/jose:
           schema:
             $ref: '#/components/schemas/QSealCOnboardingSchema'
     SoftwareStatement:
@@ -1359,6 +1364,10 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CertificateValidationResponseSchema'
+    CertificateTypeValidationOKResponse:
+      description: OK
+    CertificateTypeValidation400Response:
+      description: 400 Bad Request
     Contact200OKResponse:
       description: OK
       headers:
@@ -1729,6 +1738,15 @@ components:
         PhoneNumber:
           type: string
           maxLength: 18
+    CertificateTypeSchema:
+      type: string
+      enum:
+        - obwac
+        - obseal
+        - qwac
+        - qsealc
+        - obsigning
+        - obtransport
     ContactTypeSchema:
       type: string
       enum:
@@ -1914,6 +1932,10 @@ components:
       enum:
         - qseal
         - obseal
+    OrganisationTypeForQSealCOnboardingSchema:
+      type: string
+      enum:
+        - tpp
     OrganisationTypeSchema:
       type: string
       enum:
