@@ -1752,6 +1752,8 @@ components:
         - obseal
         - qwac
         - qsealc
+        - obsigning
+        - obtransport
     CertificateTypeSchema:
       type: string
       enum:
