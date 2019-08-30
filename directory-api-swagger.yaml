@@ -706,6 +706,43 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
+  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationType'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/OrganisationAssociativeCertificateType'
+      - $ref: '#/components/parameters/CertificateOrKeyId'
+    put:
+      summary: Associate/de-associate a QSEAL/OBSEAL certificate with all software statements
+      tags:
+        - Certificate Associations
+      requestBody:
+        $ref: '#/components/requestBodies/CertificateOrKeyAssociation'
+      security:
+        - OAuth2SecurityReadWriteOps:
+            - ASPSPReadAccess
+            - TPPReadAccess
+            - TPPModify
+      responses:
+        '200':
+          $ref: '#/components/responses/CertificateAssociatedWithASoftwareStatement200AcceptedResponse'
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '409':
+          $ref: '#/components/responses/409ConflictResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
