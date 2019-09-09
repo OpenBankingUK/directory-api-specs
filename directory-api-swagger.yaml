@@ -1513,6 +1513,11 @@ components:
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
+        ApiResourceDiscoveryEndpoint:
+          description: An RFC-3986-compliant URI
+          type: string
+          format: uri
+          maxLength: 256
     CertificateValidationResponseSchema:
       type: object
       properties:
@@ -1655,6 +1660,11 @@ components:
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
+        ApiResourceDiscoveryEndpoint:
+          description: An RFC-3986-compliant URI
+          type: string
+          format: uri
+          maxLength: 256
     AuthorisationServersSchema:
       type: array
       items:
