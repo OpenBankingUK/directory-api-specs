@@ -267,7 +267,7 @@ paths:
 
           * __Account Servicing Payment Services Provider (ASPSP)__ -- An organisation managing customer accounts (and operating banking APIs).
           * __Primary Technical Contact__ -- The person at the TPP who creates an SSA and invokes a registration mechanism. This is an example of an [RFC7591] Client Developer.
-          * __OB Organisation ID__ -- The unique identifier for each OpenBanking participant. Both TPPs and ASPSPs have OB Organisation IDs.
+          * __OB Organisation ID__ -- The unique identifier for each OpenBanking participant. All organisations present on the OpenBanking Techincal Direcotry have an OB Organisation IDs.
           * __OpenBanking Directory__ -- An implementation of a [PSD2] competent authority; acts as an Identity Provider, certificate authority, and registry governing the participants in the UK OpenBanking API scheme.
           * __ASPSP Registration Endpoint__ -- OAuth 2.0 & [RFC7591] compliant endpoint, exact value is discoverable from the [OIDCD] openid-configuration file of the ASPSP.
           * __Software Statement Assertion (SSA)__ -- An implementation of an [RFC7591] software statement, signed by the OpenBanking Directory.
@@ -1426,6 +1426,10 @@ components:
     AuthorisationServerRequestSchema:
       type: object
       properties:
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the authorisation server is created.
+          maxLength: 256
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
@@ -1574,6 +1578,10 @@ components:
         Id:
           type: string
           maxLength: 22
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the software statement is created.
+          maxLength: 256
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
@@ -1709,8 +1717,12 @@ components:
     OrganisationAssociativeCertificateTypeSchema:
       type: string
       enum:
-        - qseal
+        - obwac
         - obseal
+        - qwac
+        - qsealc
+        - copwac
+        - copseal
     CertificateTypeSchema:
       type: string
       enum:
@@ -1720,6 +1732,8 @@ components:
         - qsealc
         - obsigning
         - obtransport
+        - copwac
+        - copseal
     ContactTypeSchema:
       type: string
       enum:
@@ -1815,7 +1829,7 @@ components:
           description: Timestamp
           type: integer
         ob_org_id:
-          description: Organisation ID assigned by Open Banking   Directory
+          description: Organisation ID assigned by Open Banking Directory
           type: string
           minLength: 18
           maxLength: 18
@@ -1923,6 +1937,10 @@ components:
     SoftwareStatementCreateSchema:
       type: object
       properties:
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the software statement is created.
+          maxLength: 256
         ClientName:
           type: string
           description: Software Statement client name
@@ -1978,6 +1996,10 @@ components:
         Active:
           type: boolean
           description: Software Statement active/inactive flag
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the software statement is created.
+          maxLength: 256
         ClientId:
           type: string
           description: Software Statement client Id
