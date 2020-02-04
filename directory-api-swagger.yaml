@@ -1721,8 +1721,6 @@ components:
         - obseal
         - qwac
         - qsealc
-        - copwac
-        - copseal
     CertificateTypeSchema:
       type: string
       enum:
@@ -1732,8 +1730,6 @@ components:
         - qsealc
         - obsigning
         - obtransport
-        - copwac
-        - copseal
     ContactTypeSchema:
       type: string
       enum:
@@ -1914,8 +1910,6 @@ components:
         - qseal
         - obwac
         - obseal
-        - copwac
-        - copseal
     OrganisationIdSchema:
       type: string
     OrganisationsGetFromSCIM200OKResponseSchema:
