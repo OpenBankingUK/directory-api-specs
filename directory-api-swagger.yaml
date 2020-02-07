@@ -114,7 +114,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
     post:
-      summary: Create a software statement
+      summary: Create a software statement. Software statement creation will fail if the organisation hasn't uploaded at least one eIDAS QWAC or QSealC certificate.
       tags:
         - Software Statements
       parameters:
