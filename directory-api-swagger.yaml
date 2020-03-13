@@ -125,7 +125,7 @@ paths:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
     post:
-      summary: Create a software statement
+      summary: Create a software statement. Software statements will only be created for TPPs that have at least one eIDAS certificate uploaded to the Technical Directory certificate store fo their organisation.
       tags:
         - Software Statements
       parameters:
