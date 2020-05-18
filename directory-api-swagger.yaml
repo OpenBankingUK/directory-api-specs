@@ -75,7 +75,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       requestBody:
         $ref: '#/components/requestBodies/Contact'
       responses:
@@ -135,7 +135,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatement'
       responses:
@@ -214,7 +214,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -249,7 +249,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -525,7 +525,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -601,7 +601,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '204':
           $ref: '#/components/responses/204NoContentResponse'
@@ -666,7 +666,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -723,7 +723,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '200':
           $ref: '#/components/responses/CertificateAssociatedWithASoftwareStatement200AcceptedResponse'
@@ -804,7 +804,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '201':
           $ref: '#/components/responses/AuthorisationServerResponse'
@@ -858,7 +858,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '202':
           $ref: '#/components/responses/AuthorisationServer202AcceptedResponse'
@@ -882,7 +882,7 @@ paths:
         - OAuth2SecurityReadWriteOps:
             - ASPSPReadAccess
             - TPPReadAccess
-            - TPPModify
+            - TPPManage
       responses:
         '204':
           $ref: '#/components/responses/204NoContentResponse'
@@ -2148,5 +2148,5 @@ components:
           tokenUrl: https://sso.openbanking.me.uk/as/token.oauth2
           scopes:
             TPPReadAccess: Retrieve or Search for Third Party Providers
-            TPPModify: Modify Your Third Third Party Provider Record
+            TPPManage: Modify Your Third Third Party Provider Record
             ASPSPReadAccess: Read ASPSP Records
