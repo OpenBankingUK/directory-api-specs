@@ -4,14 +4,12 @@ info:
   version: 0.0.1
   description: OB Tech Directory API
 paths:
-  '/organisation/{OrganisationType}':
+  '/v2/organisation':
     post:
-      summary: Enrol a eIDAS QWAC/QSealC-bearing participant
-      description: Enrol an eIDAS QWAC/QSealC certificate-bearing participant onto the Open Banking Directory. Currenty only TPPs can use this enrolment endpoint, so please set `OrganisationType` to `tpp`
+      summary: Enrol a eIDAS QWAC/QSeal-bearing participant
+      description: Enrol an eIDAS QWAC/QSeal certificate-bearing participant onto the Open Banking Directory.
       tags:
         - Organisations
-      parameters:
-        - $ref: '#/components/parameters/OrganisationTypeForQSealCOnboarding'
       requestBody:
         $ref: '#/components/requestBodies/Enrol'
       responses:
@@ -32,8 +30,6 @@ paths:
       description: Note that this was not in the original design but is included to inform the client
       tags:
         - Organisations
-      parameters:
-        - $ref: '#/components/parameters/OrganisationType'
       security:
         - OAuth2SecurityReadOps:
             - ASPSPReadAccess
@@ -43,13 +39,12 @@ paths:
           $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}':
+  '/v2/organisation/{OrganisationId}':
     get:
       summary: Get the given organisation's details
       tags:
         - Organisations
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
       security:
         - OAuth2SecurityReadOps:
@@ -62,13 +57,12 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}/contact/{ContactType}':
+  '/v2/organisation/{OrganisationId}/contact/{ContactType}':
     put:
       summary: Update the business or the technical contacts for the given organisation
       tags:
         - Contacts
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/ContactType'
       security:
@@ -99,7 +93,6 @@ paths:
       tags:
         - Contacts
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/ContactType'
       security:
@@ -120,16 +113,14 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement':
+  '/v2/organisation/{OrganisationId}/software-statement':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
     post:
       summary: Create a software statement
       tags:
         - Software Statements
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
       security:
         - OAuth2SecurityReadWriteOps:
@@ -172,9 +163,8 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}':
+  '/v2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
@@ -205,7 +195,6 @@ paths:
       tags:
         - Software Statements
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/SoftwareStatementId'
       requestBody:
@@ -230,9 +219,8 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/redirect-uri':
+  '/v2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/redirect-uri':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
     post:
@@ -240,7 +228,6 @@ paths:
       tags:
         - Software Statement Redirect URIs
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/SoftwareStatementId'
       requestBody:
@@ -267,9 +254,8 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/software-statement-assertion':
+  '/v2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/software-statement-assertion':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
@@ -476,9 +462,8 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/certificate':
+  '/v2/organisation/{OrganisationId}/certificate':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
@@ -504,9 +489,8 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}/certificate/{OrganisationCertificateType}':
+  '/v2/organisation/{OrganisationId}/certificate/{OrganisationCertificateType}':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
       - $ref: '#/components/parameters/OrganisationCertificateType'
@@ -515,7 +499,6 @@ paths:
       tags:
         - Organisation Certificates
       parameters:
-        - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
         - $ref: '#/components/parameters/SoftwareStatementId'
         - $ref: '#/components/parameters/OrganisationCertificateType'
@@ -565,9 +548,8 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/certificate/kid/{CertificateOrKeyId}':
+  '/v2/organisation/{OrganisationId}/certificate/kid/{CertificateOrKeyId}':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/CertificateOrKeyId'
     get:
@@ -618,9 +600,8 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate':
+  '/v2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
@@ -647,9 +628,8 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{SoftwareStatementCertificateOrKeyType}':
+  '/v2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{SoftwareStatementCertificateOrKeyType}':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
       - $ref: '#/components/parameters/SoftwareStatementCertificateOrKeyType'
@@ -706,9 +686,8 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}':
+  '/v2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/SoftwareStatementId'
       - $ref: '#/components/parameters/OrganisationAssociativeCertificateType'
@@ -767,9 +746,8 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/organisation/{OrganisationType}/{OrganisationId}/authorisation-server':
+  '/v2/organisation/{OrganisationId}/authorisation-server':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
     get:
       summary: Get all Authorisation Servers for the given organisation
@@ -820,9 +798,8 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/organisation/{OrganisationType}/{OrganisationId}/authorisation-server/{AuthorisationServerId}':
+  '/v2/organisation/{OrganisationId}/authorisation-server/{AuthorisationServerId}':
     parameters:
-      - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
       - $ref: '#/components/parameters/AuthorisationServerId'
     get:
@@ -898,7 +875,7 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  '/certificate/validate':
+  '/v2/certificate/validate':
     post:
       summary: Validate certificate
       tags:
@@ -961,13 +938,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/ContactTypeSchema'
-    OrganisationTypeForQSealCOnboarding:
+    OrganisationTypeForQSealOnboarding:
       name: OrganisationType
       description: OB Organisation Type
       in: path
       required: true
       schema:
-        $ref: '#/components/schemas/OrganisationTypeForQSealCOnboardingSchema'
+        $ref: '#/components/schemas/OrganisationTypeForQSealOnboardingSchema'
     OrganisationType:
       name: OrganisationType
       description: OB Organisation Type
@@ -1032,7 +1009,7 @@ components:
 
         ### Requesting a Certificate using a signed JWT
 
-        The header `kid` claim is the ID of the QSealC certificate assigned to it by the OB JWKS store.
+        The header `kid` claim is the ID of the QSeal certificate assigned to it by the OB JWKS store.
 
         The body `csr` claim is the CSR in the DER format.
 
@@ -1049,7 +1026,7 @@ components:
 
         ### Uploaing a Certificate using a signed JWT
 
-        The header `kid` claim is the ID of the QSealC certificate assigned to it by the OB JWKS store.
+        The header `kid` claim is the ID of the QSeal certificate assigned to it by the OB JWKS store.
 
         The body `x5c` claim is the array of certificate, issuer certificate, and root certificate in the DER format.
 
@@ -1060,7 +1037,7 @@ components:
           "kid": "ABCD1234",
         }
         {
-          "x5c": ["qsealc", "issuer certificate", "root certificate"]
+          "x5c": ["qseal", "issuer certificate", "root certificate"]
         }
         ```
 
@@ -1104,10 +1081,10 @@ components:
             $ref: '#/components/schemas/CertificateValidationSchema'
     Enrol:
       description: |
-        The payload submitted when a TPP attempts to enrol with an eIDAS QWAC or QSealC certificate. It's format and contents will depend on the value of the `Content-Type` header:  TPP onto the Open Banking Directory (required fields to be validated). For eIDAS QSealC-bearing TPPs use a signed JWT (JWS).
+        The payload submitted when a TPP attempts to enrol with an eIDAS QWAC or QSeal certificate. It's format and contents will depend on the value of the `Content-Type` header:  TPP onto the Open Banking Directory (required fields to be validated). For eIDAS QSeal-bearing TPPs use a signed JWT (JWS).
 
         * __application/json__ -- a JSON payload for QWAC onboarding.
-        * __application/jwt__ -- a signed JWT (JWS) for QSealC onboarding.
+        * __application/jwt__ -- a signed JWT (JWS) for QSeal onboarding.
         * __application/jose__ -- same as __application/jwt__.
 
         ## QWAC-based Onboarding
@@ -1133,20 +1110,20 @@ components:
         }
         ```
 
-        ## QSealC-based Onboarding
+        ## QSeal-based Onboarding
 
         Set `Content-Type` to `application/jwt` or `application/jose` and send the payload conforming to the schema as a signed JWT.
 
-        The QSealC, the issuing certificate, and the root certificate (all in DER format) must be used as the items of the array, which forms the value of the `x5c` claim in the JWT header.
+        The QSeal, the issuing certificate, and the root certificate (all in DER format) must be used as the items of the array, which forms the value of the `x5c` claim in the JWT header.
 
-        The JWT MUST be signed using the private key associated with the QSealC listed in the `x5c` claim in the header.
+        The JWT MUST be signed using the private key associated with the QSeal listed in the `x5c` claim in the header.
 
         ```
         {
           "typ": "JWT",
           "alg": "ES256",
           "kid": "ABCD1234",
-          "x5c": ["qsealc", "issuer certificate", "root certificate"]
+          "x5c": ["qseal", "issuer certificate", "root certificate"]
         }
         {
           "client_name": "string",
@@ -1160,7 +1137,7 @@ components:
         }
         ```
 
-        EXAMPLE REQUEST PAYLOAD FOR QSealC-BASED ONBOARDING
+        EXAMPLE REQUEST PAYLOAD FOR QSeal-BASED ONBOARDING
 
         ```
         POST /organisation/tpp HTTP/1.1
@@ -1177,10 +1154,10 @@ components:
             $ref: '#/components/schemas/EnrolSchema'
         application/jwt:
           schema:
-            $ref: '#/components/schemas/QSealCOnboardingSchema'
+            $ref: '#/components/schemas/QSealOnboardingSchema'
         application/jose:
           schema:
-            $ref: '#/components/schemas/QSealCOnboardingSchema'
+            $ref: '#/components/schemas/QSealOnboardingSchema'
     SoftwareStatement:
       description: Software Statement payload
       required: true
@@ -1743,7 +1720,7 @@ components:
         - obwac
         - obseal
         - qwac
-        - qsealc
+        - qseal
         - obsigning
         - obtransport
     CertificateTypeSchema:
@@ -1752,7 +1729,7 @@ components:
         - obwac
         - obseal
         - qwac
-        - qsealc
+        - qseal
         - obsigning
         - obtransport
     ContactTypeSchema:
@@ -1940,7 +1917,7 @@ components:
       enum:
         - qseal
         - obseal
-    OrganisationTypeForQSealCOnboardingSchema:
+    OrganisationTypeForQSealOnboardingSchema:
       type: string
       enum:
         - tpp
@@ -1957,7 +1934,7 @@ components:
         type: object
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
-    QSealCOnboardingSchema:
+    QSealOnboardingSchema:
       type: string
       description: A signed JWT (JWS)
     SoftwareStatementCertificateOrKeyTypeSchema:
