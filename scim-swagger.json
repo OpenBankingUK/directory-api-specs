@@ -107,7 +107,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -135,7 +135,7 @@
                         "name": "SCIM 2.0 Search Request Message",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Search Request"
+                            "$ref": "#/definitions/SearchRequest"
                         }
                     }
                 ],
@@ -186,7 +186,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -228,7 +228,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -319,7 +319,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -347,7 +347,7 @@
                         "name": "SCIM 2.0 Search Request Message",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Search Request"
+                            "$ref": "#/definitions/SearchRequest"
                         }
                     }
                 ],
@@ -398,7 +398,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -440,7 +440,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -531,7 +531,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -559,7 +559,7 @@
                         "name": "SCIM 2.0 Search Request Message",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Search Request"
+                            "$ref": "#/definitions/SearchRequest"
                         }
                     }
                 ],
@@ -610,7 +610,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -652,7 +652,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -743,7 +743,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -771,7 +771,7 @@
                         "name": "SCIM 2.0 Search Request Message",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Search Request"
+                            "$ref": "#/definitions/SearchRequest"
                         }
                     }
                 ],
@@ -822,7 +822,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -864,7 +864,7 @@
                     "default": {
                         "description": "An error occurred while executing the operation",
                         "schema": {
-                            "$ref": "#/definitions/Error Response"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 },
@@ -896,7 +896,7 @@
         }
     },
     "definitions": {
-        "Error Response": {
+        "ErrorResponse": {
             "required": [
                 "schemas",
                 "status"
@@ -934,7 +934,7 @@
                 "url": "https://tools.ietf.org/html/rfc7644#section-3.12"
             }
         },
-        "Search Request": {
+        "SearchRequest": {
             "required": [
                 "schemas"
             ],
@@ -1108,6 +1108,86 @@
                             "type": "string",
                             "description": "Registration Id with the principle authority",
                             "title": "RegistrationId"
+                        }
+                    }
+                },
+                "urn:openbanking:competentauthorityclaims:1.1": {
+                    "type": "object",
+                    "description": "Claims sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetentAuthority",
+                    "properties": {
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "ID of a competent authority (e.g. FCA)",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorisation Domain encompasses all activities related to the respetive authorisations",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role in which institution authorised",
+                                        "title": "Psd2Role"
+                                    }
+                                }
+                            }
+                        },
+                        "AuthorisationAuthorities": {
+                            "type": "array",
+                            "description": "The ID of the accrediting authority.",
+                            "title": "AuthorisationAuthorities",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "X509OrganisationIdentifier": {
+                                        "type": "array",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "X509OrganisationIdentifier",
+                                        "items": {
+                                            "type": "string",
+                                            "title": "X509OrganisationIdentifier"
+                                        }
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "ID of a competent authority (e.g. FCA)",
+                                        "title": "AuthorityId"
+                                    },
+                                      "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorisation Domain encompasses all activities related to the respetive authorisations"
+                                    },
+                                    "RegistrationId": {
+                                        "type": "string",
+                                        "description": "Authorisation authority registration ID",
+                                        "title": "RegistrationId"
+                                    }
+                                }
+                            }
                         }
                     }
                 },
@@ -2066,6 +2146,86 @@
                             "type": "string",
                             "description": "Registration Id with the principle authority",
                             "title": "RegistrationId"
+                        }
+                    }
+                },
+                "urn:openbanking:competentauthorityclaims:1.1": {
+                    "type": "object",
+                    "description": "Claims sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetentAuthority",
+                    "properties": {
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "ID of a competent authority (e.g. FCA)",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorisation Domain encompasses all activities related to the respetive authorisations",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role in which institution authorised",
+                                        "title": "Psd2Role"
+                                    }
+                                }
+                            }
+                        },
+                        "AuthorisationAuthorities": {
+                            "type": "array",
+                            "description": "The ID of the accrediting authority.",
+                            "title": "AuthorisationAuthorities",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "X509OrganisationIdentifier": {
+                                        "type": "array",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "X509OrganisationIdentifier",
+                                        "items": {
+                                            "type": "string",
+                                            "title": "X509OrganisationIdentifier"
+                                        }
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "ID of a competent authority (e.g. FCA)",
+                                        "title": "AuthorityId"
+                                    },
+                                      "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorisation Domain encompasses all activities related to the respetive authorisations"
+                                    },
+                                    "RegistrationId": {
+                                        "type": "string",
+                                        "description": "Authorisation authority registration ID",
+                                        "title": "RegistrationId"
+                                    }
+                                }
+                            }
                         }
                     }
                 },
