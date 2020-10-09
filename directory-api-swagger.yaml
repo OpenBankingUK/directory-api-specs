@@ -1663,7 +1663,7 @@ components:
         obOrganisationId:
           description: OB organisation Id
           type: string
-        associations:
+        Associations:
           description: Array of Software Statement Ids that the certificate is associated with
           type: array
           items:
