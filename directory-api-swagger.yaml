@@ -1524,19 +1524,26 @@ components:
                     nca_name:
                       type: object
                       properties:
-                        permissions:
+                        permission_country:
                           type: array
                           items:
                             type: object
                             properties:
-                              code:
+                              permission_type:
                                 type: string
-                              effective_from:
-                                type: string
-                              id:
-                                type: string
-                              permission:
-                                type: string
+                              permissions:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    code:
+                                      type: string
+                                    permission:
+                                      type: string
+                              roles:
+                                type: array
+                                items:
+                                  type: string
                         roles:
                           type: array
                           items:
