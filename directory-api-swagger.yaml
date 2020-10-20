@@ -888,7 +888,7 @@ paths:
             - TPPReadAccess
       responses:
         '200':
-          $ref: '#/components/responses/CertificateValidationServerResponse'
+          $ref: '#/components/responses/CertificateValidationServerResponseV2'
         '400':
           $ref: '#/components/responses/400BadRequestResponse'
         '401':
@@ -2250,6 +2250,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CertificateValidationResponseSchema'
+    CertificateValidationServerResponseV2:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CertificateValidationResponseSchemaV2'
     CertificateTypeValidationOKResponse:
       description: OK
     CertificateTypeValidation400Response:
@@ -2416,6 +2426,96 @@ components:
           format: uri
           maxLength: 256
     CertificateValidationResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            certificate:
+              type: object
+              properties:
+                type:
+                  type: string
+                eidas_profile:
+                  type: string
+                qtsp_name:
+                  type: string
+                qtsp_uri:
+                  type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
+                valid_eidas_certificate:
+                  type: boolean
+                valid_obietf_certificate:
+                  type: boolean
+                expired:
+                  type: boolean
+                revoked:
+                  type: boolean
+            organisation:
+              type: object
+              properties:
+                onboarded_to_open_banking:
+                  type: boolean
+                org_name:
+                  type: string
+                passports:
+                  type: object
+                  properties:
+                    nca_name:
+                      type: object
+                      properties:
+                        permissions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              code:
+                                type: string
+                              effective_from:
+                                type: string
+                              id:
+                                type: string
+                              permission:
+                                type: string
+                        roles:
+                          type: array
+                          items:
+                            type: string
+                competent_authority_claims:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      authorization_domain:
+                        type: string
+                      authority_id:
+                        type: string
+                      registration_id:
+                        type: string
+                      status:
+                        type: string
+                      authorizations:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            member_state:
+                              type: string
+                            roles:
+                              type: array
+                              items:
+                                type: string
+                software_statements:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      software_id:
+                        type: string
+    CertificateValidationResponseSchemaV2:
       type: object
       properties:
         data:
