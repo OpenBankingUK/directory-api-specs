@@ -7,7 +7,7 @@ paths:
   '/v2/organisation':
     post:
       summary: Enrol a eIDAS QWAC/QSeal-bearing participant
-      description: Enrol an eIDAS QWAC/QSeal certificate-bearing participant onto the Open Banking Directory.
+      description: Enrol an eIDAS QWAC/QSealC certificate-bearing participant onto the Open Banking Directory. Currenty only TPPs can use this enrolment endpoint.Enrol an eIDAS QWAC/QSeal certificate-bearing participant onto the Open Banking Directory.
       tags:
         - Organisations
       requestBody:
@@ -1016,7 +1016,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -1372,7 +1371,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}/{OrganisationId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -1461,7 +1459,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}/{OrganisationId}/certificate/kid/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -1514,7 +1511,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -1543,7 +1539,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{SoftwareStatementCertificateOrKeyType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -1602,7 +1597,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -1663,7 +1657,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}/{OrganisationId}/authorisation-server':
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
@@ -2333,10 +2326,7 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/jwt:
-          schema:
-            $ref: '#/components/schemas/SoftwareStatementAssertionSchema'
-        application/jose:
+        application/jws+json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementAssertionSchema'
     SoftwareStatement201CreatedResponse:
@@ -2373,6 +2363,10 @@ components:
     AuthorisationServerRequestSchema:
       type: object
       properties:
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the authorisation server is created.
+          maxLength: 256
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
@@ -2467,19 +2461,26 @@ components:
                     nca_name:
                       type: object
                       properties:
-                        permissions:
+                        permission_country:
                           type: array
                           items:
                             type: object
                             properties:
-                              code:
+                              permission_type:
                                 type: string
-                              effective_from:
-                                type: string
-                              id:
-                                type: string
-                              permission:
-                                type: string
+                              permissions:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    code:
+                                      type: string
+                                    permission:
+                                      type: string
+                              roles:
+                                type: array
+                                items:
+                                  type: string
                         roles:
                           type: array
                           items:
@@ -2618,6 +2619,10 @@ components:
         Id:
           type: string
           maxLength: 22
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the software statement is created.
+          maxLength: 256
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
@@ -2699,9 +2704,11 @@ components:
         obOrganisationId:
           description: OB organisation Id
           type: string
-        softwareStatementId:
-          description: Software Statement Id
-          type: string
+        Associations:
+          description: Array of Software Statement Ids that the certificate is associated with
+          type: array
+          items:
+            $ref: '#/components/schemas/SoftwareStatementIdSchema'
         status:
           type: string
         expiryDateTime:
@@ -2750,6 +2757,13 @@ components:
         - qseal
         - obsigning
         - obtransport
+    OrganisationAssociativeCertificateTypeSchema:
+      type: string
+      enum:
+        - obwac
+        - obseal
+        - qwac
+        - qsealc
     CertificateTypeSchema:
       type: string
       enum:
@@ -2854,7 +2868,7 @@ components:
           description: Timestamp
           type: integer
         ob_org_id:
-          description: Organisation ID assigned by Open Banking   Directory
+          description: Organisation ID assigned by Open Banking Directory
           type: string
           minLength: 18
           maxLength: 18
@@ -2974,6 +2988,10 @@ components:
     SoftwareStatementCreateSchema:
       type: object
       properties:
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the software statement is created.
+          maxLength: 256
         ClientName:
           type: string
           description: Software Statement client name
@@ -3029,6 +3047,10 @@ components:
         Active:
           type: boolean
           description: Software Statement active/inactive flag
+        AuthorizationDomain:
+          type: string
+          description: Authorization Domain for which the software statement is created.
+          maxLength: 256
         ClientId:
           type: string
           description: Software Statement client Id
