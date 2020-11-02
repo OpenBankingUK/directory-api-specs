@@ -1426,10 +1426,7 @@ components:
           schema:
             $ref: '#/components/schemas/UniqueRequestIdSchema'
       content:
-        application/jwt:
-          schema:
-            $ref: '#/components/schemas/SoftwareStatementAssertionSchema'
-        application/jose:
+        application/jws+json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementAssertionSchema'
     SoftwareStatement201CreatedResponse:
