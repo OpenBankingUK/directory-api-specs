@@ -670,6 +670,25 @@ paths:
         - OAuth2SecurityReadOps:
             - ASPSPReadAccess
             - TPPReadAccess
+      parameters:
+        - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/SoftwareStatementId'
+        #override SoftwareStatementCertificateOrKeyType parameter definition because get method has more enum options
+        - in: path
+          name: SoftwareStatementCertificateOrKeyType
+          description: The certificate or key type that can be associated with a software statement
+          required: true
+          schema:
+            type: string
+            enum:
+              - obtransport
+              - obsigning
+              - sigkey
+              - enckey
+              - obwac
+              - obseal
+              - qwac
+              - qseal
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
