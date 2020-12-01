@@ -1328,6 +1328,33 @@
                         }
                     }
                 },
+                "urn:openbanking:authorisationdomainstatus:1.0": {
+                    "type": "object",
+                    "description": "Authorisation Domain Schema as defined by Open Banking",
+                    "title": "AuthorisationDomainStatus",
+                    "properties": {
+                        "Status": {
+                            "type": "array",
+                            "description": "List of Authorisation Domain Statuses",
+                            "title": "AuthorisationDomainStatuses",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Domain within which this authorisation status is valid",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "Status": {
+                                        "type": "string",
+                                        "description": "Status of this authorisation",
+                                        "title": "Status"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "urn:openbanking:softwarestatement:1.0": {
                     "type": "object",
                     "description": "Software Statement Schema as defined by Open Banking",
