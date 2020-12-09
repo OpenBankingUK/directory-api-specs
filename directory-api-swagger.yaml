@@ -2686,6 +2686,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SoftwareStatementIdSchema'
+        AuthorizationDomain:
+          type: array
+          items:
+            description: A valid domain string such as "Pay.UK" or "PSD2"
+            type: string
         status:
           type: string
         expiryDateTime:
