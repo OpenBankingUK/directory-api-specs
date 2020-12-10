@@ -2949,9 +2949,40 @@ components:
     OrganisationsGetFromSCIM200OKResponseSchema:
       type: array
       items:
-        type: object
+        $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponseSchema'
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
+      properties:
+        CreateTimestamp:
+          type: string
+          format: date-time
+        ModifyTimestamp:
+          type: string
+          format: date-time
+        OBOrganisationId:
+          type: string
+        OrganisationCommonName:
+          type: string
+        OBAuthorisationState:
+          type: string
+        EmailAddresses:
+          type: array
+          items:
+            type: string
+        PhoneNumbers:
+          type: array
+          items:
+            type: string
+        PostalAddresses:
+          type: array
+          items:
+            type: string
+        PersonalAccountRoles:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
     QSealOnboardingSchema:
       type: string
       description: A signed JWT (JWS)
