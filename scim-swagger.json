@@ -2147,7 +2147,7 @@
                                     },
                                     "Status": {
                                         "type": "string",
-                                        "description": "status",
+                                        "description": "Indicates whether authorization domain is active",
                                         "title": "status"
                                     }
                                 }
@@ -2157,40 +2157,40 @@
                 },
                 "urn:trustframework:competentauthorityclaims:1.1": {
                     "type": "object",
-                    "description": "competentauthorityclaims",
+                    "description": "Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
                     "title": "CompetenAuthorityClaims1.1",
                     "properties": {
                         "AuthorisationAuthorities": {
                             "type": "array",
-                            "description": "AuthorisationAuthorities",
+                            "description": "List of authorities details which gave authorization to the participant",
                             "title": "AuthorisationAuthorities",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "AuthorityId": {
                                         "type": "string",
-                                        "description": "AuthorityId",
+                                        "description": "Authority identifier",
                                         "title": "AuthorityId"
                                     },
                                     "AuthorizationDomain": {
                                         "type": "string",
-                                        "description": "AuthorizationDomain",
+                                        "description": "Authorization domain in which authorization was given",
                                         "title": "AuthorizationDomain"
                                     },
                                     "MemberState": {
                                         "type": "string",
-                                        "description": "MemberState",
+                                        "description": "Member state",
                                         "title": "MemberState"
                                     },
                                     "RegistrationId": {
                                         "type": "string",
-                                        "description": "RegistrationId",
+                                        "description": "Registration identifier",
                                         "title": "RegistrationId"
                                     },
                                     "X509OrganisationIdentifier": {
                                         "type": "array",
                                         "description": "X509OrganisationIdentifier",
-                                        "title": "X509OrganisationIdentifier",
+                                        "title": "Identifier of an organisation",
                                         "items": {
                                             "type": "string"
                                         }
@@ -2200,34 +2200,34 @@
                         },
                         "Authorisations": {
                             "type": "array",
-                            "description": "Authorisations",
+                            "description": "Home or Passported Authorisations",
                             "title": "Authorisations",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "Active": {
                                         "type": "boolean",
-                                        "description": "Active",
+                                        "description": "Indicator to show if this claim is active",
                                         "title": "Active"
                                     },
                                     "AuthorityId": {
                                         "type": "string",
-                                        "description": "AuthorityId",
+                                        "description": "Identifier of authority giving authorization",
                                         "title": "AuthorityId"
                                     },
                                     "AuthorizationDomain": {
                                         "type": "string",
-                                        "description": "AuthorizationDomain",
+                                        "description": "Authorization domain in which authorization is given",
                                         "title": "AuthorizationDomain"
                                     },
                                     "MemberState": {
                                         "type": "string",
-                                        "description": "MemberState",
+                                        "description": "Member State giving the authorisation",
                                         "title": "MemberState"
                                     },
                                     "Role": {
                                         "type": "string",
-                                        "description": "Role",
+                                        "description": "Role in which institution authorised",
                                         "title": "Role"
                                     }
                                 }
@@ -2367,34 +2367,34 @@
                 },
                 "urn:openbanking:organisation:1.0": {
                     "type": "object",
-                    "description": "organisation",
+                    "description": "Account details for an open banking organisation which are used for SCIM access to the Directory on behalf of an accredited organisation.",
                     "title": "Organisation",
                     "properties": {
                         "EmailAddresses": {
                             "type": "array",
-                            "description": "EmailAddresses",
+                            "description": "Email addresses associated with the organisation",
                             "title": "EmailAddresses",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "Name": {
                                         "type": "string",
-                                        "description": "Name",
+                                        "description": "A name of a person or an office to which this email belongs.",
                                         "title": "Name"
                                     },
                                     "Value": {
                                         "type": "string",
-                                        "description": "Value",
+                                        "description": "Value of email address",
                                         "title": "Value"
                                     },
                                     "Type": {
                                         "type": "string",
-                                        "description": "Type",
+                                        "description": "Type of email address",
                                         "title": "Type"
                                     },
                                     "Primary": {
                                         "type": "boolean",
-                                        "description": "Primary",
+                                        "description": "Indicator to show is this is the primary email address",
                                         "title": "Primary"
                                     }
                                 }
@@ -2682,7 +2682,7 @@
                 },
                 "id": {
                     "type": "string",
-                    "description": "id",
+                    "description": "record identifier",
                     "title": "id"
                 },
                 "meta": {
@@ -2690,12 +2690,12 @@
                     "properties": {
                         "resourceType": {
                             "type": "string",
-                            "description": "resourceType",
+                            "description": "type of resource equal, participants in this case",
                             "title": "resourceType"
                         },
                         "location": {
                             "type": "string",
-                            "description": "location",
+                            "description": "location of resource in PDG",
                             "title": "location"
                         }
                     }
