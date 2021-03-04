@@ -192,7 +192,7 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
     put:
-      summary: Update a software statement
+      summary: Activate or deactive a software statement
       tags:
         - Software Statements
       parameters:
@@ -261,7 +261,9 @@ paths:
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
       summary:
-        Get a Software Statement Assertion for the given SoftwareStatementID.
+        Get a Software Statement Assertion for the given SoftwareStatementID. Software Statement Assertion is created following the rules. For EU TPP it is possible
+        to create SSA when it has at least one eIDAS certficate. For EU TPP on TPR it is possible when it has at least one eIDAS or OBIE certificate (OBWAC or OBSEAL).
+        For UK TPP it is possible to generate a software statement when it has at least one OBIE certificate (OBWAC or OBSEAL).
       description: |
         The response body is a signed JWT and the values found in the header and the payload of the SSA are specified below
         # Terminology
@@ -993,7 +995,7 @@ paths:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
     post:
-      summary: Create a software statement. Software statements will only be created for TPPs that have at least one eIDAS certificate uploaded to the Technical Directory certificate store fo their organisation.
+      summary: Create a software statement.
       tags:
         - Software Statements (Legacy)
       parameters:
@@ -1173,7 +1175,7 @@ paths:
           |`software_client_description`|Human-readable detailed description of the client|Max256Text| |
           |`software_client_name`|Human-readable Software Name|Max40Text| |
           |`software_client_uri`|The website or resource root uri|Max256Text| |
-          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|decimal| |
+          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|string| |
           |`software_environment`|Requested additional field to avoid certificate check|Max256Text| |
           |`software_jwks_endpoint`|Contains all active signing and network certs for the software|Max256Text| |
           |`software_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the software|Max256Text| |
