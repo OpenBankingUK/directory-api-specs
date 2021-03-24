@@ -1306,6 +1306,86 @@
                         "type": "string"
                     }
                 },
+                "urn:trustframework:competentauthorityclaims:1.1": {
+                    "type": "object",
+                    "description": "Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetenAuthorityClaims1.1",
+                    "properties": {
+                        "AuthorisationAuthorities": {
+                            "type": "array",
+                            "description": "List of authorities details which gave authorization to the participant",
+                            "title": "AuthorisationAuthorities",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Authority identifier",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization was given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member state",
+                                        "title": "MemberState"
+                                    },
+                                    "RegistrationId": {
+                                        "type": "string",
+                                        "description": "Registration identifier",
+                                        "title": "RegistrationId"
+                                    },
+                                    "X509OrganisationIdentifier": {
+                                        "type": "array",
+                                        "description": "X509OrganisationIdentifier",
+                                        "title": "Identifier of an organisation",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Identifier of authority giving authorization",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization is given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role in which institution authorised",
+                                        "title": "Role"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "urn:openbanking:competentauthorityclaims:1.0": {
                     "type": "object",
                     "description": "Claims sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
@@ -2850,6 +2930,86 @@
                     "uniqueItems": true,
                     "items": {
                         "type": "string"
+                    }
+                },
+                "urn:trustframework:competentauthorityclaims:1.1": {
+                    "type": "object",
+                    "description": "Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetenAuthorityClaims1.1",
+                    "properties": {
+                        "AuthorisationAuthorities": {
+                            "type": "array",
+                            "description": "List of authorities details which gave authorization to the participant",
+                            "title": "AuthorisationAuthorities",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Authority identifier",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization was given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member state",
+                                        "title": "MemberState"
+                                    },
+                                    "RegistrationId": {
+                                        "type": "string",
+                                        "description": "Registration identifier",
+                                        "title": "RegistrationId"
+                                    },
+                                    "X509OrganisationIdentifier": {
+                                        "type": "array",
+                                        "description": "X509OrganisationIdentifier",
+                                        "title": "Identifier of an organisation",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Identifier of authority giving authorization",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization is given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role in which institution authorised",
+                                        "title": "Role"
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "urn:openbanking:competentauthorityclaims:1.0": {
