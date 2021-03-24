@@ -1132,6 +1132,7 @@
             "authorizationUrl": "https://matls-sso.openbanking.org.uk/as/token.oauth2",
             "flow": "implicit",
             "scopes": {
+                "none": "Read access on Participants resource does not require any scope",
                 "TPPReadAll": "Read access on OBThirdPartyproviders for match on Organisation Id",
                 "ASPSPReadAccess": "Read access to  OBAccountPaymentServiceProviders",
                 "TPPReadAccess": "Read access on OBThirdPartyproviders",
@@ -1603,12 +1604,12 @@
                                     },
                                     "ClientUri": {
                                         "type": "string",
-                                        "description": "The “home page” or other wise recognisable url of the application (oath client)\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The “home page” or other wise recognisable url of the application (oath client)",
                                         "title": "ClientUri"
                                     },
                                     "Description": {
                                         "type": "string",
-                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription \nV39 Changed to required",
+                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
                                         "title": "Description"
                                     },
                                     "Id": {
@@ -1618,7 +1619,7 @@
                                     },
                                     "LogoUri": {
                                         "type": "string",
-                                        "description": "The software logo\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The software logo",
                                         "title": "LogoUri"
                                     },
                                     "Mode": {
@@ -1638,12 +1639,12 @@
                                     },
                                     "PolicyUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "PolicyUri"
                                     },
                                     "RedirectUri": {
                                         "type": "array",
-                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. Changed in v27. V39 Changed to required",
+                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
                                         "title": "RedirectUri",
                                         "items": {
                                             "type": "string"
@@ -1651,7 +1652,7 @@
                                     },
                                     "Roles": {
                                         "type": "array",
-                                        "description": "Roles for which this software statement can be used. Changed to required Mike Ekers request",
+                                        "description": "Roles for which this software statement can be used.",
                                         "title": "Roles",
                                         "items": {
                                             "type": "string"
@@ -1667,7 +1668,7 @@
                                     },
                                     "TermsOfServiceUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "TermsOfServiceUri"
                                     },
                                     "TransportKeyIds": {
@@ -1680,7 +1681,7 @@
                                     },
                                     "Version": {
                                         "type": "number",
-                                        "description": "Version of the sofware. V39 Changed to required",
+                                        "description": "Version of the sofware.",
                                         "title": "Version"
                                     }
                                 }
@@ -2595,12 +2596,12 @@
                                     },
                                     "ClientUri": {
                                         "type": "string",
-                                        "description": "The “home page” or other wise recognisable url of the application (oath client)\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The “home page” or other wise recognisable url of the application (oath client)",
                                         "title": "ClientUri"
                                     },
                                     "Description": {
                                         "type": "string",
-                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription \nV39 Changed to required",
+                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
                                         "title": "Description"
                                     },
                                     "Id": {
@@ -2610,7 +2611,7 @@
                                     },
                                     "LogoUri": {
                                         "type": "string",
-                                        "description": "The software logo\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The software logo\nVersion 22, 14th November 2017.",
                                         "title": "LogoUri"
                                     },
                                     "Mode": {
@@ -2630,12 +2631,12 @@
                                     },
                                     "PolicyUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "PolicyUri"
                                     },
                                     "RedirectUri": {
                                         "type": "array",
-                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. Changed in v27. V39 Changed to required",
+                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
                                         "title": "RedirectUri",
                                         "items": {
                                             "type": "string"
@@ -2643,7 +2644,7 @@
                                     },
                                     "Roles": {
                                         "type": "array",
-                                        "description": "Roles for which this software statement can be used. Changed to required Mike Ekers request",
+                                        "description": "Roles for which this software statement can be used. ",
                                         "title": "Roles",
                                         "items": {
                                             "type": "string"
@@ -2659,7 +2660,7 @@
                                     },
                                     "TermsOfServiceUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "TermsOfServiceUri"
                                     },
                                     "TransportKeyIds": {
@@ -2672,7 +2673,7 @@
                                     },
                                     "Version": {
                                         "type": "number",
-                                        "description": "Version of the sofware. V39 Changed to required",
+                                        "description": "Version of the sofware.",
                                         "title": "Version"
                                     }
                                 }
@@ -3149,12 +3150,12 @@
                                     },
                                     "ClientUri": {
                                         "type": "string",
-                                        "description": "The “home page” or other wise recognisable url of the application (oath client)\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The “home page” or other wise recognisable url of the application (oath client)\nVersion 22, 14th November 2017. ",
                                         "title": "ClientUri"
                                     },
                                     "Description": {
                                         "type": "string",
-                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription \nV39 Changed to required",
+                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
                                         "title": "Description"
                                     },
                                     "Id": {
@@ -3164,7 +3165,7 @@
                                     },
                                     "LogoUri": {
                                         "type": "string",
-                                        "description": "The software logo\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The software logo\nVersion 22, 14th November 2017. ",
                                         "title": "LogoUri"
                                     },
                                     "Mode": {
@@ -3184,12 +3185,12 @@
                                     },
                                     "PolicyUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "PolicyUri"
                                     },
                                     "RedirectUri": {
                                         "type": "array",
-                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. Changed in v27. V39 Changed to required",
+                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
                                         "title": "RedirectUri",
                                         "items": {
                                             "type": "string"
@@ -3197,7 +3198,7 @@
                                     },
                                     "Roles": {
                                         "type": "array",
-                                        "description": "Roles for which this software statement can be used. Changed to required Mike Ekers request",
+                                        "description": "Roles for which this software statement can be used. ",
                                         "title": "Roles",
                                         "items": {
                                             "type": "string"
@@ -3213,7 +3214,7 @@
                                     },
                                     "TermsOfServiceUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "TermsOfServiceUri"
                                     },
                                     "TransportKeyIds": {
@@ -3226,7 +3227,7 @@
                                     },
                                     "Version": {
                                         "type": "number",
-                                        "description": "Version of the sofware. V39 Changed to required",
+                                        "description": "Version of the sofware. ",
                                         "title": "Version"
                                     }
                                 }

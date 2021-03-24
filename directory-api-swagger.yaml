@@ -261,10 +261,12 @@ paths:
       - $ref: '#/components/parameters/SoftwareStatementId'
     get:
       summary:
-        Get a Software Statement Assertion for the given SoftwareStatementID. Software Statement Assertion is created following the rules. For EU TPP it is possible
-        to create SSA when it has at least one eIDAS certficate. For EU TPP on TPR it is possible when it has at least one eIDAS or OBIE certificate (OBWAC or OBSEAL).
-        For UK TPP it is possible to generate a software statement when it has at least one OBIE certificate (OBWAC or OBSEAL).
-      description: |
+        Retrieve the software statement assertion for the given SoftwareStatementID.
+       description: |
+        # Depending on the type of participant, one of the following pre-conditions must be met in order to generate an SSA:
+         * EU TPPs NOT on the TPR  must hold at least one eIDAS certificate.
+         * EU TPPs on the TPR must hold at least one eIDAS or OB certiticate.
+         * UK TPPs on the TPR must hold at least one OB certificate.
         The response body is a signed JWT and the values found in the header and the payload of the SSA are specified below
         # Terminology
           This specification uses the terms "access token", "authorization code", "authorization endpoint", "authorization grant", "authorization server", "client", "client identifier", "client secret", "grant type", "protected resource", "redirection URI", "refresh token", "resource owner", "resource server", "response type", and "token endpoint" defined by OAuth 2.0 [RFC6749] and uses the term "Claim" defined by JSON Web Token (JWT) [RFC7519].
