@@ -2691,7 +2691,7 @@
                                     },
                                     "LogoUri": {
                                         "type": "string",
-                                        "description": "The software logo\nVersion 22, 14th November 2017.",
+                                        "description": "The software logo",
                                         "title": "LogoUri"
                                     },
                                     "Mode": {
@@ -3310,7 +3310,7 @@
                                     },
                                     "ClientUri": {
                                         "type": "string",
-                                        "description": "The “home page” or other wise recognisable url of the application (oath client)\nVersion 22, 14th November 2017. ",
+                                        "description": "The “home page” or other wise recognisable url of the application (oath client)",
                                         "title": "ClientUri"
                                     },
                                     "Description": {
@@ -3325,7 +3325,7 @@
                                     },
                                     "LogoUri": {
                                         "type": "string",
-                                        "description": "The software logo\nVersion 22, 14th November 2017. ",
+                                        "description": "The software logo",
                                         "title": "LogoUri"
                                     },
                                     "Mode": {
