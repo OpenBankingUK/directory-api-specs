@@ -22,6 +22,10 @@
         {
             "name": "OBQualifiedTrustServiceProviders Resource Type",
             "description": "Operations on the OBQualifiedTrustServiceProviders resource type"
+        },
+        {
+            "name": "Participants Resource Type",
+            "description": "Operations on the Participants resource type"
         }
     ],
     "consumes": [
@@ -113,7 +117,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -192,7 +198,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -234,7 +242,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -325,7 +335,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -404,7 +416,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -446,7 +460,227 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
+                    }
+                ],
+                "externalDocs": {
+                    "description": "Retrieving a Known Resource",
+                    "url": "https://tools.ietf.org/html/rfc7644#section-3.4.1"
+                }
+            }
+        },
+        "/Participants": {
+            "get": {
+                "tags": [
+                    "Participants Resource Type"
+                ],
+                "summary": "Search for one or more resources",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/attributes"
+                    },
+                    {
+                        "$ref": "#/parameters/excludedAttributes"
+                    },
+                    {
+                        "$ref": "#/parameters/filter"
+                    },
+                    {
+                        "$ref": "#/parameters/sortBy"
+                    },
+                    {
+                        "$ref": "#/parameters/sortOrder"
+                    },
+                    {
+                        "$ref": "#/parameters/startIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/count"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SCIM 2.0 List Response Message",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Resources": {
+                                    "type": "array",
+                                    "description": "A multi-valued list of complex objects containing the requested resources.",
+                                    "items": {
+                                        "$ref": "#/definitions/Participants"
+                                    }
+                                },
+                                "itemsPerPage": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "The number of resources returned in a list response page."
+                                },
+                                "schemas": {
+                                    "type": "array",
+                                    "description": "Contains a list of one or more URIs that indicate included SCIM schemas that are used to indicate the attributes contained within a resource.",
+                                    "uniqueItems": true,
+                                    "items": {
+                                        "type": "string",
+                                        "format": "urn",
+                                        "enum": [
+                                            "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+                                        ],
+                                        "default": "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+                                    }
+                                },
+                                "startIndex": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "The 1-based index of the first result in the current set of list results."
+                                },
+                                "totalResults": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "The total number of results returned by the list or query operation."
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occurred while executing the operation",
+                        "schema": {
+                            "$ref": "#/definitions/Error Response"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+
+                        ]
+                    }
+                ],
+                "externalDocs": {
+                    "description": "Query Resources",
+                    "url": "https://tools.ietf.org/html/rfc7644#section-3.4.2"
+                }
+            }
+        },
+        "/Participants/.search": {
+            "post": {
+                "tags": [
+                    "Participants Resource Type"
+                ],
+                "summary": "Search for one or more resources using HTTP POST",
+                "description": "Useful for executing searches without passing parameters that may contain sensitive information on the URL.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "SCIM 2.0 Search Request Message",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Search Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SCIM 2.0 List Response Message",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Resources": {
+                                    "type": "array",
+                                    "description": "A multi-valued list of complex objects containing the requested resources.",
+                                    "items": {
+                                        "$ref": "#/definitions/Participants"
+                                    }
+                                },
+                                "itemsPerPage": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "The number of resources returned in a list response page."
+                                },
+                                "schemas": {
+                                    "type": "array",
+                                    "description": "Contains a list of one or more URIs that indicate included SCIM schemas that are used to indicate the attributes contained within a resource.",
+                                    "uniqueItems": true,
+                                    "items": {
+                                        "type": "string",
+                                        "format": "urn",
+                                        "enum": [
+                                            "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+                                        ],
+                                        "default": "urn:ietf:params:scim:api:messages:2.0:ListResponse"
+                                    }
+                                },
+                                "startIndex": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "The 1-based index of the first result in the current set of list results."
+                                },
+                                "totalResults": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "description": "The total number of results returned by the list or query operation."
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "An error occurred while executing the operation",
+                        "schema": {
+                            "$ref": "#/definitions/Error Response"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+
+                        ]
+                    }
+                ],
+                "externalDocs": {
+                    "description": "Querying Resources Using HTTP POST",
+                    "url": "https://tools.ietf.org/html/rfc7644#section-3.4.3"
+                }
+            }
+        },
+        "/Participants/{id}": {
+            "get": {
+                "tags": [
+                    "Participants Resource Type"
+                ],
+                "summary": "Retrieve the resource",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/id"
+                    },
+                    {
+                        "$ref": "#/parameters/attributes"
+                    },
+                    {
+                        "$ref": "#/parameters/excludedAttributes"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The retrieved resource is included in the response body",
+                        "schema": {
+                            "$ref": "#/definitions/Participants"
+                        }
+                    },
+                    "default": {
+                        "description": "An error occurred while executing the operation",
+                        "schema": {
+                            "$ref": "#/definitions/Error Response"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -537,7 +771,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -616,7 +852,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -658,7 +896,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -749,7 +989,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -828,7 +1070,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -870,7 +1114,9 @@
                 },
                 "security": [
                     {
-                        "oauth2": []
+                        "oauth2": [
+
+                        ]
                     }
                 ],
                 "externalDocs": {
@@ -886,6 +1132,7 @@
             "authorizationUrl": "https://matls-sso.openbanking.org.uk/as/token.oauth2",
             "flow": "implicit",
             "scopes": {
+                "none": "Read access on Participants resource does not require any scope",
                 "TPPReadAll": "Read access on OBThirdPartyproviders for match on Organisation Id",
                 "ASPSPReadAccess": "Read access to  OBAccountPaymentServiceProviders",
                 "TPPReadAccess": "Read access on OBThirdPartyproviders",
@@ -1057,6 +1304,86 @@
                     "uniqueItems": true,
                     "items": {
                         "type": "string"
+                    }
+                },
+                "urn:trustframework:competentauthorityclaims:1.1": {
+                    "type": "object",
+                    "description": "Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetenAuthorityClaims1.1",
+                    "properties": {
+                        "AuthorisationAuthorities": {
+                            "type": "array",
+                            "description": "List of authorities details which gave authorization to the participant",
+                            "title": "AuthorisationAuthorities",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Authority identifier",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization was given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member state",
+                                        "title": "MemberState"
+                                    },
+                                    "RegistrationId": {
+                                        "type": "string",
+                                        "description": "Registration identifier",
+                                        "title": "RegistrationId"
+                                    },
+                                    "X509OrganisationIdentifier": {
+                                        "type": "array",
+                                        "description": "X509OrganisationIdentifier",
+                                        "title": "Identifier of an organisation",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Identifier of authority giving authorization",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization is given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role in which institution authorised",
+                                        "title": "Role"
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "urn:openbanking:competentauthorityclaims:1.0": {
@@ -1357,12 +1684,12 @@
                                     },
                                     "ClientUri": {
                                         "type": "string",
-                                        "description": "The “home page” or other wise recognisable url of the application (oath client)\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The “home page” or other wise recognisable url of the application (oath client)",
                                         "title": "ClientUri"
                                     },
                                     "Description": {
                                         "type": "string",
-                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription \nV39 Changed to required",
+                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
                                         "title": "Description"
                                     },
                                     "Id": {
@@ -1372,7 +1699,7 @@
                                     },
                                     "LogoUri": {
                                         "type": "string",
-                                        "description": "The software logo\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The software logo",
                                         "title": "LogoUri"
                                     },
                                     "Mode": {
@@ -1392,12 +1719,12 @@
                                     },
                                     "PolicyUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "PolicyUri"
                                     },
                                     "RedirectUri": {
                                         "type": "array",
-                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. Changed in v27. V39 Changed to required",
+                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
                                         "title": "RedirectUri",
                                         "items": {
                                             "type": "string"
@@ -1405,7 +1732,7 @@
                                     },
                                     "Roles": {
                                         "type": "array",
-                                        "description": "Roles for which this software statement can be used. Changed to required Mike Ekers request",
+                                        "description": "Roles for which this software statement can be used.",
                                         "title": "Roles",
                                         "items": {
                                             "type": "string"
@@ -1421,7 +1748,7 @@
                                     },
                                     "TermsOfServiceUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "TermsOfServiceUri"
                                     },
                                     "TransportKeyIds": {
@@ -1434,7 +1761,7 @@
                                     },
                                     "Version": {
                                         "type": "number",
-                                        "description": "Version of the sofware. V39 Changed to required",
+                                        "description": "Version of the sofware.",
                                         "title": "Version"
                                     }
                                 }
@@ -1876,6 +2203,594 @@
             },
             "description": "A schema defining the extension attributes that a competent authority has."
         },
+        "Participants": {
+            "required": [
+                "schemas",
+                "urn:openbanking:organisation:1.0"
+            ],
+            "properties": {
+                "urn:openbanking:authorisationdomainstatus:1.0": {
+                    "type": "object",
+                    "description": "Status of authorization domain",
+                    "title": "AuthorizationDomainStatus",
+                    "properties": {
+                        "Status": {
+                            "type": "array",
+                            "description": "Status",
+                            "title": "Status",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization Domain",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "Status": {
+                                        "type": "string",
+                                        "description": "Indicates whether authorization domain is active",
+                                        "title": "status"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "urn:trustframework:competentauthorityclaims:1.1": {
+                    "type": "object",
+                    "description": "Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetenAuthorityClaims1.1",
+                    "properties": {
+                        "AuthorisationAuthorities": {
+                            "type": "array",
+                            "description": "List of authorities details which gave authorization to the participant",
+                            "title": "AuthorisationAuthorities",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Authority identifier",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization was given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member state",
+                                        "title": "MemberState"
+                                    },
+                                    "RegistrationId": {
+                                        "type": "string",
+                                        "description": "Registration identifier",
+                                        "title": "RegistrationId"
+                                    },
+                                    "X509OrganisationIdentifier": {
+                                        "type": "array",
+                                        "description": "X509OrganisationIdentifier",
+                                        "title": "Identifier of an organisation",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Identifier of authority giving authorization",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization is given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role in which institution authorised",
+                                        "title": "Role"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "urn:openbanking:competentauthorityclaims:1.0": {
+                    "type": "object",
+                    "description": "Claims sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetentAuthorityClaims",
+                    "properties": {
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Psd2Role": {
+                                        "type": "string",
+                                        "description": "Psd2 Role in which institution authorised",
+                                        "title": "Psd2Role"
+                                    }
+                                }
+                            }
+                        },
+                        "AuthorityId": {
+                            "type": "string",
+                            "description": "The ID of the accrediting authority.",
+                            "title": "AuthorityId"
+                        },
+                        "EtsiIdentifier": {
+                            "type": "string",
+                            "description": "European Telecommunications Standards Institute Organisation Identifier",
+                            "title": "EtsiIdentifier"
+                        },
+                        "MemberState": {
+                            "type": "string",
+                            "description": "Member State of the Authority",
+                            "title": "MemberState"
+                        },
+                        "RegistrationId": {
+                            "type": "string",
+                            "description": "Registration Id with the principle authority",
+                            "title": "RegistrationId"
+                        }
+                    }
+                },
+                "AuthorisationServers": {
+                    "type": "array",
+                    "description": "Authorisation Server Portal",
+                    "title": "AuthorisationServers",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "Id": {
+                                "type": "string",
+                                "description": "Authorisation Server Id\nV39 required",
+                                "title": "Id"
+                            },
+                            "AutoRegistrationSupported": {
+                                "type": "boolean",
+                                "description": "Authorisation Server supports auto-registration",
+                                "title": "AutoRegistrationSupported"
+                            },
+                            "BaseApiDNSUri": {
+                                "type": "string",
+                                "description": "Points to the Open Banking APIs\nV39 required",
+                                "title": "BaseApiDNSUri"
+                            },
+                            "CustomerFriendlyDescription": {
+                                "type": "string",
+                                "description": "Customer orientated description",
+                                "title": "CustomerFriendlyDescription"
+                            },
+                            "CustomerFriendlyLogoUri": {
+                                "type": "string",
+                                "description": "uri from which a TPP can retrieve a certified logo\nV39 required",
+                                "title": "CustomerFriendlyLogoUri"
+                            },
+                            "CustomerFriendlyName": {
+                                "type": "string",
+                                "description": "Certified name",
+                                "title": "CustomerFriendlyName"
+                            },
+                            "DeveloperPortalUri": {
+                                "type": "string",
+                                "description": "URI for TPP developer testing\nV39 required",
+                                "title": "DeveloperPortalUri"
+                            },
+                            "TermsOfService": {
+                                "type": "string",
+                                "description": "Uri from which the terms of service can be retrieved\nV39 required",
+                                "title": "TermsOfService"
+                            },
+                            "OpenIDConfigEndPointUri": {
+                                "type": "string",
+                                "description": "Uri used for Oauth2.0 OpenId Configuration\nV39 required",
+                                "title": "OpenIDConfigEndPointUri"
+                            },
+                            "PayloadSigningCertLocation": {
+                                "type": "string",
+                                "description": "The location which is used for signing certificates\nV39 required",
+                                "title": "PayloadSigningCertLocation"
+                            },
+                            "EISCDId": {
+                                "type": "array",
+                                "description": "Confirmation of payee bank identifier\nV37 was CoPBankIdentifier",
+                                "title": "EISCDId",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "ParentAuthorisationServerId": {
+                                "type": "string",
+                                "description": "Authorisation Server Id of Parent Authorisation server, used for app to app linking",
+                                "title": "ParentAuthorisationServerId"
+                            },
+                            "AuthorizationDomain": {
+                                "type": "string",
+                                "description": "Authorization Domain",
+                                "title": "AuthorizationDomain"
+                            }
+                        }
+                    }
+                },
+                "urn:openbanking:organisation:1.0": {
+                    "type": "object",
+                    "description": "Account details for an open banking organisation which are used for SCIM access to the Directory on behalf of an accredited organisation.",
+                    "title": "Organisation",
+                    "properties": {
+                        "EmailAddresses": {
+                            "type": "array",
+                            "description": "Email addresses associated with the organisation",
+                            "title": "EmailAddresses",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Name": {
+                                        "type": "string",
+                                        "description": "A name of a person or an office to which this email belongs.",
+                                        "title": "Name"
+                                    },
+                                    "Value": {
+                                        "type": "string",
+                                        "description": "Value of email address",
+                                        "title": "Value"
+                                    },
+                                    "Type": {
+                                        "type": "string",
+                                        "description": "Type of email address",
+                                        "title": "Type"
+                                    },
+                                    "Primary": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show is this is the primary email address",
+                                        "title": "Primary"
+                                    }
+                                }
+                            }
+                        },
+                        "ModifyTimestamp": {
+                            "type": "string",
+                            "description": "Modification Timestamp",
+                            "title": "ModifyTimestamp",
+                            "readOnly": true
+                        },
+                        "OBAuthorisationState": {
+                            "type": "string",
+                            "description": "OB Participant Authorisation State",
+                            "title": "OBAuthorisationState"
+                        },
+                        "OBOrganisationId": {
+                            "type": "string",
+                            "description": "Open Banking Organisation Identifier",
+                            "title": "OBOrganisationId"
+                        },
+                        "OrganisationCommonName": {
+                            "type": "string",
+                            "description": "The common name of the organisation",
+                            "title": "OrganisationCommonName"
+                        },
+                        "PersonalAccountRoles": {
+                            "type": "array",
+                            "description": "Individuals who have authorised access to the organisation",
+                            "title": "PersonalAccountRoles",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "UserName": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "description": "User's name, email address or other identifying label",
+                                        "title": "UserName"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role which the individual holds",
+                                        "title": "Role"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "AuthorizationDomain",
+                                        "title": "AuthorizationDomain"
+                                    }
+                                }
+                            }
+                        },
+                        "PhoneNumbers": {
+                            "type": "array",
+                            "description": "Phone numbers by which an organisation can be contacted",
+                            "title": "PhoneNumbers",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Name": {
+                                        "type": "string",
+                                        "description": "A name of a person or an office to which this phone number belongs.",
+                                        "title": "Name"
+                                    },
+                                    "Value": {
+                                        "type": "string",
+                                        "description": "Value of phone number through which the organisation can be contacted",
+                                        "title": "Value"
+                                    },
+                                    "Type": {
+                                        "type": "string",
+                                        "description": "Type of phone contact",
+                                        "title": "Type"
+                                    },
+                                    "Verified": {
+                                        "type": "boolean",
+                                        "description": "Flag to show that the phone number has been verified",
+                                        "title": "Verified"
+                                    }
+                                }
+                            }
+                        },
+                        "PostalAddresses": {
+                            "type": "array",
+                            "description": "Organisations's Postal Addresses",
+                            "title": "PostalAddresses",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AddressLine2": {
+                                        "type": "string",
+                                        "description": "Additional address line",
+                                        "title": "AddressLine2"
+                                    },
+                                    "Country": {
+                                        "type": "string",
+                                        "description": "Address Country in full",
+                                        "title": "Country"
+                                    },
+                                    "PostCode": {
+                                        "type": "string",
+                                        "description": "Post or ZIP Code",
+                                        "title": "PostCode"
+                                    },
+                                    "Primary": {
+                                        "type": "boolean",
+                                        "description": "Flag to indicate that this is the primary contact address",
+                                        "title": "Primary"
+                                    },
+                                    "StreetAddress": {
+                                        "type": "string",
+                                        "description": "Street Address, including building number",
+                                        "title": "StreetAddress"
+                                    },
+                                    "Town": {
+                                        "type": "string",
+                                        "description": "Postal Town",
+                                        "title": "Town"
+                                    },
+                                    "Name": {
+                                        "type": "string",
+                                        "description": "Name of addressee",
+                                        "title": "Name"
+                                    },
+                                    "Type": {
+                                        "type": "string",
+                                        "description": "Type of postal address",
+                                        "title": "Type"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "urn:openbanking:legalauthorityclaims:1.0": {
+                    "type": "object",
+                    "description": "Claims sourced from a legal authority(e.g. Companies House) - can be applied to either TPPs to ASPSP",
+                    "title": "LegalAuthotiryClaims",
+                    "properties": {
+                        "LegalAuthorityClaims": {
+                            "type": "array",
+                            "description": "Details of each Company Registration Authority with which the Company is registered",
+                            "title": "LegalAuthorityClaims",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "RegisteredId": {
+                                        "type": "string",
+                                        "description": "Company Registration Id",
+                                        "title": "RegisteredId"
+                                    },
+                                    "RegisteredName": {
+                                        "type": "string",
+                                        "description": "Company Registered Name",
+                                        "title": "RegisteredName"
+                                    },
+                                    "RegistrationAuthorityId": {
+                                        "type": "string",
+                                        "description": "Identification of registering Authority",
+                                        "title": "RegistrationAuthorityId"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "urn:openbanking:softwarestatement:1.0": {
+                    "type": "object",
+                    "description": "Software Statement Schema as defined by Open Banking",
+                    "title": "SoftwareStatement",
+                    "properties": {
+                        "SoftwareStatements": {
+                            "type": "array",
+                            "description": "Software Statement Attribute",
+                            "title": "SoftwareStatements",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Flag to show if software statement is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "AuthorizationDomain",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "ClientId": {
+                                        "type": "string",
+                                        "description": "Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid",
+                                        "title": "ClientId"
+                                    },
+                                    "ClientName": {
+                                        "type": "string",
+                                        "description": "Human readable client name. May be localised.",
+                                        "title": "ClientName"
+                                    },
+                                    "ClientUri": {
+                                        "type": "string",
+                                        "description": "The “home page” or other wise recognisable url of the application (oath client)",
+                                        "title": "ClientUri"
+                                    },
+                                    "Description": {
+                                        "type": "string",
+                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
+                                        "title": "Description"
+                                    },
+                                    "Id": {
+                                        "type": "string",
+                                        "description": "Unique Scheme Wide Software id",
+                                        "title": "Id"
+                                    },
+                                    "LogoUri": {
+                                        "type": "string",
+                                        "description": "The software logo",
+                                        "title": "LogoUri"
+                                    },
+                                    "Mode": {
+                                        "type": "string",
+                                        "description": "A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be \"Live\"",
+                                        "title": "Mode"
+                                    },
+                                    "ObClientCreated": {
+                                        "type": "boolean",
+                                        "description": "An indicator to show if the client has been created in Open Banking",
+                                        "title": "ObClientCreated"
+                                    },
+                                    "OnBehalfOfObOrganisation": {
+                                        "type": "string",
+                                        "description": "The organisation on whom this software statement is behalf of\nAltered from reference to string, 10/11/2017",
+                                        "title": "OnBehalfOfObOrganisation"
+                                    },
+                                    "PolicyUri": {
+                                        "type": "string",
+                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                                        "title": "PolicyUri"
+                                    },
+                                    "RedirectUri": {
+                                        "type": "array",
+                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
+                                        "title": "RedirectUri",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "Roles": {
+                                        "type": "array",
+                                        "description": "Roles for which this software statement can be used. ",
+                                        "title": "Roles",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "SigningKeyIds": {
+                                        "type": "array",
+                                        "description": "KeyIds of Keys  used for signing messages",
+                                        "title": "SigningKeyIds",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "TermsOfServiceUri": {
+                                        "type": "string",
+                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                                        "title": "TermsOfServiceUri"
+                                    },
+                                    "TransportKeyIds": {
+                                        "type": "array",
+                                        "description": "KeyIds of Keys used for securing message transport (TLS)",
+                                        "title": "TransportKeyIds",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "Version": {
+                                        "type": "number",
+                                        "description": "Version of the sofware.",
+                                        "title": "Version"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "id": {
+                    "type": "string",
+                    "description": "record identifier",
+                    "title": "id"
+                },
+                "meta": {
+                    "type": "object",
+                    "properties": {
+                        "resourceType": {
+                            "type": "string",
+                            "description": "type of resource equal, participants in this case",
+                            "title": "resourceType"
+                        },
+                        "location": {
+                            "type": "string",
+                            "description": "location of resource in PDG",
+                            "title": "location"
+                        }
+                    }
+                },
+                "schemas": {
+                    "type": "array",
+                    "description": "schemas",
+                    "title": "schemas",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "OBAccountPaymentServiceProviders": {
             "required": [
                 "schemas",
@@ -2015,6 +2930,86 @@
                     "uniqueItems": true,
                     "items": {
                         "type": "string"
+                    }
+                },
+                "urn:trustframework:competentauthorityclaims:1.1": {
+                    "type": "object",
+                    "description": "Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP",
+                    "title": "CompetenAuthorityClaims1.1",
+                    "properties": {
+                        "AuthorisationAuthorities": {
+                            "type": "array",
+                            "description": "List of authorities details which gave authorization to the participant",
+                            "title": "AuthorisationAuthorities",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Authority identifier",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization was given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member state",
+                                        "title": "MemberState"
+                                    },
+                                    "RegistrationId": {
+                                        "type": "string",
+                                        "description": "Registration identifier",
+                                        "title": "RegistrationId"
+                                    },
+                                    "X509OrganisationIdentifier": {
+                                        "type": "array",
+                                        "description": "X509OrganisationIdentifier",
+                                        "title": "Identifier of an organisation",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "Authorisations": {
+                            "type": "array",
+                            "description": "Home or Passported Authorisations",
+                            "title": "Authorisations",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Active": {
+                                        "type": "boolean",
+                                        "description": "Indicator to show if this claim is active",
+                                        "title": "Active"
+                                    },
+                                    "AuthorityId": {
+                                        "type": "string",
+                                        "description": "Identifier of authority giving authorization",
+                                        "title": "AuthorityId"
+                                    },
+                                    "AuthorizationDomain": {
+                                        "type": "string",
+                                        "description": "Authorization domain in which authorization is given",
+                                        "title": "AuthorizationDomain"
+                                    },
+                                    "MemberState": {
+                                        "type": "string",
+                                        "description": "Member State giving the authorisation",
+                                        "title": "MemberState"
+                                    },
+                                    "Role": {
+                                        "type": "string",
+                                        "description": "Role in which institution authorised",
+                                        "title": "Role"
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "urn:openbanking:competentauthorityclaims:1.0": {
@@ -2315,12 +3310,12 @@
                                     },
                                     "ClientUri": {
                                         "type": "string",
-                                        "description": "The “home page” or other wise recognisable url of the application (oath client)\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The “home page” or other wise recognisable url of the application (oath client)",
                                         "title": "ClientUri"
                                     },
                                     "Description": {
                                         "type": "string",
-                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription \nV39 Changed to required",
+                                        "description": "Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
                                         "title": "Description"
                                     },
                                     "Id": {
@@ -2330,7 +3325,7 @@
                                     },
                                     "LogoUri": {
                                         "type": "string",
-                                        "description": "The software logo\nVersion 22, 14th November 2017. V39 Changed to required",
+                                        "description": "The software logo",
                                         "title": "LogoUri"
                                     },
                                     "Mode": {
@@ -2350,12 +3345,12 @@
                                     },
                                     "PolicyUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "PolicyUri"
                                     },
                                     "RedirectUri": {
                                         "type": "array",
-                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. Changed in v27. V39 Changed to required",
+                                        "description": "Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
                                         "title": "RedirectUri",
                                         "items": {
                                             "type": "string"
@@ -2363,7 +3358,7 @@
                                     },
                                     "Roles": {
                                         "type": "array",
-                                        "description": "Roles for which this software statement can be used. Changed to required Mike Ekers request",
+                                        "description": "Roles for which this software statement can be used. ",
                                         "title": "Roles",
                                         "items": {
                                             "type": "string"
@@ -2379,7 +3374,7 @@
                                     },
                                     "TermsOfServiceUri": {
                                         "type": "string",
-                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.\nV39 Changed to required",
+                                        "description": "An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
                                         "title": "TermsOfServiceUri"
                                     },
                                     "TransportKeyIds": {
@@ -2392,7 +3387,7 @@
                                     },
                                     "Version": {
                                         "type": "number",
-                                        "description": "Version of the sofware. V39 Changed to required",
+                                        "description": "Version of the sofware. ",
                                         "title": "Version"
                                     }
                                 }
