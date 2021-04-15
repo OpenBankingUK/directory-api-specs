@@ -262,7 +262,7 @@ paths:
     get:
       summary:
         Retrieve the software statement assertion for the given SoftwareStatementID.
-       description: |
+      description: |
         # Depending on the type of participant, one of the following pre-conditions must be met in order to generate an SSA:
          * EU TPPs NOT on the TPR  must hold at least one eIDAS certificate.
          * EU TPPs on the TPR must hold at least one eIDAS or OB certiticate.
