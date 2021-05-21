@@ -4,7 +4,7 @@ Pleae refer to the [Obdatad project](https://github.com/OpenBankingUK/obdatat) i
 # Directory API 
 APIs are for carrying out specific tasks around the Directory and getting information from there.
 
-## Host endpoints
+### Host endpoints
 - Sandbox: https://matls-dirapi.openbankingtest.org.uk/
 - Production: https://matls-dirapi.openbanking.org.uk/ 
 
@@ -13,7 +13,7 @@ APIs are for carrying out specific tasks around the Directory and getting inform
 # SCIM API
 SCIM stands for System for Cross-domain Identity Management (SCIM). The SCIM API is used for accessing identity information, especially for automation.
 
-## Host endpoints
+### Host endpoints
 - Sandbox: https://matls-api.openbankingtest.org.uk/
 - Production: https://matls-api.openbanking.org.uk/
 
