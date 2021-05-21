@@ -1,0 +1,460 @@
+swagger: '2.0'
+info:
+  description: |
+    This swagger file describes the PTSB Dynamic Client Registration API, which enables a TPP to register their application and receive a Client ID and Shared Secret.
+  version: 1.0.0
+  title: PTSB Dynamic Client Registration API
+paths:
+  /register:
+    post:
+      tags:
+        - Register Initial and Sebsequent Applications
+      summary: Register Initial and Sebsequent Applications
+      description: 'This endpoint is used to register an Initial Application and Sebsequent Applications. When registering an additional application a POST /register request can be submitted with a reduced payload, which only needs to include the following fields Application Name, Application Description and  Redirect URI.'
+      operationId: addOrg
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Payload with Organisation and Application Details in JSON format
+          required: true
+          schema:
+            type: object
+            required:
+              - Organisation_Name
+              - Application_Name
+              - Redirect_URI
+              - Business_Contact_Name
+              - Business_Contact_Email
+              - Business_Contact_Phone
+              - Technical_Contact_Name
+              - Technical_Contact_Email
+              - Technical_Contact_Phone
+            properties:
+              Organisation_Name:
+                description: 'TPP Organisation Name. Unique name registered on the TPP Portal. The TPP organisation name should only be registered once.       '
+                maxLength: 50
+                type: string
+              Organisation_Description:
+                description: 'Organisation Description as populated on TPP Registration Table.      '
+                maxLength: 200
+                type: string
+              Organisation_Website:
+                description: 'Organisation URIs as populated on TPP Registration Table. '
+                maxLength: 200
+                type: string
+              Application_Name:
+                description: |-
+                  Application name. Each application name is unique for that organisation.
+                  Note: When registering an additional Application this field is required.
+                maxLength: 50
+                type: string
+              Application_Description:
+                description: |-
+                  Application description as populated on TPP Registration Table
+                  Note: When registering an additional Application this field should be provided.
+                maxLength: 200
+                type: string
+              Redirect_URI:
+                description: |-
+                  Registered URIs the TPP will use to interact with PTSB’s AS.
+                  Note: When registering an additional Application this field is required.
+                type: array
+                minItems: 1
+                uniqueItems: true
+                items:
+                  maxLength: 2048
+                  type: string
+              Business_Contact_Name:
+                description: Primary Business contact  name
+                maxLength: 200
+                type: string
+              Business_Contact_Email:
+                description: Primary Business e-mail address
+                maxLength: 100
+                type: string
+              Business_Contact_Phone:
+                description: Primary Business phone number
+                maxLength: 30
+                type: string
+              Technical_Contact_Name:
+                description: Primary Technical contact name
+                maxLength: 200
+                type: string
+              Technical_Contact_Email:
+                description: Primary Technical e-mail address
+                maxLength: 100
+                type: string
+              Technical_Contact_Phone:
+                description: Primary Technical phone number
+                maxLength: 30
+                type: string
+        - in: header
+          name: tpp-signature-certificate
+          required: true
+          x-is-map: false
+          type: string
+          description: JWS header used for transmitting the QSealC Certificate.
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            x-jws-signature:
+              description: A detached JWS signature of the body of the payload
+              type: string
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                Organisation_Name:
+                  description: 'TPP Organisation Name. Unique name registered on the TPP Portal. The TPP organisation name should only be registered once.        '
+                  type: string
+                Organisation_Description:
+                  description: Organisation Description as populated on TPP Registration Table
+                  type: string
+                Organisation_Website:
+                  description: 'Organisation URIs as populated on TPP Registration Table.         '
+                  type: string
+                Redirect_URI:
+                  description: Registered URIs the TPP will use to interact with PTSB’s AS.
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    type: string
+                Application_Name:
+                  description: Application name. Each application name is unique for that organisation.
+                  type: string
+                Application_Description:
+                  description: Application description as populated on TPP Registration Table
+                  type: string
+                Client_Id:
+                  description: Unique Client ID returned to the TPP
+                  type: string
+                Client_Secret:
+                  description: Unique Client Secret returned to the TPP
+                  type: string
+                Business_Contact_Name:
+                  description: Primary Business contact name
+                  type: string
+                Business_Contact_Email:
+                  description: Primary Business e-mail address
+                  type: string
+                Business_Contact_Phone:
+                  description: Primary Business phone number
+                  type: string
+                Technical_Contact_Name:
+                  description: Primary Technical contact name
+                  type: string
+                Technical_Contact_Email:
+                  description: Primary Technical e-mail address
+                  type: string
+                Technical_Contact_Phone:
+                  description: Primary Technical phone number
+                  type: string
+                Scope:
+                  description: The scope returned will be based on the PSD2 roles in the QSealC
+                  type: string
+        '400':
+          description: Invalid value
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                ErrorCode:
+                  type: string
+                Message:
+                  type: string
+    get:
+      tags:
+        - Retrieve Application Information
+      summary: Return Registered Application Details
+      description: Multiple status values can be provided with comma separated strings
+      operationId: get
+      produces:
+        - application/json
+      parameters:
+        - name: client_id
+          in: query
+          description: The client id that the TPP has obtained already
+          required: true
+          type: string
+        - in: header
+          name: Authorization
+          required: true
+          x-is-map: false
+          type: string
+          description: Client Credentials Grant Access Token the TPP has obtained already
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            x-jws-signature:
+              description: A detached JWS signature of the body of the payload
+              type: string
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                Organisation_Name:
+                  description: 'TPP Organisation Name. Unique name registered on the TPP Portal. The TPP organisation name should only be registered once. '
+                  type: string
+                Organisation_Description:
+                  description: Organisation Description as populated on TPP Registration Table.
+                  type: string
+                Organisation_Website:
+                  description: 'Organisation URIs as populated on TPP Registration Table.       '
+                  type: string
+                Redirect_URI:
+                  description: Registered URIs the TPP will use to interact with PTSB’s AS.
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    type: string
+                Application_Name:
+                  description: Application name. Each application name is unique for that organisation.
+                  type: string
+                Application_Description:
+                  description: Application description as populated on TPP Registration Table
+                  type: string
+                Business_Contact_Name:
+                  description: Primary Business contact  name
+                  type: string
+                Business_Contact_Email:
+                  description: Primary Business e-mail address
+                  type: string
+                Business_Contact_Phone:
+                  description: Primary Business phone number
+                  type: string
+                Technical_Contact_Name:
+                  description: Primary Technical contact name
+                  type: string
+                Technical_Contact_Email:
+                  description: Primary Technical e-mail address
+                  type: string
+                Technical_Contact_Phone:
+                  description: Primary Technical phone number
+                  type: string
+                Scope:
+                  description: The scope returned will be based on the PSD2 roles in the QSealC
+                  type: string
+        '400':
+          description: Invalid value
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                ErrorCode:
+                  type: string
+                Message:
+                  type: string
+definitions:
+  '200':
+    type: object
+    properties:
+      Organisation_Name:
+        description: 'TPP Organisation Name. Unique name registered on the TPP Portal. The TPP organisation name should only be registered once.        '
+        type: string
+      Organisation_Description:
+        description: Organisation Description as populated on TPP Registration Table
+        type: string
+      Organisation_Website:
+        description: 'Organisation URIs as populated on TPP Registration Table.         '
+        type: string
+      Redirect_URI:
+        description: Registered URIs the TPP will use to interact with PTSB’s AS.
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+      Application_Name:
+        description: Application name. Each application name is unique for that organisation.
+        type: string
+      Application_Description:
+        description: Application description as populated on TPP Registration Table
+        type: string
+      Client_Id:
+        description: Unique Client ID returned to the TPP
+        type: string
+      Client_Secret:
+        description: Unique Client Secret returned to the TPP
+        type: string
+      Business_Contact_Name:
+        description: Primary Business contact name
+        type: string
+      Business_Contact_Email:
+        description: Primary Business e-mail address
+        type: string
+      Business_Contact_Phone:
+        description: Primary Business phone number
+        type: string
+      Technical_Contact_Name:
+        description: Primary Technical contact name
+        type: string
+      Technical_Contact_Email:
+        description: Primary Technical e-mail address
+        type: string
+      Technical_Contact_Phone:
+        description: Primary Technical phone number
+        type: string
+      Scope:
+        description: The scope returned will be based on the PSD2 roles in the QSealC
+        type: string
+  '400':
+    type: object
+    properties:
+      ErrorCode:
+        type: string
+      Message:
+        type: string
+  Get:
+    type: object
+    properties:
+      Organisation_Name:
+        description: 'TPP Organisation Name. Unique name registered on the TPP Portal. The TPP organisation name should only be registered once. '
+        type: string
+      Organisation_Description:
+        description: Organisation Description as populated on TPP Registration Table.
+        type: string
+      Organisation_Website:
+        description: 'Organisation URIs as populated on TPP Registration Table.       '
+        type: string
+      Redirect_URI:
+        description: Registered URIs the TPP will use to interact with PTSB’s AS.
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+      Application_Name:
+        description: Application name. Each application name is unique for that organisation.
+        type: string
+      Application_Description:
+        description: Application description as populated on TPP Registration Table
+        type: string
+      Business_Contact_Name:
+        description: Primary Business contact  name
+        type: string
+      Business_Contact_Email:
+        description: Primary Business e-mail address
+        type: string
+      Business_Contact_Phone:
+        description: Primary Business phone number
+        type: string
+      Technical_Contact_Name:
+        description: Primary Technical contact name
+        type: string
+      Technical_Contact_Email:
+        description: Primary Technical e-mail address
+        type: string
+      Technical_Contact_Phone:
+        description: Primary Technical phone number
+        type: string
+      Scope:
+        description: The scope returned will be based on the PSD2 roles in the QSealC
+        type: string
+  RegisterInitial:
+    type: object
+    required:
+      - Organisation_Name
+      - Application_Name
+      - Redirect_URI
+      - Business_Contact_Name
+      - Business_Contact_Email
+      - Business_Contact_Phone
+      - Technical_Contact_Name
+      - Technical_Contact_Email
+      - Technical_Contact_Phone
+    properties:
+      Organisation_Name:
+        description: 'TPP Organisation Name. Unique name registered on the TPP Portal. The TPP organisation name should only be registered once.       '
+        maxLength: 50
+        type: string
+      Organisation_Description:
+        description: 'Organisation Description as populated on TPP Registration Table.      '
+        maxLength: 200
+        type: string
+      Organisation_Website:
+        description: 'Organisation URIs as populated on TPP Registration Table. '
+        maxLength: 200
+        type: string
+      Application_Name:
+        description: |-
+          Application name. Each application name is unique for that organisation.
+          Note: When registering an additional Application this field is required.
+        maxLength: 50
+        type: string
+      Application_Description:
+        description: |-
+          Application description as populated on TPP Registration Table
+          Note: When registering an additional Application this field should be provided.
+        maxLength: 200
+        type: string
+      Redirect_URI:
+        description: |-
+          Registered URIs the TPP will use to interact with PTSB’s AS.
+          Note: When registering an additional Application this field is required.
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          maxLength: 2048
+          type: string
+      Business_Contact_Name:
+        description: Primary Business contact  name
+        maxLength: 200
+        type: string
+      Business_Contact_Email:
+        description: Primary Business e-mail address
+        maxLength: 100
+        type: string
+      Business_Contact_Phone:
+        description: Primary Business phone number
+        maxLength: 30
+        type: string
+      Technical_Contact_Name:
+        description: Primary Technical contact name
+        maxLength: 200
+        type: string
+      Technical_Contact_Email:
+        description: Primary Technical e-mail address
+        maxLength: 100
+        type: string
+      Technical_Contact_Phone:
+        description: Primary Technical phone number
+        maxLength: 30
+        type: string
+  RegisterAdditional:
+    type: object
+    required:
+      - Application_Name
+      - Redirect_URI - Application_Description
+    properties:
+      Application_Name:
+        type: string
+      Application_Description:
+        type: string
+      Redirect_URI:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+  x-jws-signature:
+    type: object
+    properties:
+      x-jws-signature:
+        type: string
+host: developer.permanenttsb.ie/psd2api/
+basePath: register
+schemes:
+  - https
