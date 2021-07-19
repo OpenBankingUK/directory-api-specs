@@ -54,6 +54,10 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/403ForbiddenResponse'
         '404':
           $ref: '#/components/responses/404NotFoundResponse'
         '406':
@@ -2290,6 +2294,44 @@ components:
           schema:
             $ref: '#/components/schemas/SoftwareStatementSchema'
   schemas:
+    AuthorisationSchema:
+      type: object
+      properties:
+        Active:
+          type: boolean
+        MemberState:
+          type: string
+        Psd2Role:
+          type: string
+    AuthorisationAuthoritySchema:
+      type: object
+      properties:
+        AuthorityId:
+          type: string
+        AuthorizationDomain:
+          type: string
+        MemberState:
+          type: string
+        RegistrationId:
+          type: string
+        X509OrganisationIdentifier:
+          type: array
+          items:
+            type: string
+    AuthorisationDomainStatusSchema:
+      type: object
+      properties:
+        AuthorizationDomain:
+          type: string
+        Status:
+          type: string
+    AuthorisationDomainStatusRootSchema:
+      type: object
+      properties:
+        Status:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorisationDomainStatusSchema'
     AuthorisationServerRequestSchema:
       type: object
       properties:
@@ -2349,6 +2391,19 @@ components:
           type: string
           format: uri
           maxLength: 256
+    AuthorisationV11Schema:
+      type: object
+      properties:
+        Active:
+          type: boolean
+        AuthorityId:
+          type: string
+        AuthorizationDomain:
+          type: string
+        MemberState:
+          type: string
+        Role:
+          type: string
     CertificateValidationResponseSchema:
       type: object
       properties:
@@ -2669,6 +2724,32 @@ components:
           type: string
     CertificateValidationSchema:
       type: string
+    CompetentAuthoritySchema:
+      type: object
+      properties:
+        AuthorisationAuthorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorisationAuthoritySchema'
+        Authorisations:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorisationV11Schema'
+    CompetentAuthorityClaimSchema:
+      type: object
+      properties:
+        Authorisations:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorisationSchema'
+        AuthorityId:
+          type: string
+        EtsiIdentifier:
+          type: string
+        MemberState:
+          type: string
+        RegistrationId:
+          type: string
     ContactSchema:
       type: object
       properties:
@@ -2708,6 +2789,17 @@ components:
       enum:
         - business
         - technical
+    EmailAddressSchema:
+      type: object
+      properties:
+        Name:
+          type: string
+        Primary:
+          type: boolean
+        Type:
+          type: string
+        Value:
+          type: string
     EnrolSchema:
       type: object
       properties:
@@ -2876,6 +2968,60 @@ components:
         error_description:
           description: A more detailed error description
           type: string
+    LegalAuthorityClaimSchema:
+      type: object
+      properties:
+        RegisteredId:
+          type: string
+        RegisteredName:
+          type: string
+        RegistrationAuthorityId:
+          type: string
+    LegalAuthorityClaimRootSchema:
+      type: object
+      properties:
+        LegalAuthorityClaims:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegalAuthorityClaimSchema'
+    MetaSchema:
+      type: object
+      properties:
+        location:
+          type: string
+        resourceType:
+          type: string
+    OrganisationSchema:
+      type: object
+      properties:
+        CreateTimestamp:
+          type: string
+        EmailAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailAddressSchema'
+        ModifyTimestamp:
+          type: string
+        OBAuthorisationState:
+          type: string
+        OBOrganisationId:
+          type: string
+        OrganisationCommonName:
+          type: string
+        PersonalAccountRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonalAccountRoleSchema'
+        PhoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumberSchema'
+        PostalAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostalAddressSchema'
+        status:
+          type: string
     OrganisationCertificateTypeSchema:
       type: string
       enum:
@@ -2900,6 +3046,72 @@ components:
         type: object
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
+      properties:
+        AuthorisationServers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorisationServerSchema'
+        id:
+          type: string
+        meta:
+          $ref: '#/components/schemas/MetaSchema'
+        schemas:
+          type: array
+          items:
+            type: string
+        'urn:openbanking:authorisationdomainstatus:1.0':
+          $ref: '#/components/schemas/AuthorisationDomainStatusRootSchema'
+        'urn:openbanking:competentauthorityclaims:1.0':
+          $ref: '#/components/schemas/CompetentAuthorityClaimSchema'
+        'urn:openbanking:legalauthorityclaims:1.0':
+          $ref: '#/components/schemas/LegalAuthorityClaimRootSchema'
+        'urn:openbanking:organisation:1.0':
+          $ref: '#/components/schemas/OrganisationSchema'
+        'urn:openbanking:softwarestatement:1.0':
+          $ref: '#/components/schemas/SoftwareStatementRootSchema'
+        'urn:trustframework:competentauthorityclaims:1.1':
+          $ref: '#/components/schemas/CompetentAuthoritySchema'
+    PersonalAccountRoleSchema:
+      type: object
+      properties:
+        AuthorizationDomain:
+          type: string
+        Role:
+          type: string
+        UserName:
+          type: string
+    PhoneNumberSchema:
+      type: object
+      properties:
+        Name:
+          type: string
+        Type:
+          type: string
+        Value:
+          type: string
+        Verified:
+          type: boolean
+    PostalAddressSchema:
+      type: object
+      properties:
+        AddressLine2:
+          type: string
+        Country:
+          type: string
+        County:
+          type: string
+        Name:
+          type: string
+        PostCode:
+          type: string
+        Primary:
+          type: boolean
+        StreetAddress:
+          type: string
+        Town:
+          type: string
+        Type:
+          type: string
     QSealOnboardingSchema:
       type: string
       description: A signed JWT (JWS)
@@ -3081,6 +3293,13 @@ components:
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id. Give it to the Support Desk if you eve need help with a request that does not work the way you expected.
+    SoftwareStatementRootSchema:
+      type: object
+      properties:
+        SoftwareStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/SoftwareStatementSchema'
   securitySchemes:
     OAuth2SecurityReadOps:
       description: This API uses OAuth 2 with the client credentials grant flow
