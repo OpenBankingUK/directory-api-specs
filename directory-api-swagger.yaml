@@ -38,6 +38,12 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/403ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
   '/v2/organisation/{OrganisationId}':
@@ -3041,9 +3047,25 @@ components:
     OrganisationIdSchema:
       type: string
     OrganisationsGetFromSCIM200OKResponseSchema:
-      type: array
-      items:
-        type: object
+      type: object
+      properties:
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganisationGetFromSCIM200OKResponseSchema'
+        itemsPerPage:
+          type: integer
+          format: int32
+        schemas:
+          type: array
+          items:
+            type: string
+        startIndex:
+          type: integer
+          format: int32
+        totalResults:
+          type: integer
+          format: int32
     OrganisationGetFromSCIM200OKResponseSchema:
       type: object
       properties:
