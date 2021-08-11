@@ -111,7 +111,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -141,7 +141,7 @@
                  "name":"SCIM 2.0 Search Request Message",
                  "required":false,
                  "schema":{
-                    "$ref":"#/definitions/Search Request"
+                    "$ref":"#/definitions/SearchRequest"
                  }
               }
            ],
@@ -192,7 +192,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -236,7 +236,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -329,7 +329,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -359,7 +359,7 @@
                  "name":"SCIM 2.0 Search Request Message",
                  "required":false,
                  "schema":{
-                    "$ref":"#/definitions/Search Request"
+                    "$ref":"#/definitions/SearchRequest"
                  }
               }
            ],
@@ -410,7 +410,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -454,7 +454,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -547,7 +547,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -577,7 +577,7 @@
                  "name":"SCIM 2.0 Search Request Message",
                  "required":false,
                  "schema":{
-                    "$ref":"#/definitions/Search Request"
+                    "$ref":"#/definitions/SearchRequest"
                  }
               }
            ],
@@ -628,7 +628,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -672,7 +672,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -765,7 +765,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -795,7 +795,7 @@
                  "name":"SCIM 2.0 Search Request Message",
                  "required":false,
                  "schema":{
-                    "$ref":"#/definitions/Search Request"
+                    "$ref":"#/definitions/SearchRequest"
                  }
               }
            ],
@@ -846,7 +846,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -890,7 +890,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -983,7 +983,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -1013,7 +1013,7 @@
                  "name":"SCIM 2.0 Search Request Message",
                  "required":false,
                  "schema":{
-                    "$ref":"#/definitions/Search Request"
+                    "$ref":"#/definitions/SearchRequest"
                  }
               }
            ],
@@ -1064,7 +1064,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -1108,7 +1108,7 @@
               "default":{
                  "description":"An error occurred while executing the operation",
                  "schema":{
-                    "$ref":"#/definitions/Error Response"
+                    "$ref":"#/definitions/ErrorResponse"
                  }
               }
            },
@@ -1143,7 +1143,7 @@
      }
   },
   "definitions":{
-     "Error Response":{
+     "ErrorResponse":{
         "required":[
            "schemas",
            "status"
@@ -1181,7 +1181,7 @@
            "url":"https://tools.ietf.org/html/rfc7644#section-3.12"
         }
      },
-     "Search Request":{
+     "SearchRequest":{
         "required":[
            "schemas"
         ],
