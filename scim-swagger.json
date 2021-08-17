@@ -1248,10 +1248,6 @@
            "urn:openbanking:organisation:1.0"
         ],
         "properties":{
-           "externalId":{
-              "type":"string",
-              "title":"externalId"
-           },
            "id":{
               "type":"string",
               "title":"id",
@@ -1262,20 +1258,6 @@
               "title":"meta",
               "readOnly":true,
               "properties":{
-                 "created":{
-                    "type":"string",
-                    "format":"date-time",
-                    "description":"Date and time the resource was created",
-                    "title":"created",
-                    "readOnly":true
-                 },
-                 "lastModified":{
-                    "type":"string",
-                    "format":"date-time",
-                    "description":"Date and time the resource was last modified",
-                    "title":"lastModified",
-                    "readOnly":true
-                 },
                  "location":{
                     "type":"string",
                     "format":"uri",
@@ -1287,12 +1269,6 @@
                     "type":"string",
                     "description":"The resource Type",
                     "title":"resourceType",
-                    "readOnly":true
-                 },
-                 "version":{
-                    "type":"string",
-                    "description":"The version of the resource",
-                    "title":"version",
                     "readOnly":true
                  }
               }
@@ -1548,6 +1524,11 @@
                              "format":"uri",
                              "description":"User's name, email address or other identifying label",
                              "title":"UserName"
+                          },
+                          "AuthorizationDomain":{
+                             "type":"string",
+                             "description":"AuthorizationDomain",
+                             "title":"AuthorizationDomain"
                           }
                        }
                     }
@@ -1609,11 +1590,6 @@
                              "description":"Name of addressee",
                              "title":"Name"
                           },
-                          "POBox":{
-                             "type":"string",
-                             "description":"PO Box assosiated with address",
-                             "title":"POBox"
-                          },
                           "PostCode":{
                              "type":"string",
                              "description":"Post or ZIP Code",
@@ -1642,11 +1618,6 @@
                        }
                     }
                  },
-                 "StatusDescription":{
-                    "type":"string",
-                    "description":"Organisation status description",
-                    "title":"StatusDescription"
-                 },
                  "status":{
                     "type":"string",
                     "description":"Organisation status",
@@ -1670,6 +1641,11 @@
                              "type":"boolean",
                              "description":"Flag to show if software statement is active",
                              "title":"Active"
+                          },
+                          "AuthorizationDomain":{
+                             "type":"string",
+                             "description":"AuthorizationDomain",
+                             "title":"AuthorizationDomain"
                           },
                           "ClientId":{
                              "type":"string",
@@ -1764,6 +1740,116 @@
                              "title":"Version"
                           }
                        }
+                    }
+                 }
+              }
+           },
+           "urn:openbanking:authorisationdomainstatus:1.0":{
+              "type":"object",
+              "description":"Status of an organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future",
+              "title":"AuthorizationDomainStatus",
+              "properties":{
+                 "Status":{
+                    "type":"array",
+                    "description":"Status",
+                    "title":"Status",
+                    "items":{
+                       "type":"object",
+                       "properties":{
+                          "AuthorizationDomain":{
+                             "type":"string",
+                             "description":"Authorization Domain",
+                             "title":"AuthorizationDomain"
+                          },
+                          "Status":{
+                             "type":"string",
+                             "description":"Indicates whether authorization domain is active",
+                             "title":"status"
+                          }
+                       }
+                    }
+                 }
+              }
+           },
+           "AuthorisationServers":{
+              "type":"array",
+              "description":"Authorisation Server Portal",
+              "title":"AuthorisationServers",
+              "items":{
+                 "type":"object",
+                 "properties":{
+                    "Id":{
+                       "type":"string",
+                       "description":"Authorisation Server Id V39 required",
+                       "title":"Id"
+                    },
+                    "AutoRegistrationSupported":{
+                       "type":"boolean",
+                       "description":"Authorisation Server supports auto-registration",
+                       "title":"AutoRegistrationSupported"
+                    },
+                    "BaseApiDNSUri":{
+                       "type":"string",
+                       "description":"Points to the Open Banking APIs V39 required",
+                       "title":"BaseApiDNSUri"
+                    },
+                    "CustomerFriendlyDescription":{
+                       "type":"string",
+                       "description":"Customer orientated description",
+                       "title":"CustomerFriendlyDescription"
+                    },
+                    "CustomerFriendlyLogoUri":{
+                       "type":"string",
+                       "description":"uri from which a TPP can retrieve a certified logo V39 required",
+                       "title":"CustomerFriendlyLogoUri"
+                    },
+                    "CustomerFriendlyName":{
+                       "type":"string",
+                       "description":"Certified name",
+                       "title":"CustomerFriendlyName"
+                    },
+                    "DeveloperPortalUri":{
+                       "type":"string",
+                       "description":"URI for TPP developer testing V39 required",
+                       "title":"DeveloperPortalUri"
+                    },
+                    "TermsOfService":{
+                       "type":"string",
+                       "description":"Uri from which the terms of service can be retrieved V39 required",
+                       "title":"TermsOfService"
+                    },
+                    "OpenIDConfigEndPointUri":{
+                       "type":"string",
+                       "description":"Uri used for Oauth2.0 OpenId Configuration V39 required",
+                       "title":"OpenIDConfigEndPointUri"
+                    },
+                    "PayloadSigningCertLocation":{
+                       "type":"string",
+                       "description":"The location which is used for signing certificates V39 required",
+                       "title":"PayloadSigningCertLocation"
+                    },
+                    "EISCDId":{
+                       "type":"array",
+                       "description":"Confirmation of payee bank identifier V37 was CoPBankIdentifier",
+                       "title":"EISCDId",
+                       "items":{
+                          "type":"string"
+                       }
+                    },
+                    "ParentAuthorisationServerId":{
+                       "type":"string",
+                       "description":"Authorisation Server Id of Parent Authorisation server, used for app to app linking",
+                       "title":"ParentAuthorisationServerId"
+                    },
+                    "AuthorizationDomain":{
+                       "type":"string",
+                       "description":"Authorization Domain",
+                       "title":"AuthorizationDomain"
+                    },
+                    "ApiResourceDiscoveryEndpoint": {
+                       "type":"string",
+                       "description":"An RFC-3986-compliant URI",
+                       "title":"ApiResourceDiscoveryEndpoint"
                     }
                  }
               }
@@ -2210,7 +2296,7 @@
         "properties":{
            "urn:openbanking:authorisationdomainstatus:1.0":{
               "type":"object",
-              "description":"Status of authorization domain",
+              "description":"Status of an organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future",
               "title":"AuthorizationDomainStatus",
               "properties":{
                  "Status":{
@@ -2441,6 +2527,11 @@
                        "type":"string",
                        "description":"Authorization Domain",
                        "title":"AuthorizationDomain"
+                    },
+                    "ApiResourceDiscoveryEndpoint": {
+                       "type":"string",
+                       "description":"An RFC-3986-compliant URI",
+                       "title":"ApiResourceDiscoveryEndpoint"
                     }
                  }
               }
@@ -2450,6 +2541,12 @@
               "description":"Account details for an open banking organisation which are used for SCIM access to the Directory on behalf of an accredited organisation.",
               "title":"Organisation",
               "properties":{
+                 "CreateTimestamp":{
+                    "type":"string",
+                    "description":"Creation Timestamp",
+                    "title":"CreateTimestamp",
+                    "readOnly":true
+                 },
                  "EmailAddresses":{
                     "type":"array",
                     "description":"Email addresses associated with the organisation",
@@ -2574,6 +2671,11 @@
                              "description":"Address Country in full",
                              "title":"Country"
                           },
+                          "County":{
+                             "type":"string",
+                             "description":"Country or regional devision",
+                             "title":"County"
+                          },
                           "PostCode":{
                              "type":"string",
                              "description":"Post or ZIP Code",
@@ -2606,6 +2708,11 @@
                           }
                        }
                     }
+                 },
+                 "status":{
+                    "type":"string",
+                    "description":"Organisation status",
+                    "title":"status"
                  }
               }
            },
@@ -2813,11 +2920,6 @@
                        "description":"Points to the Open Banking APIs V39 required",
                        "title":"BaseApiDNSUri"
                     },
-                    "ClientRegistrationUri":{
-                       "type":"string",
-                       "description":"The registration endpoint for TPP onboarding to ASPSPs. V39 required",
-                       "title":"ClientRegistrationUri"
-                    },
                     "CustomerFriendlyDescription":{
                        "type":"string",
                        "description":"Customer orientated description",
@@ -2870,13 +2972,19 @@
                        "type":"string",
                        "description":"Uri from which the terms of service can be retrieved V39 required",
                        "title":"TermsOfService"
+                    },
+                    "AuthorizationDomain":{
+                       "type":"string",
+                       "description":"Authorization Domain",
+                       "title":"AuthorizationDomain"
+                    },
+                    "ApiResourceDiscoveryEndpoint": {
+                       "type":"string",
+                       "description":"An RFC-3986-compliant URI",
+                       "title":"ApiResourceDiscoveryEndpoint"
                     }
                  }
               }
-           },
-           "externalId":{
-              "type":"string",
-              "title":"externalId"
            },
            "id":{
               "type":"string",
@@ -2888,20 +2996,6 @@
               "title":"meta",
               "readOnly":true,
               "properties":{
-                 "created":{
-                    "type":"string",
-                    "format":"date-time",
-                    "description":"Date and time the resource was created",
-                    "title":"created",
-                    "readOnly":true
-                 },
-                 "lastModified":{
-                    "type":"string",
-                    "format":"date-time",
-                    "description":"Date and time the resource was last modified",
-                    "title":"lastModified",
-                    "readOnly":true
-                 },
                  "location":{
                     "type":"string",
                     "format":"uri",
@@ -2913,12 +3007,6 @@
                     "type":"string",
                     "description":"The resource Type",
                     "title":"resourceType",
-                    "readOnly":true
-                 },
-                 "version":{
-                    "type":"string",
-                    "description":"The version of the resource",
-                    "title":"version",
                     "readOnly":true
                  }
               }
@@ -3174,6 +3262,11 @@
                              "format":"uri",
                              "description":"User's name, email address or other identifying label",
                              "title":"UserName"
+                          },
+                          "AuthorizationDomain":{
+                             "type":"string",
+                             "description":"AuthorizationDomain",
+                             "title":"AuthorizationDomain"
                           }
                        }
                     }
@@ -3235,11 +3328,6 @@
                              "description":"Name of addressee",
                              "title":"Name"
                           },
-                          "POBox":{
-                             "type":"string",
-                             "description":"PO Box assosiated with address",
-                             "title":"POBox"
-                          },
                           "PostCode":{
                              "type":"string",
                              "description":"Post or ZIP Code",
@@ -3268,11 +3356,6 @@
                        }
                     }
                  },
-                 "StatusDescription":{
-                    "type":"string",
-                    "description":"Organisation status description",
-                    "title":"StatusDescription"
-                 },
                  "status":{
                     "type":"string",
                     "description":"Organisation status",
@@ -3296,6 +3379,11 @@
                              "type":"boolean",
                              "description":"Flag to show if software statement is active",
                              "title":"Active"
+                          },
+                          "AuthorizationDomain":{
+                             "type":"string",
+                             "description":"AuthorizationDomain",
+                             "title":"AuthorizationDomain"
                           },
                           "ClientId":{
                              "type":"string",
@@ -3388,6 +3476,33 @@
                              "type":"number",
                              "description":"Version of the sofware. ",
                              "title":"Version"
+                          }
+                       }
+                    }
+                 }
+              }
+           },
+           "urn:openbanking:authorisationdomainstatus:1.0":{
+              "type":"object",
+              "description":"Status of an organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future",
+              "title":"AuthorizationDomainStatus",
+              "properties":{
+                 "Status":{
+                    "type":"array",
+                    "description":"Status",
+                    "title":"Status",
+                    "items":{
+                       "type":"object",
+                       "properties":{
+                          "AuthorizationDomain":{
+                             "type":"string",
+                             "description":"Authorization Domain",
+                             "title":"AuthorizationDomain"
+                          },
+                          "Status":{
+                             "type":"string",
+                             "description":"Indicates whether authorization domain is active",
+                             "title":"status"
                           }
                        }
                     }
