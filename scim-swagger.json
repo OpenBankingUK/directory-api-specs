@@ -1746,7 +1746,7 @@
            },
            "urn:openbanking:authorisationdomainstatus:1.0":{
               "type":"object",
-              "description":"Status of authorization domain. Currently unattainable, but will be complemented in the future",
+              "description":"Status of organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future",
               "title":"AuthorizationDomainStatus",
               "properties":{
                  "Status":{
@@ -2296,7 +2296,7 @@
         "properties":{
            "urn:openbanking:authorisationdomainstatus:1.0":{
               "type":"object",
-              "description":"Status of authorization domain. Currently unattainable, but will be complemented in the future",
+              "description":"Status of organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future",
               "title":"AuthorizationDomainStatus",
               "properties":{
                  "Status":{
@@ -3484,7 +3484,7 @@
            },
            "urn:openbanking:authorisationdomainstatus:1.0":{
               "type":"object",
-              "description":"Status of authorization domain. Currently unattainable, but will be complemented in the future",
+              "description":"Status of organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future",
               "title":"AuthorizationDomainStatus",
               "properties":{
                  "Status":{
