@@ -1288,34 +1288,34 @@
               "properties":{
                  "AuthorisationAuthorities":{
                     "type":"array",
-                    "description":"List of authorities details which gave authorization to the participant",
+                    "description":"List of authorities details which gave authorization to the participant. This section is not required in output. ",
                     "title":"AuthorisationAuthorities",
                     "items":{
                        "type":"object",
                        "properties":{
                           "AuthorityId":{
                              "type":"string",
-                             "description":"Authority identifier",
+                             "description":"Authority identifier. This field is required in output, searchable and mutable. ",
                              "title":"AuthorityId"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization domain in which authorization was given",
+                             "description":"Authorization domain in which authorization was given. Possible value: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member state",
+                             "description":"Member state. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable. ",
                              "title":"MemberState"
                           },
                           "RegistrationId":{
                              "type":"string",
-                             "description":"Registration identifier",
+                             "description":"Registration identifier. This field is required in output, searchable and mutable. ",
                              "title":"RegistrationId"
                           },
                           "X509OrganisationIdentifier":{
                              "type":"array",
-                             "description":"X509OrganisationIdentifier",
+                             "description":"X509OrganisationIdentifier. This field is not required in output, but is searchable and mutable. ",
                              "title":"Identifier of an organisation",
                              "items":{
                                 "type":"string"
@@ -1326,34 +1326,34 @@
                  },
                  "Authorisations":{
                     "type":"array",
-                    "description":"Home or Passported Authorisations",
+                    "description":"Home or Passported Authorisations. This section is not required in output. ",
                     "title":"Authorisations",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Indicator to show if this claim is active",
+                             "description":"Indicator to show if this claim is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "AuthorityId":{
                              "type":"string",
-                             "description":"Identifier of authority giving authorization",
+                             "description":"Identifier of authority giving authorization. This field is required in output, searchable and mutable. ",
                              "title":"AuthorityId"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization domain in which authorization is given",
+                             "description":"Authorization domain in which authorization is given. Possible value: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member State giving the authorisation",
+                             "description":"Member State giving the authorisation. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable.",
                              "title":"MemberState"
                           },
                           "Role":{
                              "type":"string",
-                             "description":"Role in which institution authorised",
+                             "description":"Role in which institution authorised. Possible value: COPRequester, COPResponder, AISP, ASPSP, CBPII, PISP, CD_AISP, CD_ASPSP, CD_CBPII. This field is mutable. ",
                              "title":"Role"
                           }
                        }
@@ -1368,24 +1368,24 @@
               "properties":{
                  "Authorisations":{
                     "type":"array",
-                    "description":"Home or Passported Authorisations",
+                    "description":"Home or Passported Authorisations. This section is not required in output.",
                     "title":"Authorisations",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Indicator to show if this claim is active",
+                             "description":"Indicator to show if this claim is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member State giving the authorisation",
+                             "description":"Member State giving the authorisation. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable. ",
                              "title":"MemberState"
                           },
                           "Psd2Role":{
                              "type":"string",
-                             "description":"Psd2 Role in which institution authorised",
+                             "description":"Psd2 Role in which institution authorised. Possible values: ASPSP, AISP, PISP, CBPII. This field is required in output, searchable and mutable. ",
                              "title":"Psd2Role"
                           }
                        }
@@ -1393,22 +1393,22 @@
                  },
                  "AuthorityId":{
                     "type":"string",
-                    "description":"The ID of the accrediting authority.",
+                    "description":"The ID of the accrediting authority. This field is required in output, searchable and mutable. ",
                     "title":"AuthorityId"
                  },
                  "EtsiIdentifier":{
                     "type":"string",
-                    "description":"European Telecommunications Standards Institute Organisation Identifier",
+                    "description":"European Telecommunications Standards Institute Organisation Identifier. This field is not required in output, but is searchable and mutable. ",
                     "title":"EtsiIdentifier"
                  },
                  "MemberState":{
                     "type":"string",
-                    "description":"Member State of the Authority",
+                    "description":"Member State of the Authority. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output, searchable and mutable. ",
                     "title":"MemberState"
                  },
                  "RegistrationId":{
                     "type":"string",
-                    "description":"Registration Id with the principle authority",
+                    "description":"Registration Id with the principle authority. This field is required in output, searchable and mutable. ",
                     "title":"RegistrationId"
                  }
               }
@@ -1420,24 +1420,24 @@
               "properties":{
                  "LegalAuthorityClaims":{
                     "type":"array",
-                    "description":"Details of each Company Registration Authority with which the Company is registered",
+                    "description":"Details of each Company Registration Authority with which the Company is registered. This section is not required in output. ",
                     "title":"LegalAuthorityClaims",
                     "items":{
                        "type":"object",
                        "properties":{
                           "RegisteredId":{
                              "type":"string",
-                             "description":"Company Registration Id",
+                             "description":"Company Registration Id. This field is required in output, searchable and mutable. ",
                              "title":"RegisteredId"
                           },
                           "RegisteredName":{
                              "type":"string",
-                             "description":"Company Registered Name",
+                             "description":"Company Registered Name. This field is required in output, searchable and mutable. ",
                              "title":"RegisteredName"
                           },
                           "RegistrationAuthorityId":{
                              "type":"string",
-                             "description":"Identification of registering Authority",
+                             "description":"Identification of registering Authority. This field is required in output and searchable, but is not mutable. ",
                              "title":"RegistrationAuthorityId"
                           }
                        }
@@ -1452,35 +1452,35 @@
               "properties":{
                  "CreateTimestamp":{
                     "type":"string",
-                    "description":"Creation Timestamp",
+                    "description":"Creation Timestamp. This field is not required in output and not mutable",
                     "title":"CreateTimestamp",
                     "readOnly":true
                  },
                  "EmailAddresses":{
                     "type":"array",
-                    "description":"Email addresses associated with the organisation",
+                    "description":"Email addresses associated with the organisation. This section is not required. ",
                     "title":"EmailAddresses",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this email belongs.",
+                             "description":"A name of a person or an office to which this email belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Primary":{
                              "type":"boolean",
-                             "description":"Indicator to show is this is the primary email address",
+                             "description":"Indicator to show is this is the primary email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Primary"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of email address",
+                             "description":"Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of email address",
+                             "description":"Value of email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Value"
                           }
                        }
@@ -1488,46 +1488,46 @@
                  },
                  "ModifyTimestamp":{
                     "type":"string",
-                    "description":"Modification Timestamp",
+                    "description":"Modification Timestamp. This field is not required in output and not mutable",
                     "title":"ModifyTimestamp",
                     "readOnly":true
                  },
                  "OBAuthorisationState":{
                     "type":"string",
-                    "description":"OB Participant Authorisation State",
+                    "description":"OB Participant Authorisation State. This field is not required in output and not searchable, but is mutable. ",
                     "title":"OBAuthorisationState"
                  },
                  "OBOrganisationId":{
                     "type":"string",
-                    "description":"Open Banking Organisation Identifier",
+                    "description":"Open Banking Organisation Identifier. This field is required in output and searchable, but is not mutable.",
                     "title":"OBOrganisationId"
                  },
                  "OrganisationCommonName":{
                     "type":"string",
-                    "description":"The common name of the organisation",
+                    "description":"The common name of the organisation. This field is required in output, searchable and mutable. ",
                     "title":"OrganisationCommonName"
                  },
                  "PersonalAccountRoles":{
                     "type":"array",
-                    "description":"Individuals who have authorised access to the organisation",
+                    "description":"Individuals who have authorised access to the organisation. This section is not required.",
                     "title":"PersonalAccountRoles",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Role":{
                              "type":"string",
-                             "description":"Role which the individual holds",
+                             "description":"Role which the individual holds. Possible values: PBC, PTC, SBC, STC. This field is required in output and searchable, but is not mutable. ",
                              "title":"Role"
                           },
                           "UserName":{
                              "type":"string",
                              "format":"uri",
-                             "description":"User's name, email address or other identifying label",
+                             "description":"User's name, email address or other identifying label. This field is required in output and searchable, but is not mutable. ",
                              "title":"UserName"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"AuthorizationDomain",
+                             "description":"AuthorizationDomain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and not mutable, but is searchable. ",
                              "title":"AuthorizationDomain"
                           }
                        }
@@ -1535,29 +1535,29 @@
                  },
                  "PhoneNumbers":{
                     "type":"array",
-                    "description":"Phone numbers by which an organisation can be contacted",
+                    "description":"Phone numbers by which an organisation can be contacted. This section is not required. ",
                     "title":"PhoneNumbers",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this phone number belongs.",
+                             "description":"A name of a person or an office to which this phone number belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of phone contact",
+                             "description":"Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of phone number through which the organisation can be contacted",
+                             "description":"Value of phone number through which the organisation can be contacted. This field is required in output and mutable, but is not searchable. ",
                              "title":"Value"
                           },
                           "Verified":{
                              "type":"boolean",
-                             "description":"Flag to show that the phone number has been verified",
+                             "description":"Flag to show that the phone number has been verified. This field is required in output and mutable, but is not searchable. ",
                              "title":"Verified"
                           }
                        }
@@ -1565,19 +1565,19 @@
                  },
                  "PostalAddresses":{
                     "type":"array",
-                    "description":"Organisations's Postal Addresses",
+                    "description":"Organisations's Postal Addresses. This section is not required in output. ",
                     "title":"PostalAddresses",
                     "items":{
                        "type":"object",
                        "properties":{
                           "AddressLine2":{
                              "type":"string",
-                             "description":"Additional address line",
+                             "description":"Additional address line. This field is not required in output and is not searchable, but is mutable. ",
                              "title":"AddressLine2"
                           },
                           "Country":{
                              "type":"string",
-                             "description":"Address Country in full",
+                             "description":"Address Country in full. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output and mutable, but is not searchable. ",
                              "title":"Country"
                           },
                           "County":{
@@ -1587,32 +1587,32 @@
                           },
                           "Name":{
                              "type":"string",
-                             "description":"Name of addressee",
+                             "description":"Name of addressee. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "PostCode":{
                              "type":"string",
-                             "description":"Post or ZIP Code",
+                             "description":"Post or ZIP Code. This field is required in output and mutable, but is not searchable. ",
                              "title":"PostCode"
                           },
                           "Primary":{
                              "type":"boolean",
-                             "description":"Flag to indicate that this is the primary contact address",
+                             "description":"Flag to indicate that this is the primary contact address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Primary"
                           },
                           "StreetAddress":{
                              "type":"string",
-                             "description":"Street Address, including building number",
+                             "description":"Street Address, including building number. This field is required in output and mutable, but is not searchable. ",
                              "title":"StreetAddress"
                           },
                           "Town":{
                              "type":"string",
-                             "description":"Postal Town",
+                             "description":"Postal Town. This field is required in output and mutable, but is not searchable. ",
                              "title":"Town"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of postal address",
+                             "description":"Type of postal address. Possible values: PBC, PTC, Registered. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           }
                        }
@@ -1620,7 +1620,7 @@
                  },
                  "status":{
                     "type":"string",
-                    "description":"Organisation status",
+                    "description":"Organisation status. This field is not required in output and is not searchable, but is mutable. ",
                     "title":"status"
                  }
               }
@@ -1639,67 +1639,67 @@
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Flag to show if software statement is active",
+                             "description":"Flag to show if software statement is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"AuthorizationDomain",
+                             "description":"AuthorizationDomain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and is not mutable, but is searchable. ",
                              "title":"AuthorizationDomain"
                           },
                           "ClientId":{
                              "type":"string",
-                             "description":"Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid",
+                             "description":"Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is required in output and searchable, but is not mutable. ",
                              "title":"ClientId"
                           },
                           "ClientName":{
                              "type":"string",
-                             "description":"Human readable client name. May be localised.",
+                             "description":"Human readable client name. May be localised. This field is required in output and searchable, but is not mutable. ",
                              "title":"ClientName"
                           },
                           "ClientUri":{
                              "type":"string",
-                             "description":"The “home page” or other wise recognisable url of the application (oath client)",
+                             "description":"The “home page” or other wise recognisable url of the application (oath client). This field is required in output, searchable and mutable. ",
                              "title":"ClientUri"
                           },
                           "Description":{
                              "type":"string",
-                             "description":"Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
+                             "description":"Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is required in output and searchable, but is not mutable. ",
                              "title":"Description"
                           },
                           "Id":{
                              "type":"string",
-                             "description":"Unique Scheme Wide Software id",
+                             "description":"Unique Scheme Wide Software id. This field is required in output and searchable, but is not mutable. ",
                              "title":"Id"
                           },
                           "LogoUri":{
                              "type":"string",
-                             "description":"The software logo",
+                             "description":"The software logo. This field is required in output, searchable and mutable. ",
                              "title":"LogoUri"
                           },
                           "Mode":{
                              "type":"string",
-                             "description":"A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be 'Live'",
+                             "description":"A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be 'Live'. Possible values: Live, Test. This field is not required in output, but is searchable and mutable. ",
                              "title":"Mode"
                           },
                           "ObClientCreated":{
                              "type":"boolean",
-                             "description":"An indicator to show if the client has been created in Open Banking",
+                             "description":"An indicator to show if the client has been created in Open Banking. This field is required in output, searchable and mutable.",
                              "title":"ObClientCreated"
                           },
                           "OnBehalfOfObOrganisation":{
                              "type":"string",
-                             "description":"The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017",
+                             "description":"The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not required in output and is not mutable, but is searchable. ",
                              "title":"OnBehalfOfObOrganisation"
                           },
                           "PolicyUri":{
                              "type":"string",
-                             "description":"An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                             "description":"An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is required and searchable, but is not mutable.",
                              "title":"PolicyUri"
                           },
                           "RedirectUri":{
                              "type":"array",
-                             "description":"Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
+                             "description":"Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. This field is required in output, searchable and mutable. ",
                              "title":"RedirectUri",
                              "items":{
                                 "type":"string"
@@ -1707,7 +1707,7 @@
                           },
                           "Roles":{
                              "type":"array",
-                             "description":"Roles for which this software statement can be used.",
+                             "description":"Roles for which this software statement can be used. Possible values: COPRequester, COPRequester, AISP, ASPSP, CBPII, PISP, CD_AISP, CD_PISP, CD_ASPSP. This field is not required in output and is not mutable, but is searchable.",
                              "title":"Roles",
                              "items":{
                                 "type":"string"
@@ -1715,7 +1715,7 @@
                           },
                           "SigningKeyIds":{
                              "type":"array",
-                             "description":"KeyIds of Keys used for signing messages",
+                             "description":"KeyIds of Keys used for signing messages. This field is not required in output, but is searchable and mutable. ",
                              "title":"SigningKeyIds",
                              "items":{
                                 "type":"string"
@@ -1723,12 +1723,12 @@
                           },
                           "TermsOfServiceUri":{
                              "type":"string",
-                             "description":"An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                             "description":"An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is required in output and searchable, but is not mutable. ",
                              "title":"TermsOfServiceUri"
                           },
                           "TransportKeyIds":{
                              "type":"array",
-                             "description":"KeyIds of Keys used for securing message transport (TLS)",
+                             "description":"KeyIds of Keys used for securing message transport (TLS). This field is not required in output, but is searchable and mutable.",
                              "title":"TransportKeyIds",
                              "items":{
                                 "type":"string"
@@ -1736,7 +1736,7 @@
                           },
                           "Version":{
                              "type":"number",
-                             "description":"Version of the sofware.",
+                             "description":"Version of the software. This field is required in output, but is not searchable and not mutable.",
                              "title":"Version"
                           }
                        }
@@ -1758,12 +1758,12 @@
                        "properties":{
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization Domain",
+                             "description":"Authorization Domain. Possible values: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "Status":{
                              "type":"string",
-                             "description":"Indicates whether authorization domain is active",
+                             "description":"Indicates whether authorization domain is active. Possible values: Active, Withdrawn, Revoked, Suspended, Requested, Rejected. This field is required in output, searchable and mutable. ",
                              "title":"status"
                           }
                        }
@@ -1780,57 +1780,57 @@
                  "properties":{
                     "Id":{
                        "type":"string",
-                       "description":"Authorisation Server Id V39 required",
+                       "description":"Authorisation Server Id V39 required. This field is required in output, searchable and but is not mutable. ",
                        "title":"Id"
                     },
                     "AutoRegistrationSupported":{
                        "type":"boolean",
-                       "description":"Authorisation Server supports auto-registration",
+                       "description":"Authorisation Server supports auto-registration. This field is required in output, searchable and mutable. ",
                        "title":"AutoRegistrationSupported"
                     },
                     "BaseApiDNSUri":{
                        "type":"string",
-                       "description":"Points to the Open Banking APIs V39 required",
+                       "description":"Points to the Open Banking APIs V39 required. This field is required in output, searchable and mutable. ",
                        "title":"BaseApiDNSUri"
                     },
                     "CustomerFriendlyDescription":{
                        "type":"string",
-                       "description":"Customer orientated description",
+                       "description":"Customer orientated description. This field is not required in output, but is searchable and mutable. ",
                        "title":"CustomerFriendlyDescription"
                     },
                     "CustomerFriendlyLogoUri":{
                        "type":"string",
-                       "description":"uri from which a TPP can retrieve a certified logo V39 required",
+                       "description":"uri from which a TPP can retrieve a certified logo V39 required. This field is required in output, searchable and mutable. ",
                        "title":"CustomerFriendlyLogoUri"
                     },
                     "CustomerFriendlyName":{
                        "type":"string",
-                       "description":"Certified name",
+                       "description":"Certified name. This field is not required in output, but is searchable and mutable. ",
                        "title":"CustomerFriendlyName"
                     },
                     "DeveloperPortalUri":{
                        "type":"string",
-                       "description":"URI for TPP developer testing V39 required",
+                       "description":"URI for TPP developer testing V39 required. This field is required in output, searchable and mutable.",
                        "title":"DeveloperPortalUri"
                     },
                     "TermsOfService":{
                        "type":"string",
-                       "description":"Uri from which the terms of service can be retrieved V39 required",
+                       "description":"Uri from which the terms of service can be retrieved V39 required. This field is required in output, searchable and mutable.",
                        "title":"TermsOfService"
                     },
                     "OpenIDConfigEndPointUri":{
                        "type":"string",
-                       "description":"Uri used for Oauth2.0 OpenId Configuration V39 required",
+                       "description":"Uri used for Oauth2.0 OpenId Configuration V39 required. This field is required in output, searchable and mutable.",
                        "title":"OpenIDConfigEndPointUri"
                     },
                     "PayloadSigningCertLocation":{
                        "type":"string",
-                       "description":"The location which is used for signing certificates V39 required",
+                       "description":"The location which is used for signing certificates V39 required. This field is required in output, searchable and mutable. ",
                        "title":"PayloadSigningCertLocation"
                     },
                     "EISCDId":{
                        "type":"array",
-                       "description":"Confirmation of payee bank identifier V37 was CoPBankIdentifier",
+                       "description":"Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is not required in output, but is searchable and mutable.",
                        "title":"EISCDId",
                        "items":{
                           "type":"string"
@@ -1838,17 +1838,17 @@
                     },
                     "ParentAuthorisationServerId":{
                        "type":"string",
-                       "description":"Authorisation Server Id of Parent Authorisation server, used for app to app linking",
+                       "description":"Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is not required in output, but is searchable and mutable. ",
                        "title":"ParentAuthorisationServerId"
                     },
                     "AuthorizationDomain":{
                        "type":"string",
-                       "description":"Authorization Domain",
+                       "description":"Authorization Domain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and not mutable, but is searchable. ",
                        "title":"AuthorizationDomain"
                     },
                     "ApiResourceDiscoveryEndpoint": {
                        "type":"string",
-                       "description":"An RFC-3986-compliant URI",
+                       "description":"An RFC-3986-compliant URI. This field is not required in output, but is searchable and mutable",
                        "title":"ApiResourceDiscoveryEndpoint"
                     }
                  }
@@ -1875,46 +1875,46 @@
         "properties":{
            "CertificateFingerprint":{
               "type":"string",
-              "description":"SHA-256 Certificate Fingerprint",
+              "description":"SHA-256 Certificate Fingerprint. This field is required in output and searchable, but is not mutable. ",
               "title":"CertificateFingerprint"
            },
            "CreateTimestamp":{
               "type":"string",
-              "description":"OB Creation Timestamp",
+              "description":"OB Creation Timestamp. This field is not required and available only in read mode.",
               "title":"CreateTimestamp",
               "readOnly":true
            },
            "ModifyTimestamp":{
               "type":"string",
-              "description":"OB Modification Timestamp",
+              "description":"OB Modification Timestamp. This field is not required and  and available only in read mode",
               "title":"ModifyTimestamp",
               "readOnly":true
            },
            "ServiceCountry":{
               "type":"string",
-              "description":"<SchemeOperatorAddress> <PostalAddresses> <PostalAddress xml:lang=en> <StreetAddress>NG III - Koning Albert II-laan 16</StreetAddress> <Locality>Brussels</Locality> <StateOrProvince>Brussels</StateOrProvince> <PostalCode>1000</PostalCode> <CountryName>BE</CountryName>",
+              "description":"Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output and searchable, but is not mutable. <SchemeOperatorAddress> <PostalAddresses> <PostalAddress xml:lang=en> <StreetAddress>NG III - Koning Albert II-laan 16</StreetAddress> <Locality>Brussels</Locality> <StateOrProvince>Brussels</StateOrProvince> <PostalCode>1000</PostalCode> <CountryName>BE</CountryName>",
               "title":"ServiceCountry"
            },
            "ServiceExtensions":{
               "type":"array",
-              "description":"<ServiceInformationExtensions> ... </ServiceInformationExtensions>",
+              "description":"This section is required in output. <ServiceInformationExtensions> ... </ServiceInformationExtensions>",
               "title":"ServiceExtensions",
               "items":{
                  "type":"object",
                  "properties":{
                     "AdditionalInfoLang":{
                        "type":"string",
-                       "description":"<AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>",
+                       "description":"This field is required in output and mutable, but is not searchable. <AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>",
                        "title":"AdditionalInfoLang"
                     },
                     "AdditionalInfoURI":{
                        "type":"string",
-                       "description":"<AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>",
+                       "description":"This field is required in output and mutable, but is not searchable. <AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>",
                        "title":"AdditionalInfoURI"
                     },
                     "Critical":{
                        "type":"boolean",
-                       "description":"<Extension Critical='true'>",
+                       "description":"This field is required in output and mutable, but is not searchable. <Extension Critical='true'>",
                        "title":"Critical"
                     }
                  }
@@ -1922,41 +1922,42 @@
            },
            "ServiceLanguage":{
               "type":"string",
-              "description":"<Name xml:lang='en'>TeleSec ServerPass</Name>",
+              "description":"This field is required in output, mutable and searchable. <Name xml:lang='en'>TeleSec ServerPass</Name>",
               "title":"ServiceLanguage"
            },
            "ServiceName":{
               "type":"string",
-              "description":"<Name xml:lang='en'>TeleSec ServerPass</Name>",
+              "description":"This field is required in output and searchable, but is not mutable. <Name xml:lang='en'>TeleSec ServerPass</Name>",
               "title":"ServiceName"
            },
            "ServiceStatus":{
               "type":"string",
-              "description":"<ServiceStatus> http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/granted </ServiceStatus>",
+              "description":"This field is required in output, mutable and searchable. <ServiceStatus> http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/granted </ServiceStatus>",
               "title":"ServiceStatus"
            },
            "ServiceType":{
               "type":"string",
+              "description": "This field is required in output, mutable and searchable. ",
               "title":"ServiceType"
            },
            "StatusStartingTime":{
               "type":"string",
-              "description":"<StatusStartingTime>2017-11-20T09:00:00Z</StatusStartingTime>",
+              "description":"This field is required in output and mutable, but is not searchable. <StatusStartingTime>2017-11-20T09:00:00Z</StatusStartingTime>",
               "title":"StatusStartingTime"
            },
            "X509Certificate":{
               "type":"string",
-              "description":"<X509Certificate> MIIF1DCCBLygAwIBAgIIF00 .... </X509Certificate>",
+              "description":"This field is required in output and mutable, but is not searchable. <X509Certificate> MIIF1DCCBLygAwIBAgIIF00 .... </X509Certificate>",
               "title":"X509Certificate"
            },
            "X509SKI":{
               "type":"string",
-              "description":"<X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>",
+              "description":"This field is required in output but is not mutable and not searchable.<X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>",
               "title":"X509SKI"
            },
            "X509SubjectName":{
               "type":"string",
-              "description":"<X509SubjectName> CN=TeleSec ServerPass Ex ... </X509SubjectName> <X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>",
+              "description":"This field is required in output and mutable, but is not searchable. <X509SubjectName> CN=TeleSec ServerPass Ex ... </X509SubjectName> <X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>",
               "title":"X509SubjectName"
            },
            "externalId":{
@@ -2107,7 +2108,7 @@
               "properties":{
                  "CreateTimestamp":{
                     "type":"string",
-                    "description":"Creation Timestamp",
+                    "description":"Creation Timestamp. This field is not required in output and not mutable. This section is not required. ",
                     "title":"CreateTimestamp",
                     "readOnly":true
                  },
@@ -2120,22 +2121,22 @@
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this email belongs.",
+                             "description":"A name of a person or an office to which this email belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Primary":{
                              "type":"boolean",
-                             "description":"Indicator to show is this is the primary email address",
+                             "description":"Indicator to show is this is the primary email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Primary"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of email address",
+                             "description":"Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of email address",
+                             "description":"Value of email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Value"
                           }
                        }
@@ -2143,41 +2144,41 @@
                  },
                  "ModifyTimestamp":{
                     "type":"string",
-                    "description":"Modification Timestamp",
+                    "description":"Modification Timestamp. This field is not required in output and not mutable",
                     "title":"ModifyTimestamp",
                     "readOnly":true
                  },
                  "OBAuthorisationState":{
                     "type":"string",
-                    "description":"OB Participant Authorisation State",
+                    "description":"OB Participant Authorisation State. Possible values: Participant, Participant+TSP, TSP. This field is not required in output and not searchable, but is mutable. ",
                     "title":"OBAuthorisationState"
                  },
                  "OBOrganisationId":{
                     "type":"string",
-                    "description":"Open Banking Organisation Identifier",
+                    "description":"Open Banking Organisation Identifier. This field is required in output and searchable, but is not mutable.",
                     "title":"OBOrganisationId"
                  },
                  "OrganisationCommonName":{
                     "type":"string",
-                    "description":"The common name of the organisation",
+                    "description":"The common name of the organisation. This field is required in output, searchable and mutable. ",
                     "title":"OrganisationCommonName"
                  },
                  "PersonalAccountRoles":{
                     "type":"array",
-                    "description":"Individuals who have authorised access to the organisation",
+                    "description":"Individuals who have authorised access to the organisation. This section is not required.",
                     "title":"PersonalAccountRoles",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Role":{
                              "type":"string",
-                             "description":"Role which the individual holds",
+                             "description":"Role which the individual holds. Possible values: PBC, PTC, SBC, STC. This field is required in output and searchable, but is not mutable. " ,
                              "title":"Role"
                           },
                           "UserName":{
                              "type":"string",
                              "format":"uri",
-                             "description":"User's name, email address or other identifying label",
+                             "description":"User's name, email address or other identifying label. This field is required in output and searchable, but is not mutable. ",
                              "title":"UserName"
                           }
                        }
@@ -2192,22 +2193,22 @@
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this phone number belongs.",
+                             "description":"A name of a person or an office to which this phone number belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of phone contact",
+                             "description":"Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of phone number through which the organisation can be contacted",
+                             "description":"Value of phone number through which the organisation can be contacted. This field is required in output and mutable, but is not searchable. ",
                              "title":"Value"
                           },
                           "Verified":{
                              "type":"boolean",
-                             "description":"Flag to show that the phone number has been verified",
+                             "description":"Flag to show that the phone number has been verified. This field is required in output and mutable, but is not searchable. ",
                              "title":"Verified"
                           }
                        }
@@ -2215,19 +2216,19 @@
                  },
                  "PostalAddresses":{
                     "type":"array",
-                    "description":"Organisations's Postal Addresses",
+                    "description":"Organisations's Postal Addresses. This section is not required in output. ",
                     "title":"PostalAddresses",
                     "items":{
                        "type":"object",
                        "properties":{
                           "AddressLine2":{
                              "type":"string",
-                             "description":"Additional address line",
+                             "description":"Additional address line. This field is not required in output and is not searchable, but is mutable. ",
                              "title":"AddressLine2"
                           },
                           "Country":{
                              "type":"string",
-                             "description":"Address Country in full",
+                             "description":"Address Country in full. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output and mutable, but is not searchable. ",
                              "title":"Country"
                           },
                           "County":{
@@ -2237,7 +2238,7 @@
                           },
                           "Name":{
                              "type":"string",
-                             "description":"Name of addressee",
+                             "description":"Name of addressee. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "POBox":{
@@ -2247,7 +2248,7 @@
                           },
                           "PostCode":{
                              "type":"string",
-                             "description":"Post or ZIP Code",
+                             "description":"Post or ZIP Code. This field is required in output and mutable, but is not searchable. ",
                              "title":"PostCode"
                           },
                           "Primary":{
@@ -2257,17 +2258,17 @@
                           },
                           "StreetAddress":{
                              "type":"string",
-                             "description":"Street Address, including building number",
+                             "description":"Street Address, including building number. This field is required in output and mutable, but is not searchable. ",
                              "title":"StreetAddress"
                           },
                           "Town":{
                              "type":"string",
-                             "description":"Postal Town",
+                             "description":"Postal Town. This field is required in output and mutable, but is not searchable. ",
                              "title":"Town"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of postal address",
+                             "description":"Type of postal address. Possible values: PBC, PTC, Registered. This field is required in output and mutable, but is not searchable.",
                              "title":"Type"
                           }
                        }
@@ -2275,12 +2276,12 @@
                  },
                  "StatusDescription":{
                     "type":"string",
-                    "description":"Organisation status description",
+                    "description":"Organisation status description. This field is not required in output and is not searchable, but is mutable. ",
                     "title":"StatusDescription"
                  },
                  "status":{
                     "type":"string",
-                    "description":"Organisation status",
+                    "description":"Organisation status. Possible values: Active, Inactive, Rejected, Requested, Revoked, Suspended, Withdrawn. This field is not required in output and is not searchable, but is mutable. ",
                     "title":"status"
                  }
               }
@@ -2308,12 +2309,12 @@
                        "properties":{
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization Domain",
+                             "description":"Authorization Domain. Possible values: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable.",
                              "title":"AuthorizationDomain"
                           },
                           "Status":{
                              "type":"string",
-                             "description":"Indicates whether authorization domain is active",
+                             "description":"Indicates whether authorization domain is active. Possible values: Active, Withdrawn, Revoked, Suspended, Requested, Rejected. This field is required in output, searchable and mutable. ",
                              "title":"status"
                           }
                        }
@@ -2328,35 +2329,35 @@
               "properties":{
                  "AuthorisationAuthorities":{
                     "type":"array",
-                    "description":"List of authorities details which gave authorization to the participant",
+                    "description":"List of authorities details which gave authorization to the participant. This section is not required in output. ",
                     "title":"AuthorisationAuthorities",
                     "items":{
                        "type":"object",
                        "properties":{
                           "AuthorityId":{
                              "type":"string",
-                             "description":"Authority identifier",
+                             "description":"Authority identifier. This field is required in output, searchable and mutable. ",
                              "title":"AuthorityId"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization domain in which authorization was given",
+                             "description":"Authorization domain in which authorization was given. Possible value: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member state",
+                             "description":"Member state. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable. ",
                              "title":"MemberState"
                           },
                           "RegistrationId":{
                              "type":"string",
-                             "description":"Registration identifier",
+                             "description":"Registration identifier. This field is required in output, searchable and mutable. ",
                              "title":"RegistrationId"
                           },
                           "X509OrganisationIdentifier":{
                              "type":"array",
                              "description":"X509OrganisationIdentifier",
-                             "title":"Identifier of an organisation",
+                             "title":"Identifier of an organisation. This field is not required in output, but is searchable and mutable. ",
                              "items":{
                                 "type":"string"
                              }
@@ -2366,34 +2367,34 @@
                  },
                  "Authorisations":{
                     "type":"array",
-                    "description":"Home or Passported Authorisations",
+                    "description":"Home or Passported Authorisations. This section is not required in output. ",
                     "title":"Authorisations",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Indicator to show if this claim is active",
+                             "description":"Indicator to show if this claim is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "AuthorityId":{
                              "type":"string",
-                             "description":"Identifier of authority giving authorization",
+                             "description":"Identifier of authority giving authorization. This field is required in output, searchable and mutable. ",
                              "title":"AuthorityId"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization domain in which authorization is given",
+                             "description":"Authorization domain in which authorization is given. Possible value: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member State giving the authorisation",
+                             "description":"Member State giving the authorisation. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable. ",
                              "title":"MemberState"
                           },
                           "Role":{
                              "type":"string",
-                             "description":"Role in which institution authorised",
+                             "description":"Role in which institution authorised. Possible value: COPRequester, COPResponder, AISP, ASPSP, CBPII, PISP, CD_AISP, CD_ASPSP, CD_CBPII. This field is mutable. ",
                              "title":"Role"
                           }
                        }
@@ -2408,24 +2409,24 @@
               "properties":{
                  "Authorisations":{
                     "type":"array",
-                    "description":"Home or Passported Authorisations",
+                    "description":"Home or Passported Authorisations. This section is not required in output.",
                     "title":"Authorisations",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Indicator to show if this claim is active",
+                             "description":"Indicator to show if this claim is active. This field is mutable. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member State giving the authorisation",
+                             "description":"Member State giving the authorisation. This field is mutable. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable.",
                              "title":"MemberState"
                           },
                           "Psd2Role":{
                              "type":"string",
-                             "description":"Psd2 Role in which institution authorised",
+                             "description":"Psd2 Role in which institution authorised. Possible values: ASPSP, AISP, PISP, CBPII. This field is required in output, searchable and mutable. ",
                              "title":"Psd2Role"
                           }
                        }
@@ -2433,22 +2434,22 @@
                  },
                  "AuthorityId":{
                     "type":"string",
-                    "description":"The ID of the accrediting authority.",
+                    "description":"The ID of the accrediting authority. This field is required in output, searchable and mutable. ",
                     "title":"AuthorityId"
                  },
                  "EtsiIdentifier":{
                     "type":"string",
-                    "description":"European Telecommunications Standards Institute Organisation Identifier",
+                    "description":"European Telecommunications Standards Institute Organisation Identifier. This field is not required in output, but is searchable and mutable. ",
                     "title":"EtsiIdentifier"
                  },
                  "MemberState":{
                     "type":"string",
-                    "description":"Member State of the Authority",
+                    "description":"Member State of the Authority. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output, searchable and mutable. ",
                     "title":"MemberState"
                  },
                  "RegistrationId":{
                     "type":"string",
-                    "description":"Registration Id with the principle authority",
+                    "description":"Registration Id with the principle authority. This field is required in output, searchable and mutable. ",
                     "title":"RegistrationId"
                  }
               }
@@ -2462,57 +2463,57 @@
                  "properties":{
                     "Id":{
                        "type":"string",
-                       "description":"Authorisation Server Id V39 required",
+                       "description":"Authorisation Server Id V39 required. This field is required in output, searchable and but is not mutable. ",
                        "title":"Id"
                     },
                     "AutoRegistrationSupported":{
                        "type":"boolean",
-                       "description":"Authorisation Server supports auto-registration",
+                       "description":"Authorisation Server supports auto-registration. This field is required in output, searchable and mutable. ",
                        "title":"AutoRegistrationSupported"
                     },
                     "BaseApiDNSUri":{
                        "type":"string",
-                       "description":"Points to the Open Banking APIs V39 required",
+                       "description":"Points to the Open Banking APIs V39 required. This field is required in output, searchable and mutable. ",
                        "title":"BaseApiDNSUri"
                     },
                     "CustomerFriendlyDescription":{
                        "type":"string",
-                       "description":"Customer orientated description",
+                       "description":"Customer orientated description. This field is not required in output, but is searchable and mutable. ",
                        "title":"CustomerFriendlyDescription"
                     },
                     "CustomerFriendlyLogoUri":{
                        "type":"string",
-                       "description":"uri from which a TPP can retrieve a certified logo V39 required",
+                       "description":"uri from which a TPP can retrieve a certified logo V39 required. This field is required in output, searchable and mutable. ",
                        "title":"CustomerFriendlyLogoUri"
                     },
                     "CustomerFriendlyName":{
                        "type":"string",
-                       "description":"Certified name",
+                       "description":"Certified name. This field is not required in output, but is searchable and mutable. ",
                        "title":"CustomerFriendlyName"
                     },
                     "DeveloperPortalUri":{
                        "type":"string",
-                       "description":"URI for TPP developer testing V39 required",
+                       "description":"URI for TPP developer testing V39 required. This field is required in output, searchable and mutable.",
                        "title":"DeveloperPortalUri"
                     },
                     "TermsOfService":{
                        "type":"string",
-                       "description":"Uri from which the terms of service can be retrieved V39 required",
+                       "description":"Uri from which the terms of service can be retrieved V39 required. This field is required in output, searchable and mutable. ",
                        "title":"TermsOfService"
                     },
                     "OpenIDConfigEndPointUri":{
                        "type":"string",
-                       "description":"Uri used for Oauth2.0 OpenId Configuration V39 required",
+                       "description":"Uri used for Oauth2.0 OpenId Configuration V39 required. This field is required in output, searchable and mutable.",
                        "title":"OpenIDConfigEndPointUri"
                     },
                     "PayloadSigningCertLocation":{
                        "type":"string",
-                       "description":"The location which is used for signing certificates V39 required",
+                       "description":"The location which is used for signing certificates V39 required. This field is required in output, searchable and mutable. ",
                        "title":"PayloadSigningCertLocation"
                     },
                     "EISCDId":{
                        "type":"array",
-                       "description":"Confirmation of payee bank identifier V37 was CoPBankIdentifier",
+                       "description":"Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is not required in output, but is searchable and mutable.",
                        "title":"EISCDId",
                        "items":{
                           "type":"string"
@@ -2520,17 +2521,17 @@
                     },
                     "ParentAuthorisationServerId":{
                        "type":"string",
-                       "description":"Authorisation Server Id of Parent Authorisation server, used for app to app linking",
+                       "description":"Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is not required in output, but is searchable and mutable.",
                        "title":"ParentAuthorisationServerId"
                     },
                     "AuthorizationDomain":{
                        "type":"string",
-                       "description":"Authorization Domain",
+                       "description":"Authorization Domain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and not mutable, but is searchable.",
                        "title":"AuthorizationDomain"
                     },
                     "ApiResourceDiscoveryEndpoint": {
                        "type":"string",
-                       "description":"An RFC-3986-compliant URI",
+                       "description":"An RFC-3986-compliant URI. This field is not required in output, but is searchable and mutable",
                        "title":"ApiResourceDiscoveryEndpoint"
                     }
                  }
@@ -2543,35 +2544,35 @@
               "properties":{
                  "CreateTimestamp":{
                     "type":"string",
-                    "description":"Creation Timestamp",
+                    "description":"Creation Timestamp. This field is not mutable. This field is not required in output and not mutable. ",
                     "title":"CreateTimestamp",
                     "readOnly":true
                  },
                  "EmailAddresses":{
                     "type":"array",
-                    "description":"Email addresses associated with the organisation",
+                    "description":"Email addresses associated with the organisation. This section is not required. ",
                     "title":"EmailAddresses",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this email belongs.",
+                             "description":"A name of a person or an office to which this email belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of email address",
+                             "description":"Value of email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Value"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of email address",
+                             "description":"Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           },
                           "Primary":{
                              "type":"boolean",
-                             "description":"Indicator to show is this is the primary email address",
+                             "description":"Indicator to show is this is the primary email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Primary"
                           }
                        }
@@ -2579,23 +2580,23 @@
                  },
                  "ModifyTimestamp":{
                     "type":"string",
-                    "description":"Modification Timestamp",
+                    "description":"Modification Timestamp. This field is not required in output and not mutable. ",
                     "title":"ModifyTimestamp",
                     "readOnly":true
                  },
                  "OBAuthorisationState":{
                     "type":"string",
-                    "description":"OB Participant Authorisation State",
+                    "description":"OB Participant Authorisation State. Possible values: Participant, Participant+TSP, TSP. This field is not required in output and not searchable, but is mutable.",
                     "title":"OBAuthorisationState"
                  },
                  "OBOrganisationId":{
                     "type":"string",
-                    "description":"Open Banking Organisation Identifier",
+                    "description":"Open Banking Organisation Identifier. This field is required in output and searchable, but is not mutable.",
                     "title":"OBOrganisationId"
                  },
                  "OrganisationCommonName":{
                     "type":"string",
-                    "description":"The common name of the organisation",
+                    "description":"The common name of the organisation. This field is required in output, searchable and mutable. ",
                     "title":"OrganisationCommonName"
                  },
                  "PersonalAccountRoles":{
@@ -2608,17 +2609,17 @@
                           "UserName":{
                              "type":"string",
                              "format":"uri",
-                             "description":"User's name, email address or other identifying label",
+                             "description":"User's name, email address or other identifying label. This field is required in output and searchable, but is not mutable. ",
                              "title":"UserName"
                           },
                           "Role":{
                              "type":"string",
-                             "description":"Role which the individual holds",
+                             "description":"Role which the individual holds. Possible values: PBC, PTC, SBC, STC. This field is required in output and searchable, but is not mutable. ",
                              "title":"Role"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"AuthorizationDomain",
+                             "description":"AuthorizationDomain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and not mutable, but is searchable.",
                              "title":"AuthorizationDomain"
                           }
                        }
@@ -2633,22 +2634,22 @@
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this phone number belongs.",
+                             "description":"A name of a person or an office to which this phone number belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of phone number through which the organisation can be contacted",
+                             "description":"Value of phone number through which the organisation can be contacted. This field is required in output and mutable, but is not searchable.  ",
                              "title":"Value"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of phone contact",
+                             "description":"Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           },
                           "Verified":{
                              "type":"boolean",
-                             "description":"Flag to show that the phone number has been verified",
+                             "description":"Flag to show that the phone number has been verified. This field is required in output and mutable, but is not searchable. ",
                              "title":"Verified"
                           }
                        }
@@ -2663,47 +2664,47 @@
                        "properties":{
                           "AddressLine2":{
                              "type":"string",
-                             "description":"Additional address line",
+                             "description":"Additional address line. This field is not required in output and is not searchable, but is mutable.  ",
                              "title":"AddressLine2"
                           },
                           "Country":{
                              "type":"string",
-                             "description":"Address Country in full",
+                             "description":"Address Country in full. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output and mutable, but is not searchable. ",
                              "title":"Country"
                           },
                           "County":{
                              "type":"string",
-                             "description":"Country or regional devision",
+                             "description":"Country or regional devision. This field is mutable. ",
                              "title":"County"
                           },
                           "PostCode":{
                              "type":"string",
-                             "description":"Post or ZIP Code",
+                             "description":"Post or ZIP Code. This field is required in output and mutable, but is not searchable.  ",
                              "title":"PostCode"
                           },
                           "Primary":{
                              "type":"boolean",
-                             "description":"Flag to indicate that this is the primary contact address",
+                             "description":"Flag to indicate that this is the primary contact address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Primary"
                           },
                           "StreetAddress":{
                              "type":"string",
-                             "description":"Street Address, including building number",
+                             "description":"Street Address, including building number. This field is required in output and mutable, but is not searchable. ",
                              "title":"StreetAddress"
                           },
                           "Town":{
                              "type":"string",
-                             "description":"Postal Town",
+                             "description":"Postal Town. This field is required in output and mutable, but is not searchable. ",
                              "title":"Town"
                           },
                           "Name":{
                              "type":"string",
-                             "description":"Name of addressee",
+                             "description":"Name of addressee. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of postal address",
+                             "description":"Type of postal address. Possible values: PBC, PTC, Registered. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           }
                        }
@@ -2711,7 +2712,7 @@
                  },
                  "status":{
                     "type":"string",
-                    "description":"Organisation status",
+                    "description":"Organisation status. Possible values: Active, Inactive, Rejected, Requested, Revoked, Suspended, Withdrawn. This field is not required in output and is not searchable, but is mutable. ",
                     "title":"status"
                  }
               }
@@ -2723,24 +2724,24 @@
               "properties":{
                  "LegalAuthorityClaims":{
                     "type":"array",
-                    "description":"Details of each Company Registration Authority with which the Company is registered",
+                    "description":"Details of each Company Registration Authority with which the Company is registered. This section is not required in output. ",
                     "title":"LegalAuthorityClaims",
                     "items":{
                        "type":"object",
                        "properties":{
                           "RegisteredId":{
                              "type":"string",
-                             "description":"Company Registration Id",
+                             "description":"Company Registration Id. This field is required in output, searchable and mutable. ",
                              "title":"RegisteredId"
                           },
                           "RegisteredName":{
                              "type":"string",
-                             "description":"Company Registered Name",
+                             "description":"Company Registered Name. This field is required in output, searchable and mutable. ",
                              "title":"RegisteredName"
                           },
                           "RegistrationAuthorityId":{
                              "type":"string",
-                             "description":"Identification of registering Authority",
+                             "description":"Identification of registering Authority. This field is required in output and searchable, but is not mutable. ",
                              "title":"RegistrationAuthorityId"
                           }
                        }
@@ -2750,7 +2751,7 @@
            },
            "urn:openbanking:softwarestatement:1.0":{
               "type":"object",
-              "description":"Software Statement Schema as defined by Open Banking",
+              "description":"Software Statement Schema as defined by Open Banking. This section is not required. ",
               "title":"SoftwareStatement",
               "properties":{
                  "SoftwareStatements":{
@@ -2762,67 +2763,67 @@
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Flag to show if software statement is active",
+                             "description":"Flag to show if software statement is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"AuthorizationDomain",
+                             "description":"AuthorizationDomain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and is not mutable, but is searchable. ",
                              "title":"AuthorizationDomain"
                           },
                           "ClientId":{
                              "type":"string",
-                             "description":"Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid",
+                             "description":"Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is required in output and searchable, but is not mutable. ",
                              "title":"ClientId"
                           },
                           "ClientName":{
                              "type":"string",
-                             "description":"Human readable client name. May be localised.",
+                             "description":"Human readable client name. May be localised. This field is required in output and searchable, but is not mutable. ",
                              "title":"ClientName"
                           },
                           "ClientUri":{
                              "type":"string",
-                             "description":"The “home page” or other wise recognisable url of the application (oath client)",
+                             "description":"The “home page” or other wise recognisable url of the application (oath client). This field is required in output, searchable and mutable. ",
                              "title":"ClientUri"
                           },
                           "Description":{
                              "type":"string",
-                             "description":"Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
+                             "description":"Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is required in output and searchable, but is not mutable. ",
                              "title":"Description"
                           },
                           "Id":{
                              "type":"string",
-                             "description":"Unique Scheme Wide Software id",
+                             "description":"Unique Scheme Wide Software id. This field is required in output and searchable, but is not mutable. ",
                              "title":"Id"
                           },
                           "LogoUri":{
                              "type":"string",
-                             "description":"The software logo",
+                             "description":"The software logo. This field is required in output, searchable and mutable. ",
                              "title":"LogoUri"
                           },
                           "Mode":{
                              "type":"string",
-                             "description":"A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be 'Live'",
+                             "description":"A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be 'Live'. Possible values: Live, Test. This field is not required in output, but is searchable and mutable. ",
                              "title":"Mode"
                           },
                           "ObClientCreated":{
                              "type":"boolean",
-                             "description":"An indicator to show if the client has been created in Open Banking",
+                             "description":"An indicator to show if the client has been created in Open Banking. This field is required in output, searchable and mutable.",
                              "title":"ObClientCreated"
                           },
                           "OnBehalfOfObOrganisation":{
                              "type":"string",
-                             "description":"The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017",
+                             "description":"The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not required in output and is not mutable, but is searchable. ",
                              "title":"OnBehalfOfObOrganisation"
                           },
                           "PolicyUri":{
                              "type":"string",
-                             "description":"An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                             "description":"An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is required and searchable, but is not mutable.",
                              "title":"PolicyUri"
                           },
                           "RedirectUri":{
                              "type":"array",
-                             "description":"Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
+                             "description":"Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. This field is required in output, searchable and mutable. ",
                              "title":"RedirectUri",
                              "items":{
                                 "type":"string"
@@ -2830,7 +2831,7 @@
                           },
                           "Roles":{
                              "type":"array",
-                             "description":"Roles for which this software statement can be used. ",
+                             "description":"Roles for which this software statement can be used. Possible values: COPRequester, COPRequester, AISP, ASPSP, CBPII, PISP, CD_AISP, CD_PISP, CD_ASPSP. This field is not required in output and is not mutable, but is searchable.",
                              "title":"Roles",
                              "items":{
                                 "type":"string"
@@ -2838,7 +2839,7 @@
                           },
                           "SigningKeyIds":{
                              "type":"array",
-                             "description":"KeyIds of Keys used for signing messages",
+                             "description":"KeyIds of Keys used for signing messages. This field is not required in output, but is searchable and mutable. ",
                              "title":"SigningKeyIds",
                              "items":{
                                 "type":"string"
@@ -2846,12 +2847,12 @@
                           },
                           "TermsOfServiceUri":{
                              "type":"string",
-                             "description":"An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                             "description":"An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is required in output and searchable, but is not mutable. ",
                              "title":"TermsOfServiceUri"
                           },
                           "TransportKeyIds":{
                              "type":"array",
-                             "description":"KeyIds of Keys used for securing message transport (TLS)",
+                             "description":"KeyIds of Keys used for securing message transport (TLS). This field is not required in output, but is searchable and mutable.",
                              "title":"TransportKeyIds",
                              "items":{
                                 "type":"string"
@@ -2859,7 +2860,7 @@
                           },
                           "Version":{
                              "type":"number",
-                             "description":"Version of the sofware.",
+                             "description":"Version of the software. This field is required in output, but is not searchable and not mutable. ",
                              "title":"Version"
                           }
                        }
@@ -2912,37 +2913,37 @@
                  "properties":{
                     "AutoRegistrationSupported":{
                        "type":"boolean",
-                       "description":"Authorisation Server supports auto-registration",
+                       "description":"Authorisation Server supports auto-registration. This field is required in output, searchable and mutable. ",
                        "title":"AutoRegistrationSupported"
                     },
                     "BaseApiDNSUri":{
                        "type":"string",
-                       "description":"Points to the Open Banking APIs V39 required",
+                       "description":"Points to the Open Banking APIs V39 required. This field is required in output, searchable and mutable. ",
                        "title":"BaseApiDNSUri"
                     },
                     "CustomerFriendlyDescription":{
                        "type":"string",
-                       "description":"Customer orientated description",
+                       "description":"Customer orientated description. This field is not required in output, but is searchable and mutable. ",
                        "title":"CustomerFriendlyDescription"
                     },
                     "CustomerFriendlyLogoUri":{
                        "type":"string",
-                       "description":"uri from which a TPP can retrieve a certified logo V39 required",
+                       "description":"uri from which a TPP can retrieve a certified logo V39 required. This field is required in output, searchable and mutable. ",
                        "title":"CustomerFriendlyLogoUri"
                     },
                     "CustomerFriendlyName":{
                        "type":"string",
-                       "description":"Certified name",
+                       "description":"Certified name. This field is not required in output, but is searchable and mutable. ",
                        "title":"CustomerFriendlyName"
                     },
                     "DeveloperPortalUri":{
                        "type":"string",
-                       "description":"URI for TPP developer testing V39 required",
+                       "description":"URI for TPP developer testing V39 required. This field is required in output, searchable and mutable.",
                        "title":"DeveloperPortalUri"
                     },
                     "EISCDId":{
                        "type":"array",
-                       "description":"Confirmation of payee bank identifier V37 was CoPBankIdentifier",
+                       "description":"Confirmation of payee bank identifier V37 was CoPBankIdentifier. This field is not required in output, but is searchable and mutable.",
                        "title":"EISCDId",
                        "items":{
                           "type":"string"
@@ -2950,37 +2951,37 @@
                     },
                     "Id":{
                        "type":"string",
-                       "description":"Authorisation Server Id V39 required",
+                       "description":"Authorisation Server Id V39 required. This field is required in output, searchable and but is not mutable. ",
                        "title":"Id"
                     },
                     "OpenIDConfigEndPointUri":{
                        "type":"string",
-                       "description":"Uri used for Oauth2.0 OpenId Configuration V39 required",
+                       "description":"Uri used for Oauth2.0 OpenId Configuration V39 required. This field is required in output, searchable and mutable.",
                        "title":"OpenIDConfigEndPointUri"
                     },
                     "ParentAuthorisationServerId":{
                        "type":"string",
-                       "description":"Authorisation Server Id of Parent Authorisation server, used for app to app linking",
+                       "description":"Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is not required in output, but is searchable and mutable. ",
                        "title":"ParentAuthorisationServerId"
                     },
                     "PayloadSigningCertLocation":{
                        "type":"string",
-                       "description":"The location which is used for signing certificates V39 required",
+                       "description":"The location which is used for signing certificates V39 required. This field is required in output, searchable and mutable. ",
                        "title":"PayloadSigningCertLocation"
                     },
                     "TermsOfService":{
                        "type":"string",
-                       "description":"Uri from which the terms of service can be retrieved V39 required",
+                       "description":"Uri from which the terms of service can be retrieved V39 required. This field is required in output, searchable and mutable.",
                        "title":"TermsOfService"
                     },
                     "AuthorizationDomain":{
                        "type":"string",
-                       "description":"Authorization Domain",
+                       "description":"Authorization Domain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and not mutable, but is searchable. ",
                        "title":"AuthorizationDomain"
                     },
                     "ApiResourceDiscoveryEndpoint": {
                        "type":"string",
-                       "description":"An RFC-3986-compliant URI",
+                       "description":"An RFC-3986-compliant URI. This field is not required in output, but is searchable and mutable",
                        "title":"ApiResourceDiscoveryEndpoint"
                     }
                  }
@@ -3026,35 +3027,35 @@
               "properties":{
                  "AuthorisationAuthorities":{
                     "type":"array",
-                    "description":"List of authorities details which gave authorization to the participant",
+                    "description":"List of authorities details which gave authorization to the participant. This section is not required in output. ",
                     "title":"AuthorisationAuthorities",
                     "items":{
                        "type":"object",
                        "properties":{
                           "AuthorityId":{
                              "type":"string",
-                             "description":"Authority identifier",
+                             "description":"Authority identifier. This field is required in output, searchable and mutable. ",
                              "title":"AuthorityId"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization domain in which authorization was given",
+                             "description":"Authorization domain in which authorization was given. Possible value: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member state",
+                             "description":"Member state. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable. ",
                              "title":"MemberState"
                           },
                           "RegistrationId":{
                              "type":"string",
-                             "description":"Registration identifier",
+                             "description":"Registration identifier. This field is required in output, searchable and mutable. ",
                              "title":"RegistrationId"
                           },
                           "X509OrganisationIdentifier":{
                              "type":"array",
                              "description":"X509OrganisationIdentifier",
-                             "title":"Identifier of an organisation",
+                             "title":"Identifier of an organisation. This field is not required in output, but is searchable and mutable.",
                              "items":{
                                 "type":"string"
                              }
@@ -3064,34 +3065,34 @@
                  },
                  "Authorisations":{
                     "type":"array",
-                    "description":"Home or Passported Authorisations",
+                    "description":"Home or Passported Authorisations. This section is not required in output. ",
                     "title":"Authorisations",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Indicator to show if this claim is active",
+                             "description":"Indicator to show if this claim is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "AuthorityId":{
                              "type":"string",
-                             "description":"Identifier of authority giving authorization",
+                             "description":"Identifier of authority giving authorization. This field is required in output, searchable and mutable. ",
                              "title":"AuthorityId"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization domain in which authorization is given",
+                             "description":"Authorization domain in which authorization is given. Possible value: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member State giving the authorisation",
+                             "description":"Member State giving the authorisation. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable. ",
                              "title":"MemberState"
                           },
                           "Role":{
                              "type":"string",
-                             "description":"Role in which institution authorised",
+                             "description":"Role in which institution authorised. Possible value: COPRequester, COPResponder, AISP, ASPSP, CBPII, PISP, CD_AISP, CD_ASPSP, CD_CBPII. This field is mutable. ",
                              "title":"Role"
                           }
                        }
@@ -3106,24 +3107,24 @@
               "properties":{
                  "Authorisations":{
                     "type":"array",
-                    "description":"Home or Passported Authorisations",
+                    "description":"Home or Passported Authorisations. This section is not required in output.",
                     "title":"Authorisations",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Indicator to show if this claim is active",
+                             "description":"Indicator to show if this claim is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "MemberState":{
                              "type":"string",
-                             "description":"Member State giving the authorisation",
+                             "description":"Member State giving the authorisation. Possible values: AT, BE, BG, CY, CZ, DE, DK, EE, EL, ES, FI, FR, GB, GG, GI, GR, HR, HU, IE, IM, IS, IT, JE, LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK. This field is required in output, searchable and mutable. ",
                              "title":"MemberState"
                           },
                           "Psd2Role":{
                              "type":"string",
-                             "description":"Psd2 Role in which institution authorised",
+                             "description":"Psd2 Role in which institution authorised. Possible values: ASPSP, AISP, PISP, CBPII. This field is required in output, searchable and mutable. ",
                              "title":"Psd2Role"
                           }
                        }
@@ -3131,22 +3132,22 @@
                  },
                  "AuthorityId":{
                     "type":"string",
-                    "description":"The ID of the accrediting authority.",
+                    "description":"The ID of the accrediting authority. This field is required in output, searchable and mutable. ",
                     "title":"AuthorityId"
                  },
                  "EtsiIdentifier":{
                     "type":"string",
-                    "description":"European Telecommunications Standards Institute Organisation Identifier",
+                    "description":"European Telecommunications Standards Institute Organisation Identifier. This field is not required in output, but is searchable and mutable. ",
                     "title":"EtsiIdentifier"
                  },
                  "MemberState":{
                     "type":"string",
-                    "description":"Member State of the Authority",
+                    "description":"Member State of the Authority. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output, searchable and mutable. ",
                     "title":"MemberState"
                  },
                  "RegistrationId":{
                     "type":"string",
-                    "description":"Registration Id with the principle authority",
+                    "description":"Registration Id with the principle authority. This field is required in output, searchable and mutable. ",
                     "title":"RegistrationId"
                  }
               }
@@ -3158,24 +3159,24 @@
               "properties":{
                  "LegalAuthorityClaims":{
                     "type":"array",
-                    "description":"Details of each Company Registration Authority with which the Company is registered",
+                    "description":"Details of each Company Registration Authority with which the Company is registered. This section is not required in output. ",
                     "title":"LegalAuthorityClaims",
                     "items":{
                        "type":"object",
                        "properties":{
                           "RegisteredId":{
                              "type":"string",
-                             "description":"Company Registration Id",
+                             "description":"Company Registration Id. This field is required in output, searchable and mutable. ",
                              "title":"RegisteredId"
                           },
                           "RegisteredName":{
                              "type":"string",
-                             "description":"Company Registered Name",
+                             "description":"Company Registered Name. This field is required in output, searchable and mutable. ",
                              "title":"RegisteredName"
                           },
                           "RegistrationAuthorityId":{
                              "type":"string",
-                             "description":"Identification of registering Authority",
+                             "description":"Identification of registering Authority. This field is required in output and searchable, but is not mutable. ",
                              "title":"RegistrationAuthorityId"
                           }
                        }
@@ -3190,35 +3191,35 @@
               "properties":{
                  "CreateTimestamp":{
                     "type":"string",
-                    "description":"Creation Timestamp",
+                    "description":"Creation Timestamp. This field is not required in output and not mutable. ",
                     "title":"CreateTimestamp",
                     "readOnly":true
                  },
                  "EmailAddresses":{
                     "type":"array",
-                    "description":"Email addresses associated with the organisation",
+                    "description":"Email addresses associated with the organisation. This section is not required. ",
                     "title":"EmailAddresses",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this email belongs.",
+                             "description":"A name of a person or an office to which this email belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Primary":{
                              "type":"boolean",
-                             "description":"Indicator to show is this is the primary email address",
+                             "description":"Indicator to show is this is the primary email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Primary"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of email address",
+                             "description":"Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable.",
                              "title":"Type"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of email address",
+                             "description":"Value of email address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Value"
                           }
                        }
@@ -3226,46 +3227,46 @@
                  },
                  "ModifyTimestamp":{
                     "type":"string",
-                    "description":"Modification Timestamp",
+                    "description":"Modification Timestamp. This field is not required in output and not mutable",
                     "title":"ModifyTimestamp",
                     "readOnly":true
                  },
                  "OBAuthorisationState":{
                     "type":"string",
-                    "description":"OB Participant Authorisation State",
+                    "description":"OB Participant Authorisation State. Possible values: Participant, Participant+TSP, TSP. This field is not required in output and not searchable, but is mutable.",
                     "title":"OBAuthorisationState"
                  },
                  "OBOrganisationId":{
                     "type":"string",
-                    "description":"Open Banking Organisation Identifier",
+                    "description":"Open Banking Organisation Identifier. This field is required in output and searchable, but is not mutable.",
                     "title":"OBOrganisationId"
                  },
                  "OrganisationCommonName":{
                     "type":"string",
-                    "description":"The common name of the organisation",
+                    "description":"The common name of the organisation. This field is required in output, searchable and mutable. ",
                     "title":"OrganisationCommonName"
                  },
                  "PersonalAccountRoles":{
                     "type":"array",
-                    "description":"Individuals who have authorised access to the organisation",
+                    "description":"Individuals who have authorised access to the organisation. This section is not required.",
                     "title":"PersonalAccountRoles",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Role":{
                              "type":"string",
-                             "description":"Role which the individual holds",
+                             "description":"Role which the individual holds. Possible values: PBC, PTC, SBC, STC. This field is required in output and searchable, but is not mutable. ",
                              "title":"Role"
                           },
                           "UserName":{
                              "type":"string",
                              "format":"uri",
-                             "description":"User's name, email address or other identifying label",
+                             "description":"User's name, email address or other identifying label. This field is required in output and searchable, but is not mutable. ",
                              "title":"UserName"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"AuthorizationDomain",
+                             "description":"AuthorizationDomain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and not mutable, but is searchable. ",
                              "title":"AuthorizationDomain"
                           }
                        }
@@ -3273,29 +3274,29 @@
                  },
                  "PhoneNumbers":{
                     "type":"array",
-                    "description":"Phone numbers by which an organisation can be contacted",
+                    "description":"Phone numbers by which an organisation can be contacted. This section is not required. ",
                     "title":"PhoneNumbers",
                     "items":{
                        "type":"object",
                        "properties":{
                           "Name":{
                              "type":"string",
-                             "description":"A name of a person or an office to which this phone number belongs.",
+                             "description":"A name of a person or an office to which this phone number belongs. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of phone contact",
+                             "description":"Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           },
                           "Value":{
                              "type":"string",
-                             "description":"Value of phone number through which the organisation can be contacted",
+                             "description":"Value of phone number through which the organisation can be contacted. This field is required in output and mutable, but is not searchable. ",
                              "title":"Value"
                           },
                           "Verified":{
                              "type":"boolean",
-                             "description":"Flag to show that the phone number has been verified",
+                             "description":"Flag to show that the phone number has been verified. This field is required in output and mutable, but is not searchable. ",
                              "title":"Verified"
                           }
                        }
@@ -3303,19 +3304,19 @@
                  },
                  "PostalAddresses":{
                     "type":"array",
-                    "description":"Organisations's Postal Addresses",
+                    "description":"Organisations's Postal Addresses. This section is not required in output. ",
                     "title":"PostalAddresses",
                     "items":{
                        "type":"object",
                        "properties":{
                           "AddressLine2":{
                              "type":"string",
-                             "description":"Additional address line",
+                             "description":"Additional address line. This field is not required in output and is not searchable, but is mutable.",
                              "title":"AddressLine2"
                           },
                           "Country":{
                              "type":"string",
-                             "description":"Address Country in full",
+                             "description":"Address Country in full. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output and mutable, but is not searchable. ",
                              "title":"Country"
                           },
                           "County":{
@@ -3325,32 +3326,32 @@
                           },
                           "Name":{
                              "type":"string",
-                             "description":"Name of addressee",
+                             "description":"Name of addressee. This field is required in output and mutable, but is not searchable. ",
                              "title":"Name"
                           },
                           "PostCode":{
                              "type":"string",
-                             "description":"Post or ZIP Code",
+                             "description":"Post or ZIP Code. This field is required in output and mutable, but is not searchable. ",
                              "title":"PostCode"
                           },
                           "Primary":{
                              "type":"boolean",
-                             "description":"Flag to indicate that this is the primary contact address",
+                             "description":"Flag to indicate that this is the primary contact address. This field is required in output and mutable, but is not searchable. ",
                              "title":"Primary"
                           },
                           "StreetAddress":{
                              "type":"string",
-                             "description":"Street Address, including building number",
+                             "description":"Street Address, including building number. This field is required in output and mutable, but is not searchable. ",
                              "title":"StreetAddress"
                           },
                           "Town":{
                              "type":"string",
-                             "description":"Postal Town",
+                             "description":"Postal Town. This field is required in output and mutable, but is not searchable. ",
                              "title":"Town"
                           },
                           "Type":{
                              "type":"string",
-                             "description":"Type of postal address",
+                             "description":"Type of postal address. Possible values: PBC, PTC, Registered. This field is required in output and mutable, but is not searchable. ",
                              "title":"Type"
                           }
                        }
@@ -3358,7 +3359,7 @@
                  },
                  "status":{
                     "type":"string",
-                    "description":"Organisation status",
+                    "description":"Organisation status. Possible values: Active, Inactive, Rejected, Requested, Revoked, Suspended, Withdrawn.. This field is not required in output and is not searchable, but is mutable. ",
                     "title":"status"
                  }
               }
@@ -3377,67 +3378,67 @@
                        "properties":{
                           "Active":{
                              "type":"boolean",
-                             "description":"Flag to show if software statement is active",
+                             "description":"Flag to show if software statement is active. This field is required in output, searchable and mutable. ",
                              "title":"Active"
                           },
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"AuthorizationDomain",
+                             "description":"AuthorizationDomain. Possible values: PSD2, Pay.UK, CD. This field is not required in output and is not mutable, but is searchable.",
                              "title":"AuthorizationDomain"
                           },
                           "ClientId":{
                              "type":"string",
-                             "description":"Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid",
+                             "description":"Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is required in output and searchable, but is not mutable. ",
                              "title":"ClientId"
                           },
                           "ClientName":{
                              "type":"string",
-                             "description":"Human readable client name. May be localised.",
+                             "description":"Human readable client name. May be localised. This field is required in output and searchable, but is not mutable.",
                              "title":"ClientName"
                           },
                           "ClientUri":{
                              "type":"string",
-                             "description":"The “home page” or other wise recognisable url of the application (oath client)",
+                             "description":"The “home page” or other wise recognisable url of the application (oath client). This field is required in output, searchable and mutable.",
                              "title":"ClientUri"
                           },
                           "Description":{
                              "type":"string",
-                             "description":"Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription",
+                             "description":"Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is required in output and searchable, but is not mutable.",
                              "title":"Description"
                           },
                           "Id":{
                              "type":"string",
-                             "description":"Unique Scheme Wide Software id",
+                             "description":"Unique Scheme Wide Software id. This field is required in output and searchable, but is not mutable. ",
                              "title":"Id"
                           },
                           "LogoUri":{
                              "type":"string",
-                             "description":"The software logo",
+                             "description":"The software logo. This field is required in output, searchable and mutable.",
                              "title":"LogoUri"
                           },
                           "Mode":{
                              "type":"string",
-                             "description":"A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be 'Live'",
+                             "description":"A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be 'Live'. Possible values: Live, Test. This field is not required in output, but is searchable and mutable. ",
                              "title":"Mode"
                           },
                           "ObClientCreated":{
                              "type":"boolean",
-                             "description":"An indicator to show if the client has been created in Open Banking",
+                             "description":"An indicator to show if the client has been created in Open Banking. This field is required in output, searchable and mutable.",
                              "title":"ObClientCreated"
                           },
                           "OnBehalfOfObOrganisation":{
                              "type":"string",
-                             "description":"The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017",
+                             "description":"The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not required in output and is not mutable, but is searchable.",
                              "title":"OnBehalfOfObOrganisation"
                           },
                           "PolicyUri":{
                              "type":"string",
-                             "description":"An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                             "description":"An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is required and searchable, but is not mutable.",
                              "title":"PolicyUri"
                           },
                           "RedirectUri":{
                              "type":"array",
-                             "description":"Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.",
+                             "description":"Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload. This field is required in output, searchable and mutable.",
                              "title":"RedirectUri",
                              "items":{
                                 "type":"string"
@@ -3445,7 +3446,7 @@
                           },
                           "Roles":{
                              "type":"array",
-                             "description":"Roles for which this software statement can be used. ",
+                             "description":"Roles for which this software statement can be used. Possible values: COPRequester, COPRequester, AISP, ASPSP, CBPII, PISP, CD_AISP, CD_PISP, CD_ASPSP. This field is not required in output and is not mutable, but is searchable.",
                              "title":"Roles",
                              "items":{
                                 "type":"string"
@@ -3453,7 +3454,7 @@
                           },
                           "SigningKeyIds":{
                              "type":"array",
-                             "description":"KeyIds of Keys used for signing messages",
+                             "description":"KeyIds of Keys used for signing messages. This field is not required in output, but is searchable and mutable. ",
                              "title":"SigningKeyIds",
                              "items":{
                                 "type":"string"
@@ -3461,12 +3462,12 @@
                           },
                           "TermsOfServiceUri":{
                              "type":"string",
-                             "description":"An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide.",
+                             "description":"An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is required in output and searchable, but is not mutable.",
                              "title":"TermsOfServiceUri"
                           },
                           "TransportKeyIds":{
                              "type":"array",
-                             "description":"KeyIds of Keys used for securing message transport (TLS)",
+                             "description":"KeyIds of Keys used for securing message transport (TLS). This field is not required in output, but is searchable and mutable.",
                              "title":"TransportKeyIds",
                              "items":{
                                 "type":"string"
@@ -3474,7 +3475,7 @@
                           },
                           "Version":{
                              "type":"number",
-                             "description":"Version of the sofware. ",
+                             "description":"Version of the software. This field is required in output, but is not searchable and not mutable. ",
                              "title":"Version"
                           }
                        }
@@ -3496,12 +3497,12 @@
                        "properties":{
                           "AuthorizationDomain":{
                              "type":"string",
-                             "description":"Authorization Domain",
+                             "description":"Authorization Domain. Possible values: PSD2, Pay.UK, CD. This field is required in output, searchable and mutable. ",
                              "title":"AuthorizationDomain"
                           },
                           "Status":{
                              "type":"string",
-                             "description":"Indicates whether authorization domain is active",
+                             "description":"Indicates whether authorization domain is active. Possible values: Active, Withdrawn, Revoked, Suspended, Requested, Rejected. This field is required in output, searchable and mutable. ",
                              "title":"status"
                           }
                        }
