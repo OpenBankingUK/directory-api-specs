@@ -17,6 +17,6 @@ SCIM stands for System for Cross-domain Identity Management (SCIM). The SCIM API
 - Sandbox: https://matls-api.openbankingtest.org.uk/
 - Production: https://matls-api.openbanking.org.uk/
 
-[Swagger reference](./scim-swagger.json)
+[Swagger reference](./scim-swagger.yml)
 
 
