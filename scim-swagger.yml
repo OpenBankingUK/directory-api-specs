@@ -4,7 +4,7 @@ info:
   version: '2.0'
   title: API Explorer
 paths:
-  /OBAccountPaymentServiceProviders:
+  /v2/OBAccountPaymentServiceProviders:
     get:
       tags:
         - OBAccountPaymentServiceProviders Resource Type
@@ -27,7 +27,7 @@ paths:
       externalDocs:
         description: Query Resources
         url: https://tools.ietf.org/html/rfc7644#section-3.4.2
-  /OBAccountPaymentServiceProviders/.search:
+  /v2/OBAccountPaymentServiceProviders/.search:
     post:
       tags:
         - OBAccountPaymentServiceProviders Resource Type
@@ -45,7 +45,7 @@ paths:
       externalDocs:
         description: Querying Resources Using HTTP POST
         url: https://tools.ietf.org/html/rfc7644#section-3.4.3
-  /OBAccountPaymentServiceProviders/{id}:
+  /v2/OBAccountPaymentServiceProviders/{id}:
     get:
       tags:
         - OBAccountPaymentServiceProviders Resource Type
@@ -64,7 +64,7 @@ paths:
       externalDocs:
         description: Retrieving a Known Resource
         url: https://tools.ietf.org/html/rfc7644#section-3.4.1
-  /OBAuthorities:
+  /v2/OBAuthorities:
     get:
       tags:
         - OBAuthorities Resource Type
@@ -87,7 +87,7 @@ paths:
       externalDocs:
         description: Query Resources
         url: https://tools.ietf.org/html/rfc7644#section-3.4.2
-  /OBAuthorities/.search:
+  /v2/OBAuthorities/.search:
     post:
       tags:
         - OBAuthorities Resource Type
@@ -105,7 +105,7 @@ paths:
       externalDocs:
         description: Querying Resources Using HTTP POST
         url: https://tools.ietf.org/html/rfc7644#section-3.4.3
-  /OBAuthorities/{id}:
+  /v2/OBAuthorities/{id}:
     get:
       tags:
         - OBAuthorities Resource Type
@@ -124,7 +124,7 @@ paths:
       externalDocs:
         description: Retrieving a Known Resource
         url: https://tools.ietf.org/html/rfc7644#section-3.4.1
-  /Participants:
+  /v2/Participants:
     get:
       tags:
         - Participants Resource Type
@@ -147,7 +147,7 @@ paths:
       externalDocs:
         description: Query Resources
         url: https://tools.ietf.org/html/rfc7644#section-3.4.2
-  /Participants/.search:
+  /v2/Participants/.search:
     post:
       tags:
         - Participants Resource Type
@@ -165,7 +165,7 @@ paths:
       externalDocs:
         description: Querying Resources Using HTTP POST
         url: https://tools.ietf.org/html/rfc7644#section-3.4.3
-  /Participants/{id}:
+  /v2/Participants/{id}:
     get:
       tags:
         - Participants Resource Type
@@ -184,7 +184,7 @@ paths:
       externalDocs:
         description: Retrieving a Known Resource
         url: https://tools.ietf.org/html/rfc7644#section-3.4.1
-  /OBQualifiedTrustServiceProviders:
+  /v2/OBQualifiedTrustServiceProviders:
     get:
       tags:
         - OBQualifiedTrustServiceProviders Resource Type
@@ -207,7 +207,7 @@ paths:
       externalDocs:
         description: Query Resources
         url: https://tools.ietf.org/html/rfc7644#section-3.4.2
-  /OBQualifiedTrustServiceProviders/.search:
+  /v2/OBQualifiedTrustServiceProviders/.search:
     post:
       tags:
         - OBQualifiedTrustServiceProviders Resource Type
@@ -225,7 +225,7 @@ paths:
       externalDocs:
         description: Querying Resources Using HTTP POST
         url: https://tools.ietf.org/html/rfc7644#section-3.4.3
-  /OBQualifiedTrustServiceProviders/{id}:
+  /v2/OBQualifiedTrustServiceProviders/{id}:
     get:
       tags:
         - OBQualifiedTrustServiceProviders Resource Type
@@ -244,7 +244,7 @@ paths:
       externalDocs:
         description: Retrieving a Known Resource
         url: https://tools.ietf.org/html/rfc7644#section-3.4.1
-  /OBThirdPartyProviders:
+  /v2/OBThirdPartyProviders:
     get:
       tags:
         - OBThirdPartyProviders Resource Type
@@ -267,7 +267,7 @@ paths:
       externalDocs:
         description: Query Resources
         url: https://tools.ietf.org/html/rfc7644#section-3.4.2
-  /OBThirdPartyProviders/.search:
+  /v2/OBThirdPartyProviders/.search:
     post:
       tags:
         - OBThirdPartyProviders Resource Type
@@ -285,7 +285,7 @@ paths:
       externalDocs:
         description: Querying Resources Using HTTP POST
         url: https://tools.ietf.org/html/rfc7644#section-3.4.3
-  /OBThirdPartyProviders/{id}:
+  /v2/OBThirdPartyProviders/{id}:
     get:
       tags:
         - OBThirdPartyProviders Resource Type
