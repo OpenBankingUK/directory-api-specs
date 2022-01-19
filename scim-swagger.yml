@@ -891,6 +891,7 @@ components:
                 type: string
                 description: 'Points to the Open Banking APIs V39 required. This field is searchable and mutable. '
                 title: BaseApiDNSUri
+                maxLength: 2000
               CustomerFriendlyDescription:
                 type: string
                 description: 'Customer orientated description. This field is searchable and mutable. '
@@ -899,6 +900,7 @@ components:
                 type: string
                 description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable and mutable. '
                 title: CustomerFriendlyLogoUri
+                maxLength: 2000
               CustomerFriendlyName:
                 type: string
                 description: 'Certified name. This field is searchable and mutable. '
@@ -907,6 +909,7 @@ components:
                 type: string
                 description: URI for TPP developer testing V39 required. This field is searchable and mutable.
                 title: DeveloperPortalUri
+                maxLength: 2000
               TermsOfService:
                 type: string
                 description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable and mutable. '
@@ -915,6 +918,7 @@ components:
                 type: string
                 description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable and mutable.
                 title: OpenIDConfigEndPointUri
+                maxLength: 2000
               PayloadSigningCertLocation:
                 type: string
                 description: 'The location which is used for signing certificates V39 required. This field is searchable and mutable. '
@@ -938,6 +942,7 @@ components:
                 type: string
                 description: An RFC-3986-compliant URI. This field is searchable and mutable
                 title: ApiResourceDiscoveryEndpoint
+                maxLength: 2000
             required:
               - Id
               - AutoRegistrationSupported
@@ -1176,14 +1181,17 @@ components:
                     type: string
                     description: 'Human readable client name. May be localised. This field is searchable, but is not mutable. '
                     title: ClientName
+                    maxLength: 40
                   ClientUri:
                     type: string
                     description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable and mutable. '
                     title: ClientUri
+                    maxLength: 256
                   Description:
                     type: string
                     description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable, but is not mutable. '
                     title: Description
+                    maxLength: 256
                   Id:
                     type: string
                     description: 'Unique Scheme Wide Software id. This field is searchable, but is not mutable.'
@@ -1192,6 +1200,7 @@ components:
                     type: string
                     description: 'The software logo. This field is searchable and mutable. '
                     title: LogoUri
+                    maxLength: 256
                   Mode:
                     allOf:
                     - description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''.  This field is searchable and mutable. '
@@ -1205,21 +1214,25 @@ components:
                     type: string
                     description: 'The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not mutable, but is searchable. '
                     title: OnBehalfOfObOrganisation
+                    maxLength: 40
                   PolicyUri:
                     type: string
                     description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable.
                     title: PolicyUri
+                    maxLength: 256
                   RedirectUri:
                     type: array
                     description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and mutable. '
                     title: RedirectUri
                     items:
                       type: string
+                      maxLength: 2000
+                    uniqueItems: true
                   Roles:
                     type: array
                     allOf:
                       - $ref: '#/components/schemas/Role'
-                    description: 'Roles for which this software statement can be used. This field is not mutable, but is searchable.'
+                    description: 'Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is not mutable, but is searchable.'
                     title: Roles
                     items:
                       type: string
@@ -1233,6 +1246,7 @@ components:
                     type: string
                     description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable. '
                     title: TermsOfServiceUri
+                    maxLength: 256
                   TransportKeyIds:
                     type: array
                     description: KeyIds of Keys used for securing message transport (TLS). This field is searchable and mutable.
@@ -1798,6 +1812,7 @@ components:
                 type: string
                 description: 'Points to the Open Banking APIs V39 required. This field is searchable and mutable. '
                 title: BaseApiDNSUri
+                maxLength: 2000
               CustomerFriendlyDescription:
                 type: string
                 description: 'Customer orientated description. This field is searchable and mutable. '
@@ -1806,6 +1821,7 @@ components:
                 type: string
                 description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable and mutable. '
                 title: CustomerFriendlyLogoUri
+                maxLength: 2000
               CustomerFriendlyName:
                 type: string
                 description: 'Certified name. This field is searchable and mutable. '
@@ -1814,6 +1830,7 @@ components:
                 type: string
                 description: URI for TPP developer testing V39 required. This field is searchable and mutable.
                 title: DeveloperPortalUri
+                maxLength: 2000
               TermsOfService:
                 type: string
                 description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable and mutable. '
@@ -1822,6 +1839,7 @@ components:
                 type: string
                 description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable and mutable.
                 title: OpenIDConfigEndPointUri
+                maxLength: 2000
               PayloadSigningCertLocation:
                 type: string
                 description: 'The location which is used for signing certificates V39 required. This field is searchable and mutable. '
@@ -1845,6 +1863,7 @@ components:
                 type: string
                 description: An RFC-3986-compliant URI. This field is searchable and mutable
                 title: ApiResourceDiscoveryEndpoint
+                maxLength: 2000
             required:
               - Id
               - AutoRegistrationSupported
@@ -2083,14 +2102,17 @@ components:
                     type: string
                     description: 'Human readable client name. May be localised. This field is searchable, but is not mutable. '
                     title: ClientName
+                    maxLength: 40
                   ClientUri:
                     type: string
                     description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable and mutable. '
                     title: ClientUri
+                    maxLength: 256
                   Description:
                     type: string
                     description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable, but is not mutable. '
                     title: Description
+                    maxLength: 256
                   Id:
                     type: string
                     description: 'Unique Scheme Wide Software id. This field is searchable, but is not mutable.'
@@ -2099,6 +2121,7 @@ components:
                     type: string
                     description: 'The software logo. This field is searchable and mutable. '
                     title: LogoUri
+                    maxLength: 256
                   Mode:
                     allOf:
                     - description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''.  This field is searchable and mutable. '
@@ -2112,21 +2135,25 @@ components:
                     type: string
                     description: 'The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not mutable, but is searchable. '
                     title: OnBehalfOfObOrganisation
+                    maxLength: 40
                   PolicyUri:
                     type: string
                     description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable.
                     title: PolicyUri
+                    maxLength: 256
                   RedirectUri:
                     type: array
                     description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and mutable. '
                     title: RedirectUri
                     items:
                       type: string
+                      maxLength: 2000
+                    uniqueItems: true
                   Roles:
                     type: array
                     allOf:
                       - $ref: '#/components/schemas/Role'
-                    description: 'Roles for which this software statement can be used. This field is not mutable, but is searchable.'
+                    description: 'Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is not mutable, but is searchable.'
                     title: Roles
                     items:
                       type: string
@@ -2140,6 +2167,7 @@ components:
                     type: string
                     description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable. '
                     title: TermsOfServiceUri
+                    maxLength: 256
                   TransportKeyIds:
                     type: array
                     description: KeyIds of Keys used for securing message transport (TLS). This field is searchable and mutable.
@@ -2361,6 +2389,7 @@ components:
                 type: string
                 description: 'Points to the Open Banking APIs V39 required. This field is searchable and mutable. '
                 title: BaseApiDNSUri
+                maxLength: 2000
               CustomerFriendlyDescription:
                 type: string
                 description: 'Customer orientated description. This field is searchable and mutable. '
@@ -2369,6 +2398,7 @@ components:
                 type: string
                 description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable and mutable. '
                 title: CustomerFriendlyLogoUri
+                maxLength: 2000
               CustomerFriendlyName:
                 type: string
                 description: 'Certified name. This field is searchable and mutable. '
@@ -2377,6 +2407,7 @@ components:
                 type: string
                 description: URI for TPP developer testing V39 required. This field is searchable and mutable.
                 title: DeveloperPortalUri
+                maxLength: 2000
               TermsOfService:
                 type: string
                 description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable and mutable. '
@@ -2385,6 +2416,7 @@ components:
                 type: string
                 description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable and mutable.
                 title: OpenIDConfigEndPointUri
+                maxLength: 2000
               PayloadSigningCertLocation:
                 type: string
                 description: 'The location which is used for signing certificates V39 required. This field is searchable and mutable. '
@@ -2408,6 +2440,7 @@ components:
                 type: string
                 description: An RFC-3986-compliant URI. This field is searchable and mutable
                 title: ApiResourceDiscoveryEndpoint
+                maxLength: 2000
             required:
               - Id
               - AutoRegistrationSupported
@@ -2646,14 +2679,17 @@ components:
                     type: string
                     description: 'Human readable client name. May be localised. This field is searchable, but is not mutable. '
                     title: ClientName
+                    maxLength: 40
                   ClientUri:
                     type: string
                     description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable and mutable. '
                     title: ClientUri
+                    maxLength: 256
                   Description:
                     type: string
                     description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable, but is not mutable. '
                     title: Description
+                    maxLength: 256
                   Id:
                     type: string
                     description: 'Unique Scheme Wide Software id. This field is searchable, but is not mutable.'
@@ -2662,6 +2698,7 @@ components:
                     type: string
                     description: 'The software logo. This field is searchable and mutable. '
                     title: LogoUri
+                    maxLength: 256
                   Mode:
                     allOf:
                     - description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''.  This field is searchable and mutable. '
@@ -2675,21 +2712,25 @@ components:
                     type: string
                     description: 'The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not mutable, but is searchable. '
                     title: OnBehalfOfObOrganisation
+                    maxLength: 40
                   PolicyUri:
                     type: string
                     description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable.
                     title: PolicyUri
+                    maxLength: 256
                   RedirectUri:
                     type: array
                     description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and mutable. '
                     title: RedirectUri
                     items:
                       type: string
+                      maxLength: 2000
+                    uniqueItems: true
                   Roles:
                     type: array
                     allOf:
                       - $ref: '#/components/schemas/Role'
-                    description: 'Roles for which this software statement can be used. This field is not mutable, but is searchable.'
+                    description: 'Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is not mutable, but is searchable.'
                     title: Roles
                     items:
                       type: string
@@ -2703,6 +2744,7 @@ components:
                     type: string
                     description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable. '
                     title: TermsOfServiceUri
+                    maxLength: 256
                   TransportKeyIds:
                     type: array
                     description: KeyIds of Keys used for securing message transport (TLS). This field is searchable and mutable.
