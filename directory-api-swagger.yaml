@@ -3204,16 +3204,22 @@ components:
       properties:
         AuthorityId:
           type: string
+          maxLength: 255
         AuthorizationDomain:
           type: string
         MemberState:
           type: string
+          maxLength: 255
         RegistrationId:
           type: string
+          maxLength: 255
+          required: true
         X509OrganisationIdentifier:
           type: array
           items:
             type: string
+            maxLength: 255
+            required: true
     AuthorisationDomainStatusSchema:
       type: object
       properties:
@@ -3234,51 +3240,52 @@ components:
         AuthorizationDomain:
           type: string
           description: Authorization Domain for which the authorisation server is created.
-          maxLength: 256
+          maxLength: 255
+          required: true
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
         CustomerFriendlyDescription:
           description: An RFC-3986-compliant URI
           type: string
-          maxLength: 256
+          maxLength: 255
         CustomerFriendlyLogoUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         CustomerFriendlyName:
           type: string
-          maxLength: 256
+          maxLength: 255
         DeveloperPortalUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         TermsOfService:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         OpenIDConfigEndPointUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         PayloadSigningCertLocation:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         EISCDId:
           type: array
           items:
             type: string
-            maxLength: 256
+            maxLength: 255
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
@@ -3294,12 +3301,16 @@ components:
           type: boolean
         AuthorityId:
           type: string
+          maxLength: 255
+          required: true
         AuthorizationDomain:
           type: string
+          maxLength: 255
         MemberState:
           type: string
         Role:
           type: string
+          maxLength: 255
     CertificateValidationResponseSchema:
       type: object
       properties:
@@ -3599,48 +3610,56 @@ components:
         Id:
           type: string
           maxLength: 22
+          required: true
         AuthorizationDomain:
           type: string
           description: Authorization Domain for which the software statement is created.
           maxLength: 256
         AutoRegistrationSupported:
           type: boolean
+          required: true
         BaseApiDNSUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
           maxLength: 256
+          required: true
         CustomerFriendlyDescription:
           type: string
-          maxLength: 256
+          maxLength: 255
         CustomerFriendlyLogoUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
+          required: true
         CustomerFriendlyName:
           type: string
-          maxLength: 256
+          maxLength: 255
         DeveloperPortalUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
+          required: true
         TermsOfService:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
+          required: true
         OpenIDConfigEndPointUri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
+          required: true
         PayloadSigningCertLocation:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
+          required: true
         EISCDId:
           type: array
           items:
@@ -3648,12 +3667,12 @@ components:
             maxLength: 256
         ParentAuthorisationServerId:
           type: string
-          maxLength: 22
+          maxLength: 2000
         ApiResourceDiscoveryEndpoint:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
     AuthorisationServersSchema:
       type: array
       items:
@@ -3661,11 +3680,12 @@ components:
     AuthorisationServerIdSchema:
       type: string
       maxLength: 22
+      required: true
     CertificateOrKeyOrJWTSchema:
       type: string
     CertificateOrKeyIdSchema:
       type: string
-      maxLength: 256
+      maxLength: 255
     CertificateOrKeyAssociationSchema:
       type: object
       properties:
@@ -3698,8 +3718,12 @@ components:
           type: string
         keyType:
           type: string
+          maxLength: 255
+          required: true
         kid:
           type: string
+          maxLength: 255
+          required: true
         kty:
           type: string
         n:
@@ -3739,21 +3763,26 @@ components:
             $ref: '#/components/schemas/AuthorisationSchema'
         AuthorityId:
           type: string
+          maxLength: 255
+          required: true
         EtsiIdentifier:
           type: string
         MemberState:
           type: string
+          maxLength: 255
         RegistrationId:
           type: string
+          maxLength: 255
+          required: true
     ContactSchema:
       type: object
       properties:
         EmailAddress:
           type: string
-          maxLength: 18
+          required: true
         PhoneNumber:
           type: string
-          maxLength: 18
+          required: true
     CertificateTypeForValidationSchema:
       type: string
       enum:
@@ -3789,12 +3818,16 @@ components:
       properties:
         Name:
           type: string
+          required: true
         Primary:
           type: boolean
+          required: true
         Type:
           type: string
+          required: true
         Value:
           type: string
+          required: true
     EnrolSchema:
       type: object
       properties:
@@ -3804,51 +3837,72 @@ components:
             description: An RFC-3986-compliant URI
             type: string
             format: uri
+            maxLength: 255
+          required: true
         token_endpoint_auth_method:
           type: string
+          required: true
         grant_types:
           type: array
           items:
             type: string
+          required: true
         response_types:
           type: array
           items:
             type: string
+          required: true
         client_name:
           type: string
+          required: true
         client_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          required: true
         logo_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          maxLength: 2000
+          required: true
         scope:
           type: string
+          required: true
         contacts:
           type: array
           items:
             type: string
             format: email
+            maxLength: 255
+          required: true
         tos_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          maxLength: 2000
+          required: true
         policy_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          maxLength: 2000
+          required: true
         jwks_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          required: true
         jwks:
           type: object
+          required: true
         software_id:
           type: string
+          maxLength: 255
+          required: true
         software_version:
           type: string
+          required: true
       required:
         - redirect_uris
         - token_endpoint_auth_method
@@ -3912,14 +3966,19 @@ components:
         client_name:
           description: ORG name ar per eIDAS certificate
           type: string
+          required: true
         client_uri:
           description: An RFC-3986-compliant URI string of a web page providing information about the client
           type: string
           format: uri
+          maxLength: 2000
+          required: true
         logo_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          maxLength: 2000
+          required: true
         contacts:
           description: Contacts to departments responsible for the client
           type: array
@@ -3968,10 +4027,13 @@ components:
       properties:
         RegisteredId:
           type: string
+          required: true
         RegisteredName:
           type: string
+          required: true
         RegistrationAuthorityId:
           type: string
+          required: true
     LegalAuthorityClaimRootSchema:
       type: object
       properties:
@@ -3999,10 +4061,15 @@ components:
           type: string
         OBAuthorisationState:
           type: string
+          maxLength: 255
         OBOrganisationId:
           type: string
+          maxLength: 255
+          required: true
         OrganisationCommonName:
           type: string
+          maxLength: 255
+          required: true
         PersonalAccountRoles:
           type: array
           items:
@@ -4035,6 +4102,7 @@ components:
         - tpp
     OrganisationIdSchema:
       type: string
+      maxLength: 255
     OrganisationsGetFromSCIM200OKResponseSchema:
       type: object
       properties:
@@ -4087,21 +4155,30 @@ components:
       properties:
         AuthorizationDomain:
           type: string
+          maxLength: 255
+          required: true
         Role:
           type: string
+          required: true
         UserName:
           type: string
+          maxLength: 255
+          required: true
     PhoneNumberSchema:
       type: object
       properties:
         Name:
           type: string
+          required: true
         Type:
           type: string
+          required: true
         Value:
           type: string
+          required: true
         Verified:
           type: boolean
+          required: true
     PostalAddressSchema:
       type: object
       properties:
@@ -4109,20 +4186,28 @@ components:
           type: string
         Country:
           type: string
+          required: true
         County:
           type: string
+          required: true
         Name:
           type: string
+          required: true
         PostCode:
           type: string
+          required: true
         Primary:
           type: boolean
+          required: true
         StreetAddress:
           type: string
+          required: true
         Town:
           type: string
+          required: true
         Type:
           type: string
+          required: true
     QSealOnboardingSchema:
       type: string
       description: A signed JWT (JWS)
@@ -4139,42 +4224,49 @@ components:
         AuthorizationDomain:
           type: string
           description: Authorization Domain for which the software statement is created.
-          maxLength: 256
+          maxLength: 255
         ClientName:
           type: string
           description: Software Statement client name
           maxLength: 40
+          required: true
         Description:
           type: string
           description: Software Statement description
           maxLength: 256
+          required: true
         OnBehalfOfObOrganisation:
           type: string
           description: A reference to fourth party organisation resource on the OB Directory if the registering TPP is acting on behalf of another
           maxLength: 40
+          required: true
         PolicyUri:
           type: string
           format: uri
           description: The Software Statement RFC-3986-compliant policy URI
           maxLength: 256
+          required: true
         ClientUri:
           type: string
           format: uri
           description: The Software Statement RFC-3986-compliant client URI
           maxLength: 256
+          required: true
         LogoUri:
           type: string
           format: uri
           description: The Software Statement RFC-3986-compliant logo URI
-          maxLength: 256
+          maxLength: 255
+          required: true
         RedirectUri:
           type: array
           items:
             description: An RFC-3986-compliant URI
             type: string
             format: uri
-            maxLength: 256
+            maxLength: 255
           description: The Software Statement redirect URIs
+          required: true
         Roles:
           type: array
           items:
@@ -4186,15 +4278,18 @@ components:
           format: uri
           description: The Software Statement terms of service RFC-3986-compliant URI
           maxLength: 256
+          required: true
         Version:
           type: number
           description: Software Statement version as provided by the organisation's PTC
+          required: true
     SoftwareStatementSchema:
       type: object
       properties:
         Active:
           type: boolean
           description: Software Statement active/inactive flag
+          required: true
         AuthorizationDomain:
           type: string
           description: Authorization Domain for which the software statement is created.
@@ -4203,14 +4298,17 @@ components:
           type: string
           description: Software Statement client Id
           maxLength: 22
+          required: true
         ClientName:
           type: string
           description: Software Statement client name
           maxLength: 40
+          required: true
         Description:
           type: string
           description: Software Statement description
           maxLength: 256
+          required: true
         Id:
           $ref: '#/components/schemas/SoftwareStatementIdSchema'
         Mode:
@@ -4223,6 +4321,7 @@ components:
         ObClientCreated:
           type: boolean
           description: Client created flag
+          required: true
         OnBehalfOfObOrganisation:
           type: string
           description: A reference to fourth party organisation resource on the OB Directory if the registering TPP is acting on behalf of another
@@ -4232,16 +4331,19 @@ components:
           format: uri
           description: The Software Statement policy RFC-3986-compliant URI
           maxLength: 256
+          required: true
         ClientUri:
           type: string
           format: uri
           description: The Software Statement client RFC-3986-compliant URI
           maxLength: 256
+          required: true
         LogoUri:
           type: string
           format: uri
           description: The Software Statement logo RFC-3986-compliant URI
           maxLength: 256
+          required: true
         RedirectUri:
           type: array
           items:
@@ -4249,6 +4351,7 @@ components:
             format: uri
           description: The Software Statement redirect RFC-3986-compliant URI
           maxLength: 256
+          required: true
         Roles:
           type: array
           items:
@@ -4265,6 +4368,7 @@ components:
           format: uri
           description: The Software Statement terms of service RFC-3986-compliant URI
           maxLength: 256
+          required: true
         TransportKeyIds:
           type: array
           items:
@@ -4285,6 +4389,7 @@ components:
       type: string
       description: Software Statement Id
       maxLength: 22
+      required: true
     SoftwareStatementStateSchema:
       type: object
       properties:
@@ -4300,7 +4405,9 @@ components:
       items:
         type: string
         format: uri
+        maxLength: 255
         minItems: 1
+        required: true
     UniqueRequestIdSchema:
       type: string
       description: Unique Request Id. Give it to the Support Desk if you eve need help with a request that does not work the way you expected.
