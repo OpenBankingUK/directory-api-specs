@@ -4,9 +4,9 @@ info:
   version: '2.0'
   title: API Explorer
 servers:
-  - url: https://matls-dirapi.openbanking.org.uk/scim/v2
+  - url: https://matls-api.openbanking.org.uk/scim/v2
     description: Production
-  - url: https://matls-dirapi.openbankingtest.org.uk/scim/v2
+  - url: https://matls-api.openbankingtest.org.uk/scim/v2
     description: Sandbox
 paths:
   /OBAccountPaymentServiceProviders:
