@@ -671,19 +671,10 @@ components:
       enum: [ 'OBAccounts' ]
     AuthorisationDomainStatus:
       type: string
-      enum:
-        - 'Active'
-        - 'Withdrawn'
-        - 'Revoked'
-        - 'Suspended'
-        - 'Requested'
-        - 'Rejected'
+      enum: ['Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected']
     AuthorizationDomain:
       type: string
-      enum:
-        - 'PSD2'
-        - 'Pay.UK'
-        - 'CD'
+      enum: ['PSD2', 'Pay.UK', 'CD']
     ErrorResponse:
       required:
         - schemas
