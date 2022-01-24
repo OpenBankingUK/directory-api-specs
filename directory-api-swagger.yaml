@@ -4455,7 +4455,6 @@ components:
       properties:
         Active:
           type: boolean
-          enum: [ 'true', 'false' ]
       description: Software Statement State
     SoftwareStatementRedirectURISchema:
       description: Array of Redirection RFC-3986-compliant URI values used by the Client, as supplied by the client
