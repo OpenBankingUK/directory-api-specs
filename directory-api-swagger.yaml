@@ -3324,7 +3324,8 @@ components:
           maxLength: 255
         AuthorisationDomain:
           type: string
-          maxLength: 255
+          description: Authorisation Domain for which the authorisation server is created.
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         MemberState:
           type: string
           enum: [ 'AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK' ]
@@ -3342,6 +3343,7 @@ components:
               properties:
                 type:
                   type: string
+                  enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
                 eidas_profile:
                   type: string
                 qtsp_name:
@@ -3352,6 +3354,7 @@ components:
                   type: array
                   items:
                     type: string
+                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
                 valid_eidas_certificate:
                   type: boolean
                 valid_obietf_certificate:
@@ -3378,6 +3381,7 @@ components:
                   type: boolean
                 org_name:
                   type: string
+                  maxLength: 255
                 passports:
                   type: object
                   properties:
@@ -3415,23 +3419,21 @@ components:
                     properties:
                       authorisation_domain:
                         type: string
+                        description: Authorisation Domain for which the authorisation server is created.
+                        enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
+                        maxLength: 255
                       registration_id:
                         type: string
+                        maxLength: 255
                       status:
                         type: string
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
                       authorisations:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            member_state:
-                              type: string
-                            roles:
-                              type: array
-                              items:
-                                type: string
+                          $ref: '#/components/schemas/AuthorisationSchema'
                 software_statements:
                   type: array
                   items:
@@ -3439,6 +3441,7 @@ components:
                     properties:
                       software_id:
                         type: string
+                        maxLength: 22
               required:
                 - onboarded_to_open_banking
                 - org_name
@@ -3456,6 +3459,7 @@ components:
               properties:
                 type:
                   type: string
+                  enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
                 eidas_profile:
                   type: string
                 qtsp_name:
@@ -3466,6 +3470,7 @@ components:
                   type: array
                   items:
                     type: string
+                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
                 valid_eidas_certificate:
                   type: boolean
                 valid_obietf_certificate:
@@ -3494,6 +3499,7 @@ components:
                   type: boolean
                 org_name:
                   type: string
+                  maxLength: 255
                 passports:
                   type: object
                   properties:
@@ -3531,23 +3537,21 @@ components:
                     properties:
                       authorisation_domain:
                         type: string
+                        description: Authorisation Domain for which the authorisation server is created.
+                        enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
+                        maxLength: 255
                       registration_id:
                         type: string
+                        maxLength: 255
                       status:
                         type: string
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
                       authorisations:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            member_state:
-                              type: string
-                            roles:
-                              type: array
-                              items:
-                                type: string
+                          $ref: '#/components/schemas/AuthorisationSchema'
                 software_statements:
                   type: array
                   items:
@@ -3555,6 +3559,7 @@ components:
                     properties:
                       software_id:
                         type: string
+                        maxLength: 22
               required:
                 - onboarded_to_open_banking
                 - org_name
@@ -3572,6 +3577,7 @@ components:
               properties:
                 type:
                   type: string
+                  enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
                 eidas_profile:
                   type: string
                 qtsp_name:
@@ -3582,6 +3588,7 @@ components:
                   type: array
                   items:
                     type: string
+                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
                 valid_eidas_certificate:
                   type: boolean
                 valid_obietf_certificate:
@@ -3608,6 +3615,7 @@ components:
                   type: boolean
                 org_name:
                   type: string
+                  maxLength: 255
                 passports:
                   type: object
                   properties:
@@ -3645,23 +3653,21 @@ components:
                     properties:
                       authorisation_domain:
                         type: string
+                        description: Authorisation Domain for which the authorisation server is created.
+                        enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
+                        maxLength: 255
                       registration_id:
                         type: string
+                        maxLength: 255
                       status:
                         type: string
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
                       authorisations:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            member_state:
-                              type: string
-                            roles:
-                              type: array
-                              items:
-                                type: string
+                          $ref: '#/components/schemas/AuthorisationSchema'
                 software_statements:
                   type: array
                   items:
@@ -3669,6 +3675,7 @@ components:
                     properties:
                       software_id:
                         type: string
+                        maxLength: 22
               required:
                 - onboarded_to_open_banking
                 - org_name
@@ -3683,8 +3690,8 @@ components:
           maxLength: 22
         AuthorisationDomain:
           type: string
-          description: Authorisation Domain for which the software statement is created.
-          maxLength: 256
+          description: Authorisation Domain for which the authorisation server is created.
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         AutoRegistrationSupported:
           type: boolean
         BaseApiDNSUri:
@@ -3867,7 +3874,7 @@ components:
       enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
     OrganisationAssociativeCertificateTypeSchema:
       type: string
-      enum: [ 'obwac', 'obseal', 'qwac', 'qsealc' ]
+      enum: [ 'obwac', 'obseal', 'qwac', 'qseal' ]
     CertificateTypeSchema:
       type: string
       enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
@@ -3876,6 +3883,7 @@ components:
       enum: [ 'Business', 'PBC', 'PTC', 'Registered', 'Technical' ]
     EmailAddressSchema:
       type: object
+      description: The validation standard you can find under https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1
       properties:
         Name:
           type: string
@@ -4213,6 +4221,7 @@ components:
       properties:
         AuthorisationDomain:
           type: string
+          description: Authorisation Domain for which the authorisation server is created.
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         Role:
           type: string
