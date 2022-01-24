@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: These APIs are based on the SCIM 2.0 Protocol (RFC7644). Please note that some resource names contain spaces and that may break some Swagger validators. String fields that do not have length values assigned are allowedto heave length of maximum 65,535 bytes.
+  description: These APIs are based on the SCIM 2.0 Protocol (RFC7644). Please note that some resource names contain spaces and that may break some Swagger validators. String fields that do not have length values assigned are allowed to have size of maximum 65,535 bytes.
   version: '2.0'
   title: API Explorer
 servers:
