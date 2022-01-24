@@ -3201,6 +3201,10 @@ components:
         Psd2Role:
           type: string
           enum: [ 'ASPSP', 'AISP', 'PISP', 'CBPII' ]
+      required:
+        - Active
+        - MemberState
+        - Psd2Role
     AuthorisationAuthoritySchema:
       type: object
       properties:
@@ -3807,6 +3811,12 @@ components:
           type: string
         x5u:
           type: string
+      required:
+        - obOrganisationId
+        - Associations
+        - status
+        - keyType
+        - kid
     CertificateValidationSchema:
       type: string
     CompetentAuthoritySchema:
