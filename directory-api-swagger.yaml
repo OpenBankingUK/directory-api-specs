@@ -3213,6 +3213,7 @@ components:
           maxLength: 255
         AuthorisationDomain:
           type: string
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         MemberState:
           type: string
           enum: [ 'AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK' ]
@@ -3294,7 +3295,7 @@ components:
           type: array
           items:
             type: string
-            maxLength: [ 4, 6, 14 ]
+            description: Allowed lengths are 4, 6, 14. This field is searchable and mutable.
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
@@ -3726,7 +3727,7 @@ components:
           type: array
           items:
             type: string
-            maxLength: [ 4, 6, 14 ]
+            description: Allowed lengths are 4, 6, 14. This field is searchable and mutable.
         ParentAuthorisationServerId:
           type: string
           maxLength: 2000
@@ -3752,7 +3753,6 @@ components:
     AuthorisationServerIdSchema:
       type: string
       maxLength: 22
-      required: true
     CertificateOrKeyOrJWTSchema:
       type: string
     CertificateOrKeyIdSchema:
@@ -4450,7 +4450,6 @@ components:
       type: string
       description: Software Statement Id
       maxLength: 22
-      required: true
     SoftwareStatementStateSchema:
       type: object
       properties:
