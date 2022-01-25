@@ -3,11 +3,6 @@ info:
   title: Open Banking Directory API
   version: 2.0.0
   description: OB Tech Directory API
-servers:
-  - url: https://matls-dirapi.openbanking.org.uk
-    description: Production
-  - url: https://matls-dirapi.openbankingtest.org.uk
-    description: Sandbox
 paths:
   '/v2.1/organisation':
     post:
