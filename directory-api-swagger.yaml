@@ -2661,7 +2661,7 @@ components:
   parameters:
     AuthorisationServerId:
       name: AuthorisationServerId
-      description: The authorization server Id
+      description: The authorisation server Id
       in: path
       required: true
       schema:
@@ -2745,7 +2745,7 @@ components:
         $ref: '#/components/schemas/SoftwareStatementIdSchema'
   requestBodies:
     AuthorisationServer:
-      description: Properties to create/update authorization server
+      description: Properties to create/update authorisation server
       required: true
       content:
         application/vnd.openbanking.directory.authorisationserver-v2+json:
@@ -3219,9 +3219,10 @@ components:
           type: string
           maxLength: 255
           description: 'Authority identifier. This field is searchable.'
-        AuthorisationDomain:
+        AuthorizationDomain:
           type: string
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
+          description: 'Authorisation Domain. This field is searchable.'
         MemberState:
           type: string
           description: 'Member state. This field is searchable.'
@@ -3242,39 +3243,39 @@ components:
     AuthorisationDomainStatusSchema:
       type: object
       properties:
-        AuthorisationDomain:
+        AuthorizationDomain:
           type: string
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
-          description: 'Authorization Domain. This field is searchable.'
+          description: 'Authorisation Domain. This field is searchable.'
         Status:
           type: string
           enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
           description: >
-            Indicates whether authorization domain is active. This field is searchable.
-            * `Active` - participant can take actions in ecosystem in authorization domains that he is assigned to.
+            Indicates whether authorisation domain is active. This field is searchable.
+            * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
             * `Withdrawn` - revocation initiated by participants
             * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-            * `Suspended` - temporary revocation, available only in COP authorization domain
+            * `Suspended` - temporary revocation, available only in COP authorisation domain
             * `Requested` - set after dynamic client registration, to be confirmed by CRM
             * `Rejected` - dynamic client registration rejected
     AuthorisationDomainStatusRootSchema:
       type: object
       properties:
         Status:
-          description: Status of an organisation in a particular authorization domain.
+          description: Status of an organisation in a particular authorisation domain.
           type: array
           items:
             $ref: '#/components/schemas/AuthorisationDomainStatusSchema'
     AuthorisationServerRequestSchema:
       type: object
       properties:
-        AuthorisationDomain:
+        AuthorizationDomain:
           type: string
-          description: Authorization Domain for which the authorization server is created.
+          description: Authorisation Domain for which the authorisation server is created.
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         AutoRegistrationSupported:
           type: boolean
-          description: 'Authorization Server supports auto-registration. This field is searchable.'
+          description: 'Authorisation Server supports auto-registration. This field is searchable.'
         BaseApiDNSUri:
           description: 'Points to the Open Banking APIs V39 required. This field is searchable.'
           type: string
@@ -3321,14 +3322,14 @@ components:
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
-          description: Authorization Server Id of Parent Authorization server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
+          description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
         ApiResourceDiscoveryEndpoint:
           description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response payload when unassigned.
           type: string
           format: uri
           maxLength: 256
       required:
-        - AuthorisationDomain
+        - AuthorizationDomain
         - AutoRegistrationSupported
         - BaseApiDNSUri
         - CustomerFriendlyLogoUri
@@ -3346,9 +3347,9 @@ components:
           type: string
           maxLength: 255
           description: 'Authority identifier. This field is searchable.'
-        AuthorisationDomain:
+        AuthorizationDomain:
           type: string
-          description: Authorization Domain for which the authorization server is created.
+          description: Authorisation Domain for which the authorisation server is created.
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         MemberState:
           type: string
@@ -3468,7 +3469,7 @@ components:
                     properties:
                       authorisation_domain:
                         type: string
-                        description: Authorization Domain for which the authorization server is created.
+                        description: Authorisation Domain for which the authorisation server is created.
                         enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
@@ -3480,10 +3481,10 @@ components:
                         type: string
                         enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
                         description: >
-                          * `Active` - participant can take actions in ecosystem in authorization domains that he is assigned to.
+                          * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
                           * `Withdrawn` - revocation initiated by participants
                           * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-                          * `Suspended` - temporary revocation, available only in COP authorization domain
+                          * `Suspended` - temporary revocation, available only in COP authorisation domain
                           * `Requested` - set after dynamic client registration, to be confirmed by CRM
                           * `Rejected` - dynamic client registration rejected
                       authorisations:
@@ -3604,7 +3605,7 @@ components:
                     properties:
                       authorisation_domain:
                         type: string
-                        description: Authorization Domain for which the authorization server is created.
+                        description: Authorisation Domain for which the authorisation server is created.
                         enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
@@ -3616,10 +3617,10 @@ components:
                         type: string
                         enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
                         description: >
-                          * `Active` - participant can take actions in ecosystem in authorization domains that he is assigned to.
+                          * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
                           * `Withdrawn` - revocation initiated by participants
                           * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-                          * `Suspended` - temporary revocation, available only in COP authorization domain
+                          * `Suspended` - temporary revocation, available only in COP authorisation domain
                           * `Requested` - set after dynamic client registration, to be confirmed by CRM
                           * `Rejected` - dynamic client registration rejected
                       authorisations:
@@ -3739,7 +3740,7 @@ components:
                     properties:
                       authorisation_domain:
                         type: string
-                        description: Authorization Domain for which the authorization server is created.
+                        description: Authorisation Domain for which the authorisation server is created.
                         enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
@@ -3751,10 +3752,10 @@ components:
                         type: string
                         enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
                         description: >
-                          * `Active` - participant can take actions in ecosystem in authorization domains that he is assigned to.
+                          * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
                           * `Withdrawn` - revocation initiated by participants
                           * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-                          * `Suspended` - temporary revocation, available only in COP authorization domain
+                          * `Suspended` - temporary revocation, available only in COP authorisation domain
                           * `Requested` - set after dynamic client registration, to be confirmed by CRM
                           * `Rejected` - dynamic client registration rejected
                       authorisations:
@@ -3781,14 +3782,14 @@ components:
         Id:
           type: string
           maxLength: 22
-          description: 'Authorization Server Id V39 required. This field is searchable.'
-        AuthorisationDomain:
+          description: 'Authorisation Server Id V39 required. This field is searchable.'
+        AuthorizationDomain:
           type: string
-          description: 'Authorization Domain for which the authorization server is created.This field is searchable.'
+          description: 'Authorisation Domain for which the authorisation server is created.This field is searchable.'
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         AutoRegistrationSupported:
           type: boolean
-          description: 'Authorization Server supports auto-registration. This field is searchable.'
+          description: 'Authorisation Server supports auto-registration. This field is searchable.'
         BaseApiDNSUri:
           description: 'Points to the Open Banking APIs V39 required. This field is searchable.'
           type: string
@@ -3835,7 +3836,7 @@ components:
         ParentAuthorisationServerId:
           type: string
           maxLength: 255
-          description: Authorization Server Id of Parent Authorization server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
+          description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
         ApiResourceDiscoveryEndpoint:
           description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response payload when unassigned.
           type: string
@@ -4304,7 +4305,7 @@ components:
     PersonalAccountRoleSchema:
       type: object
       properties:
-        AuthorisationDomain:
+        AuthorizationDomain:
           type: string
           description: 'Authorisation Domain for which the authorisation server is created.This field is searchable.'
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
@@ -4323,7 +4324,7 @@ components:
           maxLength: 255
           description: 'User''s name, email address or other identifying label. This field is searchable.'
       required:
-        - AuthorisationDomain
+        - AuthorizationDomain
         - Role
         - UserName
     PhoneNumberSchema:
@@ -4407,7 +4408,7 @@ components:
     SoftwareStatementCreateSchema:
       type: object
       properties:
-        AuthorisationDomain:
+        AuthorizationDomain:
           type: string
           description: Authorisation Domain for which the software statement is created.
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
@@ -4491,7 +4492,7 @@ components:
         Active:
           type: boolean
           description: 'Flag to show if software statement is active. This field is searchable.'
-        AuthorisationDomain:
+        AuthorizationDomain:
           type: string
           description: Authorisation Domain for which the software statement is created. This field is searchable.
           enum: [ 'PSD2', 'Pay.UK', 'CD' ]
