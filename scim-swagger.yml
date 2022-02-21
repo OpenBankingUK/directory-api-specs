@@ -636,6 +636,11 @@ components:
     OBAuthorisationState:
       type: string
       enum: ['Participant', 'Participant+TSP', 'TSP']
+      description: >
+        Meaning of values:
+          * Participant - Entity who has roles : ASPSP, PISP, AISP, CBPII, CoP Requester, CoP Responder, CD ASPSP, CD AISP, CD PISP that are planning to be registered or fully authorised with their NCA
+          * TSP - Non-regulated entity (no PSD2 authorisation required) and will only have Sandbox access
+          * Participant+TSP - Non-regulated entity (no PSD2 authorisation required) and will only have Sandbox access
     PersonalAccountRoleType:
       type: string
       enum: ['PBC', 'PTC', 'SBC', 'STC']
