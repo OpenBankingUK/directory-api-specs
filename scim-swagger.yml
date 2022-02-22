@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: These APIs are based on the SCIM 2.0 Protocol (RFC7644). Please note that some resource names contain spaces and that may break some Swagger validators.
+  description: These APIs are based on the SCIM 2.0 Protocol (RFC7644). Please note that some resource names contain spaces and that may break some Swagger validators. String data types allow for a maximum 65,535 bytes unless otherwise indicated.
   version: '2.0'
   title: API Explorer
 servers:
@@ -104,7 +104,7 @@ paths:
         '200':
           $ref: '#/components/responses/OBAuthorities200'
         default:
-         $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/Error'
       security:
         - OAuth2: []
       externalDocs:
@@ -335,7 +335,7 @@ components:
                 description: The number of resources returned in a list response page.
               schemas:
                 type: array
-                description: Contains a list of one or more URIs that indicate included SCIM schemas that are used to indicate the attributes contained within a resource.
+                description: Contains a list of one or more URIs representing included SCIM schemas indicating the attributes contained within a resource.
                 uniqueItems: true
                 items:
                   type: string
@@ -357,6 +357,40 @@ components:
         application/scim+json:
           schema:
             $ref: '#/components/schemas/OBAccountPaymentServiceProviders'
+    OBParticipants200:
+      description: SCIM 2.0 List Response Message
+      content:
+        application/scim+json:
+          schema:
+            type: object
+            properties:
+              Resources:
+                type: array
+                description: A multi-valued list of complex objects containing the requested resources.
+                items:
+                  $ref: '#/components/schemas/Participants'
+              itemsPerPage:
+                type: integer
+                format: int32
+                description: The number of resources returned in a list response page.
+              schemas:
+                type: array
+                description: Contains a list of one or more URIs that indicate included SCIM schemas that are used to indicate the attributes contained within a resource.
+                uniqueItems: true
+                items:
+                  type: string
+                  format: urn
+                  enum:
+                    - urn:ietf:params:scim:api:messages:2.0:ListResponse
+                  default: urn:ietf:params:scim:api:messages:2.0:ListResponse
+              startIndex:
+                type: integer
+                format: int32
+                description: The 1-based index of the first result in the current set of list results.
+              totalResults:
+                type: integer
+                format: int32
+                description: The total number of results returned by the list or query operation.
     OBAuthorities200:
       description: SCIM 2.0 List Response Message
       content:
@@ -521,14 +555,14 @@ components:
     SearchRequest:
       description: SCIM 2.0 Search Request Message
       required: false
-      content: 
+      content:
         application/scim+json:
           schema:
             $ref: '#/components/schemas/SearchRequest'
   securitySchemes:
     OAuth2:
       type: oauth2
-      flows: 
+      flows:
         implicit:
           authorizationUrl: https://matls-sso.openbanking.org.uk/as/token.oauth2
           scopes:
@@ -567,7 +601,7 @@ components:
     count:
       name: count
       in: query
-      description: An integer indicating the desired maximum number of query results per page.
+      description: An integer indicating the maximum number of query results per page.
       required: false
       schema:
         type: integer
@@ -605,18 +639,38 @@ components:
     OBAuthorisationState:
       type: string
       enum: ['Participant', 'Participant+TSP', 'TSP']
-    SoftwareStatementMode:
-      type: string
-      enum: ['Live', 'Test']
-    PersonalAccountRoleType: 
+      description: >
+        Meaning of values:
+          * Participant - Entity who has roles : ASPSP, PISP, AISP, CBPII, CoP Requester, CoP Responder, CD ASPSP, CD AISP, CD PISP that are planning to be registered or fully authorised with their NCA
+          * TSP - Non-regulated entity (no PSD2 authorisation required) and will only have Sandbox access
+          * Participant+TSP - Non-regulated entity (no PSD2 authorisation required) and will only have Sandbox access
+    PersonalAccountRoleType:
       type: string
       enum: ['PBC', 'PTC', 'SBC', 'STC']
+      description: >
+        Meaning of values:
+          * `PBC` - Primary Business Contact
+          * `PTC` - Primary Technical Contact
+          * `SBC` - Secondary Business Contact
+          * `STC` - Secondary Technical Contact
     ContactType:
       type: string
       enum: ['Business', 'PBC', 'PTC', 'Registered', 'Technical']
-    PostalAddressType: 
+      description: >
+        Meaning of values:
+          * `Business` - Business
+          * `PBC` - Primary Business Contact
+          * `PTC` - Primary Technical Contact
+          * `Registered` - Registered
+          * `Technical` - Technical
+    PostalAddressType:
       type: string
       enum: ['PBC', 'PTC', 'Registered']
+      description: >
+        Meaning of values:
+          * `PBC` - Primary Business Contact
+          * `PTC` - Primary Technical Contact
+          * `Registered` - Registered
     CountryAlpha2Code:
       type: string
       enum: ['AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK']
@@ -626,24 +680,49 @@ components:
     Role:
       type: string
       enum: ['COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII']
+      description: >
+        Meaning of values:
+          * `COPRequester` - Confirmation of Payee Requester
+          * `COPResponder` - Confirmation of Payee Responder
+          * `AISP` - Account Information Service Provider
+          * `ASPSP` - Account Servicing Payment Service Provider
+          * `CBPII` - Card-Based Payment Instrument Issuer
+          * `PISP` - Payment Initiation Service Provider
+          * `CD_AISP` - Crown Dependencies Account Information Service Provider
+          * `CD_ASPSP` - Crown Dependencies Account Servicing Payment Service Provider
+          * `CD_CBPII` - Crown Dependencies Card-Based Payment Instrument Issuer
     PSD2Role:
       type: string
       enum: ['ASPSP', 'AISP', 'PISP', 'CBPII']
+      description: >
+        Available in urn:openbanking:competentauthorityclaims:1.0 Authorisations. Meaning of values:
+          * `AISP` - Account Information Service Provider
+          * `ASPSP` - Account Servicing Payment Service Provider
+          * `CBPII` - Card-Based Payment Instrument Issuer
+          * `PISP` - Payment Initiation Service Provider
+    QtspResourceType:
+      type: string
+      enum: [ 'OBQualifiedTrustServiceProviders' ]
+    ParticipantsResourceType:
+      type: string
+      enum: [ 'participants' ]
+    AuthoritiesResourceType:
+      type: string
+      enum: [ 'OBAccounts' ]
     AuthorisationDomainStatus:
       type: string
-      enum:
-        - 'Active'
-        - 'Withdrawn'
-        - 'Revoked'
-        - 'Suspended'
-        - 'Requested'
-        - 'Rejected'
+      enum: ['Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected']
+      description: >
+        Available in urn:openbanking:competentauthorityclaims:1.0 Authorisations. Meaning of values:
+          * `Active` - participant can take actions in ecosystem in authorization domains that he is assigned to.
+          * `Withdrawn` - revocation initiated by participants
+          * `Revoked` - participant can't take actions in ecosystem because of privillages loss
+          * `Suspended` - temporary revocation, available only in COP authorization domain
+          * `Requested` - set after dynamic client registration, to be confirmed by CRM
+          * `Rejected` - dynamic client registratior rejected
     AuthorizationDomain:
       type: string
-      enum:
-        - 'PSD2'
-        - 'Pay.UK'
-        - 'CD'
+      enum: ['PSD2', 'Pay.UK', 'CD']
     ErrorResponse:
       required:
         - schemas
@@ -715,572 +794,8 @@ components:
         count:
           type: integer
           format: int32
-          description: An integer indicating the desired maximum number of query results per page.
+          description: An integer indicating the maximum number of query results per page.
           minimum: 0
-    OBThirdPartyProviders:
-      required:
-        - id
-        - schemas
-        - urn:openbanking:organisation:1.0
-      properties:
-        urn:openbanking:authorisationdomainstatus:1.0:
-          type: object
-          description: Status of an organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future
-          title: AuthorizationDomainStatus
-          properties:
-            Status:
-              type: array
-              description: Status
-              title: Status
-              items:
-                type: object
-                properties:
-                  AuthorizationDomain:
-                    allOf:
-                      - $ref: '#/components/schemas/AuthorizationDomain'
-                      - description: 'Authorization Domain. This field is searchable and mutable. '
-                  Status:
-                    allOf:
-                      - $ref: '#/components/schemas/AuthorisationDomainStatus'
-                      - description: 'Indicates whether authorization domain is active. This field is searchable and mutable. '
-                required:
-                  - AuthorizationDomain
-                  - Status
-        urn:trustframework:competentauthorityclaims:1.1:
-          type: object
-          description: Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP
-          title: CompetenAuthorityClaims1.1
-          properties:
-            AuthorisationAuthorities:
-              type: array
-              description: 'List of authorities details which gave authorization to the participant.'
-              title: AuthorisationAuthorities
-              items:
-                type: object
-                properties:
-                  AuthorityId:
-                    type: string
-                    description: 'Authority identifier. This field is searchable and mutable. '
-                    title: AuthorityId
-                  AuthorizationDomain:
-                    allOf:
-                      - $ref: '#/components/schemas/AuthorizationDomain'
-                      - description: 'Authorization domain in which authorization was given. This field is searchable and mutable.'
-                    title: AuthorizationDomain
-                  MemberState:
-                    allOf:
-                      - $ref: '#/components/schemas/CountryAlpha2Code'
-                      - description: 'Member state. This field is searchable and mutable. '
-                    title: MemberState
-                  RegistrationId:
-                    type: string
-                    description: 'Registration identifier. This field is searchable and mutable. '
-                    title: RegistrationId
-                  X509OrganisationIdentifier:
-                    type: array
-                    description: X509OrganisationIdentifier
-                    title: 'Identifier of an organisation. This field is searchable and mutable. '
-                    items:
-                      type: string
-                required:
-                  - AuthorityId
-                  - AuthorizationDomain
-                  - MemberState
-                  - RegistrationId
-            Authorisations:
-              type: array
-              description: 'Home or Passported Authorisations. '
-              title: Authorisations
-              items:
-                type: object
-                properties:
-                  Active:
-                    type: boolean
-                    description: 'Indicator to show if this claim is active. This field is searchable and mutable. '
-                    title: Active
-                  AuthorityId:
-                    type: string
-                    description: 'Identifier of authority giving authorization. This field is searchable and mutable. '
-                    title: AuthorityId
-                  AuthorizationDomain:
-                    allOf: 
-                      - description: 'Authorization domain in which authorization is given. This field is searchable and mutable. '
-                      - title: AuthorizationDomain
-                      - $ref: '#/components/schemas/AuthorizationDomain'
-                  MemberState:
-                    allOf:
-                      - title: MemberState
-                      - description: 'Member State giving the authorisation. This field searchable and mutable. '
-                      - $ref: '#/components/schemas/CountryAlpha2Code'
-                    title: MemberState
-                  Role:
-                    allOf:
-                      - description: 'Role in which institution authorised. This field is mutable. '
-                      - title: Role
-                      - $ref: '#/components/schemas/Role'
-                required:
-                  - Active
-                  - AuthorityId
-                  - AuthorizationDomain
-                  - MemberState
-                  - Role
-        urn:openbanking:competentauthorityclaims:1.0:
-          type: object
-          description: Claims sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP
-          title: CompetentAuthorityClaims
-          properties:
-            Authorisations:
-              type: array
-              description: Home or Passported Authorisations. 
-              title: Authorisations
-              items:
-                type: object
-                properties:
-                  Active:
-                    type: boolean
-                    description: 'Indicator to show if this claim is active. This field is searchable and mutable. '
-                    title: Active
-                  MemberState:
-                    allOf:
-                    - description: 'Member State giving the authorisation. This field is searchable and mutable.'
-                    - $ref: '#/components/schemas/CountryAlpha2Code'
-                    - title: MemberState
-                  Psd2Role:
-                    allOf:
-                      - description: 'Psd2 Role in which institution authorised. This field is searchable and mutable. '
-                      - $ref: '#/components/schemas/PSD2Role'
-                      - title: Psd2Role
-                required:
-                  - Active
-                  - MemberState
-                  - Psd2Role
-            AuthorityId:
-              type: string
-              description: 'The ID of the accrediting authority. This field is searchable and mutable. '
-              title: AuthorityId
-            EtsiIdentifier:
-              type: string
-              description: 'European Telecommunications Standards Institute Organisation Identifier. This field is searchable and mutable. '
-              title: EtsiIdentifier
-            MemberState:
-              allOf:
-                - $ref: '#/components/schemas/CountryLongName'
-                - description: 'Member State of the Authority. This field is searchable and mutable. '
-                - title: MemberState
-            RegistrationId:
-              type: string
-              description: 'Registration Id with the principle authority. This field is searchable and mutable. '
-              title: RegistrationId
-          required:
-            - AuthorityId
-            - MemberState
-            - RegistrationId
-        AuthorisationServers:
-          type: array
-          description: Authorisation Server Portal
-          title: AuthorisationServers
-          items:
-            type: object
-            properties:
-              Id:
-                type: string
-                description: 'Authorisation Server Id V39 required. This field is searchable and but is not mutable. '
-                title: Id
-              AutoRegistrationSupported:
-                type: boolean
-                description: 'Authorisation Server supports auto-registration. This field is searchable and mutable. '
-                title: AutoRegistrationSupported
-              BaseApiDNSUri:
-                type: string
-                description: 'Points to the Open Banking APIs V39 required. This field is searchable and mutable. '
-                title: BaseApiDNSUri
-              CustomerFriendlyDescription:
-                type: string
-                description: 'Customer orientated description. This field is searchable and mutable. '
-                title: CustomerFriendlyDescription
-              CustomerFriendlyLogoUri:
-                type: string
-                description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable and mutable. '
-                title: CustomerFriendlyLogoUri
-              CustomerFriendlyName:
-                type: string
-                description: 'Certified name. This field is searchable and mutable. '
-                title: CustomerFriendlyName
-              DeveloperPortalUri:
-                type: string
-                description: URI for TPP developer testing V39 required. This field is searchable and mutable.
-                title: DeveloperPortalUri
-              TermsOfService:
-                type: string
-                description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable and mutable. '
-                title: TermsOfService
-              OpenIDConfigEndPointUri:
-                type: string
-                description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable and mutable.
-                title: OpenIDConfigEndPointUri
-              PayloadSigningCertLocation:
-                type: string
-                description: 'The location which is used for signing certificates V39 required. This field is searchable and mutable. '
-                title: PayloadSigningCertLocation
-              EISCDId:
-                type: array
-                description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and mutable.'
-                title: EISCDId
-                items:
-                  type: string
-              ParentAuthorisationServerId:
-                type: string
-                description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and mutable.
-                title: ParentAuthorisationServerId
-              AuthorizationDomain:
-                allOf:
-                  - description: 'Authorization Domain. This field is not mutable, but is searchable.'
-                  - $ref: '#/components/schemas/AuthorizationDomain'
-                title: AuthorizationDomain
-              ApiResourceDiscoveryEndpoint:
-                type: string
-                description: An RFC-3986-compliant URI. This field is searchable and mutable
-                title: ApiResourceDiscoveryEndpoint
-            required:
-              - Id
-              - AutoRegistrationSupported
-              - BaseApiDNSUri
-              - CustomerFriendlyLogoUri
-              - DeveloperPortalUri
-              - TermsOfService
-              - OpenIDConfigEndPointUri
-              - PayloadSigningCertLocation
-        urn:openbanking:organisation:1.0:
-          type: object
-          description: Account details for an open banking organisation which are used for SCIM access to the Directory on behalf of an accredited organisation.
-          title: Organisation
-          properties:
-            CreateTimestamp:
-              type: string
-              description: 'Creation Timestamp. This field is not mutable. '
-              title: CreateTimestamp
-              readOnly: true
-            EmailAddresses:
-              type: array
-              description: 'Email addresses associated with the organisation. '
-              title: EmailAddresses
-              items:
-                type: object
-                properties:
-                  Name:
-                    type: string
-                    description: 'A name of a person or an office to which this email belongs. This field is mutable, but is not searchable. '
-                    title: Name
-                  Value:
-                    type: string
-                    description: 'Value of email address. This field is mutable, but is not searchable. '
-                    title: Value
-                  Type:
-                    allOf:
-                      - description: 'Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is mutable, but is not searchable. '
-                      - $ref: '#/components/schemas/ContactType'
-                      - title: Type
-                  Primary:
-                    type: boolean
-                    description: 'Indicator to show is this is the primary email address. This field is and mutable, but is not searchable. '
-                    title: Primary
-                required:
-                  - Name
-                  - Value
-                  - Type
-                  - Primary
-            ModifyTimestamp:
-              type: string
-              description: 'Modification Timestamp. This field is not mutable. '
-              title: ModifyTimestamp
-              readOnly: true
-            OBAuthorisationState:
-              allOf:
-              - description: 'OB Participant Authorisation State. This field is not searchable, but is mutable.'
-              - $ref: '#/components/schemas/OBAuthorisationState'
-              - title: OBAuthorisationState
-            OBOrganisationId:
-              type: string
-              description: Open Banking Organisation Identifier. This field is searchable, but is not mutable.
-              title: OBOrganisationId
-            OrganisationCommonName:
-              type: string
-              description: 'The common name of the organisation. This field is searchable and mutable. '
-              title: OrganisationCommonName
-            PersonalAccountRoles:
-              type: array
-              description: Individuals who have authorised access to the organisation
-              title: PersonalAccountRoles
-              items:
-                type: object
-                properties:
-                  UserName:
-                    type: string
-                    format: uri
-                    description: 'User''s name, email address or other identifying label. This field is searchable, but is not mutable. '
-                    title: UserName
-                  Role:
-                    allOf:
-                    - description: 'Role which the individual holds. This field is searchable, but is not mutable. '
-                    - $ref: '#/components/schemas/PersonalAccountRoleType'
-                    - title: Role
-                  AuthorizationDomain:
-                    allOf:
-                    - description: 'AuthorizationDomain. This field is not mutable, but is searchable.'
-                    - $ref: '#/components/schemas/AuthorizationDomain'
-                    - title: AuthorizationDomain
-                required:
-                  - UserName
-                  - Role
-                  - AuthorizationDomain
-            PhoneNumbers:
-              type: array
-              description: Phone numbers by which an organisation can be contacted
-              title: PhoneNumbers
-              items:
-                type: object
-                properties:
-                  Name:
-                    type: string
-                    description: 'A name of a person or an office to which this phone number belongs. This field is mutable, but is not searchable. '
-                    title: Name
-                  Value:
-                    type: string
-                    description: 'Value of phone number through which the organisation can be contacted. This field is mutable, but is not searchable.'
-                    title: Value
-                  Type:
-                    type: string
-                    description: 'Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is mutable, but is not searchable. '
-                    title: Type
-                  Verified:
-                    type: boolean
-                    description: 'Flag to show that the phone number has been verified. This field is mutable, but is not searchable. '
-                    title: Verified
-                required:
-                  - Name
-                  - Value
-                  - Type
-                  - Verified
-            PostalAddresses:
-              type: array
-              description: Organisations's Postal Addresses
-              title: PostalAddresses
-              items:
-                type: object
-                properties:
-                  AddressLine2:
-                    type: string
-                    description: 'Additional address line. This field is not required in output and is not searchable, but is mutable.  '
-                    title: AddressLine2
-                  Country:
-                    allOf: 
-                    - description: 'Address Country in full. This field is mutable, but is not searchable. '
-                    - $ref: '#/components/schemas/CountryLongName'
-                    - title: Country
-                  County:
-                    type: string
-                    description: 'Country or regional devision. This field is mutable. '
-                    title: County
-                  PostCode:
-                    type: string
-                    description: 'Post or ZIP Code. This field is mutable, but is not searchable.  '
-                    title: PostCode
-                  Primary:
-                    type: boolean
-                    description: 'Flag to indicate that this is the primary contact address. This field is mutable, but is not searchable. '
-                    title: Primary
-                  StreetAddress:
-                    type: string
-                    description: 'Street Address, including building number. This field is mutable, but is not searchable. '
-                    title: StreetAddress
-                  Town:
-                    type: string
-                    description: 'Postal Town. This field is mutable, but is not searchable. '
-                    title: Town
-                  Name:
-                    type: string
-                    description: 'Name of addressee. This field is mutable, but is not searchable. '
-                    title: Name
-                  Type:
-                    allOf:
-                      - description: 'Type of postal address. This field is mutable, but is not searchable. '
-                      - $ref: '#/components/schemas/PostalAddressType'
-                      - title: Type
-                required:
-                  - Country
-                  - PostCode
-                  - Primary
-                  - StreetAddress
-                  - Town
-                  - Name
-                  - Type
-            status:
-              allOf:
-              - description: 'Organisation status. This field is not searchable, but is mutable. '
-              - $ref: '#/components/schemas/AuthorisationDomainStatus'
-              - title: status
-          required:
-            - OBOrganisationId
-            - OrganisationCommonName
-        urn:openbanking:legalauthorityclaims:1.0:
-          type: object
-          description: Claims sourced from a legal authority(e.g. Companies House) - can be applied to either TPPs to ASPSP
-          title: LegalAuthotiryClaims
-          properties:
-            LegalAuthorityClaims:
-              type: array
-              description: 'Details of each Company Registration Authority with which the Company is registered. '
-              title: LegalAuthorityClaims
-              items:
-                type: object
-                properties:
-                  RegisteredId:
-                    type: string
-                    description: 'Company Registration Id. This field is searchable and mutable. '
-                    title: RegisteredId
-                  RegisteredName:
-                    type: string
-                    description: 'Company Registered Name. This field is searchable and mutable. '
-                    title: RegisteredName
-                  RegistrationAuthorityId:
-                    type: string
-                    description: 'Identification of registering Authority. This field is searchable, but is not mutable. '
-                    title: RegistrationAuthorityId
-                required:
-                  - RegisteredId
-                  - RegisteredName
-                  - RegistrationAuthorityId
-        urn:openbanking:softwarestatement:1.0:
-          type: object
-          description: 'Software Statement Schema as defined by Open Banking. '
-          title: SoftwareStatement
-          properties:
-            SoftwareStatements:
-              type: array
-              description: Software Statement Attribute
-              title: SoftwareStatements
-              items:
-                type: object
-                properties:
-                  Active:
-                    type: boolean
-                    description: 'Flag to show if software statement is active. This field is searchable and mutable. '
-                    title: Active
-                  AuthorizationDomain:
-                    allOf:
-                    - $ref: '#/components/schemas/AuthorizationDomain'
-                    - description: 'AuthorizationDomain. This field is not mutable, but is searchable. '
-                    - title: AuthorizationDomain
-                  ClientId:
-                    type: string
-                    description: 'Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is searchable, but is not mutable. '
-                    title: ClientId
-                  ClientName:
-                    type: string
-                    description: 'Human readable client name. May be localised. This field is searchable, but is not mutable. '
-                    title: ClientName
-                  ClientUri:
-                    type: string
-                    description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable and mutable. '
-                    title: ClientUri
-                  Description:
-                    type: string
-                    description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable, but is not mutable. '
-                    title: Description
-                  Id:
-                    type: string
-                    description: 'Unique Scheme Wide Software id. This field is searchable, but is not mutable.'
-                    title: Id
-                  LogoUri:
-                    type: string
-                    description: 'The software logo. This field is searchable and mutable. '
-                    title: LogoUri
-                  Mode:
-                    allOf:
-                    - description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''.  This field is searchable and mutable. '
-                    - $ref: '#/components/schemas/SoftwareStatementMode'
-                    - title: Mode
-                  ObClientCreated:
-                    type: boolean
-                    description: An indicator to show if the client has been created in Open Banking. This field is searchable and mutable.
-                    title: ObClientCreated
-                  OnBehalfOfObOrganisation:
-                    type: string
-                    description: 'The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not mutable, but is searchable. '
-                    title: OnBehalfOfObOrganisation
-                  PolicyUri:
-                    type: string
-                    description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable.
-                    title: PolicyUri
-                  RedirectUri:
-                    type: array
-                    description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and mutable. '
-                    title: RedirectUri
-                    items:
-                      type: string
-                  Roles:
-                    type: array
-                    allOf:
-                      - $ref: '#/components/schemas/Role'
-                    description: 'Roles for which this software statement can be used. This field is not mutable, but is searchable.'
-                    title: Roles
-                    items:
-                      type: string
-                  SigningKeyIds:
-                    type: array
-                    description: 'KeyIds of Keys used for signing messages. This field is searchable and mutable. '
-                    title: SigningKeyIds
-                    items:
-                      type: string
-                  TermsOfServiceUri:
-                    type: string
-                    description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable. '
-                    title: TermsOfServiceUri
-                  TransportKeyIds:
-                    type: array
-                    description: KeyIds of Keys used for securing message transport (TLS). This field is searchable and mutable.
-                    title: TransportKeyIds
-                    items:
-                      type: string
-                  Version:
-                    type: number
-                    description: 'Version of the software. This field is not searchable and not mutable. '
-                    title: Version
-                required:
-                  - Active
-                  - ClientId
-                  - ClientName
-                  - ClientUri
-                  - Description
-                  - Id
-                  - LogoUri
-                  - ObClientCreated
-                  - PolicyUri
-                  - RedirectUri
-                  - TermsOfServiceUri
-                  - Version
-        id:
-          type: string
-          description: record identifier
-          title: id
-        meta:
-          type: object
-          properties:
-            resourceType:
-              type: string
-              description: type of resource equal, participants in this case
-              title: resourceType
-            location:
-              type: string
-              description: location of resource in PDG
-              title: location
-        schemas:
-          type: array
-          description: schemas
-          title: schemas
-          items:
-            type: string
-      description: Third party providers consisting of payment initiation service providers and account information service providers
     OBQualifiedTrustServiceProviders:
       required:
         - CertificateFingerprint
@@ -1298,11 +813,13 @@ components:
       properties:
         CertificateFingerprint:
           type: string
-          description: 'SHA-256 Certificate Fingerprint. This searchable, but is not mutable. '
+          description: 'SHA-256 Certificate Fingerprint. This field is searchable.'
           title: CertificateFingerprint
+          maxLength: 40
+          readOnly: true
         CreateTimestamp:
           type: string
-          description: OB Creation Timestamp. 
+          description: OB Creation Timestamp.
           title: CreateTimestamp
           readOnly: true
         ModifyTimestamp:
@@ -1312,9 +829,10 @@ components:
           readOnly: true
         ServiceCountry:
           allOf:
-          - description: 'This field searchable, but is not mutable. <SchemeOperatorAddress> <PostalAddresses> <PostalAddress xml:lang=en> <StreetAddress>NG III - Koning Albert II-laan 16</StreetAddress> <Locality>Brussels</Locality> <StateOrProvince>Brussels</StateOrProvince> <PostalCode>1000</PostalCode> <CountryName>BE</CountryName>'
-          - $ref: '#/components/schemas/CountryAlpha2Code'
-          - title: ServiceCountry
+            - description: 'This field is searchable. <SchemeOperatorAddress> <PostalAddresses> <PostalAddress xml:lang=en> <StreetAddress>NG III - Koning Albert II-laan 16</StreetAddress> <Locality>Brussels</Locality> <StateOrProvince>Brussels</StateOrProvince> <PostalCode>1000</PostalCode> <CountryName>BE</CountryName>'
+            - $ref: '#/components/schemas/CountryAlpha2Code'
+            - title: ServiceCountry
+          readOnly: true
         ServiceExtensions:
           type: array
           description: <ServiceInformationExtensions> ... </ServiceInformationExtensions>
@@ -1324,72 +842,64 @@ components:
             properties:
               AdditionalInfoLang:
                 type: string
-                description: This field is mutable, but is not searchable. <AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>
+                description: This field is not searchable. <AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>
                 title: AdditionalInfoLang
+                maxLength: 255
               AdditionalInfoURI:
                 type: string
-                description: This field is mutable, but is not searchable. <AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>
+                description: This field is not searchable. <AdditionalServiceInformation> <URI xml:lang='en'> http://uri.etsi.org/TrstSvc/TrustedList/SvcInfoExt/ForWebSiteAuthentication </URI> </AdditionalServiceInformation>
                 title: AdditionalInfoURI
+                maxLength: 2000
               Critical:
                 type: boolean
-                description: This field is mutable, but is not searchable. <Extension Critical='true'>
+                description: This field is not searchable. <Extension Critical='true'>
                 title: Critical
         ServiceLanguage:
           type: string
-          description: This field is mutable and searchable. <Name xml:lang='en'>TeleSec ServerPass</Name>
+          description: This field is searchable. <Name xml:lang='en'>TeleSec ServerPass</Name>
           title: ServiceLanguage
         ServiceName:
           type: string
-          description: This field is searchable, but is not mutable. <Name xml:lang='en'>TeleSec ServerPass</Name>
+          description: This field is searchable. <Name xml:lang='en'>TeleSec ServerPass</Name>
           title: ServiceName
+          readOnly: true
         ServiceStatus:
           type: string
-          description: This field is mutable and searchable. <ServiceStatus> http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/granted </ServiceStatus>
+          description: This field is searchable. <ServiceStatus> http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/granted </ServiceStatus>
           title: ServiceStatus
+          maxLength: 255
         ServiceType:
           type: string
-          description: 'This field is required in output, mutable and searchable. '
+          description: 'This field is searchable. '
           title: ServiceType
+          maxLength: 255
         StatusStartingTime:
           type: string
-          description: This field is mutable, but is not searchable. <StatusStartingTime>2017-11-20T09:00:00Z</StatusStartingTime>
+          description: This field is not searchable. <StatusStartingTime>2017-11-20T09:00:00Z</StatusStartingTime>
           title: StatusStartingTime
         X509Certificate:
           type: string
-          description: This field is mutable, but is not searchable. <X509Certificate> MIIF1DCCBLygAwIBAgIIF00 .... </X509Certificate>
+          description: This field is not searchable. <X509Certificate> MIIF1DCCBLygAwIBAgIIF00 .... </X509Certificate>
           title: X509Certificate
         X509SKI:
           type: string
-          description: This field is not mutable and not searchable.<X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>
+          description: This field is not searchable.<X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>
           title: X509SKI
+          readOnly: true
         X509SubjectName:
           type: string
-          description: This field is mutable, but is not searchable. <X509SubjectName> CN=TeleSec ServerPass Ex ... </X509SubjectName> <X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>
+          description: This field is not searchable. <X509SubjectName> CN=TeleSec ServerPass Ex ... </X509SubjectName> <X509SKI>MCzVT9II0T3jp4KSgjeJbWa5D68=</X509SKI>
           title: X509SubjectName
-        externalId:
-          type: string
-          title: externalId
         id:
           type: string
           title: id
           readOnly: true
+          maxLength: 40
         meta:
           type: object
           title: meta
           readOnly: true
           properties:
-            created:
-              type: string
-              format: date-time
-              description: Date and time the resource was created
-              title: created
-              readOnly: true
-            lastModified:
-              type: string
-              format: date-time
-              description: Date and time the resource was last modified
-              title: lastModified
-              readOnly: true
             location:
               type: string
               format: uri
@@ -1397,14 +907,11 @@ components:
               title: location
               readOnly: true
             resourceType:
+              allOf:
+                - $ref: '#/components/schemas/QtspResourceType'
               type: string
               description: The resource Type
               title: resourceType
-              readOnly: true
-            version:
-              type: string
-              description: The version of the resource
-              title: version
               readOnly: true
         schemas:
           type: array
@@ -1429,34 +936,23 @@ components:
           type: string
           description: Unique string that the Authority is commonly known by. Will be referenced by the AuthorityClaims Set.
           title: AuthorityId
+          maxLength: 255
         Country:
           type: string
           description: Country in which the Authority has juristiction
           title: Country
-        externalId:
-          type: string
-          title: externalId
+          allOf:
+            - $ref: '#/components/schemas/CountryLongName'
         id:
           type: string
           title: id
           readOnly: true
+          maxLength: 255
         meta:
           type: object
           title: meta
           readOnly: true
           properties:
-            created:
-              type: string
-              format: date-time
-              description: Date and time the resource was created
-              title: created
-              readOnly: true
-            lastModified:
-              type: string
-              format: date-time
-              description: Date and time the resource was last modified
-              title: lastModified
-              readOnly: true
             location:
               type: string
               format: uri
@@ -1468,11 +964,8 @@ components:
               description: The resource Type
               title: resourceType
               readOnly: true
-            version:
-              type: string
-              description: The version of the resource
-              title: version
-              readOnly: true
+              allOf:
+                - $ref: '#/components/schemas/AuthoritiesResourceType'
         schemas:
           type: array
           title: schemas
@@ -1480,149 +973,42 @@ components:
           items:
             type: string
         urn:openbanking:organisation:1.0:
+          required:
+            - CreateTimestamp
+            - ModifyTimestamp
+            - OBOrganisationId
+            - OrganisationCommonName
           type: object
           description: Account details for an open banking organisation which are used for SCIM access to the Directory on behalf of an accredited organisation.
           title: Organisation
           properties:
             CreateTimestamp:
               type: string
-              description: 'Creation Timestamp. This field is not required in output and not mutable. This section is not required. '
+              description: 'Creation Timestamp. '
               title: CreateTimestamp
               readOnly: true
-            EmailAddresses:
-              type: array
-              description: Email addresses associated with the organisation
-              title: EmailAddresses
-              items:
-                type: object
-                properties:
-                  Name:
-                    type: string
-                    description: 'A name of a person or an office to which this email belongs. This field is required in output and mutable, but is not searchable. '
-                    title: Name
-                  Primary:
-                    type: boolean
-                    description: 'Indicator to show is this is the primary email address. This field is required in output and mutable, but is not searchable. '
-                    title: Primary
-                  Type:
-                    type: string
-                    description: 'Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. '
-                    title: Type
-                  Value:
-                    type: string
-                    description: 'Value of email address. This field is required in output and mutable, but is not searchable. '
-                    title: Value
             ModifyTimestamp:
               type: string
-              description: Modification Timestamp. This field is not required in output and not mutable
+              description: Modification Timestamp.
               title: ModifyTimestamp
               readOnly: true
-            OBAuthorisationState:
-              type: string
-              description: 'OB Participant Authorisation State. Possible values: Participant, Participant+TSP, TSP. This field is not required in output and not searchable, but is mutable. '
-              title: OBAuthorisationState
             OBOrganisationId:
               type: string
-              description: Open Banking Organisation Identifier. This field is required in output and searchable, but is not mutable.
+              description: Open Banking Organisation Identifier. This field is searchable.
               title: OBOrganisationId
+              minLength: 18
+              maxLength: 18
             OrganisationCommonName:
               type: string
-              description: 'The common name of the organisation. This field is required in output, searchable and mutable. '
+              description: The common name of the organisation. This field is searchable
               title: OrganisationCommonName
-            PersonalAccountRoles:
-              type: array
-              description: Individuals who have authorised access to the organisation. This section is not required.
-              title: PersonalAccountRoles
-              items:
-                type: object
-                properties:
-                  Role:
-                    type: string
-                    description: 'Role which the individual holds. Possible values: PBC, PTC, SBC, STC. This field is required in output and searchable, but is not mutable. '
-                    title: Role
-                  UserName:
-                    type: string
-                    format: uri
-                    description: 'User''s name, email address or other identifying label. This field is required in output and searchable, but is not mutable. '
-                    title: UserName
-            PhoneNumbers:
-              type: array
-              description: Phone numbers by which an organisation can be contacted
-              title: PhoneNumbers
-              items:
-                type: object
-                properties:
-                  Name:
-                    type: string
-                    description: 'A name of a person or an office to which this phone number belongs. This field is required in output and mutable, but is not searchable. '
-                    title: Name
-                  Type:
-                    type: string
-                    description: 'Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is required in output and mutable, but is not searchable. '
-                    title: Type
-                  Value:
-                    type: string
-                    description: 'Value of phone number through which the organisation can be contacted. This field is required in output and mutable, but is not searchable. '
-                    title: Value
-                  Verified:
-                    type: boolean
-                    description: 'Flag to show that the phone number has been verified. This field is required in output and mutable, but is not searchable. '
-                    title: Verified
-            PostalAddresses:
-              type: array
-              description: 'Organisations''s Postal Addresses. This section is not required in output. '
-              title: PostalAddresses
-              items:
-                type: object
-                properties:
-                  AddressLine2:
-                    type: string
-                    description: 'Additional address line. This field is not required in output and is not searchable, but is mutable. '
-                    title: AddressLine2
-                  Country:
-                    type: string
-                    description: 'Address Country in full. Possible values: Austria, Belgium, Bulgaria, Cyprus, Czechia, Germany, Denmark, Estonia, Hellenic Republic, Spain, Finland, France, United Kingdom, Guernsey, Gibraltar, Greece, Croatia, Hungary, Ireland, Isle of Man, Iceland, Italy, Jersey, Liechtenstein, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Norway, Poland, Portugal, Romania, Sweden, Slovenia, Slovakia. This field is required in output and mutable, but is not searchable. '
-                    title: Country
-                  County:
-                    type: string
-                    description: Country or regional devision
-                    title: County
-                  Name:
-                    type: string
-                    description: 'Name of addressee. This field is required in output and mutable, but is not searchable. '
-                    title: Name
-                  POBox:
-                    type: string
-                    description: PO Box assosiated with address
-                    title: POBox
-                  PostCode:
-                    type: string
-                    description: 'Post or ZIP Code. This field is required in output and mutable, but is not searchable. '
-                    title: PostCode
-                  Primary:
-                    type: boolean
-                    description: Flag to indicate that this is the primary contact address
-                    title: Primary
-                  StreetAddress:
-                    type: string
-                    description: 'Street Address, including building number. This field is required in output and mutable, but is not searchable. '
-                    title: StreetAddress
-                  Town:
-                    type: string
-                    description: 'Postal Town. This field is required in output and mutable, but is not searchable. '
-                    title: Town
-                  Type:
-                    type: string
-                    description: 'Type of postal address. Possible values: PBC, PTC, Registered. This field is required in output and mutable, but is not searchable.'
-                    title: Type
-            StatusDescription:
-              type: string
-              description: 'Organisation status description. This field is not required in output and is not searchable, but is mutable. '
-              title: StatusDescription
+              maxLength: 255
             status:
-              type: string
-              description: 'Organisation status. Possible values: Active, Inactive, Rejected, Requested, Revoked, Suspended, Withdrawn. This field is not required in output and is not searchable, but is mutable. '
-              title: status
+              allOf:
+                - type: string
+                - description: 'Organisation status. This field is not searchable'
+                - title: status
+                - $ref: '#/components/schemas/AuthorisationDomainStatus'
       description: A schema defining the extension attributes that a competent authority has.
     Participants:
       required:
@@ -1632,7 +1018,7 @@ components:
       properties:
         urn:openbanking:authorisationdomainstatus:1.0:
           type: object
-          description: Status of an organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future
+          description: Status of an organisation in a particular authorization domain.
           title: AuthorizationDomainStatus
           properties:
             Status:
@@ -1645,11 +1031,11 @@ components:
                   AuthorizationDomain:
                     allOf:
                       - $ref: '#/components/schemas/AuthorizationDomain'
-                      - description: 'Authorization Domain. This field is searchable and mutable. '
+                      - description: 'Authorization Domain. This field is searchable.'
                   Status:
                     allOf:
                       - $ref: '#/components/schemas/AuthorisationDomainStatus'
-                      - description: 'Indicates whether authorization domain is active. This field is searchable and mutable. '
+                      - description: 'Indicates whether authorization domain is active. This field is searchable.'
                 required:
                   - AuthorizationDomain
                   - Status
@@ -1667,28 +1053,31 @@ components:
                 properties:
                   AuthorityId:
                     type: string
-                    description: 'Authority identifier. This field is searchable and mutable. '
+                    description: 'Authority identifier. This field is searchable.'
                     title: AuthorityId
+                    maxLength: 255
                   AuthorizationDomain:
                     allOf:
                       - $ref: '#/components/schemas/AuthorizationDomain'
-                      - description: 'Authorization domain in which authorization was given. This field is searchable and mutable.'
+                      - description: 'Authorization domain in which authorization was given. This field is searchable.'
                     title: AuthorizationDomain
                   MemberState:
                     allOf:
                       - $ref: '#/components/schemas/CountryAlpha2Code'
-                      - description: 'Member state. This field is searchable and mutable. '
+                      - description: 'Member state. This field is searchable.'
                     title: MemberState
                   RegistrationId:
                     type: string
-                    description: 'Registration identifier. This field is searchable and mutable. '
+                    description: 'Registration identifier. This field is searchable.'
                     title: RegistrationId
+                    maxLength: 255
                   X509OrganisationIdentifier:
                     type: array
-                    description: X509OrganisationIdentifier
-                    title: 'Identifier of an organisation. This field is searchable and mutable. '
+                    description: X509OrganisationIdentifier. This field is searchable and is not included as part of the response payload when unassigned.
+                    title: 'Identifier of an organisation. '
                     items:
                       type: string
+                      maxLength: 255
                 required:
                   - AuthorityId
                   - AuthorizationDomain
@@ -1703,26 +1092,27 @@ components:
                 properties:
                   Active:
                     type: boolean
-                    description: 'Indicator to show if this claim is active. This field is searchable and mutable. '
+                    description: 'Indicator to show if this claim is active. This field is searchable.'
                     title: Active
                   AuthorityId:
                     type: string
-                    description: 'Identifier of authority giving authorization. This field is searchable and mutable. '
+                    description: 'Identifier of authority giving authorization. This field is searchable.'
                     title: AuthorityId
+                    maxLength: 255
                   AuthorizationDomain:
-                    allOf: 
-                      - description: 'Authorization domain in which authorization is given. This field is searchable and mutable. '
+                    allOf:
+                      - description: 'Authorization domain in which authorization is given. This field is searchable.'
                       - title: AuthorizationDomain
                       - $ref: '#/components/schemas/AuthorizationDomain'
                   MemberState:
                     allOf:
                       - title: MemberState
-                      - description: 'Member State giving the authorisation. This field searchable and mutable. '
+                      - description: 'Member State giving the authorisation. This field searchable.'
                       - $ref: '#/components/schemas/CountryAlpha2Code'
                     title: MemberState
                   Role:
                     allOf:
-                      - description: 'Role in which institution authorised. This field is mutable. '
+                      - description: 'Role in which institution authorised.'
                       - title: Role
                       - $ref: '#/components/schemas/Role'
                 required:
@@ -1738,23 +1128,23 @@ components:
           properties:
             Authorisations:
               type: array
-              description: Home or Passported Authorisations. 
+              description: Home or Passported Authorisations. This field is not included as part of the response payload when unassigned.
               title: Authorisations
               items:
                 type: object
                 properties:
                   Active:
                     type: boolean
-                    description: 'Indicator to show if this claim is active. This field is searchable and mutable. '
+                    description: 'Indicator to show if this claim is active. This field is searchable.'
                     title: Active
                   MemberState:
                     allOf:
-                    - description: 'Member State giving the authorisation. This field is searchable and mutable.'
-                    - $ref: '#/components/schemas/CountryAlpha2Code'
-                    - title: MemberState
+                      - description: 'Member State giving the authorisation. This field is searchable.'
+                      - $ref: '#/components/schemas/CountryAlpha2Code'
+                      - title: MemberState
                   Psd2Role:
                     allOf:
-                      - description: 'Psd2 Role in which institution authorised. This field is searchable and mutable. '
+                      - description: 'Psd2 Role in which institution authorised. This field is searchable.'
                       - $ref: '#/components/schemas/PSD2Role'
                       - title: Psd2Role
                 required:
@@ -1763,21 +1153,24 @@ components:
                   - Psd2Role
             AuthorityId:
               type: string
-              description: 'The ID of the accrediting authority. This field is searchable and mutable. '
+              description: 'The ID of the accrediting authority. This field is searchable.'
               title: AuthorityId
+              maxLength: 255
             EtsiIdentifier:
               type: string
-              description: 'European Telecommunications Standards Institute Organisation Identifier. This field is searchable and mutable. '
+              description: 'European Telecommunications Standards Institute Organisation Identifier. This field is searchable and is not included as part of the response payload when unassigned. '
               title: EtsiIdentifier
+              maxLength: 255
             MemberState:
               allOf:
                 - $ref: '#/components/schemas/CountryLongName'
-                - description: 'Member State of the Authority. This field is searchable and mutable. '
+                - description: 'Member State of the Authority. This field is searchable.'
                 - title: MemberState
             RegistrationId:
               type: string
-              description: 'Registration Id with the principle authority. This field is searchable and mutable. '
+              description: 'Registration Id with the principle authority. This field is searchable.'
               title: RegistrationId
+              maxLength: 255
           required:
             - AuthorityId
             - MemberState
@@ -1791,63 +1184,76 @@ components:
             properties:
               Id:
                 type: string
-                description: 'Authorisation Server Id V39 required. This field is searchable and but is not mutable. '
+                description: 'Authorisation Server Id V39 required. This field is searchable.'
                 title: Id
+                maxLength: 255
+                readOnly: true
               AutoRegistrationSupported:
                 type: boolean
-                description: 'Authorisation Server supports auto-registration. This field is searchable and mutable. '
+                description: 'Authorisation Server supports auto-registration. This field is searchable.'
                 title: AutoRegistrationSupported
               BaseApiDNSUri:
                 type: string
-                description: 'Points to the Open Banking APIs V39 required. This field is searchable and mutable. '
+                description: 'Points to the Open Banking APIs V39 required. This field is searchable.'
                 title: BaseApiDNSUri
+                maxLength: 2000
               CustomerFriendlyDescription:
                 type: string
-                description: 'Customer orientated description. This field is searchable and mutable. '
+                description: 'Customer orientated description. This field is searchable and is not included as part of the response payload when unassigned.'
                 title: CustomerFriendlyDescription
+                maxLength: 255
               CustomerFriendlyLogoUri:
                 type: string
-                description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable and mutable. '
+                description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable.'
                 title: CustomerFriendlyLogoUri
+                maxLength: 2000
               CustomerFriendlyName:
                 type: string
-                description: 'Certified name. This field is searchable and mutable. '
+                description: 'Certified name. This field is searchable and is not included as part of the response payload when unassigned.'
                 title: CustomerFriendlyName
+                maxLength: 255
               DeveloperPortalUri:
                 type: string
-                description: URI for TPP developer testing V39 required. This field is searchable and mutable.
+                description: URI for TPP developer testing V39 required. This field is searchable.
                 title: DeveloperPortalUri
+                maxLength: 2000
               TermsOfService:
                 type: string
-                description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable and mutable. '
+                description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable.'
                 title: TermsOfService
+                maxLength: 255
               OpenIDConfigEndPointUri:
                 type: string
-                description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable and mutable.
+                description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable.
                 title: OpenIDConfigEndPointUri
+                maxLength: 2000
               PayloadSigningCertLocation:
                 type: string
-                description: 'The location which is used for signing certificates V39 required. This field is searchable and mutable. '
+                description: 'The location which is used for signing certificates V39 required. This field is searchable.'
                 title: PayloadSigningCertLocation
+                maxLength: 255
               EISCDId:
                 type: array
-                description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and mutable.'
+                description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
                 title: EISCDId
                 items:
                   type: string
               ParentAuthorisationServerId:
                 type: string
-                description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and mutable.
+                description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
                 title: ParentAuthorisationServerId
+                maxLength: 255
               AuthorizationDomain:
                 allOf:
-                  - description: 'Authorization Domain. This field is not mutable, but is searchable.'
+                  - description: 'Authorization Domain. This field is searchable.'
                   - $ref: '#/components/schemas/AuthorizationDomain'
                 title: AuthorizationDomain
+                readOnly: true
               ApiResourceDiscoveryEndpoint:
                 type: string
-                description: An RFC-3986-compliant URI. This field is searchable and mutable
+                description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response payload when unassigned.
                 title: ApiResourceDiscoveryEndpoint
+                maxLength: 2000
             required:
               - Id
               - AutoRegistrationSupported
@@ -1864,32 +1270,34 @@ components:
           properties:
             CreateTimestamp:
               type: string
-              description: 'Creation Timestamp. This field is not mutable. '
+              description: 'Creation Timestamp '
               title: CreateTimestamp
               readOnly: true
             EmailAddresses:
               type: array
-              description: 'Email addresses associated with the organisation. '
+              description: 'Email addresses associated with the organisation. This field is not included as part of the response payload when unassigned'
               title: EmailAddresses
               items:
                 type: object
                 properties:
                   Name:
                     type: string
-                    description: 'A name of a person or an office to which this email belongs. This field is mutable, but is not searchable. '
+                    description: 'A name of a person or an office to which this email belongs. This field is not searchable.'
                     title: Name
+                    maxLength: 255
                   Value:
                     type: string
-                    description: 'Value of email address. This field is mutable, but is not searchable. '
+                    description: 'Value of email address. This field is not searchable. The format of the email address must comply with standards defined here -> https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1 '
                     title: Value
+                    maxLength: 255
                   Type:
                     allOf:
-                      - description: 'Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is mutable, but is not searchable. '
+                      - description: 'Type of email address. This field is not searchable. '
                       - $ref: '#/components/schemas/ContactType'
                       - title: Type
                   Primary:
                     type: boolean
-                    description: 'Indicator to show is this is the primary email address. This field is and mutable, but is not searchable. '
+                    description: 'Indicator to show is this is the primary email address. This field is not searchable. '
                     title: Primary
                 required:
                   - Name
@@ -1898,25 +1306,29 @@ components:
                   - Primary
             ModifyTimestamp:
               type: string
-              description: 'Modification Timestamp. This field is not mutable. '
+              description: 'Modification Timestamp'
               title: ModifyTimestamp
               readOnly: true
             OBAuthorisationState:
               allOf:
-              - description: 'OB Participant Authorisation State. This field is not searchable, but is mutable.'
-              - $ref: '#/components/schemas/OBAuthorisationState'
-              - title: OBAuthorisationState
+                - description: 'OB Participant Authorisation State. This field is not searchable'
+                - $ref: '#/components/schemas/OBAuthorisationState'
+                - title: OBAuthorisationState
             OBOrganisationId:
               type: string
-              description: Open Banking Organisation Identifier. This field is searchable, but is not mutable.
+              description: Open Banking Organisation Identifier. This field is searchable.
               title: OBOrganisationId
+              minLength: 18
+              maxLength: 18
+              readOnly: true
             OrganisationCommonName:
               type: string
-              description: 'The common name of the organisation. This field is searchable and mutable. '
+              description: 'The common name of the organisation. This field is searchable'
               title: OrganisationCommonName
+              maxLength: 255
             PersonalAccountRoles:
               type: array
-              description: Individuals who have authorised access to the organisation
+              description: Individuals who have authorised access to the organisation. This field is not included as part of the response payload when unassigned.
               title: PersonalAccountRoles
               items:
                 type: object
@@ -1924,44 +1336,52 @@ components:
                   UserName:
                     type: string
                     format: uri
-                    description: 'User''s name, email address or other identifying label. This field is searchable, but is not mutable. '
+                    description: 'User''s name, email address or other identifying label. This field is searchable.'
                     title: UserName
+                    maxLength: 255
+                    readOnly: true
                   Role:
                     allOf:
-                    - description: 'Role which the individual holds. This field is searchable, but is not mutable. '
-                    - $ref: '#/components/schemas/PersonalAccountRoleType'
-                    - title: Role
+                      - description: 'Role which the individual holds. This field is searchable.'
+                      - $ref: '#/components/schemas/PersonalAccountRoleType'
+                      - title: Role
+                    readOnly: true
                   AuthorizationDomain:
                     allOf:
-                    - description: 'AuthorizationDomain. This field is not mutable, but is searchable.'
-                    - $ref: '#/components/schemas/AuthorizationDomain'
-                    - title: AuthorizationDomain
+                      - description: 'AuthorizationDomain. This field is searchable.'
+                      - $ref: '#/components/schemas/AuthorizationDomain'
+                      - title: AuthorizationDomain
+                    readOnly: true
                 required:
                   - UserName
                   - Role
                   - AuthorizationDomain
             PhoneNumbers:
               type: array
-              description: Phone numbers by which an organisation can be contacted
+              description: Phone numbers by which an organisation can be contacted. This field is not included as part of the response payload when unassigned.
               title: PhoneNumbers
               items:
                 type: object
                 properties:
                   Name:
                     type: string
-                    description: 'A name of a person or an office to which this phone number belongs. This field is mutable, but is not searchable. '
+                    description: 'A name of a person or an office to which this phone number belongs. This field is not searchable. '
                     title: Name
+                    maxLength: 255
                   Value:
                     type: string
-                    description: 'Value of phone number through which the organisation can be contacted. This field is mutable, but is not searchable.'
+                    description: 'Value of phone number through which the organisation can be contacted. This field is not searchable.'
                     title: Value
+                    maxLength: 255
                   Type:
-                    type: string
-                    description: 'Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is mutable, but is not searchable. '
-                    title: Type
+                    allOf:
+                      - type: string
+                      - description: 'Type of phone contact. This field is mutable, but is not searchable. '
+                      - title: Type
+                      - $ref: '#/components/schemas/ContactType'
                   Verified:
                     type: boolean
-                    description: 'Flag to show that the phone number has been verified. This field is mutable, but is not searchable. '
+                    description: 'Flag to show that the phone number has been verified. This field is not searchable. '
                     title: Verified
                 required:
                   - Name
@@ -1977,40 +1397,42 @@ components:
                 properties:
                   AddressLine2:
                     type: string
-                    description: 'Additional address line. This field is not required in output and is not searchable, but is mutable.  '
+                    description: 'Additional address line. This field is not searchable and is not included as part of the response payload when unassigned'
                     title: AddressLine2
+                    maxLength: 255
                   Country:
-                    allOf: 
-                    - description: 'Address Country in full. This field is mutable, but is not searchable. '
-                    - $ref: '#/components/schemas/CountryLongName'
-                    - title: Country
-                  County:
-                    type: string
-                    description: 'Country or regional devision. This field is mutable. '
-                    title: County
+                    allOf:
+                      - description: 'Address Country in full. This field is not searchable. '
+                      - $ref: '#/components/schemas/CountryLongName'
+                      - title: Country
                   PostCode:
                     type: string
-                    description: 'Post or ZIP Code. This field is mutable, but is not searchable.  '
+                    description: 'Post or ZIP Code. This field is not searchable. '
                     title: PostCode
+                    maxLength: 255
                   Primary:
                     type: boolean
-                    description: 'Flag to indicate that this is the primary contact address. This field is mutable, but is not searchable. '
+                    description: 'Flag to indicate that this is the primary contact address. This field is not searchable. '
                     title: Primary
+                    maxLength: 255
                   StreetAddress:
                     type: string
-                    description: 'Street Address, including building number. This field is mutable, but is not searchable. '
+                    description: 'Street Address, including building number. This field is not searchable. '
                     title: StreetAddress
+                    maxLength: 255
                   Town:
                     type: string
-                    description: 'Postal Town. This field is mutable, but is not searchable. '
+                    description: 'Postal Town. This field is not searchable. '
                     title: Town
+                    maxLength: 255
                   Name:
                     type: string
-                    description: 'Name of addressee. This field is mutable, but is not searchable. '
+                    description: 'Name of addressee. This field is not searchable. '
                     title: Name
+                    maxLength: 255
                   Type:
                     allOf:
-                      - description: 'Type of postal address. This field is mutable, but is not searchable. '
+                      - description: 'Type of postal address. This field is not searchable. '
                       - $ref: '#/components/schemas/PostalAddressType'
                       - title: Type
                 required:
@@ -2023,9 +1445,9 @@ components:
                   - Type
             status:
               allOf:
-              - description: 'Organisation status. This field is not searchable, but is mutable. '
-              - $ref: '#/components/schemas/AuthorisationDomainStatus'
-              - title: status
+                - description: 'Organisation status. This field is not searchable, but is mutable. '
+                - $ref: '#/components/schemas/AuthorisationDomainStatus'
+                - title: status
           required:
             - OBOrganisationId
             - OrganisationCommonName
@@ -2043,16 +1465,20 @@ components:
                 properties:
                   RegisteredId:
                     type: string
-                    description: 'Company Registration Id. This field is searchable and mutable. '
+                    description: 'Company Registration Id. This field is searchable.'
                     title: RegisteredId
+                    maxLength: 255
                   RegisteredName:
                     type: string
-                    description: 'Company Registered Name. This field is searchable and mutable. '
+                    description: 'Company Registered Name. This field is searchable.'
                     title: RegisteredName
+                    maxLength: 255
                   RegistrationAuthorityId:
                     type: string
-                    description: 'Identification of registering Authority. This field is searchable, but is not mutable. '
+                    description: 'Identification of registering Authority. This field is searchable.'
                     title: RegistrationAuthorityId
+                    maxLength: 255
+                    readOnly: true
                 required:
                   - RegisteredId
                   - RegisteredName
@@ -2071,95 +1497,105 @@ components:
                 properties:
                   Active:
                     type: boolean
-                    description: 'Flag to show if software statement is active. This field is searchable and mutable. '
+                    description: 'Flag to show if software statement is active. This field is searchable.'
                     title: Active
                   AuthorizationDomain:
                     allOf:
-                    - $ref: '#/components/schemas/AuthorizationDomain'
-                    - description: 'AuthorizationDomain. This field is not mutable, but is searchable. '
-                    - title: AuthorizationDomain
+                      - $ref: '#/components/schemas/AuthorizationDomain'
+                      - description: 'AuthorizationDomain. This field is searchable. '
+                      - title: AuthorizationDomain
+                    readOnly: true
                   ClientId:
                     type: string
-                    description: 'Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is searchable, but is not mutable. '
+                    description: 'Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is searchable'
                     title: ClientId
+                    minLength: 22
+                    maxLength: 22
+                    readOnly: true
                   ClientName:
                     type: string
-                    description: 'Human readable client name. May be localised. This field is searchable, but is not mutable. '
+                    description: 'Human readable client name. May be localised. This field is searchable. '
                     title: ClientName
+                    maxLength: 40
+                    readOnly: true
                   ClientUri:
                     type: string
-                    description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable and mutable. '
+                    description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable. '
                     title: ClientUri
+                    maxLength: 256
                   Description:
                     type: string
-                    description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable, but is not mutable. '
+                    description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable.'
                     title: Description
+                    maxLength: 256
+                    readOnly: true
                   Id:
                     type: string
-                    description: 'Unique Scheme Wide Software id. This field is searchable, but is not mutable.'
+                    description: 'Unique Scheme Wide Software id. This field is searchable.'
                     title: Id
+                    readOnly: true
                   LogoUri:
                     type: string
-                    description: 'The software logo. This field is searchable and mutable. '
+                    description: 'The software logo. This field is searchable'
                     title: LogoUri
+                    maxLength: 256
                   Mode:
-                    allOf:
-                    - description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''.  This field is searchable and mutable. '
-                    - $ref: '#/components/schemas/SoftwareStatementMode'
-                    - title: Mode
+                    description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''.  This field is searchable.'
+                    title: Mode
+                    type: string
                   ObClientCreated:
                     type: boolean
-                    description: An indicator to show if the client has been created in Open Banking. This field is searchable and mutable.
+                    description: An indicator to show if the client has been created in Open Banking. This field is searchable.
                     title: ObClientCreated
                   OnBehalfOfObOrganisation:
                     type: string
-                    description: 'The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not mutable, but is searchable. '
+                    description: 'The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is searchable. '
                     title: OnBehalfOfObOrganisation
+                    maxLength: 40
+                    readOnly: true
                   PolicyUri:
                     type: string
-                    description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable.
+                    description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable
                     title: PolicyUri
+                    maxLength: 256
+                    readOnly: true
                   RedirectUri:
                     type: array
-                    description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and mutable. '
+                    description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and is not included as part of the response payload when unassigned.'
                     title: RedirectUri
                     items:
                       type: string
+                      maxLength: 2000
+                    uniqueItems: true
                   Roles:
                     type: array
                     allOf:
                       - $ref: '#/components/schemas/Role'
-                    description: 'Roles for which this software statement can be used. This field is not mutable, but is searchable.'
+                    description: 'Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.'
                     title: Roles
                     items:
                       type: string
-                  SigningKeyIds:
-                    type: array
-                    description: 'KeyIds of Keys used for signing messages. This field is searchable and mutable. '
-                    title: SigningKeyIds
-                    items:
-                      type: string
+                    readOnly: true
                   TermsOfServiceUri:
                     type: string
-                    description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable. '
+                    description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable.'
                     title: TermsOfServiceUri
-                  TransportKeyIds:
-                    type: array
-                    description: KeyIds of Keys used for securing message transport (TLS). This field is searchable and mutable.
-                    title: TransportKeyIds
-                    items:
-                      type: string
+                    maxLength: 256
+                    readOnly: true
                   Version:
                     type: number
-                    description: 'Version of the software. This field is not searchable and not mutable. '
+                    description: 'Version of the software. This field is not searchable.'
                     title: Version
+                    readOnly: true
                 required:
                   - Active
+                  - AuthorizationDomain
                   - ClientId
                   - ClientName
                   - ClientUri
                   - Description
                   - Id
+                  - Mode
                   - LogoUri
                   - ObClientCreated
                   - PolicyUri
@@ -2174,9 +1610,11 @@ components:
           type: object
           properties:
             resourceType:
-              type: string
-              description: type of resource equal, participants in this case
-              title: resourceType
+              allOf:
+                - type: string
+                - description: type of resource equal, participants in this case
+                - title: resourceType
+                - $ref: '#/components/schemas/ParticipantsResourceType'
             location:
               type: string
               description: location of resource in PDG
@@ -2187,570 +1625,11 @@ components:
           title: schemas
           items:
             type: string
+      description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party Providers' records in ecosystem
+    OBThirdPartyProviders:
+      $ref: '#/components/schemas/Participants'
     OBAccountPaymentServiceProviders:
-      required:
-        - id
-        - schemas
-        - urn:openbanking:organisation:1.0
-      properties:
-        urn:openbanking:authorisationdomainstatus:1.0:
-          type: object
-          description: Status of an organisation in a particular authorization domain. Currently unattainable, but will be complemented in the future
-          title: AuthorizationDomainStatus
-          properties:
-            Status:
-              type: array
-              description: Status
-              title: Status
-              items:
-                type: object
-                properties:
-                  AuthorizationDomain:
-                    allOf:
-                      - $ref: '#/components/schemas/AuthorizationDomain'
-                      - description: 'Authorization Domain. This field is searchable and mutable. '
-                  Status:
-                    allOf:
-                      - $ref: '#/components/schemas/AuthorisationDomainStatus'
-                      - description: 'Indicates whether authorization domain is active. This field is searchable and mutable. '
-                required:
-                  - AuthorizationDomain
-                  - Status
-        urn:trustframework:competentauthorityclaims:1.1:
-          type: object
-          description: Claims (version 1.1) sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP
-          title: CompetenAuthorityClaims1.1
-          properties:
-            AuthorisationAuthorities:
-              type: array
-              description: 'List of authorities details which gave authorization to the participant.'
-              title: AuthorisationAuthorities
-              items:
-                type: object
-                properties:
-                  AuthorityId:
-                    type: string
-                    description: 'Authority identifier. This field is searchable and mutable. '
-                    title: AuthorityId
-                  AuthorizationDomain:
-                    allOf:
-                      - $ref: '#/components/schemas/AuthorizationDomain'
-                      - description: 'Authorization domain in which authorization was given. This field is searchable and mutable.'
-                    title: AuthorizationDomain
-                  MemberState:
-                    allOf:
-                      - $ref: '#/components/schemas/CountryAlpha2Code'
-                      - description: 'Member state. This field is searchable and mutable. '
-                    title: MemberState
-                  RegistrationId:
-                    type: string
-                    description: 'Registration identifier. This field is searchable and mutable. '
-                    title: RegistrationId
-                  X509OrganisationIdentifier:
-                    type: array
-                    description: X509OrganisationIdentifier
-                    title: 'Identifier of an organisation. This field is searchable and mutable. '
-                    items:
-                      type: string
-                required:
-                  - AuthorityId
-                  - AuthorizationDomain
-                  - MemberState
-                  - RegistrationId
-            Authorisations:
-              type: array
-              description: 'Home or Passported Authorisations. '
-              title: Authorisations
-              items:
-                type: object
-                properties:
-                  Active:
-                    type: boolean
-                    description: 'Indicator to show if this claim is active. This field is searchable and mutable. '
-                    title: Active
-                  AuthorityId:
-                    type: string
-                    description: 'Identifier of authority giving authorization. This field is searchable and mutable. '
-                    title: AuthorityId
-                  AuthorizationDomain:
-                    allOf: 
-                      - description: 'Authorization domain in which authorization is given. This field is searchable and mutable. '
-                      - title: AuthorizationDomain
-                      - $ref: '#/components/schemas/AuthorizationDomain'
-                  MemberState:
-                    allOf:
-                      - title: MemberState
-                      - description: 'Member State giving the authorisation. This field searchable and mutable. '
-                      - $ref: '#/components/schemas/CountryAlpha2Code'
-                    title: MemberState
-                  Role:
-                    allOf:
-                      - description: 'Role in which institution authorised. This field is mutable. '
-                      - title: Role
-                      - $ref: '#/components/schemas/Role'
-                required:
-                  - Active
-                  - AuthorityId
-                  - AuthorizationDomain
-                  - MemberState
-                  - Role
-        urn:openbanking:competentauthorityclaims:1.0:
-          type: object
-          description: Claims sourced from a competent authority(e.g. FCA) - can be applied to either TPPs to ASPSP
-          title: CompetentAuthorityClaims
-          properties:
-            Authorisations:
-              type: array
-              description: Home or Passported Authorisations. 
-              title: Authorisations
-              items:
-                type: object
-                properties:
-                  Active:
-                    type: boolean
-                    description: 'Indicator to show if this claim is active. This field is searchable and mutable. '
-                    title: Active
-                  MemberState:
-                    allOf:
-                    - description: 'Member State giving the authorisation. This field is searchable and mutable.'
-                    - $ref: '#/components/schemas/CountryAlpha2Code'
-                    - title: MemberState
-                  Psd2Role:
-                    allOf:
-                      - description: 'Psd2 Role in which institution authorised. This field is searchable and mutable. '
-                      - $ref: '#/components/schemas/PSD2Role'
-                      - title: Psd2Role
-                required:
-                  - Active
-                  - MemberState
-                  - Psd2Role
-            AuthorityId:
-              type: string
-              description: 'The ID of the accrediting authority. This field is searchable and mutable. '
-              title: AuthorityId
-            EtsiIdentifier:
-              type: string
-              description: 'European Telecommunications Standards Institute Organisation Identifier. This field is searchable and mutable. '
-              title: EtsiIdentifier
-            MemberState:
-              allOf:
-                - $ref: '#/components/schemas/CountryLongName'
-                - description: 'Member State of the Authority. This field is searchable and mutable. '
-                - title: MemberState
-            RegistrationId:
-              type: string
-              description: 'Registration Id with the principle authority. This field is searchable and mutable. '
-              title: RegistrationId
-          required:
-            - AuthorityId
-            - MemberState
-            - RegistrationId
-        AuthorisationServers:
-          type: array
-          description: Authorisation Server Portal
-          title: AuthorisationServers
-          items:
-            type: object
-            properties:
-              Id:
-                type: string
-                description: 'Authorisation Server Id V39 required. This field is searchable and but is not mutable. '
-                title: Id
-              AutoRegistrationSupported:
-                type: boolean
-                description: 'Authorisation Server supports auto-registration. This field is searchable and mutable. '
-                title: AutoRegistrationSupported
-              BaseApiDNSUri:
-                type: string
-                description: 'Points to the Open Banking APIs V39 required. This field is searchable and mutable. '
-                title: BaseApiDNSUri
-              CustomerFriendlyDescription:
-                type: string
-                description: 'Customer orientated description. This field is searchable and mutable. '
-                title: CustomerFriendlyDescription
-              CustomerFriendlyLogoUri:
-                type: string
-                description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable and mutable. '
-                title: CustomerFriendlyLogoUri
-              CustomerFriendlyName:
-                type: string
-                description: 'Certified name. This field is searchable and mutable. '
-                title: CustomerFriendlyName
-              DeveloperPortalUri:
-                type: string
-                description: URI for TPP developer testing V39 required. This field is searchable and mutable.
-                title: DeveloperPortalUri
-              TermsOfService:
-                type: string
-                description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable and mutable. '
-                title: TermsOfService
-              OpenIDConfigEndPointUri:
-                type: string
-                description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable and mutable.
-                title: OpenIDConfigEndPointUri
-              PayloadSigningCertLocation:
-                type: string
-                description: 'The location which is used for signing certificates V39 required. This field is searchable and mutable. '
-                title: PayloadSigningCertLocation
-              EISCDId:
-                type: array
-                description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and mutable.'
-                title: EISCDId
-                items:
-                  type: string
-              ParentAuthorisationServerId:
-                type: string
-                description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and mutable.
-                title: ParentAuthorisationServerId
-              AuthorizationDomain:
-                allOf:
-                  - description: 'Authorization Domain. This field is not mutable, but is searchable.'
-                  - $ref: '#/components/schemas/AuthorizationDomain'
-                title: AuthorizationDomain
-              ApiResourceDiscoveryEndpoint:
-                type: string
-                description: An RFC-3986-compliant URI. This field is searchable and mutable
-                title: ApiResourceDiscoveryEndpoint
-            required:
-              - Id
-              - AutoRegistrationSupported
-              - BaseApiDNSUri
-              - CustomerFriendlyLogoUri
-              - DeveloperPortalUri
-              - TermsOfService
-              - OpenIDConfigEndPointUri
-              - PayloadSigningCertLocation
-        urn:openbanking:organisation:1.0:
-          type: object
-          description: Account details for an open banking organisation which are used for SCIM access to the Directory on behalf of an accredited organisation.
-          title: Organisation
-          properties:
-            CreateTimestamp:
-              type: string
-              description: 'Creation Timestamp. This field is not mutable. '
-              title: CreateTimestamp
-              readOnly: true
-            EmailAddresses:
-              type: array
-              description: 'Email addresses associated with the organisation. '
-              title: EmailAddresses
-              items:
-                type: object
-                properties:
-                  Name:
-                    type: string
-                    description: 'A name of a person or an office to which this email belongs. This field is mutable, but is not searchable. '
-                    title: Name
-                  Value:
-                    type: string
-                    description: 'Value of email address. This field is mutable, but is not searchable. '
-                    title: Value
-                  Type:
-                    allOf:
-                      - description: 'Type of email address. Possible values: Business, PBC, PTC, Registered, Technical. This field is mutable, but is not searchable. '
-                      - $ref: '#/components/schemas/ContactType'
-                      - title: Type
-                  Primary:
-                    type: boolean
-                    description: 'Indicator to show is this is the primary email address. This field is and mutable, but is not searchable. '
-                    title: Primary
-                required:
-                  - Name
-                  - Value
-                  - Type
-                  - Primary
-            ModifyTimestamp:
-              type: string
-              description: 'Modification Timestamp. This field is not mutable. '
-              title: ModifyTimestamp
-              readOnly: true
-            OBAuthorisationState:
-              allOf:
-              - description: 'OB Participant Authorisation State. This field is not searchable, but is mutable.'
-              - $ref: '#/components/schemas/OBAuthorisationState'
-              - title: OBAuthorisationState
-            OBOrganisationId:
-              type: string
-              description: Open Banking Organisation Identifier. This field is searchable, but is not mutable.
-              title: OBOrganisationId
-            OrganisationCommonName:
-              type: string
-              description: 'The common name of the organisation. This field is searchable and mutable. '
-              title: OrganisationCommonName
-            PersonalAccountRoles:
-              type: array
-              description: Individuals who have authorised access to the organisation
-              title: PersonalAccountRoles
-              items:
-                type: object
-                properties:
-                  UserName:
-                    type: string
-                    format: uri
-                    description: 'User''s name, email address or other identifying label. This field is searchable, but is not mutable. '
-                    title: UserName
-                  Role:
-                    allOf:
-                    - description: 'Role which the individual holds. This field is searchable, but is not mutable. '
-                    - $ref: '#/components/schemas/PersonalAccountRoleType'
-                    - title: Role
-                  AuthorizationDomain:
-                    allOf:
-                    - description: 'AuthorizationDomain. This field is not mutable, but is searchable.'
-                    - $ref: '#/components/schemas/AuthorizationDomain'
-                    - title: AuthorizationDomain
-                required:
-                  - UserName
-                  - Role
-                  - AuthorizationDomain
-            PhoneNumbers:
-              type: array
-              description: Phone numbers by which an organisation can be contacted
-              title: PhoneNumbers
-              items:
-                type: object
-                properties:
-                  Name:
-                    type: string
-                    description: 'A name of a person or an office to which this phone number belongs. This field is mutable, but is not searchable. '
-                    title: Name
-                  Value:
-                    type: string
-                    description: 'Value of phone number through which the organisation can be contacted. This field is mutable, but is not searchable.'
-                    title: Value
-                  Type:
-                    type: string
-                    description: 'Type of phone contact. Possible values: Business, PBC, PTC, Registered, Technical. This field is mutable, but is not searchable. '
-                    title: Type
-                  Verified:
-                    type: boolean
-                    description: 'Flag to show that the phone number has been verified. This field is mutable, but is not searchable. '
-                    title: Verified
-                required:
-                  - Name
-                  - Value
-                  - Type
-                  - Verified
-            PostalAddresses:
-              type: array
-              description: Organisations's Postal Addresses
-              title: PostalAddresses
-              items:
-                type: object
-                properties:
-                  AddressLine2:
-                    type: string
-                    description: 'Additional address line. This field is not required in output and is not searchable, but is mutable.  '
-                    title: AddressLine2
-                  Country:
-                    allOf: 
-                    - description: 'Address Country in full. This field is mutable, but is not searchable. '
-                    - $ref: '#/components/schemas/CountryLongName'
-                    - title: Country
-                  County:
-                    type: string
-                    description: 'Country or regional devision. This field is mutable. '
-                    title: County
-                  PostCode:
-                    type: string
-                    description: 'Post or ZIP Code. This field is mutable, but is not searchable.  '
-                    title: PostCode
-                  Primary:
-                    type: boolean
-                    description: 'Flag to indicate that this is the primary contact address. This field is mutable, but is not searchable. '
-                    title: Primary
-                  StreetAddress:
-                    type: string
-                    description: 'Street Address, including building number. This field is mutable, but is not searchable. '
-                    title: StreetAddress
-                  Town:
-                    type: string
-                    description: 'Postal Town. This field is mutable, but is not searchable. '
-                    title: Town
-                  Name:
-                    type: string
-                    description: 'Name of addressee. This field is mutable, but is not searchable. '
-                    title: Name
-                  Type:
-                    allOf:
-                      - description: 'Type of postal address. This field is mutable, but is not searchable. '
-                      - $ref: '#/components/schemas/PostalAddressType'
-                      - title: Type
-                required:
-                  - Country
-                  - PostCode
-                  - Primary
-                  - StreetAddress
-                  - Town
-                  - Name
-                  - Type
-            status:
-              allOf:
-              - description: 'Organisation status. This field is not searchable, but is mutable. '
-              - $ref: '#/components/schemas/AuthorisationDomainStatus'
-              - title: status
-          required:
-            - OBOrganisationId
-            - OrganisationCommonName
-        urn:openbanking:legalauthorityclaims:1.0:
-          type: object
-          description: Claims sourced from a legal authority(e.g. Companies House) - can be applied to either TPPs to ASPSP
-          title: LegalAuthotiryClaims
-          properties:
-            LegalAuthorityClaims:
-              type: array
-              description: 'Details of each Company Registration Authority with which the Company is registered. '
-              title: LegalAuthorityClaims
-              items:
-                type: object
-                properties:
-                  RegisteredId:
-                    type: string
-                    description: 'Company Registration Id. This field is searchable and mutable. '
-                    title: RegisteredId
-                  RegisteredName:
-                    type: string
-                    description: 'Company Registered Name. This field is searchable and mutable. '
-                    title: RegisteredName
-                  RegistrationAuthorityId:
-                    type: string
-                    description: 'Identification of registering Authority. This field is searchable, but is not mutable. '
-                    title: RegistrationAuthorityId
-                required:
-                  - RegisteredId
-                  - RegisteredName
-                  - RegistrationAuthorityId
-        urn:openbanking:softwarestatement:1.0:
-          type: object
-          description: 'Software Statement Schema as defined by Open Banking. '
-          title: SoftwareStatement
-          properties:
-            SoftwareStatements:
-              type: array
-              description: Software Statement Attribute
-              title: SoftwareStatements
-              items:
-                type: object
-                properties:
-                  Active:
-                    type: boolean
-                    description: 'Flag to show if software statement is active. This field is searchable and mutable. '
-                    title: Active
-                  AuthorizationDomain:
-                    allOf:
-                    - $ref: '#/components/schemas/AuthorizationDomain'
-                    - description: 'AuthorizationDomain. This field is not mutable, but is searchable. '
-                    - title: AuthorizationDomain
-                  ClientId:
-                    type: string
-                    description: 'Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is searchable, but is not mutable. '
-                    title: ClientId
-                  ClientName:
-                    type: string
-                    description: 'Human readable client name. May be localised. This field is searchable, but is not mutable. '
-                    title: ClientName
-                  ClientUri:
-                    type: string
-                    description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable and mutable. '
-                    title: ClientUri
-                  Description:
-                    type: string
-                    description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable, but is not mutable. '
-                    title: Description
-                  Id:
-                    type: string
-                    description: 'Unique Scheme Wide Software id. This field is searchable, but is not mutable.'
-                    title: Id
-                  LogoUri:
-                    type: string
-                    description: 'The software logo. This field is searchable and mutable. '
-                    title: LogoUri
-                  Mode:
-                    allOf:
-                    - description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''.  This field is searchable and mutable. '
-                    - $ref: '#/components/schemas/SoftwareStatementMode'
-                    - title: Mode
-                  ObClientCreated:
-                    type: boolean
-                    description: An indicator to show if the client has been created in Open Banking. This field is searchable and mutable.
-                    title: ObClientCreated
-                  OnBehalfOfObOrganisation:
-                    type: string
-                    description: 'The organisation on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is not mutable, but is searchable. '
-                    title: OnBehalfOfObOrganisation
-                  PolicyUri:
-                    type: string
-                    description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable.
-                    title: PolicyUri
-                  RedirectUri:
-                    type: array
-                    description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and mutable. '
-                    title: RedirectUri
-                    items:
-                      type: string
-                  Roles:
-                    type: array
-                    allOf:
-                      - $ref: '#/components/schemas/Role'
-                    description: 'Roles for which this software statement can be used. This field is not mutable, but is searchable.'
-                    title: Roles
-                    items:
-                      type: string
-                  SigningKeyIds:
-                    type: array
-                    description: 'KeyIds of Keys used for signing messages. This field is searchable and mutable. '
-                    title: SigningKeyIds
-                    items:
-                      type: string
-                  TermsOfServiceUri:
-                    type: string
-                    description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable, but is not mutable. '
-                    title: TermsOfServiceUri
-                  TransportKeyIds:
-                    type: array
-                    description: KeyIds of Keys used for securing message transport (TLS). This field is searchable and mutable.
-                    title: TransportKeyIds
-                    items:
-                      type: string
-                  Version:
-                    type: number
-                    description: 'Version of the software. This field is not searchable and not mutable. '
-                    title: Version
-                required:
-                  - Active
-                  - ClientId
-                  - ClientName
-                  - ClientUri
-                  - Description
-                  - Id
-                  - LogoUri
-                  - ObClientCreated
-                  - PolicyUri
-                  - RedirectUri
-                  - TermsOfServiceUri
-                  - Version
-        id:
-          type: string
-          description: record identifier
-          title: id
-        meta:
-          type: object
-          properties:
-            resourceType:
-              type: string
-              description: type of resource equal, participants in this case
-              title: resourceType
-            location:
-              type: string
-              description: location of resource in PDG
-              title: location
-        schemas:
-          type: array
-          description: schemas
-          title: schemas
-          items:
-            type: string
-      description: ASPSP
+      $ref: '#/components/schemas/Participants'
 externalDocs:
   description: SCIM 2.0 Protocol (RFC7644)
   url: https://tools.ietf.org/html/rfc7644
