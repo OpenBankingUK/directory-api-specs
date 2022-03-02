@@ -3,6 +3,11 @@ info:
   title: Open Banking Directory API
   version: 2.0.0
   description: OB Tech Directory API
+servers:
+  - url: https://matls-dirapi.openbanking.org.uk
+    description: Production
+  - url: https://matls-dirapi.openbankingtest.org.uk
+    description: Sandbox
 paths:
   '/v2.1/organisation':
     post:
@@ -2899,7 +2904,7 @@ components:
           schema:
             $ref: '#/components/schemas/SoftwareStatementCreateSchema'
     SoftwareStatementRedirectURI:
-      description: Software Statement Redirect URI
+      description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and is not included as part of the response payload when unassigned.'
       required: true
       content:
         text/plain:
@@ -3197,34 +3202,72 @@ components:
           type: boolean
         MemberState:
           type: string
+          description: 'Member state. This field is searchable.'
+          enum: [ 'AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK' ]
         Psd2Role:
           type: string
+          enum: [ 'ASPSP', 'AISP', 'PISP', 'CBPII' ]
+          description: >
+            Psd2 Role in which institution authorised. This field is searchable.
+              * `AISP` - Account Information Service Provider
+              * `ASPSP` - Account Servicing Payment Service Provider
+              * `CBPII` - Card-Based Payment Instrument Issuer
+              * `PISP` - Payment Initiation Service Provider
+      required:
+        - Active
+        - MemberState
+        - Psd2Role
     AuthorisationAuthoritySchema:
       type: object
       properties:
         AuthorityId:
           type: string
+          maxLength: 255
+          description: 'Authority identifier. This field is searchable.'
         AuthorizationDomain:
           type: string
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
+          description: 'Authorisation Domain. This field is searchable.'
         MemberState:
           type: string
+          description: 'Member state. This field is searchable.'
+          enum: [ 'AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK' ]
         RegistrationId:
           type: string
+          maxLength: 255
+          description: 'Registration Id with the principle authority. This field is searchable.'
         X509OrganisationIdentifier:
           type: array
           items:
             type: string
+            maxLength: 255
+      required:
+        - AuthorityId
+        - RegistrationId
+        - X509OrganisationIdentifier
     AuthorisationDomainStatusSchema:
       type: object
       properties:
         AuthorizationDomain:
           type: string
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
+          description: 'Authorisation Domain. This field is searchable.'
         Status:
           type: string
+          enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+          description: >
+            Indicates whether authorisation domain is active. This field is searchable.
+            * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
+            * `Withdrawn` - revocation initiated by participants
+            * `Revoked` - participant can't take actions in ecosystem because of privileges loss
+            * `Suspended` - temporary revocation, available only in COP authorisation domain
+            * `Requested` - set after dynamic client registration, to be confirmed by CRM
+            * `Rejected` - dynamic client registration rejected
     AuthorisationDomainStatusRootSchema:
       type: object
       properties:
         Status:
+          description: Status of an organisation in a particular authorisation domain.
           type: array
           items:
             $ref: '#/components/schemas/AuthorisationDomainStatusSchema'
@@ -3233,60 +3276,73 @@ components:
       properties:
         AuthorizationDomain:
           type: string
-          description: Authorization Domain for which the authorisation server is created.
-          maxLength: 256
+          description: Authorisation Domain for which the authorisation server is created.
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         AutoRegistrationSupported:
           type: boolean
+          description: 'Authorisation Server supports auto-registration. This field is searchable.'
         BaseApiDNSUri:
-          description: An RFC-3986-compliant URI
+          description: 'Points to the Open Banking APIs V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
         CustomerFriendlyDescription:
-          description: An RFC-3986-compliant URI
+          description: 'Customer orientated description. This field is searchable and is not included as part of the response payload when unassigned.'
           type: string
-          maxLength: 256
+          maxLength: 255
         CustomerFriendlyLogoUri:
-          description: An RFC-3986-compliant URI
+          description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         CustomerFriendlyName:
           type: string
-          maxLength: 256
+          maxLength: 255
+          description: 'Certified name. This field is searchable and is not included as part of the response payload when unassigned.'
         DeveloperPortalUri:
-          description: An RFC-3986-compliant URI
+          description: URI for TPP developer testing V39 required. This field is searchable.
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         TermsOfService:
-          description: An RFC-3986-compliant URI
+          description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         OpenIDConfigEndPointUri:
-          description: An RFC-3986-compliant URI
+          description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable.
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         PayloadSigningCertLocation:
-          description: An RFC-3986-compliant URI
+          description: 'The location which is used for signing certificates V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         EISCDId:
           type: array
           items:
             type: string
-            maxLength: 256
+            description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
+          description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
         ApiResourceDiscoveryEndpoint:
-          description: An RFC-3986-compliant URI
+          description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response payload when unassigned.
           type: string
           format: uri
           maxLength: 256
+      required:
+        - AuthorizationDomain
+        - AutoRegistrationSupported
+        - BaseApiDNSUri
+        - CustomerFriendlyLogoUri
+        - DeveloperPortalUri
+        - TermsOfService
+        - OpenIDConfigEndPointUri
+        - PayloadSigningCertLocation
+        - EISCDId
     AuthorisationV11Schema:
       type: object
       properties:
@@ -3294,12 +3350,31 @@ components:
           type: boolean
         AuthorityId:
           type: string
+          maxLength: 255
+          description: 'Authority identifier. This field is searchable.'
         AuthorizationDomain:
           type: string
+          description: Authorisation Domain for which the authorisation server is created.
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         MemberState:
           type: string
+          description: 'Member state. This field is searchable.'
+          enum: [ 'AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK' ]
         Role:
           type: string
+          enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+          description: >
+            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
+            Meaning of values:
+              * `COPRequester` - Confirmation of Payee Requester
+              * `COPResponder` - Confirmation of Payee Responder
+              * `AISP` - Account Information Service Provider
+              * `ASPSP` - Account Servicing Payment Service Provider
+              * `CBPII` - Card-Based Payment Instrument Issuer
+              * `PISP` - Payment Initiation Service Provider
+              * `CD_AISP` - Crown Dependencies Account Information Service Provider
+              * `CD_ASPSP` - Crown Dependencies Account Servicing Payment Service Provider
+              * `CD_CBPII` - Crown Dependencies Card-Based Payment Instrument Issuer
     CertificateValidationResponseSchema:
       type: object
       properties:
@@ -3311,6 +3386,7 @@ components:
               properties:
                 type:
                   type: string
+                  enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
                 eidas_profile:
                   type: string
                 qtsp_name:
@@ -3321,6 +3397,19 @@ components:
                   type: array
                   items:
                     type: string
+                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+                    description: >
+                      Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
+                      Meaning of values:
+                        * `COPRequester` - Confirmation of Payee Requester
+                        * `COPResponder` - Confirmation of Payee Responder
+                        * `AISP` - Account Information Service Provider
+                        * `ASPSP` - Account Servicing Payment Service Provider
+                        * `CBPII` - Card-Based Payment Instrument Issuer
+                        * `PISP` - Payment Initiation Service Provider
+                        * `CD_AISP` - Crown Dependencies Account Information Service Provider
+                        * `CD_ASPSP` - Crown Dependencies Account Servicing Payment Service Provider
+                        * `CD_CBPII` - Crown Dependencies Card-Based Payment Instrument Issuer
                 valid_eidas_certificate:
                   type: boolean
                 valid_obietf_certificate:
@@ -3329,6 +3418,17 @@ components:
                   type: boolean
                 revoked:
                   type: boolean
+              required:
+                - type
+                - eidas_profile
+                - qtsp_name
+                - qtsp_uri
+                - roles
+                - valid_eidas_certificate
+                - valid_obietf_certificate
+                - expired
+                - revoked
+                - check_failed
             organisation:
               type: object
               properties:
@@ -3336,6 +3436,7 @@ components:
                   type: boolean
                 org_name:
                   type: string
+                  maxLength: 255
                 passports:
                   type: object
                   properties:
@@ -3371,25 +3472,30 @@ components:
                   items:
                     type: object
                     properties:
-                      authorization_domain:
+                      authorisation_domain:
                         type: string
+                        description: Authorisation Domain for which the authorisation server is created.
+                        enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
+                        maxLength: 255
                       registration_id:
                         type: string
+                        maxLength: 255
                       status:
                         type: string
-                      authorizations:
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+                        description: >
+                          * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
+                          * `Withdrawn` - revocation initiated by participants
+                          * `Revoked` - participant can't take actions in ecosystem because of privileges loss
+                          * `Suspended` - temporary revocation, available only in COP authorisation domain
+                          * `Requested` - set after dynamic client registration, to be confirmed by CRM
+                          * `Rejected` - dynamic client registration rejected
+                      authorisations:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            member_state:
-                              type: string
-                            roles:
-                              type: array
-                              items:
-                                type: string
+                          $ref: '#/components/schemas/AuthorisationSchema'
                 software_statements:
                   type: array
                   items:
@@ -3397,6 +3503,13 @@ components:
                     properties:
                       software_id:
                         type: string
+                        maxLength: 22
+              required:
+                - onboarded_to_open_banking
+                - org_name
+                - passports
+                - competent_authority_claims
+                - software_statements
     CertificateValidationResponseSchemaV2.1:
       type: object
       properties:
@@ -3408,6 +3521,7 @@ components:
               properties:
                 type:
                   type: string
+                  enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
                 eidas_profile:
                   type: string
                 qtsp_name:
@@ -3418,6 +3532,18 @@ components:
                   type: array
                   items:
                     type: string
+                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+                    description: >
+                      Meaning of values:
+                        * `COPRequester` - Confirmation of Payee Requester
+                        * `COPResponder` - Confirmation of Payee Responder
+                        * `AISP` - Account Information Service Provider
+                        * `ASPSP` - Account Servicing Payment Service Provider
+                        * `CBPII` - Card-Based Payment Instrument Issuer
+                        * `PISP` - Payment Initiation Service Provider
+                        * `CD_AISP` - Crown Dependencies Account Information Service Provider
+                        * `CD_ASPSP` - Crown Dependencies Account Servicing Payment Service Provider
+                        * `CD_CBPII` - Crown Dependencies Card-Based Payment Instrument Issuer
                 valid_eidas_certificate:
                   type: boolean
                 valid_obietf_certificate:
@@ -3428,6 +3554,17 @@ components:
                   type: boolean
                 check_failed:
                   type: boolean
+              required:
+                - type
+                - eidas_profile
+                - qtsp_name
+                - qtsp_uri
+                - roles
+                - valid_eidas_certificate
+                - valid_obietf_certificate
+                - expired
+                - revoked
+                - check_failed
             organisation:
               type: object
               properties:
@@ -3435,6 +3572,7 @@ components:
                   type: boolean
                 org_name:
                   type: string
+                  maxLength: 255
                 passports:
                   type: object
                   properties:
@@ -3470,25 +3608,30 @@ components:
                   items:
                     type: object
                     properties:
-                      authorization_domain:
+                      authorisation_domain:
                         type: string
+                        description: Authorisation Domain for which the authorisation server is created.
+                        enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
+                        maxLength: 255
                       registration_id:
                         type: string
+                        maxLength: 255
                       status:
                         type: string
-                      authorizations:
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+                        description: >
+                          * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
+                          * `Withdrawn` - revocation initiated by participants
+                          * `Revoked` - participant can't take actions in ecosystem because of privileges loss
+                          * `Suspended` - temporary revocation, available only in COP authorisation domain
+                          * `Requested` - set after dynamic client registration, to be confirmed by CRM
+                          * `Rejected` - dynamic client registration rejected
+                      authorisations:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            member_state:
-                              type: string
-                            roles:
-                              type: array
-                              items:
-                                type: string
+                          $ref: '#/components/schemas/AuthorisationSchema'
                 software_statements:
                   type: array
                   items:
@@ -3496,6 +3639,13 @@ components:
                     properties:
                       software_id:
                         type: string
+                        maxLength: 22
+              required:
+                - onboarded_to_open_banking
+                - org_name
+                - passports
+                - competent_authority_claims
+                - software_statements
     CertificateValidationResponseSchemaV2:
       type: object
       properties:
@@ -3507,6 +3657,7 @@ components:
               properties:
                 type:
                   type: string
+                  enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
                 eidas_profile:
                   type: string
                 qtsp_name:
@@ -3517,6 +3668,19 @@ components:
                   type: array
                   items:
                     type: string
+                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+                    description: >
+                      Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
+                      Meaning of values:
+                        * `COPRequester` - Confirmation of Payee Requester
+                        * `COPResponder` - Confirmation of Payee Responder
+                        * `AISP` - Account Information Service Provider
+                        * `ASPSP` - Account Servicing Payment Service Provider
+                        * `CBPII` - Card-Based Payment Instrument Issuer
+                        * `PISP` - Payment Initiation Service Provider
+                        * `CD_AISP` - Crown Dependencies Account Information Service Provider
+                        * `CD_ASPSP` - Crown Dependencies Account Servicing Payment Service Provider
+                        * `CD_CBPII` - Crown Dependencies Card-Based Payment Instrument Issuer
                 valid_eidas_certificate:
                   type: boolean
                 valid_obietf_certificate:
@@ -3525,6 +3689,17 @@ components:
                   type: boolean
                 revoked:
                   type: boolean
+              required:
+                - type
+                - eidas_profile
+                - qtsp_name
+                - qtsp_uri
+                - roles
+                - valid_eidas_certificate
+                - valid_obietf_certificate
+                - expired
+                - revoked
+                - check_failed
             organisation:
               type: object
               properties:
@@ -3532,6 +3707,7 @@ components:
                   type: boolean
                 org_name:
                   type: string
+                  maxLength: 255
                 passports:
                   type: object
                   properties:
@@ -3567,25 +3743,30 @@ components:
                   items:
                     type: object
                     properties:
-                      authorization_domain:
+                      authorisation_domain:
                         type: string
+                        description: Authorisation Domain for which the authorisation server is created.
+                        enum: [ 'PSD2', 'Pay.UK', 'CD' ]
                       authority_id:
                         type: string
+                        maxLength: 255
                       registration_id:
                         type: string
+                        maxLength: 255
                       status:
                         type: string
-                      authorizations:
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+                        description: >
+                          * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
+                          * `Withdrawn` - revocation initiated by participants
+                          * `Revoked` - participant can't take actions in ecosystem because of privileges loss
+                          * `Suspended` - temporary revocation, available only in COP authorisation domain
+                          * `Requested` - set after dynamic client registration, to be confirmed by CRM
+                          * `Rejected` - dynamic client registration rejected
+                      authorisations:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            member_state:
-                              type: string
-                            roles:
-                              type: array
-                              items:
-                                type: string
+                          $ref: '#/components/schemas/AuthorisationSchema'
                 software_statements:
                   type: array
                   items:
@@ -3593,67 +3774,89 @@ components:
                     properties:
                       software_id:
                         type: string
+                        maxLength: 22
+              required:
+                - onboarded_to_open_banking
+                - org_name
+                - passports
+                - competent_authority_claims
+                - software_statements
     AuthorisationServerSchema:
       type: object
       properties:
         Id:
           type: string
           maxLength: 22
+          description: 'Authorisation Server Id V39 required. This field is searchable.'
         AuthorizationDomain:
           type: string
-          description: Authorization Domain for which the software statement is created.
-          maxLength: 256
+          description: 'Authorisation Domain for which the authorisation server is created.This field is searchable.'
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         AutoRegistrationSupported:
           type: boolean
+          description: 'Authorisation Server supports auto-registration. This field is searchable.'
         BaseApiDNSUri:
-          description: An RFC-3986-compliant URI
+          description: 'Points to the Open Banking APIs V39 required. This field is searchable.'
           type: string
           format: uri
           maxLength: 256
         CustomerFriendlyDescription:
           type: string
-          maxLength: 256
+          maxLength: 255
+          description: 'Customer orientated description. This field is searchable and is not included as part of the response payload when unassigned.'
         CustomerFriendlyLogoUri:
-          description: An RFC-3986-compliant URI
+          description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
         CustomerFriendlyName:
           type: string
-          maxLength: 256
+          maxLength: 255
+          description: 'Certified name. This field is searchable and is not included as part of the response payload when unassigned.'
         DeveloperPortalUri:
-          description: An RFC-3986-compliant URI
+          description: URI for TPP developer testing V39 required. This field is searchable.
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
         TermsOfService:
-          description: An RFC-3986-compliant URI
+          description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
         OpenIDConfigEndPointUri:
-          description: An RFC-3986-compliant URI
+          description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable.
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
         PayloadSigningCertLocation:
-          description: An RFC-3986-compliant URI
+          description: 'The location which is used for signing certificates V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 255
         EISCDId:
           type: array
           items:
             type: string
-            maxLength: 256
+            description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
         ParentAuthorisationServerId:
           type: string
-          maxLength: 22
+          maxLength: 255
+          description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
         ApiResourceDiscoveryEndpoint:
-          description: An RFC-3986-compliant URI
+          description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response payload when unassigned.
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2000
+      required:
+        - Id
+        - AutoRegistrationSupported
+        - BaseApiDNSUri
+        - CustomerFriendlyLogoUri
+        - DeveloperPortalUri
+        - TermsOfService
+        - OpenIDConfigEndPointUri
+        - PayloadSigningCertLocation
+        - EISCDId
     AuthorisationServersSchema:
       type: array
       items:
@@ -3665,7 +3868,7 @@ components:
       type: string
     CertificateOrKeyIdSchema:
       type: string
-      maxLength: 256
+      maxLength: 255
     CertificateOrKeyAssociationSchema:
       type: object
       properties:
@@ -3682,8 +3885,9 @@ components:
       type: object
       properties:
         obOrganisationId:
-          description: OB organisation Id
+          description: Open Banking Organization Identifier. This field is searchable.
           type: string
+          readOnly: true
         Associations:
           description: Array of Software Statement Ids that the certificate is associated with
           type: array
@@ -3698,8 +3902,10 @@ components:
           type: string
         keyType:
           type: string
+          maxLength: 255
         kid:
           type: string
+          maxLength: 255
         kty:
           type: string
         n:
@@ -3717,6 +3923,12 @@ components:
           type: string
         x5u:
           type: string
+      required:
+        - obOrganisationId
+        - Associations
+        - status
+        - keyType
+        - kid
     CertificateValidationSchema:
       type: string
     CompetentAuthoritySchema:
@@ -3739,62 +3951,75 @@ components:
             $ref: '#/components/schemas/AuthorisationSchema'
         AuthorityId:
           type: string
+          maxLength: 255
+          description: 'Authority identifier. This field is searchable.'
         EtsiIdentifier:
           type: string
+          description: 'European Telecommunications Standards Institute Organization Identifier. This field is searchable and is not included as part of the response payload when unassigned. '
         MemberState:
           type: string
+          description: 'Member state. This field is searchable.'
+          enum: [ 'AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK' ]
         RegistrationId:
           type: string
+          maxLength: 255
+          description: 'Registration Id with the principle authority. This field is searchable.'
+      required:
+        - RegistrationId
+        - EtsiIdentifier
     ContactSchema:
       type: object
       properties:
         EmailAddress:
           type: string
-          maxLength: 18
+          description: The validation standard you can find under https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1
         PhoneNumber:
           type: string
-          maxLength: 18
+      required:
+        - EmailAddress
+        - PhoneNumber
     CertificateTypeForValidationSchema:
       type: string
-      enum:
-        - obwac
-        - obseal
-        - qwac
-        - qseal
-        - obsigning
-        - obtransport
+      enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
     OrganisationAssociativeCertificateTypeSchema:
       type: string
-      enum:
-        - obwac
-        - obseal
-        - qwac
-        - qsealc
+      enum: [ 'obwac', 'obseal', 'qwac', 'qseal' ]
     CertificateTypeSchema:
       type: string
-      enum:
-        - obwac
-        - obseal
-        - qwac
-        - qseal
-        - obsigning
-        - obtransport
+      enum: [ 'obwac', 'obseal', 'qwac', 'qseal', 'obsigning' , 'obtransport' ]
     ContactTypeSchema:
       type: string
-      enum:
-        - business
-        - technical
+      enum: [ 'Business', 'PBC', 'PTC', 'Registered', 'Technical' ]
+      description: >
+        Meaning of values:
+          * `Business` - Business
+          * `PBC` - Primary Business Contact
+          * `PTC` - Primary Technical Contact
+          * `Registered` - Registered
+          * `Technical` - Technical
     EmailAddressSchema:
       type: object
+      description: The validation standard you can find under https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1
       properties:
         Name:
           type: string
+          description: 'A name of a person or an office to which this email belongs. This field is not searchable.'
+          maxLength: 255
         Primary:
           type: boolean
+          description: 'Indicator to show is this is the primary email address. This field is not searchable. '
         Type:
           type: string
+          description: 'Type of email address. This field is not searchable. '
         Value:
           type: string
+          description: 'Value of email address. This field is not searchable. The format of the email address must comply with standards defined here -> https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1 '
+          maxLength: 255
+      required:
+        - Name
+        - Primary
+        - Type
+        - Value
     EnrolSchema:
       type: object
       properties:
@@ -3804,8 +4029,14 @@ components:
             description: An RFC-3986-compliant URI
             type: string
             format: uri
+            maxLength: 255
         token_endpoint_auth_method:
           type: string
+        token_endpoint_auth_signing_alg:
+          type: string
+        tls_client_auth_subject_dn:
+          type: string
+          enum: [ 'client_secret_post', 'client_secret_basic', 'client_secret_jwt', 'private_key_jwt', 'none' ]
         grant_types:
           type: array
           items:
@@ -3824,6 +4055,7 @@ components:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          maxLength: 2000
         scope:
           type: string
         contacts:
@@ -3831,40 +4063,45 @@ components:
           items:
             type: string
             format: email
+            maxLength: 255
         tos_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          maxLength: 2000
         policy_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
+          maxLength: 2000
         jwks_uri:
           description: An RFC-3986-compliant URI
           type: string
           format: uri
         jwks:
-          type: object
+          type: array
+          description: Client's JSON Web Key Set [RFC7517] document value
+          items:
+            description: A JSON object that represents a cryptographic key. The members of the object represent properties of the key, including its value.
+            type: object
+            properties:
+              e:
+                type: string
+              n:
+                type: string
+              kty:
+                type: string
         software_id:
           type: string
+          maxLength: 255
         software_version:
           type: string
       required:
-        - redirect_uris
-        - token_endpoint_auth_method
-        - grant_types
-        - response_types
         - client_name
-        - client_uri
-        - logo_uri
-        - scope
-        - contacts
-        - tos_uri
-        - policy_uri
-        - jwks_uri
-        - jwks
-        - software_id
-        - software_version
+        - token_endpoint_auth_method
+        - tls_client_auth_subject_dn
+        - grant_types
+        - token_endpoint_auth_signing_alg
     Enrol201CreatedResponseSchema:
       description: >-
         A JSON object DCR response returned when client gets created.
@@ -3875,9 +4112,6 @@ components:
           type: string
           minLength: 18
           maxLength: 18
-        client_secret:
-          description: Client secret generated by Open Banking Directory
-          type: string
         client_id_issued_at:
           description: Timestamp
           type: integer
@@ -3885,81 +4119,45 @@ components:
           description: Timestamp
           type: integer
         ob_org_id:
-          description: Organisation ID assigned by Open Banking Directory
+          description: Organization ID assigned by Open Banking Directory
           type: string
           minLength: 18
           maxLength: 18
-        redirect_uris:
-          description: Array of Redirection URI values used by the Client, as supplied by the client
-          type: array
-          items:
-            description: An RFC-3986-compliant URI
-            type: string
-            format: uri
-          minItems: 1
         token_endpoint_auth_method:
           description: client_secret_post
           type: string
         grant_types:
           description: client_credentials
-          type: string
-        response_types:
-          description: client_credentials
-          type: string
+          type: array
+          items:
+            type: string
         scope:
           description: ASPSPFullAccess
           type: string
         client_name:
           description: ORG name ar per eIDAS certificate
           type: string
-        client_uri:
-          description: An RFC-3986-compliant URI string of a web page providing information about the client
-          type: string
-          format: uri
-        logo_uri:
-          description: An RFC-3986-compliant URI
-          type: string
-          format: uri
-        contacts:
-          description: Contacts to departments responsible for the client
-          type: array
-          items:
-            description: An RFC-3986-compliant URI
-            type: string
-            format: uri
-          minItems: 1
-        tos_uri:
-          description: An RFC-3986-compliant URI string that points to a human-readable terms of service document for the client
-          type: string
-          format: uri
-        policy_uri:
-          description: An RFC-3986-compliant URI string that points to a human-readable privacy policy document
-          type: string
-          format: uri
         jwks_uri:
           description: An RFC-3986-compliant URI string referencing the client's JSON Web Key (JWK) Set
           type: string
           format: uri
-        jwks:
-          description: Client's JSON Web Key Set [RFC7517] document value
-          type: object
-        software_id:
-          description: UUID4 string
-          type: string
-        software_version:
-          description: Client-supplied software version string
-          type: string
+      required:
+        - client_id
+        - client_id_issued_at
+        - client_secret_expires_at
+        - ob_org_id
+        - token_endpoint_auth_method
+        - grant_types
+        - scope
+        - client_name
+        - jwks_uri
     Enrol400BadRequestResponseSchema:
       type: object
       properties:
         error:
           description: Error type
           type: string
-          enum:
-            - invalid_redirect_uri
-            - invalid_client_metadata
-            - invalid_software_statement
-            - unapproved_software_statement
+          enum: [ 'invalid_redirect_uri', 'invalid_client_metadata', 'invalid_software_statement', 'unapproved_software_statement' ]
         error_description:
           description: A more detailed error description
           type: string
@@ -3968,10 +4166,18 @@ components:
       properties:
         RegisteredId:
           type: string
+          description: 'Company Registration Id. This field is searchable.'
         RegisteredName:
           type: string
+          description: 'Company Registered Name. This field is searchable.'
         RegistrationAuthorityId:
           type: string
+          description: 'Identification of registering Authority. This field is searchable.'
+          readOnly: true
+      required:
+        - RegisteredId
+        - RegisteredName
+        - RegistrationAuthorityId
     LegalAuthorityClaimRootSchema:
       type: object
       properties:
@@ -3991,24 +4197,36 @@ components:
       properties:
         CreateTimestamp:
           type: string
+          description: Creation Timestamp.
         EmailAddresses:
           type: array
+          description: 'Email addresses associated with the organization. This field is not included as part of the response payload when unassigned'
           items:
             $ref: '#/components/schemas/EmailAddressSchema'
         ModifyTimestamp:
           type: string
+          description: Modification Timestamp.
         OBAuthorisationState:
           type: string
+          maxLength: 255
+          description: 'OB Participant Authorisation State. This field is not searchable'
         OBOrganisationId:
           type: string
+          maxLength: 255
+          description: Open Banking Organization Identifier. This field is searchable.
+          readOnly: true
         OrganisationCommonName:
           type: string
+          maxLength: 255
+          description: The common name of the organization. This field is searchable
         PersonalAccountRoles:
           type: array
+          description: Individuals who have authorised access to the organization. This field is not included as part of the response payload when unassigned.
           items:
             $ref: '#/components/schemas/PersonalAccountRoleSchema'
         PhoneNumbers:
           type: array
+          description: Phone numbers by which an organization can be contacted. This field is not included as part of the response payload when unassigned.
           items:
             $ref: '#/components/schemas/PhoneNumberSchema'
         PostalAddresses:
@@ -4017,24 +4235,29 @@ components:
             $ref: '#/components/schemas/PostalAddressSchema'
         status:
           type: string
+          enum: [ 'PBC', 'PTC', 'Registered' ]
+          description: >
+            Organization status. This field is not searchable
+            Meaning of values:
+              * `PBC` - Primary Business Contact
+              * `PTC` - Primary Technical Contact
+              * `Registered` - Registered
+      required:
+        - OBOrganisationId
+        - OrganisationCommonName
+        - status
     OrganisationCertificateTypeSchema:
       type: string
-      enum:
-        - qwac
-        - qseal
-        - obwac
-        - obseal
+      enum: [ 'qwac', 'qseal', 'obwac', 'obseal' ]
     OrganisationTypeForQSealOnboardingSchema:
       type: string
-      enum:
-        - tpp
+      enum: [ 'tpp' ]
     OrganisationTypeSchema:
       type: string
-      enum:
-        - aspsp
-        - tpp
+      enum: [ 'aspsp', 'tpp' ]
     OrganisationIdSchema:
       type: string
+      maxLength: 255
     OrganisationsGetFromSCIM200OKResponseSchema:
       type: object
       properties:
@@ -4045,6 +4268,7 @@ components:
         itemsPerPage:
           type: integer
           format: int32
+          description: An integer indicating the maximum number of query results per page.
         schemas:
           type: array
           items:
@@ -4052,6 +4276,7 @@ components:
         startIndex:
           type: integer
           format: int32
+          description: An integer indicating the 1-based index of the first query result.
         totalResults:
           type: integer
           format: int32
@@ -4087,59 +4312,111 @@ components:
       properties:
         AuthorizationDomain:
           type: string
+          description: 'Authorisation Domain for which the authorisation server is created.This field is searchable.'
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         Role:
           type: string
+          enum: [ 'PBC', 'PTC', 'SBC', 'STC' ]
+          description: >
+            Role which the individual holds. This field is searchable.
+            Meaning of values:
+              * `PBC` - Primary Business Contact
+              * `PTC` - Primary Technical Contact
+              * `SBC` - Secondary Business Contact
+              * `STC` - Secondary Technical Contact
         UserName:
           type: string
+          maxLength: 255
+          description: 'User''s name, email address or other identifying label. This field is searchable.'
+      required:
+        - AuthorizationDomain
+        - Role
+        - UserName
     PhoneNumberSchema:
       type: object
       properties:
         Name:
           type: string
+          maxLength: 255
+          description: 'A name of a person or an office to which this phone number belongs. This field is not searchable.'
         Type:
           type: string
+          enum: [ 'Business', 'PBC', 'PTC', 'Registered', 'Technical' ]
+          description: >
+            Meaning of values:
+              * `Business` - Business
+              * `PBC` - Primary Business Contact
+              * `PTC` - Primary Technical Contact
+              * `Registered` - Registered
+              * `Technical` - Technical
         Value:
           type: string
+          maxLength: 255
+          description: 'Value of phone number through which the organization can be contacted. This field is not searchable.'
         Verified:
           type: boolean
+          description: 'Flag to show that the phone number has been verified. This field is not searchable. '
+      required:
+        - Name
+        - Type
+        - Value
+        - Verified
     PostalAddressSchema:
       type: object
       properties:
         AddressLine2:
           type: string
+          maxLength: 255
+          description: 'Additional address line. This field is not searchable and is not included as part of the response payload when unassigned'
         Country:
           type: string
+          description: 'Address Country in full. This field is not searchable.'
+          enum: [ 'Austria', 'Belgium', 'Bulgaria', 'Cyprus', 'Czechia', 'Germany', 'Denmark', 'Estonia', 'Hellenic Republic', 'Spain', 'Finland', 'France', 'United Kingdom', 'Guernsey', 'Gibraltar', 'Greece', 'Croatia', 'Hungary', 'Ireland', 'Isle of Man', 'Iceland', 'Italy', 'Jersey', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Latvia', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Sweden', 'Slovenia', 'Slovakia' ]
         County:
           type: string
         Name:
           type: string
+          maxLength: 255
+          description: 'Name of addressee. This field is not searchable. '
         PostCode:
           type: string
+          description: 'Post or ZIP Code. This field is not searchable. '
         Primary:
           type: boolean
+          description: 'Flag to indicate that this is the primary contact address. This field is not searchable. '
         StreetAddress:
           type: string
+          maxLength: 255
+          description: 'Street Address, including building number. This field is not searchable. '
         Town:
           type: string
+          description: 'Postal Town. This field is not searchable. '
+          maxLength: 255
         Type:
           type: string
+          maxLength: 255
+          description: 'Type of postal address. This field is not searchable. '
+      required:
+        - Country
+        - Name
+        - PostCode
+        - Primary
+        - StreetAddress
+        - Town
+        - Type
     QSealOnboardingSchema:
       type: string
       description: A signed JWT (JWS)
     SoftwareStatementCertificateOrKeyTypeSchema:
       type: string
-      enum:
-        - obtransport
-        - obsigning
-        - sigkey
-        - enckey
+      enum: [ 'obtransport', 'obsigning', 'sigkey', 'enckey' ]
     SoftwareStatementCreateSchema:
       type: object
       properties:
         AuthorizationDomain:
           type: string
-          description: Authorization Domain for which the software statement is created.
-          maxLength: 256
+          description: Authorisation Domain for which the software statement is created.
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
         ClientName:
           type: string
           description: Software Statement client name
@@ -4150,92 +4427,117 @@ components:
           maxLength: 256
         OnBehalfOfObOrganisation:
           type: string
-          description: A reference to fourth party organisation resource on the OB Directory if the registering TPP is acting on behalf of another
+          description: 'The organization on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is searchable. '
           maxLength: 40
         PolicyUri:
           type: string
           format: uri
-          description: The Software Statement RFC-3986-compliant policy URI
+          description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable
           maxLength: 256
+          readOnly: true
         ClientUri:
           type: string
           format: uri
-          description: The Software Statement RFC-3986-compliant client URI
+          description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable. '
           maxLength: 256
         LogoUri:
           type: string
           format: uri
           description: The Software Statement RFC-3986-compliant logo URI
-          maxLength: 256
+          maxLength: 255
         RedirectUri:
           type: array
           items:
             description: An RFC-3986-compliant URI
             type: string
             format: uri
-            maxLength: 256
+            maxLength: 255
           description: The Software Statement redirect URIs
         Roles:
           type: array
           items:
             type: string
-            maxLength: 256
-          description: The list of Software Statement roles
+            enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+          description: >
+            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
+            Meaning of values:
+              * `COPRequester` - Confirmation of Payee Requester
+              * `COPResponder` - Confirmation of Payee Responder
+              * `AISP` - Account Information Service Provider
+              * `ASPSP` - Account Servicing Payment Service Provider
+              * `CBPII` - Card-Based Payment Instrument Issuer
+              * `PISP` - Payment Initiation Service Provider
+              * `CD_AISP` - Crown Dependencies Account Information Service Provider
+              * `CD_ASPSP` - Crown Dependencies Account Servicing Payment Service Provider
+              * `CD_CBPII` - Crown Dependencies Card-Based Payment Instrument Issuer
         TermsOfServiceUri:
           type: string
           format: uri
-          description: The Software Statement terms of service RFC-3986-compliant URI
+          description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable.'
           maxLength: 256
+          readOnly: true
         Version:
           type: number
-          description: Software Statement version as provided by the organisation's PTC
+          description: Software Statement version as provided by the organization's PTC. This field is not searchable.
+          readOnly: true
+      description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party Providers' records in ecosystem
+      required:
+        - ClientName
+        - Description
+        - OnBehalfOfObOrganisation
+        - PolicyUri
+        - ClientUri
+        - LogoUri
+        - RedirectUri
+        - TermsOfServiceUri
+        - Version
     SoftwareStatementSchema:
       type: object
       properties:
         Active:
           type: boolean
-          description: Software Statement active/inactive flag
+          description: 'Flag to show if software statement is active. This field is searchable.'
         AuthorizationDomain:
           type: string
-          description: Authorization Domain for which the software statement is created.
-          maxLength: 256
+          description: Authorisation Domain for which the software statement is created. This field is searchable.
+          enum: [ 'PSD2', 'Pay.UK', 'CD' ]
+          readOnly: true
         ClientId:
           type: string
-          description: Software Statement client Id
+          description: 'Requested Client Id - note that OB will issue a set of credentials with this clientid for this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is searchable'
           maxLength: 22
         ClientName:
           type: string
-          description: Software Statement client name
+          description: 'Human readable client name. May be localised. This field is searchable.'
           maxLength: 40
         Description:
           type: string
-          description: Software Statement description
+          description: 'Description of the unique instance of this piece of software. If only one instance of a piece of software is to be registered then this should be the same as the SoftwareDescription. This field is searchable.'
           maxLength: 256
         Id:
           $ref: '#/components/schemas/SoftwareStatementIdSchema'
         Mode:
           type: string
-          enum:
-            - Live
-            - Not Live
-          description: Software Statement mode
+          enum: [ 'Live', 'Not Live' ]
+          description: 'A flag to identify if a piece of software should have access to production PSU accounts. This field has been added at the request of an ASPSP to allow BETA or Non Production testing against production platforms. The default for this system should be ''Live''. This field is searchable.'
           maxLength: 8
         ObClientCreated:
           type: boolean
-          description: Client created flag
+          description: An indicator to show if the client has been created in Open Banking. This field is searchable.
         OnBehalfOfObOrganisation:
           type: string
-          description: A reference to fourth party organisation resource on the OB Directory if the registering TPP is acting on behalf of another
+          description: 'The organization on whom this software statement is behalf of Altered from reference to string, 10/11/2017. This field is searchable. '
           maxLength: 40
         PolicyUri:
           type: string
           format: uri
-          description: The Software Statement policy RFC-3986-compliant URI
+          description: An optional document containing a link to a Policy document governing the privacy information policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable
           maxLength: 256
+          readOnly: true
         ClientUri:
           type: string
           format: uri
-          description: The Software Statement client RFC-3986-compliant URI
+          description: 'The “home page” or other wise recognisable url of the application (oath client). This field is searchable. '
           maxLength: 256
         LogoUri:
           type: string
@@ -4247,14 +4549,25 @@ components:
           items:
             type: string
             format: uri
-          description: The Software Statement redirect RFC-3986-compliant URI
+          description: 'Redirect Uri''s for the registered piece of software. May be overridden by the RFC7591 payload. This field is searchable and is not included as part of the response payload when unassigned.'
           maxLength: 256
         Roles:
           type: array
           items:
             type: string
-            maxLength: 256
-          description: The list of Software Statement roles
+            enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+          description: >
+            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
+            Meaning of values:
+              * `COPRequester` - Confirmation of Payee Requester
+              * `COPResponder` - Confirmation of Payee Responder
+              * `AISP` - Account Information Service Provider
+              * `ASPSP` - Account Servicing Payment Service Provider
+              * `CBPII` - Card-Based Payment Instrument Issuer
+              * `PISP` - Payment Initiation Service Provider
+              * `CD_AISP` - Crown Dependencies Account Information Service Provider
+              * `CD_ASPSP` - Crown Dependencies Account Servicing Payment Service Provider
+              * `CD_CBPII` - Crown Dependencies Card-Based Payment Instrument Issuer
         SigningKeyIds:
           type: array
           items:
@@ -4263,7 +4576,7 @@ components:
         TermsOfServiceUri:
           type: string
           format: uri
-          description: The Software Statement terms of service RFC-3986-compliant URI
+          description: 'An optional document containing a link to a Terms of Service document governing the terms of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional for the TPP to provide. This field is searchable.'
           maxLength: 256
         TransportKeyIds:
           type: array
@@ -4272,7 +4585,22 @@ components:
           description: The list of transport certificate Ids
         Version:
           type: number
-          description: Software Statement version as provided by the organisation's PTC
+          description: Software Statement version as provided by the organization's PTC. This field is not searchable.
+          readOnly: true
+      description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party Providers' records in ecosystem
+      required:
+        - Active
+        - ClientId
+        - ClientName
+        - ClientUri
+        - Description
+        - Id
+        - LogoUri
+        - ObClientCreated
+        - PolicyUri
+        - RedirectUri
+        - TermsOfServiceUri
+        - Version
     SoftwareStatementAssertionSchema:
       type: string
       description: A signed JWT (JWS)
@@ -4290,9 +4618,6 @@ components:
       properties:
         Active:
           type: boolean
-          enum:
-            - true
-            - false
       description: Software Statement State
     SoftwareStatementRedirectURISchema:
       description: Array of Redirection RFC-3986-compliant URI values used by the Client, as supplied by the client
@@ -4300,6 +4625,7 @@ components:
       items:
         type: string
         format: uri
+        maxLength: 255
         minItems: 1
     UniqueRequestIdSchema:
       type: string
