@@ -1778,7 +1778,7 @@ paths:
     get:
       summary: Get details of active OAuthClient for the given Organisation
       tags:
-        - Organisations
+        - OAuth Client
       security:
         - OAuth2SecurityReadOps:
             - ASPSPReadAccess
@@ -1803,11 +1803,11 @@ paths:
     put:
       summary: Update OAuthClient for the given Organisation
       tags:
-        - Organisations
+        - OAuth Client
       security:
         - OAuth2SecurityReadWriteOps:
-            - ASPSPManageAccess
-            - TPPManageAccess
+            - ASPSPManage
+            - TPPManage
       requestBody:
         $ref: '#/components/requestBodies/Certificate'
       responses:
@@ -4751,3 +4751,4 @@ components:
             TPPReadAccess: Retrieve or Search for Third Party Providers
             TPPManage: Modify Your Third Third Party Provider Record
             ASPSPReadAccess: Read ASPSP Records
+            ASPSPManage: Modify ASPSP Records
