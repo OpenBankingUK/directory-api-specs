@@ -1771,6 +1771,63 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
+
+  '/oauth/{OrganisationId}':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationId'
+    get:
+      summary: Get details of active OAuthClient for the given Organisation
+      tags:
+        - Organisations
+      security:
+        - OAuth2SecurityReadOps:
+            - ASPSPReadAccess
+            - TPPReadAccess
+      responses:
+        '200':
+          $ref: '#/OAuthClient200OKResponse'
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+    put:
+      summary: Update OAuthClient for the given Organisation
+      tags:
+        - Organisations
+      security:
+        - OAuth2SecurityReadWriteOps:
+            - ASPSPManageAccess
+            - TPPManageAccess
+      requestBody:
+        $ref: '#/components/requestBodies/Certificate'
+      responses:
+        '200':
+          $ref: '#/components/responses/OAuthClient200OKResponse'
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+
   '/organisation/{OrganisationType}':
     post:
       summary: Enrol a eIDAS QWAC/QSeal-bearing participant
@@ -2917,6 +2974,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementStateSchema'
+    Certificate:
+      description: Certificate
+      required: true
+      content:
+        x-pem-file:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeyGetSchema'
+
   responses:
     201CreatedResponse:
       description: Created
@@ -3194,6 +3259,16 @@ components:
         application/vnd.openbanking.directory.softwarestatement-v2+json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementSchema'
+    OAuthClient200OKResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuthClientSchema'
   schemas:
     AuthorisationSchema:
       type: object
@@ -4637,6 +4712,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SoftwareStatementSchema'
+    OAuthClientSchema:
+      type: object
+      description: OAuth Client
+      properties:
+        data:
+          ClientID:
+            type: string
+            description: Organisational OAuthClient ID
+          ClientCertIssuerDn:
+            type: string
+            description: IssuerDN on which behalf OAuthClient is set.
+          ClientCertSubjectDn:
+            type: string
+            description: SubjectDN on which behalf OAuthClient is set.
+    OAuthClientUpdateSchema:
+      type: string
+
   securitySchemes:
     OAuth2SecurityReadOps:
       description: This API uses OAuth 2 with the client credentials grant flow
