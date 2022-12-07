@@ -1785,7 +1785,7 @@ paths:
             - TPPReadAccess
       responses:
         '200':
-          $ref: '#/OAuthClient200OKResponse'
+          $ref: '#/components/responses/OAuthClient200OKResponse'
         '204':
           $ref: '#/components/responses/204NoContentResponse'
         '400':
@@ -2975,12 +2975,12 @@ components:
           schema:
             $ref: '#/components/schemas/SoftwareStatementStateSchema'
     Certificate:
-      description: Certificate
+      description: Certificate in pem format based on OAuthClient is updated
       required: true
       content:
         x-pem-file:
           schema:
-            $ref: '#/components/schemas/CertificateOrKeyGetSchema'
+            $ref: '#/components/schemas/CertificateOrKeyOrJWTSchema'
 
   responses:
     201CreatedResponse:
@@ -4717,15 +4717,17 @@ components:
       description: OAuth Client
       properties:
         data:
-          ClientID:
-            type: string
-            description: Organisational OAuthClient ID
-          ClientCertIssuerDn:
-            type: string
-            description: IssuerDN on which behalf OAuthClient is set.
-          ClientCertSubjectDn:
-            type: string
-            description: SubjectDN on which behalf OAuthClient is set.
+          type: object
+          properties:
+            ClientID:
+              type: string
+              description: Organisational OAuthClient ID
+            ClientCertIssuerDn:
+              type: string
+              description: IssuerDN on which behalf OAuthClient is set.
+            ClientCertSubjectDn:
+              type: string
+              description: SubjectDN on which behalf OAuthClient is set.
     OAuthClientUpdateSchema:
       type: string
 
