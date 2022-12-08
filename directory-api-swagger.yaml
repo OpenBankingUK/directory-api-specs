@@ -4716,20 +4716,15 @@ components:
       type: object
       description: OAuth Client
       properties:
-        data:
-          type: object
-          properties:
-            ClientID:
-              type: string
-              description: Organisational OAuthClient ID
-            ClientCertIssuerDn:
-              type: string
-              description: IssuerDN on which behalf OAuthClient is set.
-            ClientCertSubjectDn:
-              type: string
-              description: SubjectDN on which behalf OAuthClient is set.
-    OAuthClientUpdateSchema:
-      type: string
+        ClientID:
+          type: string
+          description: Organisational OAuthClient ID
+        ClientCertIssuerDn:
+          type: string
+          description: IssuerDN on which behalf OAuthClient is set.
+        ClientCertSubjectDn:
+          type: string
+          description: SubjectDN on which behalf OAuthClient is set.
 
   securitySchemes:
     OAuth2SecurityReadOps:
