@@ -1809,7 +1809,7 @@ paths:
             - ASPSPManage
             - TPPManage
       requestBody:
-        $ref: '#/components/requestBodies/Certificate'
+        $ref: '#/components/requestBodies/CertificateOBWACorQWAC'
       responses:
         '200':
           $ref: '#/components/responses/OAuthClient200OKResponse'
@@ -2974,8 +2974,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementStateSchema'
-    Certificate:
-      description: Certificate in pem format based on OAuthClient is updated
+    CertificateOBWACorQWAC:
+      description: |
+        * __PEM file__ -- Certificate in pem format based on OAuthClient is updated. Certificates types available for OAuthClient update are OBWAC or QWAC
       required: true
       content:
         x-pem-file:
