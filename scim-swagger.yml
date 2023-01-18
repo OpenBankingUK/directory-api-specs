@@ -1583,7 +1583,7 @@ components:
                     maxLength: 256
                     readOnly: true
                   Version:
-                    type: number
+                    type: string
                     description: 'Version of the software. This field is not searchable.'
                     title: Version
                     readOnly: true
