@@ -1584,7 +1584,7 @@ components:
                     readOnly: true
                   Version:
                     type: string
-                    description: 'Version of the software. This field is not searchable.'
+                    description: 'Client Software version as provided by the organization's PTC. This field is not searchable.'
                     title: Version
                     readOnly: true
                 required:
