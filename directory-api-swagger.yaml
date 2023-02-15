@@ -4477,8 +4477,8 @@ components:
           maxLength: 256
           readOnly: true
         Version:
-          type: number
-          description: Software Statement version as provided by the organization's PTC. This field is not searchable.
+          type: string
+          description: Client Software version as provided by the organization's PTC. This field is not searchable.
           readOnly: true
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party Providers' records in ecosystem
       required:
@@ -4584,8 +4584,8 @@ components:
             type: string
           description: The list of transport certificate Ids
         Version:
-          type: number
-          description: Software Statement version as provided by the organization's PTC. This field is not searchable.
+          type: string
+          description: Client Software version as provided by the organization's PTC. This field is not searchable.
           readOnly: true
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party Providers' records in ecosystem
       required:
