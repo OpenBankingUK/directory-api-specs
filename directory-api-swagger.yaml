@@ -1772,7 +1772,7 @@ paths:
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
 
-  '/oauth/{OrganisationId}':
+  '/v2.2/oauth/{OrganisationId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
     get:
