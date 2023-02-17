@@ -1583,8 +1583,8 @@ components:
                     maxLength: 256
                     readOnly: true
                   Version:
-                    type: number
-                    description: 'Version of the software. This field is not searchable.'
+                    type: string
+                    description: 'Client Software version as provided by the organization's PTC. This field is not searchable.'
                     title: Version
                     readOnly: true
                 required:
