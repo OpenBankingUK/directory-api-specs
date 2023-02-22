@@ -15,7 +15,7 @@ paths:
     get:
       summary: Get details of active OAuthClient for the given Organisation
       tags:
-        - OAuth Client
+        - OAuth Client v2.2
       security:
         - OAuth2SecurityReadOps:
             - ASPSPReadAccess
@@ -40,7 +40,7 @@ paths:
     put:
       summary: Update OAuthClient for the given Organisation
       tags:
-        - OAuth Client
+        - OAuth Client v2.2
       security:
         - OAuth2SecurityReadWriteOps:
             - ASPSPManage
