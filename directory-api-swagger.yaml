@@ -9,13 +9,13 @@ servers:
   - url: https://matls-dirapi.openbankingtest.org.uk
     description: Sandbox
 paths:
-  '/v2.2/oauth/{OrganisationId}':
+  '/v2.1/oauth/{OrganisationId}':
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
     get:
       summary: Get details of active OAuthClient for the given Organisation
       tags:
-        - OAuth Client v2.2
+        - OAuth Client v2.1
       security:
         - OAuth2SecurityReadOps:
             - ASPSPReadAccess
@@ -40,7 +40,7 @@ paths:
     put:
       summary: Update OAuthClient for the given Organisation
       tags:
-        - OAuth Client v2.2
+        - OAuth Client v2.1
       security:
         - OAuth2SecurityReadWriteOps:
             - ASPSPManage
