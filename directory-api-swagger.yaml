@@ -9,6 +9,61 @@ servers:
   - url: https://matls-dirapi.openbankingtest.org.uk
     description: Sandbox
 paths:
+  '/v2.2/oauth/{OrganisationId}':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationId'
+    get:
+      summary: Get details of active OAuthClient for the given Organisation
+      tags:
+        - OAuth Client
+      security:
+        - OAuth2SecurityReadOps:
+            - ASPSPReadAccess
+            - TPPReadAccess
+      responses:
+        '200':
+          $ref: '#/components/responses/OAuthClient200OKResponse'
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+    put:
+      summary: Update OAuthClient for the given Organisation
+      tags:
+        - OAuth Client
+      security:
+        - OAuth2SecurityReadWriteOps:
+            - ASPSPManage
+            - TPPManage
+      requestBody:
+        $ref: '#/components/requestBodies/CertificateOBWACorQWAC'
+      responses:
+        '200':
+          $ref: '#/components/responses/OAuthClient200OKResponse'
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/v2.1/organisation':
     post:
       summary: Enrol a eIDAS QWAC/QSeal-bearing participant
@@ -1771,63 +1826,6 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-
-  '/v2.2/oauth/{OrganisationId}':
-    parameters:
-      - $ref: '#/components/parameters/OrganisationId'
-    get:
-      summary: Get details of active OAuthClient for the given Organisation
-      tags:
-        - OAuth Client
-      security:
-        - OAuth2SecurityReadOps:
-            - ASPSPReadAccess
-            - TPPReadAccess
-      responses:
-        '200':
-          $ref: '#/components/responses/OAuthClient200OKResponse'
-        '204':
-          $ref: '#/components/responses/204NoContentResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '406':
-          $ref: '#/components/responses/406NotAcceptableResponse'
-        '500':
-          $ref: '#/components/responses/500InternalServerErrorResponse'
-        '502':
-          $ref: '#/components/responses/502BadGatewayResponse'
-    put:
-      summary: Update OAuthClient for the given Organisation
-      tags:
-        - OAuth Client
-      security:
-        - OAuth2SecurityReadWriteOps:
-            - ASPSPManage
-            - TPPManage
-      requestBody:
-        $ref: '#/components/requestBodies/CertificateOBWACorQWAC'
-      responses:
-        '200':
-          $ref: '#/components/responses/OAuthClient200OKResponse'
-        '204':
-          $ref: '#/components/responses/204NoContentResponse'
-        '400':
-          $ref: '#/components/responses/400BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '406':
-          $ref: '#/components/responses/406NotAcceptableResponse'
-        '500':
-          $ref: '#/components/responses/500InternalServerErrorResponse'
-        '502':
-          $ref: '#/components/responses/502BadGatewayResponse'
-
   '/organisation/{OrganisationType}':
     post:
       summary: Enrol a eIDAS QWAC/QSeal-bearing participant
