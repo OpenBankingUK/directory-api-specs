@@ -13,7 +13,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
     get:
-      summary: Get details of active OAuthClient for the given Organisation
+      summary: Get details of the active OAuthClient for the given Organisation
       tags:
         - OAuth Client v2.1
       security:
