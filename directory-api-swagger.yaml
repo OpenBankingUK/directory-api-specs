@@ -9,6 +9,61 @@ servers:
   - url: https://matls-dirapi.openbankingtest.org.uk
     description: Sandbox
 paths:
+  '/v2.1/oauth/{OrganisationId}':
+    parameters:
+      - $ref: '#/components/parameters/OrganisationId'
+    get:
+      summary: Get details of the active OAuthClient for the given Organisation
+      tags:
+        - OAuth Client v2.1
+      security:
+        - OAuth2SecurityReadOps:
+            - ASPSPReadAccess
+            - TPPReadAccess
+      responses:
+        '200':
+          $ref: '#/components/responses/OAuthClient200OKResponse'
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
+    put:
+      summary: Update OAuthClient for the given Organisation
+      tags:
+        - OAuth Client v2.1
+      security:
+        - OAuth2SecurityReadWriteOps:
+            - ASPSPManage
+            - TPPManage
+      requestBody:
+        $ref: '#/components/requestBodies/CertificateOBWACorQWAC'
+      responses:
+        '200':
+          $ref: '#/components/responses/OAuthClient200OKResponse'
+        '204':
+          $ref: '#/components/responses/204NoContentResponse'
+        '400':
+          $ref: '#/components/responses/400BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/401UnauthorizedResponse'
+        '404':
+          $ref: '#/components/responses/404NotFoundResponse'
+        '406':
+          $ref: '#/components/responses/406NotAcceptableResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorResponse'
+        '502':
+          $ref: '#/components/responses/502BadGatewayResponse'
   '/v2.1/organisation':
     post:
       summary: Enrol a eIDAS QWAC/QSeal-bearing participant
@@ -2917,6 +2972,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementStateSchema'
+    CertificateOBWACorQWAC:
+      description: |
+        * __PEM file__ -- Certificate in pem format based on OAuthClient is updated. Certificates types available for OAuthClient update are OBWAC or QWAC
+      required: true
+      content:
+        x-pem-file:
+          schema:
+            $ref: '#/components/schemas/CertificateOrKeyOrJWTSchema'
+
   responses:
     201CreatedResponse:
       description: Created
@@ -3194,6 +3258,16 @@ components:
         application/vnd.openbanking.directory.softwarestatement-v2+json:
           schema:
             $ref: '#/components/schemas/SoftwareStatementSchema'
+    OAuthClient200OKResponse:
+      description: OK
+      headers:
+        OB-Request-Id:
+          schema:
+            $ref: '#/components/schemas/UniqueRequestIdSchema'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OAuthClientSchema'
   schemas:
     AuthorisationSchema:
       type: object
@@ -4637,6 +4711,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SoftwareStatementSchema'
+    OAuthClientSchema:
+      type: object
+      description: OAuth Client
+      properties:
+        ClientID:
+          type: string
+          description: Organisational OAuthClient ID
+        ClientCertIssuerDn:
+          type: string
+          description: IssuerDN on which behalf OAuthClient is set.
+        ClientCertSubjectDn:
+          type: string
+          description: SubjectDN on which behalf OAuthClient is set.
+
   securitySchemes:
     OAuth2SecurityReadOps:
       description: This API uses OAuth 2 with the client credentials grant flow
@@ -4657,3 +4745,4 @@ components:
             TPPReadAccess: Retrieve or Search for Third Party Providers
             TPPManage: Modify Your Third Third Party Provider Record
             ASPSPReadAccess: Read ASPSP Records
+            ASPSPManage: Modify ASPSP Records
