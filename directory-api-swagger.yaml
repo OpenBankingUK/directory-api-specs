@@ -364,7 +364,7 @@ paths:
           |`software_client_description`|Human-readable detailed description of the client|Max256Text| |
           |`software_client_name`|Human-readable Software Name|Max40Text| |
           |`software_client_uri`|The website or resource root uri|Max256Text| |
-          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|decimal| |
+          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|Max42Text| |
           |`software_environment`|Requested additional field to avoid certificate check|Max256Text| |
           |`software_jwks_endpoint`|Contains all active signing and network certs for the software|Max256Text| |
           |`software_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the software|Max256Text| |
@@ -413,7 +413,7 @@ paths:
           "software_client_id": "OpenBanking TPP Client Unique ID",
           "software_client_name": "Amazon Prime Movies",
           "software_client_description": "Amazon Prime Movies is a moving streaming service",
-          "software_version": "2.2",
+          "software_version": "2.2.2",
           "software_client_uri": "https://prime.amazon.com",
           "software_redirect_uris": [
             "https://prime.amazon.com/cb",
@@ -1245,7 +1245,7 @@ paths:
           |`software_client_description`|Human-readable detailed description of the client|Max256Text| |
           |`software_client_name`|Human-readable Software Name|Max40Text| |
           |`software_client_uri`|The website or resource root uri|Max256Text| |
-          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|decimal| |
+          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|Max42Text| |
           |`software_environment`|Requested additional field to avoid certificate check|Max256Text| |
           |`software_jwks_endpoint`|Contains all active signing and network certs for the software|Max256Text| |
           |`software_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the software|Max256Text| |
@@ -1294,7 +1294,7 @@ paths:
           "software_client_id": "OpenBanking TPP Client Unique ID",
           "software_client_name": "Amazon Prime Movies",
           "software_client_description": "Amazon Prime Movies is a moving streaming service",
-          "software_version": "2.2",
+          "software_version": "2.2.2",
           "software_client_uri": "https://prime.amazon.com",
           "software_redirect_uris": [
             "https://prime.amazon.com/cb",
@@ -2127,7 +2127,7 @@ paths:
           |`software_client_description`|Human-readable detailed description of the client|Max256Text| |
           |`software_client_name`|Human-readable Software Name|Max40Text| |
           |`software_client_uri`|The website or resource root uri|Max256Text| |
-          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|string| |
+          |`software_version`|The version number of the software should a TPP choose to register and / or maintain it|Max42Text| |
           |`software_environment`|Requested additional field to avoid certificate check|Max256Text| |
           |`software_jwks_endpoint`|Contains all active signing and network certs for the software|Max256Text| |
           |`software_jwks_revoked_endpoint`|Contains all revoked signing and network certs for the software|Max256Text| |
@@ -2176,7 +2176,7 @@ paths:
           "software_client_id": "OpenBanking TPP Client Unique ID",
           "software_client_name": "Amazon Prime Movies",
           "software_client_description": "Amazon Prime Movies is a moving streaming service",
-          "software_version": "2.2",
+          "software_version": "2.2.2",
           "software_client_uri": "https://prime.amazon.com",
           "software_redirect_uris": [
             "https://prime.amazon.com/cb",
@@ -4170,6 +4170,7 @@ components:
           maxLength: 255
         software_version:
           type: string
+          maxLength: 42
       required:
         - client_name
         - token_endpoint_auth_method
@@ -4554,6 +4555,7 @@ components:
           type: string
           description: Client Software version as provided by the organization's PTC. This field is not searchable.
           readOnly: true
+          maxLength: 42
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party Providers' records in ecosystem
       required:
         - ClientName
@@ -4661,6 +4663,7 @@ components:
           type: string
           description: Client Software version as provided by the organization's PTC. This field is not searchable.
           readOnly: true
+          maxLength: 42
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party Providers' records in ecosystem
       required:
         - Active
