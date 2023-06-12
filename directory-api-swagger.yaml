@@ -412,7 +412,7 @@ paths:
           "software_id": "65d1f27c-4aea-4549-9c21-60e495a7a86f",
           "software_client_id": "OpenBanking TPP Client Unique ID",
           "software_client_name": "Amazon Prime Movies",
-          "software_client_description": "Amazon Prime Movies is a moving streaming service",
+          "software_client_description": "Amazon Prime Movies is a movie streaming service",
           "software_version": "2.2.2",
           "software_client_uri": "https://prime.amazon.com",
           "software_redirect_uris": [
@@ -1293,7 +1293,7 @@ paths:
           "software_id": "65d1f27c-4aea-4549-9c21-60e495a7a86f",
           "software_client_id": "OpenBanking TPP Client Unique ID",
           "software_client_name": "Amazon Prime Movies",
-          "software_client_description": "Amazon Prime Movies is a moving streaming service",
+          "software_client_description": "Amazon Prime Movies is a movie streaming service",
           "software_version": "2.2.2",
           "software_client_uri": "https://prime.amazon.com",
           "software_redirect_uris": [
@@ -2175,7 +2175,7 @@ paths:
           "software_id": "65d1f27c-4aea-4549-9c21-60e495a7a86f",
           "software_client_id": "OpenBanking TPP Client Unique ID",
           "software_client_name": "Amazon Prime Movies",
-          "software_client_description": "Amazon Prime Movies is a moving streaming service",
+          "software_client_description": "Amazon Prime Movies is a movie streaming service",
           "software_version": "2.2.2",
           "software_client_uri": "https://prime.amazon.com",
           "software_redirect_uris": [
