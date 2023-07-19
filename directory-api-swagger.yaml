@@ -3343,6 +3343,8 @@ components:
         - OpenIDConfigEndPointUri
         - PayloadSigningCertLocation
         - EISCDId
+        - CustomerFriendlyName
+        - CustomerFriendlyDescription
     AuthorisationV11Schema:
       type: object
       properties:
@@ -3857,6 +3859,8 @@ components:
         - OpenIDConfigEndPointUri
         - PayloadSigningCertLocation
         - EISCDId
+        - CustomerFriendlyName
+        - CustomerFriendlyDescription
     AuthorisationServersSchema:
       type: array
       items:
