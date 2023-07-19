@@ -1263,6 +1263,8 @@ components:
               - TermsOfService
               - OpenIDConfigEndPointUri
               - PayloadSigningCertLocation
+              - CustomerFriendlyDescription
+              - CustomerFriendlyName
         urn:openbanking:organisation:1.0:
           type: object
           description: Account details for an open banking organisation which are used for SCIM access to the Directory on behalf of an accredited organisation.
