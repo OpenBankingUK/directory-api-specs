@@ -1186,7 +1186,7 @@ components:
                 type: string
                 description: 'Authorisation Server Id V39 required. This field is searchable.'
                 title: Id
-                maxLength: 255
+                maxLength: 22
                 readOnly: true
               AutoRegistrationSupported:
                 type: boolean
@@ -1196,7 +1196,7 @@ components:
                 type: string
                 description: 'Points to the Open Banking APIs V39 required. This field is searchable.'
                 title: BaseApiDNSUri
-                maxLength: 2000
+                maxLength: 2083
               CustomerFriendlyDescription:
                 type: string
                 description: 'Customer orientated description. This field is searchable and is not included as part of the response payload when unassigned.'
@@ -1206,7 +1206,7 @@ components:
                 type: string
                 description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable.'
                 title: CustomerFriendlyLogoUri
-                maxLength: 2000
+                maxLength: 2083
               CustomerFriendlyName:
                 type: string
                 description: 'Certified name. This field is searchable and is not included as part of the response payload when unassigned.'
@@ -1216,22 +1216,22 @@ components:
                 type: string
                 description: URI for TPP developer testing V39 required. This field is searchable.
                 title: DeveloperPortalUri
-                maxLength: 2000
+                maxLength: 2083
               TermsOfService:
                 type: string
                 description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable.'
                 title: TermsOfService
-                maxLength: 255
+                maxLength: 2083
               OpenIDConfigEndPointUri:
                 type: string
                 description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable.
                 title: OpenIDConfigEndPointUri
-                maxLength: 2000
+                maxLength: 2083
               PayloadSigningCertLocation:
                 type: string
                 description: 'The location which is used for signing certificates V39 required. This field is searchable.'
                 title: PayloadSigningCertLocation
-                maxLength: 255
+                maxLength: 2083
               EISCDId:
                 type: array
                 description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
@@ -1242,7 +1242,7 @@ components:
                 type: string
                 description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
                 title: ParentAuthorisationServerId
-                maxLength: 255
+                maxLength: 2083
               AuthorizationDomain:
                 allOf:
                   - description: 'Authorization Domain. This field is searchable.'
@@ -1253,7 +1253,7 @@ components:
                 type: string
                 description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response payload when unassigned.
                 title: ApiResourceDiscoveryEndpoint
-                maxLength: 2000
+                maxLength: 2083
             required:
               - Id
               - AutoRegistrationSupported

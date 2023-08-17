@@ -3801,7 +3801,7 @@ components:
           description: 'Points to the Open Banking APIs V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 256
+          maxLength: 2083
         CustomerFriendlyDescription:
           type: string
           maxLength: 255
@@ -3810,7 +3810,7 @@ components:
           description: 'uri from which a TPP can retrieve a certified logo V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 2000
+          maxLength: 2083
         CustomerFriendlyName:
           type: string
           maxLength: 255
@@ -3819,22 +3819,22 @@ components:
           description: URI for TPP developer testing V39 required. This field is searchable.
           type: string
           format: uri
-          maxLength: 2000
+          maxLength: 2083
         TermsOfService:
           description: 'Uri from which the terms of service can be retrieved V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 2000
+          maxLength: 2083
         OpenIDConfigEndPointUri:
           description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable.
           type: string
           format: uri
-          maxLength: 2000
+          maxLength: 2083
         PayloadSigningCertLocation:
           description: 'The location which is used for signing certificates V39 required. This field is searchable.'
           type: string
           format: uri
-          maxLength: 255
+          maxLength: 2083
         EISCDId:
           type: array
           items:
@@ -3842,13 +3842,13 @@ components:
             description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
         ParentAuthorisationServerId:
           type: string
-          maxLength: 255
+          maxLength: 2083
           description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This field is searchable and is not included as part of the response payload when unassigned.
         ApiResourceDiscoveryEndpoint:
           description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response payload when unassigned.
           type: string
           format: uri
-          maxLength: 2000
+          maxLength: 2083
       required:
         - Id
         - AutoRegistrationSupported
