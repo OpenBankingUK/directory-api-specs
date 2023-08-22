@@ -4310,17 +4310,18 @@ components:
             $ref: '#/components/schemas/PostalAddressSchema'
         status:
           type: string
-          enum: [ 'PBC', 'PTC', 'Registered' ]
+          enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
           description: >
-            Organization status. This field is not searchable
-            Meaning of values:
-              * `PBC` - Primary Business Contact
-              * `PTC` - Primary Technical Contact
-              * `Registered` - Registered
+            Indicates organisation status. It is shown only when organisation has one authorisation domain. This field is searchable.
+            * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
+            * `Withdrawn` - revocation initiated by participants
+            * `Revoked` - participant can't take actions in ecosystem because of privileges loss
+            * `Suspended` - temporary revocation, available only in COP authorisation domain
+            * `Requested` - set after dynamic client registration, to be confirmed by CRM
+            * `Rejected` - dynamic client registration rejected
       required:
         - OBOrganisationId
         - OrganisationCommonName
-        - status
     OrganisationCertificateTypeSchema:
       type: string
       enum: [ 'qwac', 'qseal', 'obwac', 'obseal' ]
