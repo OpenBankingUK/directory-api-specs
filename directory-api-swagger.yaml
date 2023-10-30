@@ -4322,6 +4322,7 @@ components:
       required:
         - OBOrganisationId
         - OrganisationCommonName
+        - status
     OrganisationCertificateTypeSchema:
       type: string
       enum: [ 'qwac', 'qseal', 'obwac', 'obseal' ]
