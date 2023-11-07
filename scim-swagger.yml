@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: These APIs are based on the SCIM 2.0 Protocol (RFC7644). Please note that some resource names contain spaces and that may break some Swagger validators. String data types allow for a maximum 65,535 bytes unless otherwise indicated.
-  version: '2.0'
+  version: '2.1'
   title: API Explorer
 servers:
   - url: https://matls-api.openbanking.org.uk/scim/v2
@@ -1586,7 +1586,7 @@ components:
                     readOnly: true
                   Version:
                     type: string
-                    description: 'Client Software version as provided by the organization's PTC. This field is not searchable.'
+                    description: 'Client Software version as provided by the organization''s PTC. This field is not searchable.'
                     title: Version
                     readOnly: true
                 required:
