@@ -673,6 +673,7 @@ components:
           * `Registered` - Registered
     CountryAlpha2Code:
       type: string
+      description: Mappings of country codes to country names is available here -> https://openbanking.atlassian.net/wiki/spaces/DZ/pages/2329804801/Directory+Country+Code+Mapping
       enum: ['AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK']
     CountryLongName:
       type: string
