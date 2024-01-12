@@ -509,7 +509,6 @@ paths:
   '/v2.1/organisation/{OrganisationId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
     get:
       summary: Get the certificates for the given organisation
       tags:
@@ -536,7 +535,6 @@ paths:
   '/v2.1/organisation/{OrganisationId}/certificate/{OrganisationCertificateType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
       - $ref: '#/components/parameters/OrganisationCertificateType'
     post:
       summary: Store or create a new certificate of the given OrganisationCertificateType for the given organisation
@@ -544,7 +542,6 @@ paths:
         - Organisation Certificates v2.1
       parameters:
         - $ref: '#/components/parameters/OrganisationId'
-        - $ref: '#/components/parameters/SoftwareStatementId'
         - $ref: '#/components/parameters/OrganisationCertificateType'
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrCSROrJWS'
@@ -1390,7 +1387,6 @@ paths:
   '/v2/organisation/{OrganisationId}/certificate':
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
     get:
       summary: Get the certificates for the given organisation
       tags:
@@ -1417,7 +1413,6 @@ paths:
   '/v2/organisation/{OrganisationId}/certificate/{OrganisationCertificateType}':
     parameters:
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
       - $ref: '#/components/parameters/OrganisationCertificateType'
     post:
       summary: Store or create a new certificate of the given OrganisationCertificateType for the given organisation
@@ -1425,7 +1420,6 @@ paths:
         - Organisation Certificates
       parameters:
         - $ref: '#/components/parameters/OrganisationId'
-        - $ref: '#/components/parameters/SoftwareStatementId'
         - $ref: '#/components/parameters/OrganisationCertificateType'
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrCSROrJWS'
@@ -2273,7 +2267,6 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
     get:
       summary: Get the certificates for the given organisation
       tags:
@@ -2301,7 +2294,6 @@ paths:
     parameters:
       - $ref: '#/components/parameters/OrganisationType'
       - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/SoftwareStatementId'
       - $ref: '#/components/parameters/OrganisationCertificateType'
     post:
       summary: Store or create a new certificate of the given OrganisationCertificateType for the given organisation
@@ -2310,7 +2302,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/OrganisationType'
         - $ref: '#/components/parameters/OrganisationId'
-        - $ref: '#/components/parameters/SoftwareStatementId'
         - $ref: '#/components/parameters/OrganisationCertificateType'
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrCSROrJWS'
