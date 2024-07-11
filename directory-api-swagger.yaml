@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Open Banking Directory API
-  version: 2.0.0
+  version: 2.1.0
   description: OB Tech Directory API
 servers:
   - url: https://matls-dirapi.openbanking.org.uk
