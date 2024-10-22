@@ -117,8 +117,6 @@ paths:
       summary: Retrieve the resource
       parameters:
         - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/attributes'
-        - $ref: '#/components/parameters/excludedAttributes'
       responses:
         '200':
           $ref: '#/components/responses/SingleOBAuthorities200'
@@ -237,8 +235,6 @@ paths:
       summary: Retrieve the resource
       parameters:
         - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/attributes'
-        - $ref: '#/components/parameters/excludedAttributes'
       responses:
         '200':
           $ref: '#/components/responses/SingleOBQualifiedTrustServiceProviders200'
