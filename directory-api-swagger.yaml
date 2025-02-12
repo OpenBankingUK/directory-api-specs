@@ -3328,13 +3328,12 @@ components:
           description: 'Authorisation Domain. This field is searchable.'
         Status:
           type: string
-          enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+          enum: [ 'Active', 'Withdrawn', 'Revoked', 'Requested', 'Rejected' ]
           description: >
             Indicates whether authorisation domain is active. This field is searchable.
             * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
             * `Withdrawn` - revocation initiated by participants
             * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-            * `Suspended` - temporary revocation, available only in COP authorisation domain
             * `Requested` - set after dynamic client registration, to be confirmed by CRM
             * `Rejected` - dynamic client registration rejected
     AuthorisationDomainStatusRootSchema:
@@ -3397,7 +3396,7 @@ components:
           type: array
           items:
             type: string
-            description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
+            description: 'Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
         ParentAuthorisationServerId:
           type: string
           maxLength: 22
@@ -3438,12 +3437,10 @@ components:
           enum: [ 'AT','BE','BG','CY','CZ','DE','DK','EE','EL','ES','FI','FR','GB','GG','GI','GR','HR','HU','IE','IM','IS','IT','JE','LI','LT','LU','LV','MT','NL','NO','PL','PT','RO','SE','SI','SK' ]
         Role:
           type: string
-          enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+          enum: [ 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
           description: >
             Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
             Meaning of values:
-              * `COPRequester` - Confirmation of Payee Requester
-              * `COPResponder` - Confirmation of Payee Responder
               * `AISP` - Account Information Service Provider
               * `ASPSP` - Account Servicing Payment Service Provider
               * `CBPII` - Card-Based Payment Instrument Issuer
@@ -3473,12 +3470,10 @@ components:
                   type: array
                   items:
                     type: string
-                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+                    enum: [ 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
                     description: >
                       Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
                       Meaning of values:
-                        * `COPRequester` - Confirmation of Payee Requester
-                        * `COPResponder` - Confirmation of Payee Responder
                         * `AISP` - Account Information Service Provider
                         * `ASPSP` - Account Servicing Payment Service Provider
                         * `CBPII` - Card-Based Payment Instrument Issuer
@@ -3560,12 +3555,11 @@ components:
                         maxLength: 255
                       status:
                         type: string
-                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Requested', 'Rejected' ]
                         description: >
                           * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
                           * `Withdrawn` - revocation initiated by participants
                           * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-                          * `Suspended` - temporary revocation, available only in COP authorisation domain
                           * `Requested` - set after dynamic client registration, to be confirmed by CRM
                           * `Rejected` - dynamic client registration rejected
                       authorisations:
@@ -3608,11 +3602,9 @@ components:
                   type: array
                   items:
                     type: string
-                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+                    enum: [ 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
                     description: >
                       Meaning of values:
-                        * `COPRequester` - Confirmation of Payee Requester
-                        * `COPResponder` - Confirmation of Payee Responder
                         * `AISP` - Account Information Service Provider
                         * `ASPSP` - Account Servicing Payment Service Provider
                         * `CBPII` - Card-Based Payment Instrument Issuer
@@ -3696,12 +3688,11 @@ components:
                         maxLength: 255
                       status:
                         type: string
-                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Requested', 'Rejected' ]
                         description: >
                           * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
                           * `Withdrawn` - revocation initiated by participants
                           * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-                          * `Suspended` - temporary revocation, available only in COP authorisation domain
                           * `Requested` - set after dynamic client registration, to be confirmed by CRM
                           * `Rejected` - dynamic client registration rejected
                       authorisations:
@@ -3744,12 +3735,10 @@ components:
                   type: array
                   items:
                     type: string
-                    enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+                    enum: [ 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
                     description: >
                       Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
                       Meaning of values:
-                        * `COPRequester` - Confirmation of Payee Requester
-                        * `COPResponder` - Confirmation of Payee Responder
                         * `AISP` - Account Information Service Provider
                         * `ASPSP` - Account Servicing Payment Service Provider
                         * `CBPII` - Card-Based Payment Instrument Issuer
@@ -3831,12 +3820,11 @@ components:
                         maxLength: 255
                       status:
                         type: string
-                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+                        enum: [ 'Active', 'Withdrawn', 'Revoked', 'Requested', 'Rejected' ]
                         description: >
                           * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
                           * `Withdrawn` - revocation initiated by participants
                           * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-                          * `Suspended` - temporary revocation, available only in COP authorisation domain
                           * `Requested` - set after dynamic client registration, to be confirmed by CRM
                           * `Rejected` - dynamic client registration rejected
                       authorisations:
@@ -3913,7 +3901,7 @@ components:
           type: array
           items:
             type: string
-            description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
+            description: 'Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
         ParentAuthorisationServerId:
           type: string
           maxLength: 2083
@@ -4314,13 +4302,12 @@ components:
             $ref: '#/components/schemas/PostalAddressSchema'
         status:
           type: string
-          enum: [ 'Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected' ]
+          enum: [ 'Active', 'Withdrawn', 'Revoked', 'Requested', 'Rejected' ]
           description: >
             Indicates organisation status. It is shown only when organisation has one authorisation domain. This field is searchable.
             * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to.
             * `Withdrawn` - revocation initiated by participants
             * `Revoked` - participant can't take actions in ecosystem because of privileges loss
-            * `Suspended` - temporary revocation, available only in COP authorisation domain
             * `Requested` - set after dynamic client registration, to be confirmed by CRM
             * `Rejected` - dynamic client registration rejected
       required:
@@ -4538,12 +4525,10 @@ components:
           type: array
           items:
             type: string
-            enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+            enum: [ 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
           description: >
             Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
             Meaning of values:
-              * `COPRequester` - Confirmation of Payee Requester
-              * `COPResponder` - Confirmation of Payee Responder
               * `AISP` - Account Information Service Provider
               * `ASPSP` - Account Servicing Payment Service Provider
               * `CBPII` - Card-Based Payment Instrument Issuer
@@ -4637,12 +4622,10 @@ components:
           type: array
           items:
             type: string
-            enum: [ 'COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
+            enum: [ 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII' ]
           description: >
             Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable.
             Meaning of values:
-              * `COPRequester` - Confirmation of Payee Requester
-              * `COPResponder` - Confirmation of Payee Responder
               * `AISP` - Account Information Service Provider
               * `ASPSP` - Account Servicing Payment Service Provider
               * `CBPII` - Card-Based Payment Instrument Issuer
