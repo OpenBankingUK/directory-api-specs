@@ -637,7 +637,7 @@ components:
       enum: ['Participant', 'Participant+TSP', 'TSP']
       description: >
         Meaning of values:
-          * Participant - Entity who has roles : ASPSP, PISP, AISP, CBPII, CoP Requester, CoP Responder, CD ASPSP, CD AISP, CD PISP that are planning to be registered or fully authorised with their NCA
+          * Participant - Entity who has roles : ASPSP, PISP, AISP, CBPII, CD ASPSP, CD AISP, CD PISP that are planning to be registered or fully authorised with their NCA
           * TSP - Non-regulated entity (no PSD2 authorisation required) and will only have Sandbox access
           * Participant+TSP - Non-regulated entity (no PSD2 authorisation required) and will only have Sandbox access
     PersonalAccountRoleType:
@@ -675,11 +675,9 @@ components:
       enum: ['Austria', 'Belgium', 'Bulgaria', 'Cyprus', 'Czechia', 'Germany', 'Denmark', 'Estonia', 'Hellenic Republic', 'Spain', 'Finland', 'France', 'United Kingdom', 'Guernsey', 'Gibraltar', 'Greece', 'Croatia', 'Hungary', 'Ireland', 'Isle of Man', 'Iceland', 'Italy', 'Jersey', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Latvia', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Sweden', 'Slovenia', 'Slovakia']
     Role:
       type: string
-      enum: ['COPRequester', 'COPResponder', 'AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII']
+      enum: ['AISP', 'ASPSP', 'CBPII', 'PISP', 'CD_AISP', 'CD_ASPSP', 'CD_CBPII']
       description: >
         Meaning of values:
-          * `COPRequester` - Confirmation of Payee Requester
-          * `COPResponder` - Confirmation of Payee Responder
           * `AISP` - Account Information Service Provider
           * `ASPSP` - Account Servicing Payment Service Provider
           * `CBPII` - Card-Based Payment Instrument Issuer
@@ -707,13 +705,12 @@ components:
       enum: [ 'OBAccounts' ]
     AuthorisationDomainStatus:
       type: string
-      enum: ['Active', 'Withdrawn', 'Revoked', 'Suspended', 'Requested', 'Rejected']
+      enum: ['Active', 'Withdrawn', 'Revoked', 'Requested', 'Rejected']
       description: >
         Available in urn:openbanking:competentauthorityclaims:1.0 Authorisations. Meaning of values:
           * `Active` - participant can take actions in ecosystem in authorization domains that he is assigned to.
           * `Withdrawn` - revocation initiated by participants
           * `Revoked` - participant can't take actions in ecosystem because of privillages loss
-          * `Suspended` - temporary revocation, available only in COP authorization domain
           * `Requested` - set after dynamic client registration, to be confirmed by CRM
           * `Rejected` - dynamic client registratior rejected
     AuthorizationDomain:
@@ -1230,7 +1227,7 @@ components:
                 maxLength: 2083
               EISCDId:
                 type: array
-                description: 'Confirmation of payee bank identifier V37 was CoPBankIdentifier. Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
+                description: 'Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the response payload when unassigned.'
                 title: EISCDId
                 items:
                   type: string
