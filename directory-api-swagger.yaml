@@ -14,17 +14,19 @@ info:
 
     Three things change, and **all three affect every consumer**.
 
-    1. **Path prefix - `/v2.1/` becomes `/v2.2/`.** Every retained directory operation moves
-       to a `/v2.2` prefix. The operations themselves are unchanged: same path structure below
-       the prefix, same path and query parameters, same request bodies, same response bodies,
-       same content negotiation. Only the version segment moves.
+    1. **Path prefix - everything moves under `/v2.2`.** Every retained directory operation
+       moves from `/v2.1` to `/v2.2`, and the NCA API moves from `/api/v2/nca` to `/v2.2/nca`.
+       The operations themselves are unchanged: same path structure below the prefix, same path
+       and query parameters, same request bodies, same response bodies, same content
+       negotiation. Only the prefix moves.
 
        ```
        before  https://matls-dirapi.openbanking.org.uk/v2.1/organisation/{OrganisationId}
        after   https://matls-oblapi.directory.openbanking.org.uk/v2.2/organisation/{OrganisationId}
-       ```
 
-       **This does not apply to the NCA API**, which keeps its `/api/v2/nca` paths - see below.
+       before  https://ncaaccess.openbanking.org.uk/api/v2/nca/{NCAId}
+       after   https://matls-oblapi.directory.openbanking.org.uk/v2.2/nca/{NCAId}
+       ```
 
     2. **Hostname.** `matls-dirapi.openbanking.org.uk` becomes
        `matls-oblapi.directory.openbanking.org.uk` (and the sandbox equivalent). The NCA API
@@ -41,7 +43,7 @@ info:
     the legacy directory's.
 
     So a consumer's change is mechanical in every case: repoint the host, repoint the token
-    issuer, request native scopes, and change `/v2.1/` to `/v2.2/` in its base path. No
+    issuer, request native scopes, and change the version prefix in its base path. No
     response parsing or request construction should need touching.
 
     ### Which prefix applies where
@@ -51,7 +53,7 @@ info:
     | Directory operations | `/v2.1/...` | `/v2.2/...` |
     | Certificate validation (CVS) | `/v2.1/certificate/validate` | `/v2.2/certificate/validate` |
     | MLA status | `/v2.1/organisation/mlastatus` | `/v2.2/organisation/mlastatus` |
-    | NCA API | `/api/v2/nca...` | `/api/v2/nca...` (**unchanged**) |
+    | NCA API | `/api/v2/nca...` | `/v2.2/nca...` |
 
     ## Hosts
 
@@ -149,8 +151,8 @@ tags:
   description: Certificate Validation Service. A like-for-like rebuild of the legacy CVS, same request and response
     contract.
 - name: NCA API
-  description: National Competent Authority register lookup. Legacy paths, request shapes and response structures
-    retained unchanged, on a new hostname. **FCA data only** in this deployment.
+  description: National Competent Authority register lookup. Request shapes and response structures retained unchanged,
+    on a new hostname and rebased from `/api/v2/nca` to `/v2.2/nca`. **FCA data only** in this deployment.
 - name: MLA Status API
   description: Multilateral Agreement status lookup. Legacy path and response structure retained unchanged, on a
     new hostname.
@@ -898,14 +900,14 @@ paths:
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
-  /api/v2/nca:
+  /v2.2/nca:
     parameters:
     - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get the list of NCA countries
       description: '**Dataset scope.** This deployment of the NCA API carries **FCA data only**. Data from other
-        national competent authorities is not included. `GET /api/v2/nca` therefore enumerates a single country:
-        a consumer that iterates countries and then fetches firms per country still works, but its outer loop now
+        national competent authorities is not included. `GET /v2.2/nca` therefore enumerates a single country: a
+        consumer that iterates countries and then fetches firms per country still works, but its outer loop now
         has one iteration.'
       tags:
       - NCA API
@@ -923,7 +925,7 @@ paths:
           $ref: '#/components/responses/Nca500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/Nca502BadGatewayResponse'
-  /api/v2/nca/{NCAId}:
+  /v2.2/nca/{NCAId}:
     parameters:
     - $ref: '#/components/parameters/FapiInteractionId'
     get:
@@ -931,8 +933,8 @@ paths:
       - $ref: '#/components/parameters/NCAId'
       summary: Get the list of firms for given NCA country
       description: '**Dataset scope.** This deployment of the NCA API carries **FCA data only**. Data from other
-        national competent authorities is not included. `GET /api/v2/nca` therefore enumerates a single country:
-        a consumer that iterates countries and then fetches firms per country still works, but its outer loop now
+        national competent authorities is not included. `GET /v2.2/nca` therefore enumerates a single country: a
+        consumer that iterates countries and then fetches firms per country still works, but its outer loop now
         has one iteration.'
       tags:
       - NCA API
@@ -950,7 +952,7 @@ paths:
           $ref: '#/components/responses/Nca500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/Nca502BadGatewayResponse'
-  /api/v2/nca/{NCAId}/{NCAFirmId}:
+  /v2.2/nca/{NCAId}/{NCAFirmId}:
     parameters:
     - $ref: '#/components/parameters/FapiInteractionId'
     get:
@@ -959,8 +961,8 @@ paths:
       - $ref: '#/components/parameters/NCAFirmId'
       summary: Get the latest available firms status on the given NCA register
       description: '**Dataset scope.** This deployment of the NCA API carries **FCA data only**. Data from other
-        national competent authorities is not included. `GET /api/v2/nca` therefore enumerates a single country:
-        a consumer that iterates countries and then fetches firms per country still works, but its outer loop now
+        national competent authorities is not included. `GET /v2.2/nca` therefore enumerates a single country: a
+        consumer that iterates countries and then fetches firms per country still works, but its outer loop now
         has one iteration.'
       tags:
       - NCA API
