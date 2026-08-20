@@ -1131,7 +1131,7 @@ components:
             $ref: '#/components/schemas/SoftwareStatementCreateSchema'
     SoftwareStatementRedirectURI:
       description: Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.
-        This field is searchable and is not included as part of the response payload when unassigned.
+        This field is not included as part of the response payload when unassigned.
       required: true
       content:
         text/plain:
@@ -1476,7 +1476,7 @@ components:
           type: boolean
         MemberState:
           type: string
-          description: Member state. This field is searchable.
+          description: Member state.
           enum:
           - AT
           - BE
@@ -1522,7 +1522,7 @@ components:
           - PISP
           - CBPII
           description: |
-            Psd2 Role in which institution authorised. This field is searchable.
+            Psd2 Role in which institution authorised.
               * `AISP` - Account Information Service Provider
               * `ASPSP` - Account Servicing Payment Service Provider
               * `CBPII` - Card-Based Payment Instrument Issuer
@@ -1537,17 +1537,17 @@ components:
         AuthorityId:
           type: string
           maxLength: 255
-          description: Authority identifier. This field is searchable.
+          description: Authority identifier.
         AuthorizationDomain:
           type: string
           enum:
           - PSD2
           - Pay.UK
           - CD
-          description: Authorisation Domain. This field is searchable.
+          description: Authorisation Domain.
         MemberState:
           type: string
-          description: Member state. This field is searchable.
+          description: Member state.
           enum:
           - AT
           - BE
@@ -1588,7 +1588,7 @@ components:
         RegistrationId:
           type: string
           maxLength: 255
-          description: Registration Id with the principle authority. This field is searchable.
+          description: Registration Id with the principle authority.
         X509OrganisationIdentifier:
           type: array
           items:
@@ -1607,7 +1607,7 @@ components:
           - PSD2
           - Pay.UK
           - CD
-          description: Authorisation Domain. This field is searchable.
+          description: Authorisation Domain.
         Status:
           type: string
           enum:
@@ -1617,7 +1617,7 @@ components:
           - Requested
           - Rejected
           description: |
-            Indicates whether authorisation domain is active. This field is searchable. * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to. * `Withdrawn` - revocation initiated by participants * `Revoked` - participant can't take actions in ecosystem because of privileges loss * `Requested` - set after dynamic client registration, to be confirmed by CRM * `Rejected` - dynamic client registration rejected
+            Indicates whether authorisation domain is active. * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to. * `Withdrawn` - revocation initiated by participants * `Revoked` - participant can't take actions in ecosystem because of privileges loss * `Requested` - set after dynamic client registration, to be confirmed by CRM * `Rejected` - dynamic client registration rejected
     AuthorisationDomainStatusRootSchema:
       type: object
       properties:
@@ -1634,7 +1634,7 @@ components:
         AuthorityId:
           type: string
           maxLength: 255
-          description: Authority identifier. This field is searchable.
+          description: Authority identifier.
         AuthorizationDomain:
           type: string
           description: Authorisation Domain for which the authorisation server is created.
@@ -1644,7 +1644,7 @@ components:
           - CD
         MemberState:
           type: string
-          description: Member state. This field is searchable.
+          description: Member state.
           enum:
           - AT
           - BE
@@ -1693,7 +1693,7 @@ components:
           - CD_ASPSP
           - CD_CBPII
           description: |
-            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable. Meaning of values:
+            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. Meaning of values:
               * `AISP` - Account Information Service Provider
               * `ASPSP` - Account Servicing Payment Service Provider
               * `CBPII` - Card-Based Payment Instrument Issuer
@@ -1860,54 +1860,54 @@ components:
         Id:
           type: string
           maxLength: 22
-          description: Authorisation Server Id V39 required. This field is searchable.
+          description: Authorisation Server Id V39 required.
         AuthorizationDomain:
           type: string
-          description: Authorisation Domain for which the authorisation server is created.This field is searchable.
+          description: Authorisation Domain for which the authorisation server is created.
           enum:
           - PSD2
           - Pay.UK
           - CD
         AutoRegistrationSupported:
           type: boolean
-          description: Authorisation Server supports auto-registration. This field is searchable.
+          description: Authorisation Server supports auto-registration.
         BaseApiDNSUri:
-          description: Points to the Open Banking APIs V39 required. This field is searchable.
+          description: Points to the Open Banking APIs V39 required.
           type: string
           format: uri
           maxLength: 2083
         CustomerFriendlyDescription:
           type: string
           maxLength: 255
-          description: Customer orientated description. This field is searchable and is not included as part of
+          description: Customer orientated description. This field is not included as part of
             the response payload when unassigned.
         CustomerFriendlyLogoUri:
-          description: uri from which a TPP can retrieve a certified logo V39 required. This field is searchable.
+          description: uri from which a TPP can retrieve a certified logo V39 required.
           type: string
           format: uri
           maxLength: 2083
         CustomerFriendlyName:
           type: string
           maxLength: 255
-          description: Certified name. This field is searchable and is not included as part of the response payload
+          description: Certified name. This field is not included as part of the response payload
             when unassigned.
         DeveloperPortalUri:
-          description: URI for TPP developer testing V39 required. This field is searchable.
+          description: URI for TPP developer testing V39 required.
           type: string
           format: uri
           maxLength: 2083
         TermsOfService:
-          description: Uri from which the terms of service can be retrieved V39 required. This field is searchable.
+          description: Uri from which the terms of service can be retrieved V39 required.
           type: string
           format: uri
           maxLength: 2083
         OpenIDConfigEndPointUri:
-          description: Uri used for Oauth2.0 OpenId Configuration V39 required. This field is searchable.
+          description: Uri used for Oauth2.0 OpenId Configuration V39 required.
           type: string
           format: uri
           maxLength: 2083
         PayloadSigningCertLocation:
-          description: The location which is used for signing certificates V39 required. This field is searchable.
+          description: The location which is used for signing certificates V39 required.
           type: string
           format: uri
           maxLength: 2083
@@ -1915,15 +1915,15 @@ components:
           type: array
           items:
             type: string
-            description: 'Allowed lengths: 4, 6, 14. This field is searchable and is not included as part of the
+            description: 'Allowed lengths: 4, 6, 14. This field is not included as part of the
               response payload when unassigned.'
         ParentAuthorisationServerId:
           type: string
           maxLength: 2083
           description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This
-            field is searchable and is not included as part of the response payload when unassigned.
+            field is not included as part of the response payload when unassigned.
         ApiResourceDiscoveryEndpoint:
-          description: An RFC-3986-compliant URI. This field is searchable and is not included as part of the response
+          description: An RFC-3986-compliant URI. This field is not included as part of the response
             payload when unassigned.
           type: string
           format: uri
@@ -1968,7 +1968,7 @@ components:
       type: object
       properties:
         obOrganisationId:
-          description: Open Banking Organization Identifier. This field is searchable.
+          description: Open Banking Organization Identifier.
           type: string
           readOnly: true
         Associations:
@@ -2035,14 +2035,13 @@ components:
         AuthorityId:
           type: string
           maxLength: 255
-          description: Authority identifier. This field is searchable.
+          description: Authority identifier.
         EtsiIdentifier:
           type: string
-          description: 'European Telecommunications Standards Institute Organization Identifier. This field is searchable
-            and is not included as part of the response payload when unassigned. '
+          description: 'European Telecommunications Standards Institute Organization Identifier. This field is not included as part of the response payload when unassigned. '
         MemberState:
           type: string
-          description: Member state. This field is searchable.
+          description: Member state.
           enum:
           - AT
           - BE
@@ -2083,7 +2082,7 @@ components:
         RegistrationId:
           type: string
           maxLength: 255
-          description: Registration Id with the principle authority. This field is searchable.
+          description: Registration Id with the principle authority.
       required:
       - RegistrationId
       - EtsiIdentifier
@@ -2126,17 +2125,17 @@ components:
       properties:
         Name:
           type: string
-          description: A name of a person or an office to which this email belongs. This field is not searchable.
+          description: A name of a person or an office to which this email belongs.
           maxLength: 255
         Primary:
           type: boolean
-          description: 'Indicator to show is this is the primary email address. This field is not searchable. '
+          description: 'Indicator to show is this is the primary email address. '
         Type:
           type: string
-          description: 'Type of email address. This field is not searchable. '
+          description: 'Type of email address. '
         Value:
           type: string
-          description: 'Value of email address. This field is not searchable. The format of the email address must
+          description: 'Value of email address. The format of the email address must
             comply with standards defined here -> https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1 '
           maxLength: 255
       required:
@@ -2149,13 +2148,13 @@ components:
       properties:
         RegisteredId:
           type: string
-          description: Company Registration Id. This field is searchable.
+          description: Company Registration Id.
         RegisteredName:
           type: string
-          description: Company Registered Name. This field is searchable.
+          description: Company Registered Name.
         RegistrationAuthorityId:
           type: string
-          description: Identification of registering Authority. This field is searchable.
+          description: Identification of registering Authority.
           readOnly: true
       required:
       - RegisteredId
@@ -2193,16 +2192,16 @@ components:
         OBAuthorisationState:
           type: string
           maxLength: 255
-          description: OB Participant Authorisation State. This field is not searchable
+          description: OB Participant Authorisation State.
         OBOrganisationId:
           type: string
           maxLength: 255
-          description: Open Banking Organization Identifier. This field is searchable.
+          description: Open Banking Organization Identifier.
           readOnly: true
         OrganisationCommonName:
           type: string
           maxLength: 255
-          description: The common name of the organization. This field is searchable
+          description: The common name of the organization.
         PersonalAccountRoles:
           type: array
           description: Individuals who have authorised access to the organization. This field is not included as
@@ -2228,7 +2227,7 @@ components:
           - Requested
           - Rejected
           description: |
-            Indicates organisation status. It is shown only when organisation has one authorisation domain. This field is searchable. * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to. * `Withdrawn` - revocation initiated by participants * `Revoked` - participant can't take actions in ecosystem because of privileges loss * `Requested` - set after dynamic client registration, to be confirmed by CRM * `Rejected` - dynamic client registration rejected
+            Indicates organisation status. It is shown only when organisation has one authorisation domain. * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to. * `Withdrawn` - revocation initiated by participants * `Revoked` - participant can't take actions in ecosystem because of privileges loss * `Requested` - set after dynamic client registration, to be confirmed by CRM * `Rejected` - dynamic client registration rejected
       required:
       - OBOrganisationId
       - OrganisationCommonName
@@ -2297,7 +2296,7 @@ components:
       properties:
         AuthorizationDomain:
           type: string
-          description: Authorisation Domain for which the authorisation server is created.This field is searchable.
+          description: Authorisation Domain for which the authorisation server is created.
           enum:
           - PSD2
           - Pay.UK
@@ -2310,7 +2309,7 @@ components:
           - SBC
           - STC
           description: |
-            Role which the individual holds. This field is searchable. Meaning of values:
+            Role which the individual holds. Meaning of values:
               * `PBC` - Primary Business Contact
               * `PTC` - Primary Technical Contact
               * `SBC` - Secondary Business Contact
@@ -2318,7 +2317,7 @@ components:
         UserName:
           type: string
           maxLength: 255
-          description: User's name, email address or other identifying label. This field is searchable.
+          description: User's name, email address or other identifying label.
       required:
       - AuthorizationDomain
       - Role
@@ -2329,7 +2328,7 @@ components:
         Name:
           type: string
           maxLength: 255
-          description: A name of a person or an office to which this phone number belongs. This field is not searchable.
+          description: A name of a person or an office to which this phone number belongs.
         Type:
           type: string
           enum:
@@ -2348,11 +2347,10 @@ components:
         Value:
           type: string
           maxLength: 255
-          description: Value of phone number through which the organization can be contacted. This field is not
-            searchable.
+          description: Value of phone number through which the organization can be contacted.
         Verified:
           type: boolean
-          description: 'Flag to show that the phone number has been verified. This field is not searchable. '
+          description: 'Flag to show that the phone number has been verified. '
       required:
       - Name
       - Type
@@ -2364,11 +2362,11 @@ components:
         AddressLine2:
           type: string
           maxLength: 255
-          description: Additional address line. This field is not searchable and is not included as part of the
+          description: Additional address line. This field is not included as part of the
             response payload when unassigned
         Country:
           type: string
-          description: Address Country in full. This field is not searchable.
+          description: Address Country in full.
           enum:
           - Austria
           - Belgium
@@ -2411,25 +2409,25 @@ components:
         Name:
           type: string
           maxLength: 255
-          description: 'Name of addressee. This field is not searchable. '
+          description: 'Name of addressee. '
         PostCode:
           type: string
-          description: 'Post or ZIP Code. This field is not searchable. '
+          description: 'Post or ZIP Code. '
         Primary:
           type: boolean
-          description: 'Flag to indicate that this is the primary contact address. This field is not searchable. '
+          description: 'Flag to indicate that this is the primary contact address. '
         StreetAddress:
           type: string
           maxLength: 255
-          description: 'Street Address, including building number. This field is not searchable. '
+          description: 'Street Address, including building number. '
         Town:
           type: string
-          description: 'Postal Town. This field is not searchable. '
+          description: 'Postal Town. '
           maxLength: 255
         Type:
           type: string
           maxLength: 255
-          description: 'Type of postal address. This field is not searchable. '
+          description: 'Type of postal address. '
       required:
       - Country
       - Name
@@ -2466,21 +2464,20 @@ components:
         OnBehalfOfObOrganisation:
           type: string
           description: 'The organization on whom this software statement is behalf of Altered from reference to
-            string, 10/11/2017. This field is searchable. '
+            string, 10/11/2017. '
           maxLength: 40
         PolicyUri:
           type: string
           format: uri
           description: An optional document containing a link to a Policy document governing the privacy information
             policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional
-            for the TPP to provide. This field is searchable
+            for the TPP to provide.
           maxLength: 256
           readOnly: true
         ClientUri:
           type: string
           format: uri
-          description: 'The “home page” or other wise recognisable url of the application (oath client). This field
-            is searchable. '
+          description: 'The “home page” or other wise recognisable url of the application (oath client). '
           maxLength: 256
         LogoUri:
           type: string
@@ -2508,7 +2505,7 @@ components:
             - CD_ASPSP
             - CD_CBPII
           description: |
-            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable. Meaning of values:
+            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. Meaning of values:
               * `AISP` - Account Information Service Provider
               * `ASPSP` - Account Servicing Payment Service Provider
               * `CBPII` - Card-Based Payment Instrument Issuer
@@ -2521,12 +2518,12 @@ components:
           format: uri
           description: An optional document containing a link to a Terms of Service document governing the terms
             of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional
-            for the TPP to provide. This field is searchable.
+            for the TPP to provide.
           maxLength: 256
           readOnly: true
         Version:
           type: string
-          description: Client Software version as provided by the organization's PTC. This field is not searchable.
+          description: Client Software version as provided by the organization's PTC.
           readOnly: true
           maxLength: 42
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party
@@ -2546,10 +2543,10 @@ components:
       properties:
         Active:
           type: boolean
-          description: Flag to show if software statement is active. This field is searchable.
+          description: Flag to show if software statement is active.
         AuthorizationDomain:
           type: string
-          description: Authorisation Domain for which the software statement is created. This field is searchable.
+          description: Authorisation Domain for which the software statement is created.
           enum:
           - PSD2
           - Pay.UK
@@ -2558,18 +2555,16 @@ components:
         ClientId:
           type: string
           description: Requested Client Id - note that OB will issue a set of credentials with this clientid for
-            this given piece of software. ASPSPs are not obliged to honour this requested clientid. This field is
-            searchable
+            this given piece of software. ASPSPs are not obliged to honour this requested clientid.
           maxLength: 22
         ClientName:
           type: string
-          description: Human readable client name. May be localised. This field is searchable.
+          description: Human readable client name. May be localised.
           maxLength: 40
         Description:
           type: string
           description: Description of the unique instance of this piece of software. If only one instance of a piece
-            of software is to be registered then this should be the same as the SoftwareDescription. This field
-            is searchable.
+            of software is to be registered then this should be the same as the SoftwareDescription.
           maxLength: 256
         Id:
           $ref: '#/components/schemas/SoftwareStatementIdSchema'
@@ -2580,29 +2575,28 @@ components:
           - Not Live
           description: A flag to identify if a piece of software should have access to production PSU accounts.
             This field has been added at the request of an ASPSP to allow BETA or Non Production testing against
-            production platforms. The default for this system should be 'Live'. This field is searchable.
+            production platforms. The default for this system should be 'Live'.
           maxLength: 8
         ObClientCreated:
           type: boolean
-          description: An indicator to show if the client has been created in Open Banking. This field is searchable.
+          description: An indicator to show if the client has been created in Open Banking.
         OnBehalfOfObOrganisation:
           type: string
           description: 'The organization on whom this software statement is behalf of Altered from reference to
-            string, 10/11/2017. This field is searchable. '
+            string, 10/11/2017. '
           maxLength: 40
         PolicyUri:
           type: string
           format: uri
           description: An optional document containing a link to a Policy document governing the privacy information
             policy of for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional
-            for the TPP to provide. This field is searchable
+            for the TPP to provide.
           maxLength: 256
           readOnly: true
         ClientUri:
           type: string
           format: uri
-          description: 'The “home page” or other wise recognisable url of the application (oath client). This field
-            is searchable. '
+          description: 'The “home page” or other wise recognisable url of the application (oath client). '
           maxLength: 256
         LogoUri:
           type: string
@@ -2616,7 +2610,7 @@ components:
             format: uri
             maxLength: 256
           description: Redirect Uri's for the registered piece of software. May be overridden by the RFC7591 payload.
-            This field is searchable and is not included as part of the response payload when unassigned.
+            This field is not included as part of the response payload when unassigned.
         Roles:
           type: array
           items:
@@ -2630,7 +2624,7 @@ components:
             - CD_ASPSP
             - CD_CBPII
           description: |
-            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. This field is searchable. Meaning of values:
+            Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. Meaning of values:
               * `AISP` - Account Information Service Provider
               * `ASPSP` - Account Servicing Payment Service Provider
               * `CBPII` - Card-Based Payment Instrument Issuer
@@ -2648,7 +2642,7 @@ components:
           format: uri
           description: An optional document containing a link to a Terms of Service document governing the terms
             of service for the application. Purely to be displayed a PSU at a ASPSP if the ASPSP supports it. Optional
-            for the TPP to provide. This field is searchable.
+            for the TPP to provide.
           maxLength: 256
         TransportKeyIds:
           type: array
@@ -2657,7 +2651,7 @@ components:
           description: The list of transport certificate Ids
         Version:
           type: string
-          description: Client Software version as provided by the organization's PTC. This field is not searchable.
+          description: Client Software version as provided by the organization's PTC.
           readOnly: true
           maxLength: 42
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party

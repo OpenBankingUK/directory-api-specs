@@ -9,8 +9,8 @@ These APIs are used for programmatic access to and retrieving information from t
 
 ### Host endpoints
 
-- Sandbox: https://matls-dirapi.openbankingtest.org.uk/
-- Production: https://matls-oblapi.sandbox.directory.openbanking.org.uk
+- Sandbox: https://matls-oblapi.sandbox.directory.openbanking.org.uk
+- Production: https://matls-oblapi.directory.openbanking.org.uk
 
 [Swagger reference](./directory-api-swagger.yaml)
 
