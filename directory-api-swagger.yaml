@@ -124,42 +124,42 @@ info:
     * **Open-data participant register** - `data.directory.openbanking.org.uk`. Public,
       unauthenticated, static. New in kind rather than a replacement for anything.
 servers:
-- url: https://matls-oblapi.directory.openbanking.org.uk
-  description: Production
-- url: https://matls-oblapi.sandbox.directory.openbanking.org.uk
-  description: Sandbox
+  - url: https://matls-oblapi.directory.openbanking.org.uk
+    description: Production
+  - url: https://matls-oblapi.sandbox.directory.openbanking.org.uk
+    description: Sandbox
 tags:
-- name: Organisations v2.2
-  description: OBL v2.2 compatibility surface - organisation reads.
-- name: Contacts v2.2
-  description: OBL v2.2 compatibility surface - contact reads.
-- name: Software Statements v2.2
-  description: OBL v2.2 compatibility surface - software statement reads.
-- name: Software Statement Assertions v2.2
-  description: OBL v2.2 compatibility surface - SSA retrieval.
-- name: Software Statement Redirect URIs v2.2
-  description: OBL v2.2 compatibility surface - redirect URI registration against a software statement.
-- name: Organisation Certificates v2.2
-  description: OBL v2.2 compatibility surface - organisation-level certificate and key management.
-- name: Software Statement Certificates v2.2
-  description: OBL v2.2 compatibility surface - software-statement-level certificate and key management.
-- name: Certificate Associations v2.2
-  description: OBL v2.2 compatibility surface - associating certificates with software statements.
-- name: Authorisation Servers v2.2
-  description: OBL v2.2 compatibility surface - authorisation server reads.
-- name: Certificate Validation v2.2
-  description: Certificate Validation Service. A like-for-like rebuild of the legacy CVS, same request and response
-    contract.
-- name: NCA API
-  description: National Competent Authority register lookup. Request shapes and response structures retained unchanged,
-    on a new hostname and rebased from `/api/v2/nca` to `/v2.2/nca`. **FCA data only** in this deployment.
-- name: MLA Status API
-  description: Multilateral Agreement status lookup. Legacy path and response structure retained unchanged, on a
-    new hostname.
+  - name: Organisations v2.2
+    description: OBL v2.2 compatibility surface - organisation reads.
+  - name: Contacts v2.2
+    description: OBL v2.2 compatibility surface - contact reads.
+  - name: Software Statements v2.2
+    description: OBL v2.2 compatibility surface - software statement reads.
+  - name: Software Statement Assertions v2.2
+    description: OBL v2.2 compatibility surface - SSA retrieval.
+  - name: Software Statement Redirect URIs v2.2
+    description: OBL v2.2 compatibility surface - redirect URI registration against a software statement.
+  - name: Organisation Certificates v2.2
+    description: OBL v2.2 compatibility surface - organisation-level certificate and key management.
+  - name: Software Statement Certificates v2.2
+    description: OBL v2.2 compatibility surface - software-statement-level certificate and key management.
+  - name: Certificate Associations v2.2
+    description: OBL v2.2 compatibility surface - associating certificates with software statements.
+  - name: Authorisation Servers v2.2
+    description: OBL v2.2 compatibility surface - authorisation server reads.
+  - name: Certificate Validation v2.2
+    description: Certificate Validation Service. A like-for-like rebuild of the legacy CVS, same request and response
+      contract.
+  - name: NCA API
+    description: National Competent Authority register lookup. Request shapes and response structures retained unchanged,
+      on a new hostname and rebased from `/api/v2/nca` to `/v2.2/nca`. **FCA data only** in this deployment.
+  - name: MLA Status API
+    description: Multilateral Agreement status lookup. Legacy path and response structure retained unchanged, on a
+      new hostname.
 paths:
   /v2.2/organisation:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get all organisations that the client is authorised to retrieve
       description: |-
@@ -167,10 +167,10 @@ paths:
 
         **Response size.** This endpoint returns the full ecosystem in a single document and is not paginated, matching the behaviour of the legacy endpoint today. Consumers should continue to expect the complete set in one response. Clients are encouraged to send `Accept-Encoding: gzip`.
       tags:
-      - Organisations v2.2
+        - Organisations v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/OrganisationsGetFromSCIM200OKResponse'
@@ -184,16 +184,16 @@ paths:
           $ref: '#/components/responses/406NotAcceptableResponse'
   /v2.2/organisation/{OrganisationId}:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get the given organisation's details
       tags:
-      - Organisations v2.2
+        - Organisations v2.2
       parameters:
-      - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/OrganisationId'
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/OrganisationGetFromSCIM200OKResponse'
@@ -207,17 +207,17 @@ paths:
           $ref: '#/components/responses/406NotAcceptableResponse'
   /v2.2/organisation/{OrganisationId}/contact/{ContactType}:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get the business or the technical contacts for the given organisation
       tags:
-      - Contacts v2.2
+        - Contacts v2.2
       parameters:
-      - $ref: '#/components/parameters/OrganisationId'
-      - $ref: '#/components/parameters/ContactType'
+        - $ref: '#/components/parameters/OrganisationId'
+        - $ref: '#/components/parameters/ContactType'
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/Contact200OKResponse'
@@ -233,18 +233,18 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/software-statement:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     post:
       summary: Create a software statement
       description: '**Creation only.** This scope confers creation of a software statement and nothing further.
         Updating an existing software statement is served separately, under `directory:software` and only to a client
         belonging to that software statement; the legacy specification defines no delete.'
       tags:
-      - Software Statements v2.2
+        - Software Statements v2.2
       security:
-      - RaidiamAuth:
-        - directory:software:organisation:application:management
+        - RaidiamAuth:
+            - directory:software:organisation:application:management
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatement'
       responses:
@@ -256,6 +256,8 @@ paths:
           $ref: '#/components/responses/401UnauthorizedResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
+        '415':
+          $ref: '#/components/responses/415UnsupportedMediaTypeResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -263,10 +265,10 @@ paths:
     get:
       summary: Get all software statements for the given organisation
       tags:
-      - Software Statements v2.2
+        - Software Statements v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementsGet200OKResponse'
@@ -282,16 +284,16 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/SoftwareStatementId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get a software statement
       tags:
-      - Software Statements v2.2
+        - Software Statements v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatement201CreatedResponse'
@@ -315,12 +317,12 @@ paths:
         holding `directory:software:organisation:application:management` - that scope confers creation of a software
         statement and nothing further. Updates are also available interactively in the Raidiam Connect WebUI.'
       tags:
-      - Software Statements v2.2
+        - Software Statements v2.2
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatementState'
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -332,15 +334,17 @@ paths:
           $ref: '#/components/responses/401UnauthorizedResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
+        '415':
+          $ref: '#/components/responses/415UnsupportedMediaTypeResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/redirect-uri:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/SoftwareStatementId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     post:
       summary: Add a redirect URI to the given Software Statement
       description: '**Only the software statement itself may add a redirect URI.** The calling client must belong
@@ -351,12 +355,12 @@ paths:
         `PUT` on it; this endpoint is retained so that existing integrations registering redirect URIs individually
         keep working.'
       tags:
-      - Software Statement Redirect URIs v2.2
+        - Software Statement Redirect URIs v2.2
       requestBody:
         $ref: '#/components/requestBodies/SoftwareStatementRedirectURI'
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementUpdated200OKResponse'
@@ -370,15 +374,17 @@ paths:
           $ref: '#/components/responses/406NotAcceptableResponse'
         '409':
           $ref: '#/components/responses/409ConflictResponse'
+        '415':
+          $ref: '#/components/responses/415UnsupportedMediaTypeResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/software-statement-assertion:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/SoftwareStatementId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Retrieve the software statement assertion for the given SoftwareStatementID.
       description: |-
@@ -535,10 +541,10 @@ paths:
         ### SSA Lifetime
         The SSA's Lifetime / Validity period is not defined by Open Banking. ASPSPs in the Open Banking ecosystem are required to implement pragmatic time ranges in which to accept an SSA. For example, an ASPSP that has implemented Dynamic Client Registration may choose to accept SSA's that were issued no earlier than 1 minute prior to their presentation however ASPSPs that only support manual registration may need to accept SSAs that were issued 30 minutes prior as the elapsed time period between generation and use between these two flows is expected to differ significantly.
       tags:
-      - Software Statement Assertions v2.2
+        - Software Statement Assertions v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/SoftwareStatementAssertion200OKResponse'
@@ -556,15 +562,15 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/certificate:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get the certificates for the given organisation
       tags:
-      - Organisation Certificates v2.2
+        - Organisation Certificates v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -582,18 +588,18 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/certificate/{OrganisationCertificateType}:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/OrganisationCertificateType'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/OrganisationCertificateType'
+      - $ref: '#/components/parameters/FapiInteractionId'
     post:
       summary: Store or create a new certificate of the given OrganisationCertificateType for the given organisation
       tags:
-      - Organisation Certificates v2.2
+        - Organisation Certificates v2.2
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrCSROrJWS'
       security:
-      - RaidiamAuth:
-        - directory:software:organisation:cert:management
+        - RaidiamAuth:
+            - directory:software:organisation:cert:management
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -605,6 +611,8 @@ paths:
           $ref: '#/components/responses/401UnauthorizedResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
+        '415':
+          $ref: '#/components/responses/415UnsupportedMediaTypeResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -612,10 +620,10 @@ paths:
     get:
       summary: Get the certificates of the given OrganisationCertificateType for the given oranisation
       tags:
-      - Organisation Certificates v2.2
+        - Organisation Certificates v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -633,16 +641,16 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/certificate/kid/{CertificateOrKeyId}:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/CertificateOrKeyId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/CertificateOrKeyId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Retrieve a certificate with the given CertificateOrKeyId
       tags:
-      - Organisation Certificates v2.2
+        - Organisation Certificates v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
@@ -661,10 +669,10 @@ paths:
     delete:
       summary: Revoke or remove a certificate with the given CertificateOrKeyId
       tags:
-      - Organisation Certificates v2.2
+        - Organisation Certificates v2.2
       security:
-      - RaidiamAuth:
-        - directory:software:organisation:cert:management
+        - RaidiamAuth:
+            - directory:software:organisation:cert:management
       responses:
         '204':
           $ref: '#/components/responses/204NoContentResponse'
@@ -682,16 +690,16 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/SoftwareStatementId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get certificates for the given software statement
       tags:
-      - Software Statement Certificates v2.2
+        - Software Statement Certificates v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -709,21 +717,21 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{SoftwareStatementCertificateOrKeyType}:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/SoftwareStatementId'
-    - $ref: '#/components/parameters/SoftwareStatementCertificateOrKeyType'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/SoftwareStatementCertificateOrKeyType'
+      - $ref: '#/components/parameters/FapiInteractionId'
     post:
       summary: Add a key or create a new certificate for the given software statement
       tags:
-      - Software Statement Certificates v2.2
+        - Software Statement Certificates v2.2
       requestBody:
         $ref: '#/components/requestBodies/CSROrKey'
       security:
-      - RaidiamAuth:
-        - directory:software:cert:management
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software:cert:management
+        - RaidiamAuth:
+            - directory:software
       responses:
         '201':
           $ref: '#/components/responses/CertificateOrKey201CreatedResponse'
@@ -735,6 +743,8 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
+        '415':
+          $ref: '#/components/responses/415UnsupportedMediaTypeResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -742,10 +752,10 @@ paths:
     get:
       summary: Get the certificates of the given type for the given software statement
       tags:
-      - Software Statement Certificates v2.2
+        - Software Statement Certificates v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/CertificatesOrKeysGet200OKResponse'
@@ -763,20 +773,20 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/software-statement/{SoftwareStatementId}/certificate/{OrganisationAssociativeCertificateType}/{CertificateOrKeyId}:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/SoftwareStatementId'
-    - $ref: '#/components/parameters/OrganisationAssociativeCertificateType'
-    - $ref: '#/components/parameters/CertificateOrKeyId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/SoftwareStatementId'
+      - $ref: '#/components/parameters/OrganisationAssociativeCertificateType'
+      - $ref: '#/components/parameters/CertificateOrKeyId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     put:
       summary: Associate/de-associate a QSEAL/OBSEAL certificate with the given software statement
       tags:
-      - Certificate Associations v2.2
+        - Certificate Associations v2.2
       requestBody:
         $ref: '#/components/requestBodies/CertificateOrKeyAssociation'
       security:
-      - RaidiamAuth:
-        - directory:software:cert:management
+        - RaidiamAuth:
+            - directory:software:cert:management
       responses:
         '200':
           $ref: '#/components/responses/CertificateAssociatedWithASoftwareStatement200AcceptedResponse'
@@ -792,6 +802,8 @@ paths:
           $ref: '#/components/responses/406NotAcceptableResponse'
         '409':
           $ref: '#/components/responses/409ConflictResponse'
+        '415':
+          $ref: '#/components/responses/415UnsupportedMediaTypeResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
@@ -799,10 +811,10 @@ paths:
     get:
       summary: Get the certificate of the given type and ID for the given software statement
       tags:
-      - Software Statement Certificates v2.2
+        - Software Statement Certificates v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/CertificateOrKeyGet200OKResponse'
@@ -820,15 +832,15 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/authorisation-server:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get all Authorisation Servers for the given organisation
       tags:
-      - Authorisation Servers v2.2
+        - Authorisation Servers v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/AuthorisationServersResponse'
@@ -846,16 +858,16 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/organisation/{OrganisationId}/authorisation-server/{AuthorisationServerId}:
     parameters:
-    - $ref: '#/components/parameters/OrganisationId'
-    - $ref: '#/components/parameters/AuthorisationServerId'
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/OrganisationId'
+      - $ref: '#/components/parameters/AuthorisationServerId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get .well-known entity
       tags:
-      - Authorisation Servers v2.2
+        - Authorisation Servers v2.2
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/AuthorisationServerResponse'
@@ -873,18 +885,18 @@ paths:
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/certificate/validate:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     post:
       summary: Validate certificate
       description: '**Scope reduction.** The `passports` block of the response is sourced from the NCA API, which
         carries FCA data only. For an organisation with no FCA register data that portion of the response is empty.'
       tags:
-      - Certificate Validation v2.2
+        - Certificate Validation v2.2
       requestBody:
         $ref: '#/components/requestBodies/CertificateValidationRequestBody'
       security:
-      - RaidiamAuth:
-        - directory:software
+        - RaidiamAuth:
+            - directory:software
       responses:
         '200':
           $ref: '#/components/responses/CertificateValidationServerResponseV2.1'
@@ -896,13 +908,15 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
+        '415':
+          $ref: '#/components/responses/415UnsupportedMediaTypeResponse'
         '500':
           $ref: '#/components/responses/500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/502BadGatewayResponse'
   /v2.2/nca:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get the list of NCA countries
       description: '**Dataset scope.** This deployment of the NCA API carries **FCA data only**. Data from other
@@ -910,10 +924,10 @@ paths:
         consumer that iterates countries and then fetches firms per country still works, but its outer loop now
         has one iteration.'
       tags:
-      - NCA API
+        - NCA API
       security:
-      - RaidiamAuth:
-        - NCAReadAccess
+        - RaidiamAuth:
+            - NCAReadAccess
       responses:
         '200':
           $ref: '#/components/responses/NCACountries200OKResponse'
@@ -927,20 +941,20 @@ paths:
           $ref: '#/components/responses/Nca502BadGatewayResponse'
   /v2.2/nca/{NCAId}:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       parameters:
-      - $ref: '#/components/parameters/NCAId'
+        - $ref: '#/components/parameters/NCAId'
       summary: Get the list of firms for given NCA country
       description: '**Dataset scope.** This deployment of the NCA API carries **FCA data only**. Data from other
         national competent authorities is not included. `GET /v2.2/nca` therefore enumerates a single country: a
         consumer that iterates countries and then fetches firms per country still works, but its outer loop now
         has one iteration.'
       tags:
-      - NCA API
+        - NCA API
       security:
-      - RaidiamAuth:
-        - NCAReadAccess
+        - RaidiamAuth:
+            - NCAReadAccess
       responses:
         '200':
           $ref: '#/components/responses/NCAFirms200OKResponse'
@@ -954,21 +968,21 @@ paths:
           $ref: '#/components/responses/Nca502BadGatewayResponse'
   /v2.2/nca/{NCAId}/{NCAFirmId}:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       parameters:
-      - $ref: '#/components/parameters/NCAId'
-      - $ref: '#/components/parameters/NCAFirmId'
+        - $ref: '#/components/parameters/NCAId'
+        - $ref: '#/components/parameters/NCAFirmId'
       summary: Get the latest available firms status on the given NCA register
       description: '**Dataset scope.** This deployment of the NCA API carries **FCA data only**. Data from other
         national competent authorities is not included. `GET /v2.2/nca` therefore enumerates a single country: a
         consumer that iterates countries and then fetches firms per country still works, but its outer loop now
         has one iteration.'
       tags:
-      - NCA API
+        - NCA API
       security:
-      - RaidiamAuth:
-        - NCAReadAccess
+        - RaidiamAuth:
+            - NCAReadAccess
       responses:
         '200':
           $ref: '#/components/responses/NCAOrg200OKResponse'
@@ -982,21 +996,29 @@ paths:
           $ref: '#/components/responses/Nca502BadGatewayResponse'
   /v2.2/organisation/mlastatus:
     parameters:
-    - $ref: '#/components/parameters/FapiInteractionId'
+      - $ref: '#/components/parameters/FapiInteractionId'
     get:
       summary: Get all organisations and their MLA status that the client is authorised to retrieve
       description: |-
         Returns all organisations and their Multilateral Agreement (MLA) status data for the client to store.
 
         The request shape and response structure are retained unchanged from the legacy contract; the path is rebased from `/v2.1` to `/v2.2` with the rest of the directory family.
+
+        The operation declares no pagination parameters, so the whole set is returned at once. The
+        response is large and changes infrequently, so it carries an `ETag`; send it back as
+        `If-None-Match` on the next poll and an unchanged register is answered `304` with no body.
       tags:
-      - MLA Status API
+        - MLA Status API
       security:
-      - RaidiamAuth:
-        - MLAReadAccess
+        - RaidiamAuth:
+            - MLAReadAccess
+      parameters:
+        - $ref: '#/components/parameters/IfNoneMatch'
       responses:
         '200':
           $ref: '#/components/responses/OrganisationsGetFromMLAStatus200OKResponse'
+        '304':
+          $ref: '#/components/responses/304NotModifiedResponse'
         '401':
           $ref: '#/components/responses/401UnauthorizedResponse'
         '403':
@@ -1005,6 +1027,8 @@ paths:
           $ref: '#/components/responses/404NotFoundResponse'
         '406':
           $ref: '#/components/responses/406NotAcceptableResponse'
+        '429':
+          $ref: '#/components/responses/429RateLimitedResponse'
 components:
   parameters:
     AuthorisationServerId:
@@ -1077,6 +1101,14 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/NCAIdSchema'
+    IfNoneMatch:
+      name: If-None-Match
+      description: The `ETag` from a previous response. When it still matches, the register is answered
+        `304` with no body.
+      in: header
+      required: false
+      schema:
+        type: string
     FapiInteractionId:
       name: x-fapi-interaction-id
       description: 'An RFC 4122 UUID used to correlate the request with its response. Optional: supply one to tie
@@ -1161,6 +1193,26 @@ components:
             if the request did not carry the header.
           schema:
             $ref: '#/components/schemas/FapiInteractionIdSchema'
+    304NotModifiedResponse:
+      description: Not Modified
+      headers:
+        x-fapi-interaction-id:
+          description: The `x-fapi-interaction-id` from the request, echoed unchanged, or a server-generated one
+            if the request did not carry the header.
+          schema:
+            $ref: '#/components/schemas/FapiInteractionIdSchema'
+        ETag:
+          description: Entity tag of the unchanged register, repeated per RFC 9110.
+          schema:
+            type: string
+    429RateLimitedResponse:
+      description: Too Many Requests
+      headers:
+        x-fapi-interaction-id:
+          description: The `x-fapi-interaction-id` from the request, echoed unchanged, or a server-generated one
+            if the request did not carry the header.
+          schema:
+            $ref: '#/components/schemas/FapiInteractionIdSchema'
     401UnauthorizedResponse:
       description: Unauthorized
       headers:
@@ -1187,6 +1239,19 @@ components:
             $ref: '#/components/schemas/FapiInteractionIdSchema'
     406NotAcceptableResponse:
       description: Not Acceptable
+      headers:
+        x-fapi-interaction-id:
+          description: The `x-fapi-interaction-id` from the request, echoed unchanged, or a server-generated one
+            if the request did not carry the header.
+          schema:
+            $ref: '#/components/schemas/FapiInteractionIdSchema'
+    415UnsupportedMediaTypeResponse:
+      description: |-
+        Unsupported Media Type. Each operation that carries a request body consumes the single media type its
+        `requestBody` declares, and rejects any other `Content-Type` without attempting to parse the body.
+
+        On operations that also negotiate a response type, a missing or unacceptable `Accept` header is
+        evaluated first, so a request that is wrong in both respects is answered `406` rather than `415`.
       headers:
         x-fapi-interaction-id:
           description: The `x-fapi-interaction-id` from the request, echoed unchanged, or a server-generated one
@@ -1464,10 +1529,31 @@ components:
             if the request did not carry the header.
           schema:
             $ref: '#/components/schemas/FapiInteractionIdSchema'
+        ETag:
+          description: Entity tag for this register. Send it as `If-None-Match` on the next poll.
+          schema:
+            type: string
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/OrganisationsGetFromMLAStatus200OKResponseSchema'
+          example:
+            Data:
+              - OBOrganisationId: 0019A00001bKmTpQAB
+                OrganisationCommonName: Example Bank plc
+                NCAId: GB-FCA-100001
+                MLAStatus: Active
+                MLAStatusUpdated: '2026-08-06T09:20:15.000Z'
+              - OBOrganisationId: 0015g00000ZxYwVQAM
+                OrganisationCommonName: Example Payments Ltd
+                NCAId: GB-FCA-100002
+                MLAStatus: Suspended
+                MLAStatusUpdated: '2026-07-02T16:55:43.000Z'
+              - OBOrganisationId: 0011t00002LpQrSQAJ
+                OrganisationCommonName: Example Open Finance Ltd
+                NCAId: GB-FCA-100003
+                MLAStatus: Revoked
+                MLAStatusUpdated: '2026-06-01T08:54:39.000Z'
   schemas:
     AuthorisationSchema:
       type: object
@@ -1478,49 +1564,49 @@ components:
           type: string
           description: Member state.
           enum:
-          - AT
-          - BE
-          - BG
-          - CY
-          - CZ
-          - DE
-          - DK
-          - EE
-          - EL
-          - ES
-          - FI
-          - FR
-          - GB
-          - GG
-          - GI
-          - GR
-          - HR
-          - HU
-          - IE
-          - IM
-          - IS
-          - IT
-          - JE
-          - LI
-          - LT
-          - LU
-          - LV
-          - MT
-          - NL
-          - 'NO'
-          - PL
-          - PT
-          - RO
-          - SE
-          - SI
-          - SK
+            - AT
+            - BE
+            - BG
+            - CY
+            - CZ
+            - DE
+            - DK
+            - EE
+            - EL
+            - ES
+            - FI
+            - FR
+            - GB
+            - GG
+            - GI
+            - GR
+            - HR
+            - HU
+            - IE
+            - IM
+            - IS
+            - IT
+            - JE
+            - LI
+            - LT
+            - LU
+            - LV
+            - MT
+            - NL
+            - 'NO'
+            - PL
+            - PT
+            - RO
+            - SE
+            - SI
+            - SK
         Psd2Role:
           type: string
           enum:
-          - ASPSP
-          - AISP
-          - PISP
-          - CBPII
+            - ASPSP
+            - AISP
+            - PISP
+            - CBPII
           description: |
             Psd2 Role in which institution authorised.
               * `AISP` - Account Information Service Provider
@@ -1528,9 +1614,9 @@ components:
               * `CBPII` - Card-Based Payment Instrument Issuer
               * `PISP` - Payment Initiation Service Provider
       required:
-      - Active
-      - MemberState
-      - Psd2Role
+        - Active
+        - MemberState
+        - Psd2Role
     AuthorisationAuthoritySchema:
       type: object
       properties:
@@ -1541,50 +1627,50 @@ components:
         AuthorizationDomain:
           type: string
           enum:
-          - PSD2
-          - Pay.UK
-          - CD
+            - PSD2
+            - Pay.UK
+            - CD
           description: Authorisation Domain.
         MemberState:
           type: string
           description: Member state.
           enum:
-          - AT
-          - BE
-          - BG
-          - CY
-          - CZ
-          - DE
-          - DK
-          - EE
-          - EL
-          - ES
-          - FI
-          - FR
-          - GB
-          - GG
-          - GI
-          - GR
-          - HR
-          - HU
-          - IE
-          - IM
-          - IS
-          - IT
-          - JE
-          - LI
-          - LT
-          - LU
-          - LV
-          - MT
-          - NL
-          - 'NO'
-          - PL
-          - PT
-          - RO
-          - SE
-          - SI
-          - SK
+            - AT
+            - BE
+            - BG
+            - CY
+            - CZ
+            - DE
+            - DK
+            - EE
+            - EL
+            - ES
+            - FI
+            - FR
+            - GB
+            - GG
+            - GI
+            - GR
+            - HR
+            - HU
+            - IE
+            - IM
+            - IS
+            - IT
+            - JE
+            - LI
+            - LT
+            - LU
+            - LV
+            - MT
+            - NL
+            - 'NO'
+            - PL
+            - PT
+            - RO
+            - SE
+            - SI
+            - SK
         RegistrationId:
           type: string
           maxLength: 255
@@ -1595,27 +1681,27 @@ components:
             type: string
             maxLength: 255
       required:
-      - AuthorityId
-      - RegistrationId
-      - X509OrganisationIdentifier
+        - AuthorityId
+        - RegistrationId
+        - X509OrganisationIdentifier
     AuthorisationDomainStatusSchema:
       type: object
       properties:
         AuthorizationDomain:
           type: string
           enum:
-          - PSD2
-          - Pay.UK
-          - CD
+            - PSD2
+            - Pay.UK
+            - CD
           description: Authorisation Domain.
         Status:
           type: string
           enum:
-          - Active
-          - Withdrawn
-          - Revoked
-          - Requested
-          - Rejected
+            - Active
+            - Withdrawn
+            - Revoked
+            - Requested
+            - Rejected
           description: |
             Indicates whether authorisation domain is active. * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to. * `Withdrawn` - revocation initiated by participants * `Revoked` - participant can't take actions in ecosystem because of privileges loss * `Requested` - set after dynamic client registration, to be confirmed by CRM * `Rejected` - dynamic client registration rejected
     AuthorisationDomainStatusRootSchema:
@@ -1639,59 +1725,59 @@ components:
           type: string
           description: Authorisation Domain for which the authorisation server is created.
           enum:
-          - PSD2
-          - Pay.UK
-          - CD
+            - PSD2
+            - Pay.UK
+            - CD
         MemberState:
           type: string
           description: Member state.
           enum:
-          - AT
-          - BE
-          - BG
-          - CY
-          - CZ
-          - DE
-          - DK
-          - EE
-          - EL
-          - ES
-          - FI
-          - FR
-          - GB
-          - GG
-          - GI
-          - GR
-          - HR
-          - HU
-          - IE
-          - IM
-          - IS
-          - IT
-          - JE
-          - LI
-          - LT
-          - LU
-          - LV
-          - MT
-          - NL
-          - 'NO'
-          - PL
-          - PT
-          - RO
-          - SE
-          - SI
-          - SK
+            - AT
+            - BE
+            - BG
+            - CY
+            - CZ
+            - DE
+            - DK
+            - EE
+            - EL
+            - ES
+            - FI
+            - FR
+            - GB
+            - GG
+            - GI
+            - GR
+            - HR
+            - HU
+            - IE
+            - IM
+            - IS
+            - IT
+            - JE
+            - LI
+            - LT
+            - LU
+            - LV
+            - MT
+            - NL
+            - 'NO'
+            - PL
+            - PT
+            - RO
+            - SE
+            - SI
+            - SK
         Role:
           type: string
           enum:
-          - AISP
-          - ASPSP
-          - CBPII
-          - PISP
-          - CD_AISP
-          - CD_ASPSP
-          - CD_CBPII
+            - AISP
+            - ASPSP
+            - CBPII
+            - PISP
+            - CD_AISP
+            - CD_ASPSP
+            - CD_CBPII
           description: |
             Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. Meaning of values:
               * `AISP` - Account Information Service Provider
@@ -1713,12 +1799,12 @@ components:
                 type:
                   type: string
                   enum:
-                  - obwac
-                  - obseal
-                  - qwac
-                  - qseal
-                  - obsigning
-                  - obtransport
+                    - obwac
+                    - obseal
+                    - qwac
+                    - qseal
+                    - obsigning
+                    - obtransport
                 eidas_profile:
                   type: string
                 qtsp_name:
@@ -1730,13 +1816,13 @@ components:
                   items:
                     type: string
                     enum:
-                    - AISP
-                    - ASPSP
-                    - CBPII
-                    - PISP
-                    - CD_AISP
-                    - CD_ASPSP
-                    - CD_CBPII
+                      - AISP
+                      - ASPSP
+                      - CBPII
+                      - PISP
+                      - CD_AISP
+                      - CD_ASPSP
+                      - CD_CBPII
                     description: |
                       Meaning of values:
                         * `AISP` - Account Information Service Provider
@@ -1757,18 +1843,18 @@ components:
                 check_failed:
                   type: boolean
               required:
-              - type
-              - eidas_profile
-              - qtsp_name
-              - qtsp_uri
-              - roles
-              - valid_eidas_certificate
-              - valid_obietf_certificate
-              - expired
-              - revoked
-              - check_failed
+                - type
+                - eidas_profile
+                - qtsp_name
+                - qtsp_uri
+                - valid_eidas_certificate
+                - valid_obietf_certificate
+                - expired
+                - revoked
+                - check_failed
             organisation:
               type: object
+              nullable: true
               properties:
                 onboarded_to_open_banking:
                   type: boolean
@@ -1778,6 +1864,7 @@ components:
                   maxLength: 255
                 passports:
                   type: object
+                  nullable: true
                   properties:
                     nca_name:
                       type: object
@@ -1812,13 +1899,13 @@ components:
                   items:
                     type: object
                     properties:
-                      authorisation_domain:
+                      authorization_domain:
                         type: string
-                        description: Authorisation Domain for which the authorisation server is created.
+                        description: Authorisation domain the claim belongs to.
                         enum:
-                        - PSD2
-                        - Pay.UK
-                        - CD
+                          - PSD2
+                          - Pay.UK
+                          - CD
                       authority_id:
                         type: string
                         maxLength: 255
@@ -1828,17 +1915,17 @@ components:
                       status:
                         type: string
                         enum:
-                        - Active
-                        - Withdrawn
-                        - Revoked
-                        - Requested
-                        - Rejected
+                          - Active
+                          - Withdrawn
+                          - Revoked
+                          - Requested
+                          - Rejected
                         description: |
                           * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to. * `Withdrawn` - revocation initiated by participants * `Revoked` - participant can't take actions in ecosystem because of privileges loss * `Requested` - set after dynamic client registration, to be confirmed by CRM * `Rejected` - dynamic client registration rejected
                       authorisations:
                         type: array
                         items:
-                          $ref: '#/components/schemas/AuthorisationSchema'
+                          $ref: '#/components/schemas/CertificateValidationAuthorisationSchema'
                 software_statements:
                   type: array
                   nullable: true
@@ -1849,11 +1936,40 @@ components:
                         type: string
                         maxLength: 22
               required:
-              - onboarded_to_open_banking
-              - org_name
-              - passports
-              - competent_authority_claims
-              - software_statements
+                - onboarded_to_open_banking
+                - org_name
+                - passports
+                - competent_authority_claims
+                - software_statements
+    CertificateValidationAuthorisationSchema:
+      type: object
+      description: An authorisation within a competent authority claim, as the certificate validation
+        endpoint returns it. Deliberately distinct from `AuthorisationSchema`, which describes the
+        native surface's `{Active, MemberState, Psd2Role}` form. This endpoint groups the roles held
+        in a member state into a single entry, and the native schema is left unchanged for its own
+        consumers.
+      properties:
+        member_state:
+          type: string
+          maxLength: 2
+          description: ISO 3166-1 alpha-2 member state code, drawn from the same set `AuthorisationSchema`
+            enumerates.
+        roles:
+          type: array
+          description: The PSD2 roles the organisation holds in this member state.
+          items:
+            type: string
+            enum:
+              - AISP
+              - ASPSP
+              - CBPII
+              - PISP
+              - CD_AISP
+              - CD_ASPSP
+              - CD_CBPII
+      required:
+        - member_state
+        - roles
     AuthorisationServerSchema:
       type: object
       properties:
@@ -1865,9 +1981,9 @@ components:
           type: string
           description: Authorisation Domain for which the authorisation server is created.
           enum:
-          - PSD2
-          - Pay.UK
-          - CD
+            - PSD2
+            - Pay.UK
+            - CD
         AutoRegistrationSupported:
           type: boolean
           description: Authorisation Server supports auto-registration.
@@ -1879,8 +1995,8 @@ components:
         CustomerFriendlyDescription:
           type: string
           maxLength: 255
-          description: Customer orientated description. This field is not included as part of
-            the response payload when unassigned.
+          description: Customer orientated description. This field is not included as part of the response payload
+            when unassigned.
         CustomerFriendlyLogoUri:
           description: uri from which a TPP can retrieve a certified logo V39 required.
           type: string
@@ -1889,8 +2005,7 @@ components:
         CustomerFriendlyName:
           type: string
           maxLength: 255
-          description: Certified name. This field is not included as part of the response payload
-            when unassigned.
+          description: Certified name. This field is not included as part of the response payload when unassigned.
         DeveloperPortalUri:
           description: URI for TPP developer testing V39 required.
           type: string
@@ -1915,31 +2030,30 @@ components:
           type: array
           items:
             type: string
-            description: 'Allowed lengths: 4, 6, 14. This field is not included as part of the
-              response payload when unassigned.'
+            description: 'Allowed lengths: 4, 6, 14. This field is not included as part of the response payload
+              when unassigned.'
         ParentAuthorisationServerId:
           type: string
           maxLength: 2083
           description: Authorisation Server Id of Parent Authorisation server, used for app to app linking. This
             field is not included as part of the response payload when unassigned.
         ApiResourceDiscoveryEndpoint:
-          description: An RFC-3986-compliant URI. This field is not included as part of the response
-            payload when unassigned.
+          description: An RFC-3986-compliant URI. This field is not included as part of the response payload when
+            unassigned.
           type: string
           format: uri
           maxLength: 2083
       required:
-      - Id
-      - AutoRegistrationSupported
-      - BaseApiDNSUri
-      - CustomerFriendlyLogoUri
-      - DeveloperPortalUri
-      - TermsOfService
-      - OpenIDConfigEndPointUri
-      - PayloadSigningCertLocation
-      - EISCDId
-      - CustomerFriendlyName
-      - CustomerFriendlyDescription
+        - Id
+        - AutoRegistrationSupported
+        - BaseApiDNSUri
+        - CustomerFriendlyLogoUri
+        - DeveloperPortalUri
+        - TermsOfService
+        - OpenIDConfigEndPointUri
+        - PayloadSigningCertLocation
+        - CustomerFriendlyName
+        - CustomerFriendlyDescription
     AuthorisationServersSchema:
       type: array
       items:
@@ -2007,11 +2121,11 @@ components:
         x5u:
           type: string
       required:
-      - obOrganisationId
-      - Associations
-      - status
-      - keyType
-      - kid
+        - obOrganisationId
+        - Associations
+        - status
+        - keyType
+        - kid
     CertificateValidationSchema:
       type: string
     CompetentAuthoritySchema:
@@ -2038,54 +2152,55 @@ components:
           description: Authority identifier.
         EtsiIdentifier:
           type: string
-          description: 'European Telecommunications Standards Institute Organization Identifier. This field is not included as part of the response payload when unassigned. '
+          description: European Telecommunications Standards Institute Organization Identifier. This field is not
+            included as part of the response payload when unassigned.
         MemberState:
           type: string
           description: Member state.
           enum:
-          - AT
-          - BE
-          - BG
-          - CY
-          - CZ
-          - DE
-          - DK
-          - EE
-          - EL
-          - ES
-          - FI
-          - FR
-          - GB
-          - GG
-          - GI
-          - GR
-          - HR
-          - HU
-          - IE
-          - IM
-          - IS
-          - IT
-          - JE
-          - LI
-          - LT
-          - LU
-          - LV
-          - MT
-          - NL
-          - 'NO'
-          - PL
-          - PT
-          - RO
-          - SE
-          - SI
-          - SK
+            - AT
+            - BE
+            - BG
+            - CY
+            - CZ
+            - DE
+            - DK
+            - EE
+            - EL
+            - ES
+            - FI
+            - FR
+            - GB
+            - GG
+            - GI
+            - GR
+            - HR
+            - HU
+            - IE
+            - IM
+            - IS
+            - IT
+            - JE
+            - LI
+            - LT
+            - LU
+            - LV
+            - MT
+            - NL
+            - 'NO'
+            - PL
+            - PT
+            - RO
+            - SE
+            - SI
+            - SK
         RegistrationId:
           type: string
           maxLength: 255
           description: Registration Id with the principle authority.
       required:
-      - RegistrationId
-      - EtsiIdentifier
+        - RegistrationId
+        - EtsiIdentifier
     ContactSchema:
       type: object
       properties:
@@ -2095,23 +2210,23 @@ components:
         PhoneNumber:
           type: string
       required:
-      - EmailAddress
-      - PhoneNumber
+        - EmailAddress
+        - PhoneNumber
     OrganisationAssociativeCertificateTypeSchema:
       type: string
       enum:
-      - obwac
-      - obseal
-      - qwac
-      - qseal
+        - obwac
+        - obseal
+        - qwac
+        - qseal
     ContactTypeSchema:
       type: string
       enum:
-      - Business
-      - PBC
-      - PTC
-      - Registered
-      - Technical
+        - Business
+        - PBC
+        - PTC
+        - Registered
+        - Technical
       description: |
         Meaning of values:
           * `Business` - Business
@@ -2129,20 +2244,20 @@ components:
           maxLength: 255
         Primary:
           type: boolean
-          description: 'Indicator to show is this is the primary email address. '
+          description: Indicator to show is this is the primary email address.
         Type:
           type: string
-          description: 'Type of email address. '
+          description: Type of email address.
         Value:
           type: string
-          description: 'Value of email address. The format of the email address must
-            comply with standards defined here -> https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1 '
+          description: Value of email address. The format of the email address must comply with standards defined
+            here -> https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1
           maxLength: 255
       required:
-      - Name
-      - Primary
-      - Type
-      - Value
+        - Name
+        - Primary
+        - Type
+        - Value
     LegalAuthorityClaimSchema:
       type: object
       properties:
@@ -2157,9 +2272,9 @@ components:
           description: Identification of registering Authority.
           readOnly: true
       required:
-      - RegisteredId
-      - RegisteredName
-      - RegistrationAuthorityId
+        - RegisteredId
+        - RegisteredName
+        - RegistrationAuthorityId
     LegalAuthorityClaimRootSchema:
       type: object
       properties:
@@ -2221,24 +2336,24 @@ components:
         status:
           type: string
           enum:
-          - Active
-          - Withdrawn
-          - Revoked
-          - Requested
-          - Rejected
+            - Active
+            - Withdrawn
+            - Revoked
+            - Requested
+            - Rejected
           description: |
             Indicates organisation status. It is shown only when organisation has one authorisation domain. * `Active` - participant can take actions in ecosystem in authorisation domains that he is assigned to. * `Withdrawn` - revocation initiated by participants * `Revoked` - participant can't take actions in ecosystem because of privileges loss * `Requested` - set after dynamic client registration, to be confirmed by CRM * `Rejected` - dynamic client registration rejected
       required:
-      - OBOrganisationId
-      - OrganisationCommonName
-      - status
+        - OBOrganisationId
+        - OrganisationCommonName
+        - status
     OrganisationCertificateTypeSchema:
       type: string
       enum:
-      - qwac
-      - qseal
-      - obwac
-      - obseal
+        - qwac
+        - qseal
+        - obwac
+        - obseal
     OrganisationIdSchema:
       type: string
       maxLength: 255
@@ -2298,16 +2413,16 @@ components:
           type: string
           description: Authorisation Domain for which the authorisation server is created.
           enum:
-          - PSD2
-          - Pay.UK
-          - CD
+            - PSD2
+            - Pay.UK
+            - CD
         Role:
           type: string
           enum:
-          - PBC
-          - PTC
-          - SBC
-          - STC
+            - PBC
+            - PTC
+            - SBC
+            - STC
           description: |
             Role which the individual holds. Meaning of values:
               * `PBC` - Primary Business Contact
@@ -2319,9 +2434,9 @@ components:
           maxLength: 255
           description: User's name, email address or other identifying label.
       required:
-      - AuthorizationDomain
-      - Role
-      - UserName
+        - AuthorizationDomain
+        - Role
+        - UserName
     PhoneNumberSchema:
       type: object
       properties:
@@ -2332,11 +2447,11 @@ components:
         Type:
           type: string
           enum:
-          - Business
-          - PBC
-          - PTC
-          - Registered
-          - Technical
+            - Business
+            - PBC
+            - PTC
+            - Registered
+            - Technical
           description: |
             Meaning of values:
               * `Business` - Business
@@ -2350,99 +2465,99 @@ components:
           description: Value of phone number through which the organization can be contacted.
         Verified:
           type: boolean
-          description: 'Flag to show that the phone number has been verified. '
+          description: Flag to show that the phone number has been verified.
       required:
-      - Name
-      - Type
-      - Value
-      - Verified
+        - Name
+        - Type
+        - Value
+        - Verified
     PostalAddressSchema:
       type: object
       properties:
         AddressLine2:
           type: string
           maxLength: 255
-          description: Additional address line. This field is not included as part of the
-            response payload when unassigned
+          description: Additional address line. This field is not included as part of the response payload when
+            unassigned
         Country:
           type: string
           description: Address Country in full.
           enum:
-          - Austria
-          - Belgium
-          - Bulgaria
-          - Cyprus
-          - Czechia
-          - Germany
-          - Denmark
-          - Estonia
-          - Hellenic Republic
-          - Spain
-          - Finland
-          - France
-          - United Kingdom
-          - Guernsey
-          - Gibraltar
-          - Greece
-          - Croatia
-          - Hungary
-          - Ireland
-          - Isle of Man
-          - Iceland
-          - Italy
-          - Jersey
-          - Liechtenstein
-          - Lithuania
-          - Luxembourg
-          - Latvia
-          - Malta
-          - Netherlands
-          - Norway
-          - Poland
-          - Portugal
-          - Romania
-          - Sweden
-          - Slovenia
-          - Slovakia
+            - Austria
+            - Belgium
+            - Bulgaria
+            - Cyprus
+            - Czechia
+            - Germany
+            - Denmark
+            - Estonia
+            - Hellenic Republic
+            - Spain
+            - Finland
+            - France
+            - United Kingdom
+            - Guernsey
+            - Gibraltar
+            - Greece
+            - Croatia
+            - Hungary
+            - Ireland
+            - Isle of Man
+            - Iceland
+            - Italy
+            - Jersey
+            - Liechtenstein
+            - Lithuania
+            - Luxembourg
+            - Latvia
+            - Malta
+            - Netherlands
+            - Norway
+            - Poland
+            - Portugal
+            - Romania
+            - Sweden
+            - Slovenia
+            - Slovakia
         County:
           type: string
         Name:
           type: string
           maxLength: 255
-          description: 'Name of addressee. '
+          description: Name of addressee.
         PostCode:
           type: string
-          description: 'Post or ZIP Code. '
+          description: Post or ZIP Code.
         Primary:
           type: boolean
-          description: 'Flag to indicate that this is the primary contact address. '
+          description: Flag to indicate that this is the primary contact address.
         StreetAddress:
           type: string
           maxLength: 255
-          description: 'Street Address, including building number. '
+          description: Street Address, including building number.
         Town:
           type: string
-          description: 'Postal Town. '
+          description: Postal Town.
           maxLength: 255
         Type:
           type: string
           maxLength: 255
-          description: 'Type of postal address. '
+          description: Type of postal address.
       required:
-      - Country
-      - Name
-      - PostCode
-      - Primary
-      - StreetAddress
-      - Town
-      - Type
+        - Country
+        - Name
+        - PostCode
+        - Primary
+        - StreetAddress
+        - Town
+        - Type
     SoftwareStatementCertificateOrKeyTypeSchema:
       type: string
       enum:
-      - obtransport
-      - obsigning
-      - sigkey
-      - enckey
+        - obtransport
+        - obsigning
+        - sigkey
+        - enckey
     SoftwareStatementCreateSchema:
       type: object
       properties:
@@ -2450,9 +2565,9 @@ components:
           type: string
           description: Authorisation Domain for which the software statement is created.
           enum:
-          - PSD2
-          - Pay.UK
-          - CD
+            - PSD2
+            - Pay.UK
+            - CD
         ClientName:
           type: string
           description: Software Statement client name
@@ -2463,8 +2578,8 @@ components:
           maxLength: 256
         OnBehalfOfObOrganisation:
           type: string
-          description: 'The organization on whom this software statement is behalf of Altered from reference to
-            string, 10/11/2017. '
+          description: The organization on whom this software statement is behalf of Altered from reference to string,
+            10/11/2017.
           maxLength: 40
         PolicyUri:
           type: string
@@ -2477,7 +2592,7 @@ components:
         ClientUri:
           type: string
           format: uri
-          description: 'The “home page” or other wise recognisable url of the application (oath client). '
+          description: The “home page” or other wise recognisable url of the application (oath client).
           maxLength: 256
         LogoUri:
           type: string
@@ -2497,13 +2612,13 @@ components:
           items:
             type: string
             enum:
-            - AISP
-            - ASPSP
-            - CBPII
-            - PISP
-            - CD_AISP
-            - CD_ASPSP
-            - CD_CBPII
+              - AISP
+              - ASPSP
+              - CBPII
+              - PISP
+              - CD_AISP
+              - CD_ASPSP
+              - CD_CBPII
           description: |
             Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. Meaning of values:
               * `AISP` - Account Information Service Provider
@@ -2529,15 +2644,15 @@ components:
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party
         Providers' records in ecosystem
       required:
-      - ClientName
-      - Description
-      - OnBehalfOfObOrganisation
-      - PolicyUri
-      - ClientUri
-      - LogoUri
-      - RedirectUri
-      - TermsOfServiceUri
-      - Version
+        - ClientName
+        - Description
+        - OnBehalfOfObOrganisation
+        - PolicyUri
+        - ClientUri
+        - LogoUri
+        - RedirectUri
+        - TermsOfServiceUri
+        - Version
     SoftwareStatementSchema:
       type: object
       properties:
@@ -2548,9 +2663,9 @@ components:
           type: string
           description: Authorisation Domain for which the software statement is created.
           enum:
-          - PSD2
-          - Pay.UK
-          - CD
+            - PSD2
+            - Pay.UK
+            - CD
           readOnly: true
         ClientId:
           type: string
@@ -2571,8 +2686,8 @@ components:
         Mode:
           type: string
           enum:
-          - Live
-          - Not Live
+            - Live
+            - Not Live
           description: A flag to identify if a piece of software should have access to production PSU accounts.
             This field has been added at the request of an ASPSP to allow BETA or Non Production testing against
             production platforms. The default for this system should be 'Live'.
@@ -2582,8 +2697,9 @@ components:
           description: An indicator to show if the client has been created in Open Banking.
         OnBehalfOfObOrganisation:
           type: string
-          description: 'The organization on whom this software statement is behalf of Altered from reference to
-            string, 10/11/2017. '
+          nullable: true
+          description: The organization on whom this software statement is behalf of Altered from reference to string,
+            10/11/2017.
           maxLength: 40
         PolicyUri:
           type: string
@@ -2596,7 +2712,7 @@ components:
         ClientUri:
           type: string
           format: uri
-          description: 'The “home page” or other wise recognisable url of the application (oath client). '
+          description: The “home page” or other wise recognisable url of the application (oath client).
           maxLength: 256
         LogoUri:
           type: string
@@ -2616,13 +2732,13 @@ components:
           items:
             type: string
             enum:
-            - AISP
-            - ASPSP
-            - CBPII
-            - PISP
-            - CD_AISP
-            - CD_ASPSP
-            - CD_CBPII
+              - AISP
+              - ASPSP
+              - CBPII
+              - PISP
+              - CD_AISP
+              - CD_ASPSP
+              - CD_CBPII
           description: |
             Roles for which this software statement can be used. It contains roles from one domain only. If list of roles contains ASPSP role, then any other role cannot be present. Meaning of values:
               * `AISP` - Account Information Service Provider
@@ -2657,18 +2773,18 @@ components:
       description: Schema defining attributes of Participants', Account Payment Service Providers' and Third Party
         Providers' records in ecosystem
       required:
-      - Active
-      - ClientId
-      - ClientName
-      - ClientUri
-      - Description
-      - Id
-      - LogoUri
-      - ObClientCreated
-      - PolicyUri
-      - RedirectUri
-      - TermsOfServiceUri
-      - Version
+        - Active
+        - ClientId
+        - ClientName
+        - ClientUri
+        - Description
+        - Id
+        - LogoUri
+        - ObClientCreated
+        - PolicyUri
+        - RedirectUri
+        - TermsOfServiceUri
+        - Version
     SoftwareStatementAssertionSchema:
       type: string
       description: A signed JWT (JWS)
@@ -2867,10 +2983,10 @@ components:
                         items:
                           type: string
                           enum:
-                          - ASPSP
-                          - AISP
-                          - PISP
-                          - CBPII
+                            - ASPSP
+                            - AISP
+                            - PISP
+                            - CBPII
         agent_of:
           description: List of other Firms that this Entity is an agent of, indexed by firm_id
           type: object
@@ -2917,61 +3033,54 @@ components:
           type: string
     OrganisationsGetFromMLAStatus200OKResponseSchema:
       type: object
+      description: The organisations and their MLA status, carried in a `Data` array.
       properties:
-        Resources:
+        Data:
           type: array
           items:
             $ref: '#/components/schemas/OrganisationMLAStatusSchema'
-        itemsPerPage:
-          type: integer
-          format: int32
-          description: An integer indicating the maximum number of query results per page.
-        schemas:
-          type: array
-          items:
-            type: string
-        startIndex:
-          type: integer
-          format: int32
-          description: An integer indicating the 1-based index of the first query result.
-        totalResults:
-          type: integer
-          format: int32
+      required:
+        - Data
     OrganisationMLAStatusSchema:
       type: object
       properties:
         OBOrganisationId:
           type: string
+          minLength: 1
+          maxLength: 18
           description: The organisation ID as defined in the OBL directory. Identifiers are preserved from the legacy
             directory.
         OrganisationCommonName:
           type: string
+          minLength: 1
+          maxLength: 255
           description: The common name of the organisation as defined in the OBL directory.
         NCAId:
           type: string
+          minLength: 1
           maxLength: 255
           description: NCA ID as per the NCA register, comprised of `<ISOCode>-<NCACode>-<FRN>`.
         MLAStatus:
           type: string
           enum:
-          - Active
-          - Suspended
-          - Revoked
+            - Active
+            - Suspended
+            - Revoked
           description: |
             Indicates the organisation's status within the MLA scheme.
             * `Active` - participant is active within the MLA scheme
-            * `Suspended` - revocation initiated by the participant
+            * `Suspended` - participant is suspended within the MLA scheme
             * `Revoked` - participant is no longer in the MLA scheme and cannot take actions in the ecosystem because of privilege loss
         MLAStatusUpdated:
           type: string
           format: date-time
           description: YYYY-MM-DDTHH:mm:ss.sssZ
       required:
-      - OBOrganisationId
-      - OrganisationCommonName
-      - NCAId
-      - MLAStatus
-      - MLAStatusUpdated
+        - OBOrganisationId
+        - OrganisationCommonName
+        - NCAId
+        - MLAStatus
+        - MLAStatusUpdated
     FapiInteractionIdSchema:
       type: string
       description: An RFC 4122 UUID used to correlate a request with its response and with server-side logs. Quote
