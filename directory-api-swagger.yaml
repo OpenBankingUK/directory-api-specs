@@ -2831,30 +2831,29 @@ components:
           description: Total number of all firms in the database.
           type: integer
         nca:
-          description: Set of NCA objects indexed by openbanking nca code
+          description: Set of NCA objects, keyed by the openbanking nca code of each entry.
           type: object
-          properties:
-            nca_id:
-              type: object
-              properties:
-                checked:
-                  description: Date and time the data was last checked in the source NCA
-                  type: string
-                nca_ob_code:
-                  description: Open Banking NCA code
-                  type: string
-                country:
-                  description: Host country name
-                  type: string
-                nca_etsi_code:
-                  description: ETSI NCA code based on https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.03.01_60/ts_119495v010301p.pdf
-                  type: string
-                nca_name:
-                  description: NCA name
-                  type: string
-                uri:
-                  description: The URI of the NCA. Can be used to obtain the list of all firms listed on that NCA.
-                  type: string
+          additionalProperties:
+            type: object
+            properties:
+              checked:
+                description: Date and time the data was last checked in the source NCA
+                type: string
+              nca_ob_code:
+                description: Open Banking NCA code
+                type: string
+              country:
+                description: Host country name
+                type: string
+              nca_etsi_code:
+                description: ETSI NCA code based on https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.03.01_60/ts_119495v010301p.pdf
+                type: string
+              nca_name:
+                description: NCA name
+                type: string
+              uri:
+                description: The URI of the NCA. Can be used to obtain the list of all firms listed on that NCA.
+                type: string
     NCAFirmsSchema:
       type: object
       properties:
