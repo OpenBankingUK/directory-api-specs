@@ -2831,30 +2831,29 @@ components:
           description: Total number of all firms in the database.
           type: integer
         nca:
-          description: Set of NCA objects indexed by openbanking nca code
+          description: Set of NCA objects, keyed by the openbanking nca code of each entry.
           type: object
-          properties:
-            nca_id:
-              type: object
-              properties:
-                checked:
-                  description: Date and time the data was last checked in the source NCA
-                  type: string
-                nca_ob_code:
-                  description: Open Banking NCA code
-                  type: string
-                country:
-                  description: Host country name
-                  type: string
-                nca_etsi_code:
-                  description: ETSI NCA code based on https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.03.01_60/ts_119495v010301p.pdf
-                  type: string
-                nca_name:
-                  description: NCA name
-                  type: string
-                uri:
-                  description: The URI of the NCA. Can be used to obtain the list of all firms listed on that NCA.
-                  type: string
+          additionalProperties:
+            type: object
+            properties:
+              checked:
+                description: Date and time the data was last checked in the source NCA
+                type: string
+              nca_ob_code:
+                description: Open Banking NCA code
+                type: string
+              country:
+                description: Host country name
+                type: string
+              nca_etsi_code:
+                description: ETSI NCA code based on https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.03.01_60/ts_119495v010301p.pdf
+                type: string
+              nca_name:
+                description: NCA name
+                type: string
+              uri:
+                description: The URI of the NCA. Can be used to obtain the list of all firms listed on that NCA.
+                type: string
     NCAFirmsSchema:
       type: object
       properties:
@@ -2874,30 +2873,29 @@ components:
           description: Total number of all firms from the given NCA.
           type: integer
         firms:
-          description: Set of firm objects indexed by firm_id
+          description: Set of firm objects, keyed by the firm's firm_id.
           type: object
-          properties:
-            firm_id:
-              type: object
-              properties:
-                effective_from:
-                  description: The date permissions are effective from.
-                  type: string
-                effective_to:
-                  description: The date permissions are effective to.
-                  type: string
-                firm_name:
-                  description: Name of the entity as it appears on the NCA register
-                  type: string
-                firm_id:
-                  description: Unique ID assigned to the entity by the NCA
-                  type: string
-                checked:
-                  description: Date and time the data was last processed
-                  type: string
-                uri:
-                  description: The URI of the firm. Can be used to obtain detailed record of the given firm.
-                  type: string
+          additionalProperties:
+            type: object
+            properties:
+              effective_from:
+                description: The date permissions are effective from.
+                type: string
+              effective_to:
+                description: The date permissions are effective to.
+                type: string
+              firm_name:
+                description: Name of the entity as it appears on the NCA register
+                type: string
+              firm_id:
+                description: Unique ID assigned to the entity by the NCA
+                type: string
+              checked:
+                description: Date and time the data was last processed
+                type: string
+              uri:
+                description: The URI of the firm. Can be used to obtain detailed record of the given firm.
+                type: string
         nca_name:
           description: NCA name
           type: string
@@ -2933,98 +2931,93 @@ components:
           items:
             type: string
         authorisations:
-          description: Entity's authorisation status, services and permissions
+          description: Entity's authorisation status, services and permissions, keyed by firm authorisation type
+            (for example, PI - Payment Institution, EMI - Electronic Money Institution, CI - Credit Institution,
+            AISP - Account Information Service Provider)
           type: object
-          properties:
-            firm_type:
-              description: Firm Authorisation Type as per regulated directive. The key can be any of PI - Payment
-                Institution, EMI - Electronic Money Institution, CI - Credit Institution, AISP - Account Information
-                Service Provider
-              type: object
-              properties:
-                country:
-                  description: Local permissions nested under home country and other countries represents passport-out
-                    permissions
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      effective_from:
-                        description: The date firm's authorisation under this firm type has been effective from
-                        type: string
-                      effective_to:
-                        description: The date firm's authorisation under this firm type has been effective to
-                        type: string
-                      permission_type:
-                        description: Permission or Passport Type (in case of passport-out countries) Possible values
-                          - Blank / Service / Branch
-                        type: string
-                      permissions:
-                        description: Permissions granted under directive in the given country
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            code:
-                              description: Permission code
-                              type: string
-                            permission:
-                              description: Permission name
-                              type: string
-                            effective_from:
-                              description: The date permissions are effective from.
-                              type: string
-                            effective_to:
-                              description: The date permissions are effective to.
-                              type: string
-                      roles:
-                        description: PSD2 roles assigned to this entity
-                        type: array
-                        items:
+          additionalProperties:
+            description: Local permissions nested under home country and other countries represents passport-out
+              permissions, keyed by country name
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                type: object
+                properties:
+                  effective_from:
+                    description: The date firm's authorisation under this firm type has been effective from
+                    type: string
+                  effective_to:
+                    description: The date firm's authorisation under this firm type has been effective to
+                    type: string
+                  permission_type:
+                    description: Permission or Passport Type (in case of passport-out countries) Possible values
+                      - Blank / Service / Branch
+                    type: string
+                  permissions:
+                    description: Permissions granted under directive in the given country
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          description: Permission code
                           type: string
-                          enum:
-                            - ASPSP
-                            - AISP
-                            - PISP
-                            - CBPII
+                        permission:
+                          description: Permission name
+                          type: string
+                        effective_from:
+                          description: The date permissions are effective from.
+                          type: string
+                        effective_to:
+                          description: The date permissions are effective to.
+                          type: string
+                  roles:
+                    description: PSD2 roles assigned to this entity
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - ASPSP
+                        - AISP
+                        - PISP
+                        - CBPII
         agent_of:
-          description: List of other Firms that this Entity is an agent of, indexed by firm_id
+          description: Other firms that this entity is an agent of, keyed by firm_id.
           type: object
-          properties:
-            firm_id:
-              type: object
-              properties:
-                firm_id:
-                  description: Unique ID assigned to the entity by the NCA
-                  type: string
-                effective_from:
-                  description: The date the agent relationship is valid from.
-                  type: string
-                effective_to:
-                  description: The date the agent relationship is valid to.
-                  type: string
-                uri:
-                  description: Resource Link to the other firm's data
-                  type: string
+          additionalProperties:
+            type: object
+            properties:
+              firm_id:
+                description: Unique ID assigned to the entity by the NCA
+                type: string
+              effective_from:
+                description: The date the agent relationship is valid from.
+                type: string
+              effective_to:
+                description: The date the agent relationship is valid to.
+                type: string
+              uri:
+                description: Resource Link to the other firm's data
+                type: string
         agents:
-          description: List of other Firms that are agents of this Entity, indexed by firm_id
+          description: Other firms that are agents of this entity, keyed by firm_id.
           type: object
-          properties:
-            firm_id:
-              type: object
-              properties:
-                firm_id:
-                  description: Unique ID assigned to the entity by the NCA
-                  type: string
-                effective_from:
-                  description: The date the agent relationship is valid from.
-                  type: string
-                effective_to:
-                  description: The date the agent relationship is valid to.
-                  type: string
-                uri:
-                  description: Resource Link to the other firm's data
-                  type: string
+          additionalProperties:
+            type: object
+            properties:
+              firm_id:
+                description: Unique ID assigned to the entity by the NCA
+                type: string
+              effective_from:
+                description: The date the agent relationship is valid from.
+                type: string
+              effective_to:
+                description: The date the agent relationship is valid to.
+                type: string
+              uri:
+                description: Resource Link to the other firm's data
+                type: string
         checked:
           description: Date and time the data was last checked in the source NCA
           type: string
