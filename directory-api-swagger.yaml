@@ -2873,30 +2873,29 @@ components:
           description: Total number of all firms from the given NCA.
           type: integer
         firms:
-          description: Set of firm objects indexed by firm_id
+          description: Set of firm objects, keyed by the firm's firm_id.
           type: object
-          properties:
-            firm_id:
-              type: object
-              properties:
-                effective_from:
-                  description: The date permissions are effective from.
-                  type: string
-                effective_to:
-                  description: The date permissions are effective to.
-                  type: string
-                firm_name:
-                  description: Name of the entity as it appears on the NCA register
-                  type: string
-                firm_id:
-                  description: Unique ID assigned to the entity by the NCA
-                  type: string
-                checked:
-                  description: Date and time the data was last processed
-                  type: string
-                uri:
-                  description: The URI of the firm. Can be used to obtain detailed record of the given firm.
-                  type: string
+          additionalProperties:
+            type: object
+            properties:
+              effective_from:
+                description: The date permissions are effective from.
+                type: string
+              effective_to:
+                description: The date permissions are effective to.
+                type: string
+              firm_name:
+                description: Name of the entity as it appears on the NCA register
+                type: string
+              firm_id:
+                description: Unique ID assigned to the entity by the NCA
+                type: string
+              checked:
+                description: Date and time the data was last processed
+                type: string
+              uri:
+                description: The URI of the firm. Can be used to obtain detailed record of the given firm.
+                type: string
         nca_name:
           description: NCA name
           type: string
