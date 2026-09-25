@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: OBL Directory API (Raidiam Connect)
-  version: 2.2.0
+  version: 2.2.1
   description: |
     The OBL Directory API as served by Raidiam Connect.
 
@@ -52,7 +52,6 @@ info:
     | --- | --- | --- |
     | Directory operations | `/v2.1/...` | `/v2.2/...` |
     | Certificate validation (CVS) | `/v2.1/certificate/validate` | `/v2.2/certificate/validate` |
-    | MLA status | `/v2.1/organisation/mlastatus` | `/v2.2/organisation/mlastatus` |
     | NCA API | `/api/v2/nca...` | `/v2.2/nca...` |
 
     ## Hosts
@@ -84,7 +83,6 @@ info:
     | `ASPSPManage` | `directory:software` |
     | `JWKSManage` | `directory:software:cert:management` (software statement) or `directory:software:organisation:cert:management` (organisation) |
     | `NCAReadAccess` | `NCAReadAccess` (unchanged; granted via the *NCA Read* directory role) |
-    | `MLAReadAccess` | `MLAReadAccess` (unchanged; granted via the *MLA Read* directory role) |
 
     `directory:software` is sufficient to create a certificate under a software statement.
     Revoking a certificate requires the corresponding management scope.
@@ -153,9 +151,6 @@ tags:
   - name: NCA API
     description: National Competent Authority register lookup. Request shapes and response structures retained unchanged,
       on a new hostname and rebased from `/api/v2/nca` to `/v2.2/nca`. **FCA data only** in this deployment.
-  - name: MLA Status API
-    description: Multilateral Agreement status lookup. Legacy path and response structure retained unchanged, on a
-      new hostname.
 paths:
   /v2.2/organisation:
     parameters:
