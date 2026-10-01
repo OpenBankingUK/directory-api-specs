@@ -2952,6 +2952,7 @@ components:
           type: string
     FapiInteractionIdSchema:
       type: string
+      format: uuid
       description: An RFC 4122 UUID used to correlate a request with its response and with server-side logs. Quote
         it to the Support Desk if you need help with a request that did not behave as you expected.
   securitySchemes:
