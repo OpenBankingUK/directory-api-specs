@@ -16,9 +16,9 @@ info:
 
     1. **Path prefix - everything moves under `/v2.2`.** Every retained directory operation
        moves from `/v2.1` to `/v2.2`, and the NCA API moves from `/api/v2/nca` to `/v2.2/nca`.
-       The operations themselves are unchanged: same path structure below the prefix, same path
-       and query parameters, same request bodies, same response bodies, same content
-       negotiation. Only the prefix moves.
+       Except for the dropped `application/jwt` certificate upload described below, retained
+       operations keep the same path structure below the prefix, path and query parameters,
+       request and response shapes, status codes, and response content negotiation.
 
        ```
        before  https://matls-dirapi.openbanking.org.uk/v2.1/organisation/{OrganisationId}
