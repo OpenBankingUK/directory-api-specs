@@ -989,41 +989,6 @@ paths:
           $ref: '#/components/responses/Nca500InternalServerErrorResponse'
         '502':
           $ref: '#/components/responses/Nca502BadGatewayResponse'
-  /v2.2/organisation/mlastatus:
-    parameters:
-      - $ref: '#/components/parameters/FapiInteractionId'
-    get:
-      summary: Get all organisations and their MLA status that the client is authorised to retrieve
-      description: |-
-        Returns all organisations and their Multilateral Agreement (MLA) status data for the client to store.
-
-        The request shape and response structure are retained unchanged from the legacy contract; the path is rebased from `/v2.1` to `/v2.2` with the rest of the directory family.
-
-        The operation declares no pagination parameters, so the whole set is returned at once. The
-        response is large and changes infrequently, so it carries an `ETag`; send it back as
-        `If-None-Match` on the next poll and an unchanged register is answered `304` with no body.
-      tags:
-        - MLA Status API
-      security:
-        - RaidiamAuth:
-            - MLAReadAccess
-      parameters:
-        - $ref: '#/components/parameters/IfNoneMatch'
-      responses:
-        '200':
-          $ref: '#/components/responses/OrganisationsGetFromMLAStatus200OKResponse'
-        '304':
-          $ref: '#/components/responses/304NotModifiedResponse'
-        '401':
-          $ref: '#/components/responses/401UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/403ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/404NotFoundResponse'
-        '406':
-          $ref: '#/components/responses/406NotAcceptableResponse'
-        '429':
-          $ref: '#/components/responses/429RateLimitedResponse'
 components:
   parameters:
     AuthorisationServerId:
@@ -1515,40 +1480,6 @@ components:
             if the request did not carry the header.
           schema:
             $ref: '#/components/schemas/FapiInteractionIdSchema'
-    OrganisationsGetFromMLAStatus200OKResponse:
-      description: |
-        List of the organisations and their MLA status.
-      headers:
-        x-fapi-interaction-id:
-          description: The `x-fapi-interaction-id` from the request, echoed unchanged, or a server-generated one
-            if the request did not carry the header.
-          schema:
-            $ref: '#/components/schemas/FapiInteractionIdSchema'
-        ETag:
-          description: Entity tag for this register. Send it as `If-None-Match` on the next poll.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OrganisationsGetFromMLAStatus200OKResponseSchema'
-          example:
-            Data:
-              - OBOrganisationId: 0019A00001bKmTpQAB
-                OrganisationCommonName: Example Bank plc
-                NCAId: GB-FCA-100001
-                MLAStatus: Active
-                MLAStatusUpdated: '2026-08-06T09:20:15.000Z'
-              - OBOrganisationId: 0015g00000ZxYwVQAM
-                OrganisationCommonName: Example Payments Ltd
-                NCAId: GB-FCA-100002
-                MLAStatus: Suspended
-                MLAStatusUpdated: '2026-07-02T16:55:43.000Z'
-              - OBOrganisationId: 0011t00002LpQrSQAJ
-                OrganisationCommonName: Example Open Finance Ltd
-                NCAId: GB-FCA-100003
-                MLAStatus: Revoked
-                MLAStatusUpdated: '2026-06-01T08:54:39.000Z'
   schemas:
     AuthorisationSchema:
       type: object
@@ -3019,56 +2950,6 @@ components:
         created:
           description: Date and time this version of the data was first seen in the given NCA
           type: string
-    OrganisationsGetFromMLAStatus200OKResponseSchema:
-      type: object
-      description: The organisations and their MLA status, carried in a `Data` array.
-      properties:
-        Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganisationMLAStatusSchema'
-      required:
-        - Data
-    OrganisationMLAStatusSchema:
-      type: object
-      properties:
-        OBOrganisationId:
-          type: string
-          minLength: 1
-          maxLength: 18
-          description: The organisation ID as defined in the OBL directory. Identifiers are preserved from the legacy
-            directory.
-        OrganisationCommonName:
-          type: string
-          minLength: 1
-          maxLength: 255
-          description: The common name of the organisation as defined in the OBL directory.
-        NCAId:
-          type: string
-          minLength: 1
-          maxLength: 255
-          description: NCA ID as per the NCA register, comprised of `<ISOCode>-<NCACode>-<FRN>`.
-        MLAStatus:
-          type: string
-          enum:
-            - Active
-            - Suspended
-            - Revoked
-          description: |
-            Indicates the organisation's status within the MLA scheme.
-            * `Active` - participant is active within the MLA scheme
-            * `Suspended` - participant is suspended within the MLA scheme
-            * `Revoked` - participant is no longer in the MLA scheme and cannot take actions in the ecosystem because of privilege loss
-        MLAStatusUpdated:
-          type: string
-          format: date-time
-          description: YYYY-MM-DDTHH:mm:ss.sssZ
-      required:
-        - OBOrganisationId
-        - OrganisationCommonName
-        - NCAId
-        - MLAStatus
-        - MLAStatusUpdated
     FapiInteractionIdSchema:
       type: string
       description: An RFC 4122 UUID used to correlate a request with its response and with server-side logs. Quote
@@ -3088,7 +2969,7 @@ components:
 
         All tokens are certificate-bound per RFC 8705: the token's `cnf.x5t#S256` claim carries the SHA-256 thumbprint of the mTLS client certificate presented at the token endpoint, and the presented certificate is compared to that thumbprint on every API call.
 
-        **Scopes are Raidiam-native.** Legacy OBL scope names (`ASPSPReadAccess`, `TPPReadAccess`, `TPPManage`, `ASPSPManage`, `JWKSManage`, and so on) are not issued at this token endpoint; request the native scope shown on each operation. The two legacy-style names that remain (`NCAReadAccess`, `MLAReadAccess`) are real Raidiam Auth scopes granted through directory role assignment.
+        **Scopes are Raidiam-native.** Legacy OBL scope names (`ASPSPReadAccess`, `TPPReadAccess`, `TPPManage`, `ASPSPManage`, `JWKSManage`, and so on) are not issued at this token endpoint; request the native scope shown on each operation. The one legacy-style names that remain (`NCAReadAccess`) are real Raidiam Auth scopes granted through directory role assignment.
 
         Scopes used by this API:
 
@@ -3097,5 +2978,4 @@ components:
         * `directory:software:organisation:cert:management` - manage certificates and keys held against an organisation, including revocation
         * `directory:software:organisation:application:management` - create a software statement; creation only, not update
         * `NCAReadAccess` - retrieve NCAs and their firms' authorisation details; granted via the *NCA Read* directory role
-        * `MLAReadAccess` - retrieve MLA status; granted via the *MLA Read* directory role
       openIdConnectUrl: https://auth.directory.openbanking.org.uk/.well-known/openid-configuration
