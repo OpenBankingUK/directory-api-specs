@@ -1,4 +1,4 @@
-# v2.2 DRAFT RELEASE
+# v2.2
 
 This repo includes the OpenAPI documentation for the OBL Directory API.
 Please refer to the [Obdatad project](https://github.com/OpenBankingUK/obdatat) in order to authenticate above APIs requests.
